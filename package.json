@@ -10,6 +10,8 @@
     "@types/node": "^12.19.3",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "autoprefixer": "^10.0.1",
+    "postcss-cli": "^8.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
@@ -19,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build-css": "npx tailwindcss build ./src/css/src/index.css -o ./src/css/dist/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
