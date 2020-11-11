@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 interface Column {
   accessor: String;
@@ -17,8 +19,11 @@ export const Table = ({ columns, data }: TableProps) => {
   const [sort, setSort] = useState<Sort>(initialSort);
 
   return (
-    <div className="w-full flex-row">
-      <Options />
+    <div className="w-full flex-row justify-end">
+      <div className="w-50">
+        <FontAwesomeIcon icon={faEllipsisV} />
+      </div>
+
       <table className="w-full">
         <thead>
           <tr>
