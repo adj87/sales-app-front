@@ -1,72 +1,54 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
+import { useTable } from 'react-table';
 
-interface Column {
-  accessor: String;
-  header: String;
-}
+function Table({ columns, data }: any) {
+  // Use the state and functions returned from useTable to build your UI
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
+    columns,
+    data,
+  });
 
-interface TableProps {
-  columns: Array<Column>;
-  data: Array<any>;
-}
-
-type Sort = String | null;
-
-export const Table = ({ columns, data }: TableProps) => {
-  const initialSort = columns[0]?.accessor;
-  const [sort, setSort] = useState<Sort>(initialSort);
+  // Render the UI for your table
 
   return (
-    <div className="w-full flex-row justify-end">
-      <div className="w-50">
-        <FontAwesomeIcon icon={faEllipsisV} />
-      </div>
-
-      <table className="w-full">
-        <thead>
-          <tr>
-            {columns.map((el: Column) => {
-              const color = sort === el.accessor ? 'text-white font-bold' : 'text-blue-light';
-              return (
-                <td
-                  className={`bg-blue-dark ${color} px-5 py-1 text-center`}
-                  onClick={() => setSort(el.accessor)}
-                >
-                  {el.header}
-                </td>
-              );
-            })}
+    <table {...getTableProps()} className="w-full">
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers
+              .filter((el) => el.columns === undefined)
+              .map((column) => {
+                console.log(column);
+                return (
+                  <th
+                    {...column.getHeaderProps()}
+                    className="text-center py-2 bg-blue-dark text-blue-light font-thin text-sm"
+                  >
+                    {column.render('Header')}
+                  </th>
+                );
+              })}
           </tr>
-        </thead>
-        <tbody>
-          {data.map((el: any) => (
-            <tr className="border-b-2 border-blue-light ">
-              {columns.map((col: any) => (
-                <td className="bg-white text-grey-600 text-center py-2">{el[col.accessor]}</td>
-              ))}
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return (
+                  <td {...cell.getCellProps()} className="text-center">
+                    {cell.render('Cell')}
+                  </td>
+                );
+              })}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          );
+        })}
+      </tbody>
+    </table>
   );
-};
+}
 
-const Options = () => (
-  <div className="flex-row">
-    <span
-      style={{ width: '6px', height: '6px', borderRadius: '100%', display: 'inline-block' }}
-      className="bg-blue-dark my-1"
-    />
-    <span
-      style={{ width: '6px', height: '6px', borderRadius: '100%', display: 'inline-block' }}
-      className="bg-blue-dark my-1"
-    />
-    <span
-      style={{ width: '6px', height: '6px', borderRadius: '100%', display: 'inline-block' }}
-      className="bg-blue-dark my-1"
-    />
-  </div>
-);
+export default Table;

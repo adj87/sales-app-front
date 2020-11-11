@@ -1,17 +1,50 @@
 import React from 'react';
 import './css/dist/index.css';
 import Navbar from './components/Navbar';
-import { Table } from './components/Table';
+import Table from './components/Table';
 
 function App() {
-  const columns = [
-    { accessor: 'unidades', header: 'Unidades' },
-    { accessor: 'iva', header: 'Iva' },
-    { accessor: 'precio', header: 'Esto' },
-    { accessor: 'producto', header: 'Producto' },
-  ];
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Name',
+        columns: [
+          {
+            Header: 'First Name',
+            accessor: 'firstName',
+          },
+          {
+            Header: 'Last Name',
+            accessor: 'lastName',
+          },
+        ],
+      },
+      {
+        Header: 'Info',
+        columns: [
+          {
+            Header: 'Age',
+            accessor: 'age',
+          },
+          {
+            Header: 'Visits',
+            accessor: 'visits',
+          },
+          {
+            Header: 'Status',
+            accessor: 'status',
+          },
+          {
+            Header: 'Profile Progress',
+            accessor: 'progress',
+          },
+        ],
+      },
+    ],
+    [],
+  );
 
-  const data = [{ unidades: 20, producto: 'Fre' }];
+  const data = [{ firstName: 'alberto', lastName: 'jauregui' }];
   return (
     <>
       <Navbar />
