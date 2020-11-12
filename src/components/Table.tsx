@@ -45,7 +45,11 @@ function Table({ columns, data }: any) {
 
   return (
     <>
-      <ColumnsChecks allColumns={allColumns} />
+      <ColumnsChecks
+        allColumns={allColumns}
+        setShowColumnsOptions={setShowColumnsOptions}
+        showColumnsOptions={showColumnsOptions}
+      />
       <table {...getTableProps()} className="w-full">
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -120,24 +124,34 @@ function Table({ columns, data }: any) {
   );
 }
 
-const ColumnsChecks = ({ allColumns }) => (
-  <div className="flex justify-end">
-    <div className="flex-column justify-end">
-      <div className="text-right">
-        <FontAwesomeIcon icon={faEllipsisV} className="text-orange text-md" />
-      </div>
-      <div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} /> {column.id}
-            </label>
-          </div>
-        ))}
+const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }) => {
+  const className = showColumnsOptions
+    ? 'absolute bg-white border-blue-light p-3 rounded-md right-0 top-1 border border-blue'
+    : 'hidden';
+  return (
+    <div className="flex justify-end relative">
+      <div className={'flex-column justify-end mb-1'}>
+        <div className="text-right">
+          <FontAwesomeIcon
+            icon={faEllipsisV}
+            className="text-orange cursor-pointer"
+            size="lg"
+            onClick={() => setShowColumnsOptions(!showColumnsOptions)}
+          />
+        </div>
+        <div className={className}>
+          {allColumns.map((column) => (
+            <div key={column.id} className="px-2 py-1">
+              <label className="text-grey-500">
+                <input type="checkbox" {...column.getToggleHiddenProps()} /> {column.id}
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Pagination = ({ paginationMethods }) => {
   const {
