@@ -23,6 +23,7 @@ module.exports = {
         A400: '#303030',
         A700: '#616161',
       },
+      background: '#F6F6F6',
     },
     variants: {},
     plugins: [],

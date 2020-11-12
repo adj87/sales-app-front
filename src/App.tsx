@@ -47,6 +47,20 @@ function App() {
   const data = [
     { firstName: 'alberto', lastName: 'jauregui' },
     { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'asdasd', lastName: 'beneplacito' },
+    { firstName: 'wewewq', lastName: 'beneplacito' },
+    { firstName: 'qweqweqwe', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'asdasdc', lastName: 'beneplacito' },
+    { firstName: 'pooo', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+    { firstName: 'perez', lastName: 'beneplacito' },
   ];
   return (
     <>
