@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/dist/index.css';
 import Navbar from './components/Navbar';
 import Table from './components/Table';
@@ -9,59 +9,23 @@ function App() {
       {
         Header: 'Name',
         columns: [
-          {
-            Header: 'First Name',
-            accessor: 'firstName',
-          },
-          {
-            Header: 'Last Name',
-            accessor: 'lastName',
-          },
-        ],
-      },
-      {
-        Header: 'Info',
-        columns: [
-          {
-            Header: 'Age',
-            accessor: 'age',
-          },
-          {
-            Header: 'Visits',
-            accessor: 'visits',
-          },
-          {
-            Header: 'Status',
-            accessor: 'status',
-          },
-          {
-            Header: 'Profile Progress',
-            accessor: 'progress',
-          },
+          { Header: 'userId', accessor: 'userId' },
+          { Header: 'id', accessor: 'id' },
+          { Header: 'title', accessor: 'title' },
+          { Header: 'completed', accessor: 'completed' },
         ],
       },
     ],
     [],
   );
 
-  const data = [
-    { firstName: 'alberto', lastName: 'jauregui' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'asdasd', lastName: 'beneplacito' },
-    { firstName: 'wewewq', lastName: 'beneplacito' },
-    { firstName: 'qweqweqwe', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'asdasdc', lastName: 'beneplacito' },
-    { firstName: 'pooo', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-    { firstName: 'perez', lastName: 'beneplacito' },
-  ];
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/todos')
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
   return (
     <>
       <Navbar />
