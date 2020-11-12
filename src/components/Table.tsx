@@ -75,9 +75,9 @@ function Table({ columns, data, onAddButton }: any) {
                   const icon = column.isSorted ? (
                     // @ts-ignore
                     column.isSortedDesc ? (
-                      <FontAwesomeIcon icon={faAngleDown} className="text-orange text-md" />
+                      <FontAwesomeIcon icon={faAngleDown} className="text-secondary-main text-md" />
                     ) : (
-                      <FontAwesomeIcon icon={faAngleUp} className="text-orange text-md" />
+                      <FontAwesomeIcon icon={faAngleUp} className="text-secondary-main text-md" />
                     )
                   ) : (
                     ''
@@ -137,9 +137,9 @@ function Table({ columns, data, onAddButton }: any) {
 }
 
 const PaginationAndAddButton = ({ paginationMethods, onAddButton }) => (
-  <div className="flex flex-row justify-center">
+  <div className="flex md:flex-row lg:flex-column  justify-center items-center">
     <Pagination paginationMethods={paginationMethods} />
-    {onAddButton && <Button onClick={onAddButton} text="Add" />}
+    {onAddButton && <Button onClick={onAddButton} text="Add" color="secondary" />}
   </div>
 );
 
@@ -153,7 +153,7 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }
         <div className="text-right">
           <FontAwesomeIcon
             icon={faEllipsisV}
-            className="text-orange cursor-pointer"
+            className="text-secondary-dark cursor-pointer"
             size="lg"
             onClick={() => setShowColumnsOptions(!showColumnsOptions)}
           />

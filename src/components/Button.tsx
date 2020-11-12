@@ -3,12 +3,13 @@ import React from 'react';
 interface ButtonProps {
   text: String;
   onClick: Function;
+  color: String;
 }
 
-const Button = ({ text, onClick }: ButtonProps) => {
+const Button = ({ text, onClick, color }: ButtonProps) => {
   return (
     <button
-      className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+      className={`bg-${color}-dark hover:bg-${color}-main text-white font-bold py-0 px-6 rounded`}
       onClick={(e) => onClick(e)}
     >
       {text}
