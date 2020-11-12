@@ -155,12 +155,12 @@ const Pagination = ({ paginationMethods }) => {
   return (
     <div className="flex flex-column justify-between m-auto mt-2" style={{ width: '300px' }}>
       <PaginationButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-        <FontAwesomeIcon icon={faAngleLeft} />
-      </PaginationButton>
-      <PaginationButton onClick={() => previousPage()} disabled={!canPreviousPage}>
         <FontAwesomeIcon icon={faAngleDoubleLeft} />
       </PaginationButton>
-      <span className="text-grey-400">{`Page ${pageIndex + 1} of ${pageOptions.length}`}</span>
+      <PaginationButton onClick={() => previousPage()} disabled={!canPreviousPage}>
+        <FontAwesomeIcon icon={faAngleLeft} />
+      </PaginationButton>
+      <TextPagination pageIndex={pageIndex} pageOptions={pageOptions} />
       <PaginationButton onClick={() => nextPage()} disabled={!canNextPage}>
         <FontAwesomeIcon icon={faAngleRight} />
       </PaginationButton>
@@ -186,6 +186,16 @@ const Pagination = ({ paginationMethods }) => {
         ))}
       </select> */}
     </div>
+  );
+};
+
+const TextPagination = ({ pageIndex, pageOptions }) => {
+  return (
+    <span className="text-grey-500">
+      {`Page `}
+      {<span className="font-extrabold">{pageIndex + 1}</span>}
+      {` of ${pageOptions.length}`}
+    </span>
   );
 };
 
