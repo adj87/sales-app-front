@@ -1,5 +1,8 @@
+// @ts-nocheck
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 function Table({ columns, data }: any) {
   // Use the state and functions returned from useTable to build your UI
@@ -23,10 +26,18 @@ function Table({ columns, data }: any) {
               .map((column) => {
                 // @ts-ignore
                 const color = column.isSorted
-                  ? 'text-white font-thin'
+                  ? 'text-white font-bold'
                   : 'text-blue-light font-thin';
                 // @ts-ignore
-                const icon = column.isSorted ? (column.isSortedDesc ? '🔽 ' : '🔼 ') : '';
+                const icon = column.isSorted ? (
+                  column.isSortedDesc ? (
+                    <FontAwesomeIcon icon={faAngleDown} className="text-orange text-md" />
+                  ) : (
+                    <FontAwesomeIcon icon={faAngleUp} className="text-orange text-md" />
+                  )
+                ) : (
+                  ''
+                );
                 return (
                   <th
                     // @ts-ignore
@@ -34,7 +45,7 @@ function Table({ columns, data }: any) {
                     className={`text-center py-2 bg-blue-dark text-sm ${color}`}
                   >
                     {icon}
-                    {column.render('Header')}
+                    {` ${column.render('Header')}`}
                   </th>
                 );
               })}
