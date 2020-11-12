@@ -11,6 +11,7 @@ import {
   faAngleRight,
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
+import Input from './Input';
 
 function Table({ columns, data }: any) {
   // Use the state and functions returned from useTable to build your UI
@@ -45,6 +46,7 @@ function Table({ columns, data }: any) {
 
   return (
     <>
+      <Input value="hola" label="Buscar" />
       <ColumnsChecks
         allColumns={allColumns}
         setShowColumnsOptions={setShowColumnsOptions}
