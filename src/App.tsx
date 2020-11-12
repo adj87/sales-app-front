@@ -67,7 +67,7 @@ function App() {
       <Navbar />
       <div className="container mx-auto px-4">
         <div className="w-full my-16">
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} onAddButton={() => console.log('yeah')} />
         </div>
       </div>
     </>

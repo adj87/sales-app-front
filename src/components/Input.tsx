@@ -3,10 +3,11 @@ import React from 'react';
 interface InputProps {
   label: String;
   name: String;
+  onChange: Function;
   value: string | number | readonly string[] | undefined;
 }
 
-const Input = ({ label, name, value }: InputProps) => {
+const Input = ({ label, name, value, onChange }: InputProps) => {
   const htmlFor = `input-${name}`;
   return (
     <div>
@@ -20,6 +21,7 @@ const Input = ({ label, name, value }: InputProps) => {
           placeholder="Username"
           value={value}
           id={htmlFor}
+          onChange={(e) => onChange(e.target.value, e)}
         />
       </div>
     </div>

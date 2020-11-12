@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react';
-import { useTable, useSortBy, usePagination } from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useAsyncDebounce } from 'react-table';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleDown,
@@ -12,8 +12,9 @@ import {
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
 import Input from './Input';
+import Button from './Button';
 
-function Table({ columns, data }: any) {
+function Table({ columns, data, onAddButton }: any) {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -30,13 +31,16 @@ function Table({ columns, data }: any) {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize },
+    setGlobalFilter,
+    preGlobalFilteredRows,
+    state: { pageIndex, pageSize, globalFilter },
   } = useTable(
     {
       columns,
       data,
       initialState: { pageIndex: 0 },
     },
+    useGlobalFilter,
     useSortBy,
     usePagination,
   );
@@ -46,7 +50,11 @@ function Table({ columns, data }: any) {
 
   return (
     <>
-      <Input value="hola" label="Buscar" />
+      <Search
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        preGlobalFilteredRows={preGlobalFilteredRows}
+      />
       <ColumnsChecks
         allColumns={allColumns}
         setShowColumnsOptions={setShowColumnsOptions}
@@ -97,7 +105,7 @@ function Table({ columns, data }: any) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className="text-center py-2 border-b border-blue-light text-sm text-grey-500"
+                      className="text-center py-2 border-b border-blue-light text-sm text-grey-500 bg-white"
                     >
                       {cell.render('Cell')}
                     </td>
@@ -108,7 +116,8 @@ function Table({ columns, data }: any) {
           })}
         </tbody>
       </table>
-      <Pagination
+
+      <PaginationAndAddButton
         paginationMethods={{
           canPreviousPage,
           canNextPage,
@@ -121,10 +130,18 @@ function Table({ columns, data }: any) {
           pageIndex,
           pageSize,
         }}
+        onAddButton={onAddButton}
       />
     </>
   );
 }
+
+const PaginationAndAddButton = ({ paginationMethods, onAddButton }) => (
+  <div className="flex flex-row justify-center">
+    <Pagination paginationMethods={paginationMethods} />
+    {onAddButton && <Button onClick={onAddButton} text="Add" />}
+  </div>
+);
 
 const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }) => {
   const className = showColumnsOptions
@@ -155,6 +172,26 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }
   );
 };
 
+const Search = ({ globalFilter, setGlobalFilter, preGlobalFilteredRows }) => {
+  // const count = preGlobalFilteredRows.length;
+  const [value, setValue] = React.useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 800);
+  return (
+    <div className="md:w-2/4 xs:w-full xl:w-1/4">
+      <Input
+        value={value}
+        label="Buscar"
+        onChange={(value) => {
+          setValue(value);
+          onChange(value);
+        }}
+      />
+    </div>
+  );
+};
+
 const Pagination = ({ paginationMethods }) => {
   const {
     canPreviousPage,
@@ -169,7 +206,10 @@ const Pagination = ({ paginationMethods }) => {
     pageSize,
   } = paginationMethods;
   return (
-    <div className="flex flex-column justify-between m-auto mt-2" style={{ width: '300px' }}>
+    <div
+      className="flex flex-column justify-between items-center m-auto mt-2"
+      style={{ width: '300px' }}
+    >
       <PaginationButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
         <FontAwesomeIcon icon={faAngleDoubleLeft} />
       </PaginationButton>
