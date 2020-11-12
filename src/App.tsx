@@ -44,7 +44,10 @@ function App() {
     [],
   );
 
-  const data = [{ firstName: 'alberto', lastName: 'jauregui' }];
+  const data = [
+    { firstName: 'alberto', lastName: 'jauregui' },
+    { firstName: 'perez', lastName: 'beneplacito' },
+  ];
   return (
     <>
       <Navbar />
