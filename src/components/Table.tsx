@@ -38,7 +38,7 @@ function Table({ columns, data, onAddButton }: any) {
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, hiddenColumns: 'title' },
     },
     useGlobalFilter,
     useSortBy,
