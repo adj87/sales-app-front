@@ -12,11 +12,11 @@ const Input = ({ label, name, value, onChange }: InputProps) => {
   return (
     <div>
       <div className="mb-4">
-        <label className="block text-blue-dark mb-2" htmlFor={htmlFor}>
+        <label className="block text-primary-dark mb-2" htmlFor={htmlFor}>
           {label}
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-blue-light leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-primary-light leading-tight focus:outline-none focus:shadow-outline"
           type="text"
           placeholder="Username"
           value={value}

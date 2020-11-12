@@ -70,7 +70,7 @@ function Table({ columns, data, onAddButton }: any) {
                   // @ts-ignore
                   const color = column.isSorted
                     ? 'text-white font-bold'
-                    : 'text-blue-light font-thin';
+                    : 'text-primary-light font-thin';
                   // @ts-ignore
                   const icon = column.isSorted ? (
                     // @ts-ignore
@@ -86,7 +86,7 @@ function Table({ columns, data, onAddButton }: any) {
                     <th
                       // @ts-ignore
                       {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className={`text-center py-2 bg-blue-dark text-sm ${color}`}
+                      className={`text-center py-2 bg-primary-dark text-sm ${color}`}
                     >
                       {icon}
                       {` ${column.render('Header')}`}
@@ -105,7 +105,7 @@ function Table({ columns, data, onAddButton }: any) {
                   return (
                     <td
                       {...cell.getCellProps()}
-                      className="text-center py-2 border-b border-blue-light text-sm text-grey-500 bg-white"
+                      className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
                     >
                       {cell.render('Cell')}
                     </td>
@@ -145,7 +145,7 @@ const PaginationAndAddButton = ({ paginationMethods, onAddButton }) => (
 
 const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }) => {
   const className = showColumnsOptions
-    ? 'absolute bg-white border-blue-light p-3 rounded-md right-0 top-1 border border-blue'
+    ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary'
     : 'hidden';
   return (
     <div className="flex justify-end relative">
@@ -256,7 +256,7 @@ const TextPagination = ({ pageIndex, pageOptions }) => {
 };
 
 const PaginationButton = ({ children, ...otherProps }) => (
-  <button className="h-8 w-8 bg-blue-dark text-white rounded-md" {...otherProps}>
+  <button className="h-8 w-8 bg-primary-dark text-white rounded-md" {...otherProps}>
     {children}
   </button>
 );
