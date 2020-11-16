@@ -13,8 +13,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Input from './Input';
 import Button from './Button';
+import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils';
 
-function Table({ columns, data, onAddButton }: any) {
+function Table({ columns, data, onAddButton, tableName }: any) {
   // Use the state and functions returned from useTable to build your UI
   const {
     getTableProps,
@@ -38,7 +39,7 @@ function Table({ columns, data, onAddButton }: any) {
     {
       columns,
       data,
-      initialState: { pageIndex: 0, hiddenColumns: 'title' },
+      initialState: { pageIndex: 0, hiddenColumns: getColumnsHiddenInTable(tableName) },
     },
     useGlobalFilter,
     useSortBy,
@@ -57,6 +58,7 @@ function Table({ columns, data, onAddButton }: any) {
       />
       <ColumnsChecks
         allColumns={allColumns}
+        tableName={tableName}
         setShowColumnsOptions={setShowColumnsOptions}
         showColumnsOptions={showColumnsOptions}
       />
@@ -137,13 +139,20 @@ function Table({ columns, data, onAddButton }: any) {
 }
 
 const PaginationAndAddButton = ({ paginationMethods, onAddButton }) => (
-  <div className="flex md:flex-row lg:flex-column  justify-center items-center">
+  <div className="flex md:flex-row lg:flex-column  justify-center items-center relative mt-6">
     <Pagination paginationMethods={paginationMethods} />
-    {onAddButton && <Button onClick={onAddButton} text="Add" color="secondary" />}
+    {onAddButton && (
+      <Button
+        onClick={onAddButton}
+        text="Add"
+        color="secondary"
+        className={'absolute right-0 mt-1'}
+      />
+    )}
   </div>
 );
 
-const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }) => {
+const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, tableName }) => {
   const className = showColumnsOptions
     ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary'
     : 'hidden';
@@ -159,13 +168,21 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions }
           />
         </div>
         <div className={className}>
-          {allColumns.map((column) => (
-            <div key={column.id} className="px-2 py-1">
-              <label className="text-grey-500">
-                <input type="checkbox" {...column.getToggleHiddenProps()} /> {column.id}
-              </label>
-            </div>
-          ))}
+          {allColumns.map((column) => {
+            let { onChange, ...restToggleHiddenProps } = column.getToggleHiddenProps();
+            onChange = (e) => {
+              column.toggleHidden(!e.target.checked);
+              setColumnToHiddenOrShownInTable(tableName, column.id);
+            };
+            return (
+              <div key={column.id} className="px-2 py-1">
+                <label className="text-grey-500">
+                  <input type="checkbox" onChange={onChange} {...restToggleHiddenProps} />{' '}
+                  {column.id}
+                </label>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

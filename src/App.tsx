@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './css/dist/index.css';
 import Navbar from './components/Navbar';
 import Table from './components/Table';
+import { getColumnsHiddenInTable } from './utils';
 
 function App() {
   const columns = React.useMemo(
@@ -31,7 +32,12 @@ function App() {
       <Navbar />
       <div className="container mx-auto px-4">
         <div className="w-full my-16">
-          <Table columns={columns} data={data} onAddButton={() => console.log('yeah')} />
+          <Table
+            columns={columns}
+            data={data}
+            onAddButton={() => console.log('yeah')}
+            tableName={'mytabla'}
+          />
         </div>
       </div>
     </>
