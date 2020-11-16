@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Input from './Input';
 import Button from './Button';
-import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils';
+import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils.ts';
 
 function Table({ columns, data, onAddButton, tableName }: any) {
   // Use the state and functions returned from useTable to build your UI

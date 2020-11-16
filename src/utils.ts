@@ -1,13 +1,17 @@
-export const getColumnsTablesConfig = () => {
+interface UnknownObject {
+  [key: string]: Array<String>;
+}
+
+export const getColumnsTablesConfig = (): UnknownObject => {
   const columnsTableConfigString = localStorage.getItem('columnsTableConfig');
   return columnsTableConfigString ? JSON.parse(columnsTableConfigString) : {};
 };
 
-export const getColumnsHiddenInTable = (tableName) => {
-  return getColumnsTablesConfig()[tableName] ?? [];
+export const getColumnsHiddenInTable = (tableName: String): Array<String> => {
+  return getColumnsTablesConfig()[tableName.toString()] ?? [];
 };
 
-export const setColumnToHiddenOrShownInTable = (tableName, columnToShowOrHide) => {
+export const setColumnToHiddenOrShownInTable = (tableName: String, columnToShowOrHide: String) => {
   let columnsHiddenInTable = getColumnsHiddenInTable(tableName);
 
   const columnPositionInArray = columnsHiddenInTable.indexOf(columnToShowOrHide);
@@ -18,7 +22,10 @@ export const setColumnToHiddenOrShownInTable = (tableName, columnToShowOrHide) =
     columnsHiddenInTable.push(columnToShowOrHide);
   }
 
-  const columnsTablesConfig = getColumnsTablesConfig(tableName);
-  const newColumnsTableConfig = { ...columnsTablesConfig, [tableName]: columnsHiddenInTable };
+  const columnsTablesConfig = getColumnsTablesConfig()[tableName.toString()];
+  const newColumnsTableConfig = {
+    ...columnsTablesConfig,
+    [tableName.toString()]: columnsHiddenInTable,
+  };
   return localStorage.setItem('columnsTableConfig', JSON.stringify(newColumnsTableConfig));
 };
