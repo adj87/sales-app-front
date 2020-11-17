@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './css/dist/index.css';
 import Navbar from './components/Navbar';
 import Table from './components/Table';
-import { getColumnsHiddenInTable } from './utils';
 
 function App() {
   const columns = React.useMemo(
@@ -37,6 +36,8 @@ function App() {
             data={data}
             onAddButton={() => console.log('yeah')}
             tableName={'mytabla'}
+            withSearching
+            withPagination
           />
         </div>
       </div>

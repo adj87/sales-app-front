@@ -15,8 +15,7 @@ import Input from './Input';
 import Button from './Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils.ts';
 
-function Table({ columns, data, onAddButton, tableName }: any) {
-  // Use the state and functions returned from useTable to build your UI
+function Table({ columns, data, onAddButton, tableName, withSearching, withPagination }: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -39,7 +38,11 @@ function Table({ columns, data, onAddButton, tableName }: any) {
     {
       columns,
       data,
-      initialState: { pageIndex: 0, hiddenColumns: getColumnsHiddenInTable(tableName) },
+      initialState: {
+        pageIndex: 0,
+        hiddenColumns: getColumnsHiddenInTable(tableName),
+        pageSize: withPagination ? 10 : 10000,
+      },
     },
     useGlobalFilter,
     useSortBy,
@@ -47,15 +50,15 @@ function Table({ columns, data, onAddButton, tableName }: any) {
   );
   const [showColumnsOptions, setShowColumnsOptions] = useState(false);
 
-  // Render the UI for your table
-
   return (
     <>
-      <Search
-        globalFilter={globalFilter}
-        setGlobalFilter={setGlobalFilter}
-        preGlobalFilteredRows={preGlobalFilteredRows}
-      />
+      {withSearching && (
+        <Search
+          globalFilter={globalFilter}
+          setGlobalFilter={setGlobalFilter}
+          preGlobalFilteredRows={preGlobalFilteredRows}
+        />
+      )}
       <ColumnsChecks
         allColumns={allColumns}
         tableName={tableName}
@@ -63,63 +66,12 @@ function Table({ columns, data, onAddButton, tableName }: any) {
         showColumnsOptions={showColumnsOptions}
       />
       <table {...getTableProps()} className="w-full">
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers
-                .filter((el) => el.columns === undefined)
-                .map((column) => {
-                  // @ts-ignore
-                  const color = column.isSorted
-                    ? 'text-white font-bold'
-                    : 'text-primary-light font-thin';
-                  // @ts-ignore
-                  const icon = column.isSorted ? (
-                    // @ts-ignore
-                    column.isSortedDesc ? (
-                      <FontAwesomeIcon icon={faAngleDown} className="text-secondary-main text-md" />
-                    ) : (
-                      <FontAwesomeIcon icon={faAngleUp} className="text-secondary-main text-md" />
-                    )
-                  ) : (
-                    ''
-                  );
-                  return (
-                    <th
-                      // @ts-ignore
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className={`text-center py-2 bg-primary-dark text-sm ${color}`}
-                    >
-                      {icon}
-                      {` ${column.render('Header')}`}
-                    </th>
-                  );
-                })}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                    <td
-                      {...cell.getCellProps()}
-                      className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
+        <THead headerGroups={headerGroups} />
+        <TBody getTableBodyProps={getTableBodyProps} page={page} prepareRow={prepareRow} />
       </table>
 
       <PaginationAndAddButton
+        isShown={withPagination}
         paginationMethods={{
           canPreviousPage,
           canNextPage,
@@ -138,9 +90,67 @@ function Table({ columns, data, onAddButton, tableName }: any) {
   );
 }
 
-const PaginationAndAddButton = ({ paginationMethods, onAddButton }) => (
+const THead = ({ headerGroups }) => (
+  <thead>
+    {headerGroups.map((headerGroup) => (
+      <tr {...headerGroup.getHeaderGroupProps()}>
+        {headerGroup.headers
+          .filter((el) => el.columns === undefined)
+          .map((column) => {
+            // @ts-ignore
+            const color = column.isSorted ? 'text-white font-bold' : 'text-primary-light font-thin';
+            // @ts-ignore
+            const icon = column.isSorted ? (
+              // @ts-ignore
+              column.isSortedDesc ? (
+                <FontAwesomeIcon icon={faAngleDown} className="text-secondary-main text-md" />
+              ) : (
+                <FontAwesomeIcon icon={faAngleUp} className="text-secondary-main text-md" />
+              )
+            ) : (
+              ''
+            );
+            return (
+              <th
+                // @ts-ignore
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                className={`text-center py-2 bg-primary-dark text-sm ${color}`}
+              >
+                {icon}
+                {` ${column.render('Header')}`}
+              </th>
+            );
+          })}
+      </tr>
+    ))}
+  </thead>
+);
+
+const TBody = ({ getTableBodyProps, page, prepareRow }) => (
+  <tbody {...getTableBodyProps()}>
+    {page.map((row, i) => {
+      prepareRow(row);
+      return (
+        <tr {...row.getRowProps()}>
+          {row.cells.map((cell) => {
+            return (
+              <td
+                {...cell.getCellProps()}
+                className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
+              >
+                {cell.render('Cell')}
+              </td>
+            );
+          })}
+        </tr>
+      );
+    })}
+  </tbody>
+);
+
+const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination, isShown }) => (
   <div className="flex md:flex-row lg:flex-column  justify-center items-center relative mt-6">
-    <Pagination paginationMethods={paginationMethods} />
+    {isShown && <Pagination paginationMethods={paginationMethods} />}
     {onAddButton && (
       <Button
         onClick={onAddButton}
