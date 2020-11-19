@@ -1,14 +1,29 @@
 import React from 'react';
+import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
+import { LinkInterface } from '../routesAndLinks';
+import { HOME } from '../constants';
 
-const Navbar = () => {
+interface NavbarProps extends RouteComponentProps {
+  links?: any;
+  classNameNormalLink: String;
+  classNameActiveLink: String;
+}
+
+const Navbar = (props: NavbarProps) => {
+  const { links, location, classNameActiveLink, classNameNormalLink } = props;
   return (
     <div className="bg-primary-dark flex px-4 w-full justify-center shadow-md">
-      <span className="px-4 py-6 text-primary-light">Link 1</span>
-      <span className="px-4 py-6 text-primary-light">Link 1</span>
-      <span className="px-4 py-6 text-white font-extrabold">Link 1</span>
-      <span className="absolute right-0 px-4 py-6 text-primary-light">Logout</span>
+      {links.map((el: LinkInterface) => {
+        const active = el.to === location.pathname || (location.pathname === '/' && HOME === el.to);
+        return (
+          <Link to={el.to} className={`${active ? classNameActiveLink : classNameNormalLink}`}>
+            {el.label}
+          </Link>
+        );
+      })}
+      <span className={`absolute right-0 ${classNameNormalLink}`}>Logout</span>;
     </div>
   );
 };
 
-export default Navbar;
+export default withRouter(Navbar);
