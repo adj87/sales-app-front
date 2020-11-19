@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import Navbar from '../../components/Navbar';
-import { links } from '../../routesAndLinks';
+import Navbar from '../components/Navbar';
+import { links } from '../routesAndLinks';
 
 interface MainProps {
   children: ReactNode;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MainLayout from '../Layouts/Main';
+import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 
 export const Orders = () => {
