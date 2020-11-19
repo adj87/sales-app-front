@@ -8,6 +8,7 @@ export interface RouteInterface extends RouteProps {
 
 export interface LinkInterface extends LinkProps {
   label: String;
+  moreMatches?: String[];
 }
 
 export interface LinksInterface {
@@ -16,15 +17,18 @@ export interface LinksInterface {
 
 export const links: LinksInterface = {
   'main-layout': [
-    { to: '/orders', label: 'Orders', className: 'px-4 py-6 text-primary-light' },
-    { to: '/delivery-notes', label: 'Delivery notes', className: 'px-4 py-6 text-primary-light' },
+    {
+      to: '/orders',
+      label: 'Orders',
+    },
+    { to: '/delivery-notes', label: 'Delivery notes' },
   ],
 };
 
 export const routes: Array<RouteInterface> = [
   { component: () => <div>Login</div>, exact: true, path: 'login' },
   {
-    path: '/',
+    path: ['/', '/orders'],
     component: Orders,
     exact: true,
     authIsRequired: true,
