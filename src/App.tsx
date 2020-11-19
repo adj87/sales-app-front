@@ -1,47 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './css/dist/index.css';
-import Navbar from './components/Navbar';
-import Table from './components/Table';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { routes, RouteInterface } from './routesAndLinks';
+import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Name',
-        columns: [
-          { Header: 'userId', accessor: 'userId' },
-          { Header: 'id', accessor: 'id' },
-          { Header: 'title', accessor: 'title' },
-          { Header: 'completed', accessor: 'completed' },
-        ],
-      },
-    ],
-    [],
-  );
-
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
-
   return (
-    <>
-      <Navbar />
-      <div className="container mx-auto px-4">
-        <div className="w-full my-16">
-          <Table
-            columns={columns}
-            data={data}
-            onAddButton={() => console.log('yeah')}
-            tableName={'mytabla'}
-            withSearching
-            withPagination
-          />
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Switch>
+        {routes.map(({ component, path, exact, authIsRequired }: RouteInterface) => {
+          if (authIsRequired) {
+            return <ProtectedRoute component={component} path={path} exact={exact} />;
+          }
+          return <Route component={component} path={path} exact={exact} />;
+        })}
+      </Switch>
+    </BrowserRouter>
   );
 }
 
