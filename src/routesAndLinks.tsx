@@ -8,8 +8,7 @@ export interface RouteInterface extends RouteProps {
 }
 
 export interface LinkInterface extends LinkProps {
-  label: String;
-  moreMatches?: String[];
+  i18nLabel: string;
 }
 
 export interface LinksInterface {
@@ -20,9 +19,9 @@ export const links: LinksInterface = {
   'main-layout': [
     {
       to: '/orders',
-      label: 'Orders',
+      i18nLabel: 'main-layout.orders',
     },
-    { to: '/customers', label: 'Customers' },
+    { to: '/customers', i18nLabel: 'main-layout.customers' },
   ],
 };
 

@@ -14,6 +14,7 @@ import {
 import Input from './Input';
 import Button from './Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils.ts';
+import { useTranslation } from 'react-i18next';
 
 function Table({ columns, data, onAddButton, tableName, withSearching, withPagination }: any) {
   const {
@@ -49,6 +50,7 @@ function Table({ columns, data, onAddButton, tableName, withSearching, withPagin
     usePagination,
   );
   const [showColumnsOptions, setShowColumnsOptions] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -85,6 +87,7 @@ function Table({ columns, data, onAddButton, tableName, withSearching, withPagin
           pageSize,
         }}
         onAddButton={onAddButton}
+        t={t}
       />
     </>
   );
@@ -148,13 +151,13 @@ const TBody = ({ getTableBodyProps, page, prepareRow }) => (
   </tbody>
 );
 
-const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination, isShown }) => (
+const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination, isShown, t }) => (
   <div className="flex md:flex-row lg:flex-column  justify-center items-center relative mt-6">
     {isShown && <Pagination paginationMethods={paginationMethods} />}
     {onAddButton && (
       <Button
         onClick={onAddButton}
-        text="Add"
+        text={t('commons.add')}
         color="secondary"
         className={'absolute right-0 mt-1'}
       />
@@ -188,7 +191,7 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
               <div key={column.id} className="px-2 py-1">
                 <label className="text-grey-500">
                   <input type="checkbox" onChange={onChange} {...restToggleHiddenProps} />{' '}
-                  {column.id}
+                  {column.Header}
                 </label>
               </div>
             );
@@ -228,9 +231,9 @@ const Pagination = ({ paginationMethods }) => {
     gotoPage,
     nextPage,
     previousPage,
-    setPageSize,
+    // setPageSize,
     pageIndex,
-    pageSize,
+    // pageSize,
   } = paginationMethods;
   return (
     <div
