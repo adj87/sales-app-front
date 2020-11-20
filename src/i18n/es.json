@@ -1,1 +1,1 @@
-{ "commons": { "add": "Añadir" } }
+{ "commons": { "add": "Añadd" }, "main-layout": { "customers": "Clientes", "orders": "Pedidos" } }
