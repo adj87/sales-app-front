@@ -1,9 +1,9 @@
-import types from './types';
+import { SET_ORDERS } from './types';
 import { Order } from '../interfaces';
 import { SetOrdersAction } from './types';
 
 const setOrders = (orders: Order[]): SetOrdersAction => ({
-  type: types.SET_ORDERS,
+  type: SET_ORDERS,
   payload: orders,
 });
 
