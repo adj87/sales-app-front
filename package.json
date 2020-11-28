@@ -18,6 +18,7 @@
     "@types/react-table": "^7.0.25",
     "autoprefixer": "^10.0.1",
     "axios": "^0.21.0",
+    "env-cmd": "^10.1.0",
     "i18next": "^19.8.4",
     "postcss-cli": "^8.2.0",
     "react": "^17.0.1",
@@ -34,7 +35,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f ./.envs/.env.node react-scripts start",
     "build-css": "npx tailwindcss build ./src/css/src/index.css -o ./src/css/dist/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
