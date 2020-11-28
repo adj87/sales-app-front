@@ -4,7 +4,7 @@ interface InputProps {
   label: String;
   name: String;
   onChange: Function;
-  value: string | number | readonly string[] | undefined;
+  value: string | number | string[] | undefined;
 }
 
 const Input = ({ label, name, value, onChange }: InputProps) => {
