@@ -18,7 +18,11 @@ const Navbar = (props: NavbarProps) => {
       {links.map((el: LinkInterface) => {
         const active = el.to === location.pathname || (location.pathname === '/' && HOME === el.to);
         return (
-          <Link to={el.to} className={`${active ? classNameActiveLink : classNameNormalLink}`}>
+          <Link
+            to={el.to}
+            className={`${active ? classNameActiveLink : classNameNormalLink}`}
+            key={el.to.toString()}
+          >
             {t(el.i18nLabel)}
           </Link>
         );

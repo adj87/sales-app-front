@@ -13,33 +13,33 @@
     "@types/node": "^12.19.3",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
+    "@types/react-redux": "^7.1.11",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-table": "^7.0.25",
     "autoprefixer": "^10.0.1",
+    "axios": "^0.21.0",
+    "env-cmd": "^10.1.0",
     "i18next": "^19.8.4",
     "postcss-cli": "^8.2.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-i18next": "^11.7.3",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-table": "^7.6.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "tailwindcss": "^1.9.6",
     "typescript": "^4.0.5",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f ./.envs/.env.node react-scripts start",
     "build-css": "npx tailwindcss build ./src/css/src/index.css -o ./src/css/dist/index.css",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
   },
   "browserslist": {
     "production": [
