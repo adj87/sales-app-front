@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
@@ -32,14 +32,13 @@ const OrdersComponent = ({ orders, fetchOrders }: any) => {
   useEffect(() => {
     fetchOrders();
   }, []);
-  console.log(orders);
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={orders}
         onAddButton={() => console.log('yeah')}
-        tableName={'mytabla'}
+        tableName={'orders'}
         withSearching
         withPagination
       />
