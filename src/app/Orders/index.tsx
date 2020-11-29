@@ -4,6 +4,8 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
+import Modal from '../../components/Modal';
+import TableWithModal from '../../components/Table/TableWithModal';
 
 const OrdersComponent = ({ orders, fetchOrders }: any) => {
   const columns = React.useMemo(
@@ -34,14 +36,16 @@ const OrdersComponent = ({ orders, fetchOrders }: any) => {
   }, []);
   return (
     <MainLayout>
-      <Table
+      <TableWithModal
         columns={columns}
         data={orders}
         onAddButton={() => console.log('yeah')}
         tableName={'orders'}
         withSearching
         withPagination
-      />
+      >
+        {<div>YEahhhhhhhhhhhhhhhhhhhhhh</div>}
+      </TableWithModal>
     </MainLayout>
   );
 };
