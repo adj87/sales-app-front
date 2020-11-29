@@ -11,9 +11,9 @@ import {
   faAngleRight,
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
-import Input from './Input';
-import Button from './Button';
-import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../utils.ts';
+import Input from '../Input';
+import Button from '../Button';
+import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
 
 function Table({ columns, data, onAddButton, tableName, withSearching, withPagination }: any) {
@@ -167,7 +167,7 @@ const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination
 
 const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, tableName }) => {
   const className = showColumnsOptions
-    ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary'
+    ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary z-10'
     : 'hidden';
   return (
     <div className="flex justify-end relative">

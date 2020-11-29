@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Button from './Button';
 
 interface ModalProps {
@@ -6,9 +6,10 @@ interface ModalProps {
   open: boolean;
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  children: ReactNode;
 }
 
-export default function Modal({ size, open, onCancel, onConfirm }: ModalProps) {
+export default function Modal({ size, open, onCancel, onConfirm, children }: ModalProps) {
   const modalSize = size === 'lg' ? 'max-w-5xl' : 'max-w-3xl';
   return open ? (
     <>
@@ -20,20 +21,16 @@ export default function Modal({ size, open, onCancel, onConfirm }: ModalProps) {
             <div className="flex items-start justify-between p-5 border-b border-solid border-grey-300 rounded-t">
               <h2 className="text-2xl text-primary-dark text-center font-semibold">Modal Title</h2>
               <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none">
-                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                <span
+                  className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
+                  onClick={onCancel}
+                >
                   ×
                 </span>
               </button>
             </div>
             {/*body*/}
-            <div className="relative p-6 flex-auto">
-              <p className="my-4 text-gray-600 text-lg leading-relaxed">
-                I always felt like I could do anything. That’s the main thing people are controlled
-                by! Thoughts- their perception of themselves! They're slowed down by their
-                perception of themselves. If you're taught you can’t do anything, you won’t do
-                anything. I was taught I could do everything.
-              </p>
-            </div>
+            <div className="relative p-6 flex-auto">{children}</div>
             {/*footer*/}
             <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
               <div className="px-8 w-full">
