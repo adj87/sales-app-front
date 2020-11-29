@@ -15,10 +15,7 @@ export default function Modal() {
       </button>
       {showModal ? (
         <>
-          <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-            onClick={() => setShowModal(false)}
-          >
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -46,22 +43,25 @@ export default function Modal() {
                   </p>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-grey-300 rounded-b">
-                  {/*                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                    style={{ transition: 'all .15s ease' }}
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button> */}
-                  <Button
-                    text={'aceptar'}
-                    color="secondary"
-                    size="block"
-                    style={{ transition: 'all .15s ease' }}
-                    onClick={() => setShowModal(false)}
-                  />
+                <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
+                  <div className="px-8 w-full">
+                    <Button
+                      text={'cancelar'}
+                      color="secondary"
+                      outline
+                      size="block"
+                      onClick={() => setShowModal(false)}
+                    />
+                  </div>
+                  <div className="px-8 w-full">
+                    <Button
+                      text={'aceptar'}
+                      color="secondary"
+                      size="block"
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => setShowModal(false)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
