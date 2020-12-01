@@ -16,7 +16,15 @@ import Button from '../Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
 
-function Table({ columns, data, onAddButton, tableName, withSearching, withPagination }: any) {
+function Table({
+  columns,
+  data,
+  onAddButton,
+  tableName,
+  withSearching,
+  withPagination,
+  onRowClick,
+}: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -69,7 +77,12 @@ function Table({ columns, data, onAddButton, tableName, withSearching, withPagin
       />
       <table {...getTableProps()} className="w-full">
         <THead headerGroups={headerGroups} />
-        <TBody getTableBodyProps={getTableBodyProps} page={page} prepareRow={prepareRow} />
+        <TBody
+          getTableBodyProps={getTableBodyProps}
+          page={page}
+          prepareRow={prepareRow}
+          onRowClick={onRowClick}
+        />
       </table>
 
       <PaginationAndAddButton
@@ -129,12 +142,16 @@ const THead = ({ headerGroups }) => (
   </thead>
 );
 
-const TBody = ({ getTableBodyProps, page, prepareRow }) => (
+const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick }) => (
   <tbody {...getTableBodyProps()}>
     {page.map((row, i) => {
       prepareRow(row);
       return (
-        <tr {...row.getRowProps()}>
+        <tr
+          {...row.getRowProps()}
+          onClick={onRowClick ? () => onRowClick(row) : undefined}
+          className={onRowClick ? 'cursor-pointer' : ''}
+        >
           {row.cells.map((cell) => {
             return (
               <td
