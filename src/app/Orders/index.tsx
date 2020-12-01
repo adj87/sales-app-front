@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
@@ -6,8 +6,17 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import Modal from '../../components/Modal';
 import TableWithModal from '../../components/Table/TableWithModal';
+import { Order } from './mainInterfaces';
+import OrderModal from './Modal';
+import { withRouter, useParams } from 'react-router-dom';
 
-const OrdersComponent = ({ orders, fetchOrders }: any) => {
+interface params {
+  id: string;
+}
+const OrdersComponent = ({ orders, fetchOrders, history }: any) => {
+  const pathname = history.location.pathname;
+  let params = useParams<params>();
+  let [openModal, setOpenModal] = useState<boolean>(false);
   const columns = React.useMemo(
     () => [
       {
@@ -32,20 +41,33 @@ const OrdersComponent = ({ orders, fetchOrders }: any) => {
   );
 
   useEffect(() => {
+    console.log('pasa 1 vez');
     fetchOrders();
   }, []);
+
+  useEffect(() => {
+    if (params.id) {
+      setOpenModal(true);
+    }
+    if (openModal) {
+      setOpenModal(false);
+    }
+  }, [pathname]);
+
+  console.log('the params', history);
   return (
     <MainLayout>
       <TableWithModal
+        openModal={openModal}
         columns={columns}
         data={orders}
-        onAddButton={() => console.log('yeah')}
+        onAddButton={() => history.push('/orders/new')}
         tableName={'orders'}
         withSearching
         withPagination
-      >
-        {<div>YEahhhhhhhhhhhhhhhhhhhhhh</div>}
-      </TableWithModal>
+        onRowClick={(row: Order) => history.push(`/orders/${row.id}`)}
+        modal={() => <OrderModal onCancel={() => history.push(`/orders`)} />}
+      />
     </MainLayout>
   );
 };
@@ -58,4 +80,6 @@ const mapDispatch = {
   ...operations,
 };
 
-export const Orders = connect(mapState, mapDispatch)(OrdersComponent);
+const OrdersComponentWithHistory = withRouter(OrdersComponent);
+
+export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);

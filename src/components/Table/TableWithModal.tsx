@@ -1,43 +1,42 @@
 import React, { useState, ReactNode } from 'react';
 import Table from './index';
-import Modal from '../Modal';
 
 interface TableWithModalProps {
   data: any[];
   columns: any[];
   tableName: String;
-  children: ReactNode;
+  modal: React.ReactType;
   onAddButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onRowClick: (row: any) => void;
   withSearching?: boolean;
   withPagination?: boolean;
+  openModal: boolean;
 }
 
 const TableWithModal = ({
   data,
   columns,
   tableName,
-  children,
+
   onAddButton,
   withSearching,
   withPagination,
+  onRowClick,
+  modal: Modal,
+  openModal,
 }: TableWithModalProps) => {
-  const [openModal, setOpenModal] = useState(false);
   return (
     <>
-      <Modal
-        onCancel={() => setOpenModal(false)}
-        open={openModal}
-        onConfirm={() => setOpenModal(false)}
-      >
-        {children}
-      </Modal>
+      {openModal && <Modal values={[]} />}
+
       <Table
-        onAddButton={() => setOpenModal(true)}
+        onAddButton={onAddButton}
         columns={columns}
         tableName={tableName}
         data={data}
         withSearching={withSearching}
         withPagination={withPagination}
+        onRowClick={onRowClick}
       />
     </>
   );
