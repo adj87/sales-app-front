@@ -7,7 +7,7 @@ const setOrders = (orders: Order[]): SetOrdersAction => ({
   payload: orders,
 });
 
-const setOrderToCreateOrEdit = (order: Order): SetElementToCreateOrEditAction => ({
+const setOrderToCreateOrEdit = (order: Order | null): SetElementToCreateOrEditAction => ({
   type: SET_ORDER_TO_CREATE_OR_EDIT,
   payload: order,
 });

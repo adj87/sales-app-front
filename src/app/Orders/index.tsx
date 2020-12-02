@@ -1,48 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, useParams } from 'react-router-dom';
+
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import Modal from '../../components/Modal';
-import TableWithModal from '../../components/Table/TableWithModal';
 import { Order } from './mainInterfaces';
 import OrderModal from './Modal';
-import { withRouter, useParams } from 'react-router-dom';
+import { columns } from './constants';
 
 const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
-  const pathname = history.location.pathname;
-  let { id } = useParams<{ id: string }>();
+  const { pathname } = history.location;
   let [openModal, setOpenModal] = useState<boolean>(false);
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Name',
-        columns: [
-          { Header: 'type', accessor: 'type' },
-          { Header: 'id', accessor: 'id' },
-          { Header: 'customer_name', accessor: 'customer_name' },
-          { Header: 'address', accessor: 'address' },
-          { Header: 'date', accessor: 'date' },
-          { Header: 'delivery_date', accessor: 'delivery_date' },
-          { Header: 'zip_code', accessor: 'zip_code' },
-          { Header: 'green_point', accessor: 'green_point' },
-          { Header: 'customer_route_id', accessor: 'customer_route_id' },
-          { Header: 'total', accessor: 'total' },
-          { Header: 'total_net', accessor: 'total_net' },
-          { Header: 'total_taxes', accessor: 'total_taxes' },
-        ],
-      },
-    ],
-    [],
-  );
+  let { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
   useEffect(() => {
-    if (id) {
+    const isThisRouteForCreatingOrEdit = id || pathname.includes('new');
+    if (isThisRouteForCreatingOrEdit) {
       setOpenModal(true);
     }
     if (openModal) {
@@ -52,8 +31,7 @@ const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
 
   return (
     <MainLayout>
-      <TableWithModal
-        openModal={openModal}
+      <Table
         columns={columns}
         data={orders}
         onAddButton={() => history.push('/orders/new')}
@@ -64,10 +42,8 @@ const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
           const order: Order = datatableRowInfo.original;
           history.push(`/orders/${order.id}/type/${order.type}`);
         }}
-        modal={() => (
-          <OrderModal onCancel={() => history.push(`/orders`)} fetchOrder={fetchOrder} />
-        )}
       />
+      {openModal && <OrderModal onCancel={() => history.push(`/orders`)} fetchOrder={fetchOrder} />}
     </MainLayout>
   );
 };

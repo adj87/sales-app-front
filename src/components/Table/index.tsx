@@ -206,7 +206,7 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
             };
             return (
               <div key={column.id} className="px-2 py-1">
-                <label className="text-grey-500">
+                <label className="text-grey-500 cursor-pointer">
                   <input type="checkbox" onChange={onChange} {...restToggleHiddenProps} />{' '}
                   {column.Header}
                 </label>

@@ -23,4 +23,7 @@ const fetchOrder = (type: string, orderId: Number) => (
   });
 };
 
-export default { fetchOrders, fetchOrder };
+const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
+  actions.setOrderToCreateOrEdit(null);
+
+export default { fetchOrders, fetchOrder, removeElementToCreateOrEdit };

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Modal from '../../components/Modal';
 import { useParams } from 'react-router-dom';
-import { stringify } from 'querystring';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
