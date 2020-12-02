@@ -10,12 +10,9 @@ import { Order } from './mainInterfaces';
 import OrderModal from './Modal';
 import { withRouter, useParams } from 'react-router-dom';
 
-interface params {
-  id: string;
-}
-const OrdersComponent = ({ orders, fetchOrders, history }: any) => {
+const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
   const pathname = history.location.pathname;
-  let params = useParams<params>();
+  let { id } = useParams<{ id: string }>();
   let [openModal, setOpenModal] = useState<boolean>(false);
   const columns = React.useMemo(
     () => [
@@ -41,12 +38,11 @@ const OrdersComponent = ({ orders, fetchOrders, history }: any) => {
   );
 
   useEffect(() => {
-    console.log('pasa 1 vez');
     fetchOrders();
   }, []);
 
   useEffect(() => {
-    if (params.id) {
+    if (id) {
       setOpenModal(true);
     }
     if (openModal) {
@@ -54,7 +50,6 @@ const OrdersComponent = ({ orders, fetchOrders, history }: any) => {
     }
   }, [pathname]);
 
-  console.log('the params', history);
   return (
     <MainLayout>
       <TableWithModal
@@ -65,15 +60,20 @@ const OrdersComponent = ({ orders, fetchOrders, history }: any) => {
         tableName={'orders'}
         withSearching
         withPagination
-        onRowClick={(row: Order) => history.push(`/orders/${row.id}`)}
-        modal={() => <OrderModal onCancel={() => history.push(`/orders`)} />}
+        onRowClick={(datatableRowInfo: any) => {
+          const order: Order = datatableRowInfo.original;
+          history.push(`/orders/${order.id}/type/${order.type}`);
+        }}
+        modal={() => (
+          <OrderModal onCancel={() => history.push(`/orders`)} fetchOrder={fetchOrder} />
+        )}
       />
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
-  orders: state.orders.orders,
+  orders: state.orders.data,
 });
 
 const mapDispatch = {
