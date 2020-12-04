@@ -1,13 +1,13 @@
 import api_php from './api_php';
+import api_node from './api_node';
 import actions from './actions';
 
 import { Dispatch } from 'react';
 import { SetOrdersAction, SetElementToCreateOrEditAction } from './types';
 import { AxiosResponse } from 'axios';
 import { IOrder } from './types/Order';
-import api_node from './api_node';
 
-const api = api_node;
+const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const fetchOrders = () => (dispatch: Dispatch<SetOrdersAction>) => {
   api.fetchOrders().then((response: AxiosResponse<IOrder[]>) => {
