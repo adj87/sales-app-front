@@ -1,4 +1,4 @@
-import { SET_ORDERS, OrdersState, SET_ORDER_TO_CREATE_OR_EDIT, OrdersActions } from './types';
+import { SET_ORDERS, OrdersState, SET_ORDER_TO_CREATE_OR_EDIT } from './types';
 import { AnyAction } from 'redux';
 
 const initialState = {

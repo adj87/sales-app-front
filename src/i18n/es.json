@@ -1,1 +1,5 @@
-{ "commons": { "add": "Añadd" }, "main-layout": { "customers": "Clientes", "orders": "Pedidos" } }
+{
+  "commons": { "add": "Añadd" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
+  "orders": { "form": { "label-customers": "Clientes" } }
+}

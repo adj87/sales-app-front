@@ -6,7 +6,7 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import { Order } from './mainInterfaces';
+import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
 import { columns } from './constants';
 
@@ -39,7 +39,7 @@ const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
-          const order: Order = datatableRowInfo.original;
+          const order: IOrder = datatableRowInfo.original;
           history.push(`/orders/${order.id}/type/${order.type}`);
         }}
       />
