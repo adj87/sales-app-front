@@ -1,5 +1,13 @@
 {
   "commons": { "add": "Añadd" },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
-  "orders": { "form": { "title": "Añadir pedido", "label-customers": "Clientes" } }
+  "orders": {
+    "form": {
+      "title": "Añadir pedido",
+      "label-customer": "Cliente",
+      "label-fare": "Tarifa",
+      "label-address-delivery": "Lugar de envío",
+      "label-together": "Mostrar conjuntamente con otros pedidos"
+    }
+  }
 }

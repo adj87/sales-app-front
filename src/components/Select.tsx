@@ -14,9 +14,10 @@ interface SelectComponentProps {
 const SelectComponent = ({ label, options, labelText, value, onChange }: SelectComponentProps) => {
   const { t } = useTranslation();
   return (
-    <div>
+    <div className="w-full">
       {labelText && <label className="block text-primary-dark mb-2">{t(labelText)}</label>}
       <Select
+        classNamePrefix="react-select"
         options={options}
         getOptionLabel={label ? label : (option): any => option.name}
         getOptionValue={value ? value : (option): any => option.id}

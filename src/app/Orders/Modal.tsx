@@ -5,6 +5,8 @@ import Select from 'react-select';
 import Axios from 'axios';
 import SelectComponent from '../../components/Select';
 import { ICustomer } from '../Customers/duck/types/Customer';
+import Input from '../../components/Input';
+import InputCheckBox from '../../components/InputCheckbox';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -28,34 +30,60 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
       size="lg"
       title="orders.form.title"
     >
-      <div className="flex">
-        <div className="flex-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="flex items-center">
           <SelectComponent
             options={customers}
-            labelText="orders.form.label-customers"
+            labelText="orders.form.label-customer"
             onChange={(customer: ICustomer) => setCustomer(customer)}
           />
         </div>
 
         {customerSelected && <CustomerInfo customer={customerSelected} />}
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Input
+          label="orders.form.label-fare"
+          name="fare"
+          onChange={(value: string) => console.log(value)}
+          value="asdasd"
+        />
+        <Input
+          label="orders.form.label-address-delivery"
+          name="fare"
+          onChange={(value: string) => console.log(value)}
+          value="asdasd"
+        />
+        <div className="col-span-2 flex items-center justify-center">
+          <InputCheckBox checked={false} label={'orders.form.label-together'} />
+        </div>
+      </div>
     </Modal>
   );
 };
 
 const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
+  const infoElementsExcluded = ['created_at', 'updated_at', 'id', 'zip_code', 'name'];
   return (
-    <div className="flex-1 border-grey-300 rounded-md border px-2 py-5 flex flex-wrap">
-      {Object.keys(customer).map((property: string) => {
-        return (
-          <div className="flex-1 flex justify-between">
-            <label className="text-primary-light">{property}</label>
-            {/* 
+    <div className="border-grey-300 rounded-md border px-2 py-5 flex flex-wrap">
+      {Object.keys(customer)
+        .filter((el) => !infoElementsExcluded.includes(el))
+        .map((property: string) => {
+          return (
+            <div className="flex-2 flex justify-between w-1/2 p-1">
+              <label className="text-primary-light text-sm">{property}</label>
+
+              <label
+                className="text-grey-300 pl-1 text-sm"
+                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+              >
+                {/* 
   // @ts-ignore */}
-            <label className="text-grey-300">{customer[property]}</label>
-          </div>
-        );
-      })}
+                {customer[property]}
+              </label>
+            </div>
+          );
+        })}
     </div>
   );
 };
