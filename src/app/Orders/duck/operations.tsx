@@ -1,10 +1,12 @@
+import { Dispatch } from 'react';
+import { AxiosResponse } from 'axios';
+
 import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
-
-import { Dispatch } from 'react';
 import { SetOrdersAction, SetElementToCreateOrEditAction } from './types';
-import { AxiosResponse } from 'axios';
+import { operations as customersOperations } from '../../Customers/duck';
+
 import { IOrder } from './types/Order';
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
@@ -26,4 +28,6 @@ const fetchOrder = (type: string, orderId: Number) => (
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
 
-export default { fetchOrders, fetchOrder, removeElementToCreateOrEdit };
+const fetchCustomers = customersOperations.fetchCustomers;
+
+export default { fetchOrders, fetchOrder, removeElementToCreateOrEdit, fetchCustomers };

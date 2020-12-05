@@ -8,9 +8,10 @@ interface SelectComponentProps {
   options: any[];
   label?: getOptionLabel;
   value?: getOptionValue;
+  onChange: Function;
 }
 
-const SelectComponent = ({ label, options, labelText, value }: SelectComponentProps) => {
+const SelectComponent = ({ label, options, labelText, value, onChange }: SelectComponentProps) => {
   const { t } = useTranslation();
   return (
     <div>
@@ -19,6 +20,7 @@ const SelectComponent = ({ label, options, labelText, value }: SelectComponentPr
         options={options}
         getOptionLabel={label ? label : (option): any => option.name}
         getOptionValue={value ? value : (option): any => option.id}
+        onChange={(option: any) => onChange(option)}
       />
     </div>
   );

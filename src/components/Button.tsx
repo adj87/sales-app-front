@@ -26,7 +26,7 @@ const Button = ({ text, onClick, color, className, style, size, outline }: Butto
 
 const getCssColor = (color: String | undefined, outline: boolean | undefined) => {
   return outline
-    ? `bg-white border-${color}-dark  text-${color}-dark`
+    ? `bg-white border-${color}-dark  text-${color}-dark border`
     : `bg-${color}-dark hover:bg-${color}-main text-white font-bold`;
 };
 

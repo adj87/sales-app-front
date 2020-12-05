@@ -10,7 +10,14 @@ import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
 import { columns } from './constants';
 
-const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
+const OrdersComponent = ({
+  orders,
+  fetchOrders,
+  fetchOrder,
+  history,
+  fetchCustomers,
+  customers,
+}: any) => {
   const { pathname } = history.location;
   let [openModal, setOpenModal] = useState<boolean>(false);
   let { id } = useParams<{ id: string }>();
@@ -43,13 +50,21 @@ const OrdersComponent = ({ orders, fetchOrders, fetchOrder, history }: any) => {
           history.push(`/orders/${order.id}/type/${order.type}`);
         }}
       />
-      {openModal && <OrderModal onCancel={() => history.push(`/orders`)} fetchOrder={fetchOrder} />}
+      {openModal && (
+        <OrderModal
+          onCancel={() => history.push(`/orders`)}
+          fetchOrder={fetchOrder}
+          fetchCustomers={fetchCustomers}
+          customers={customers}
+        />
+      )}
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
   orders: state.orders.data,
+  customers: state.customers.data,
 });
 
 const mapDispatch = {
