@@ -7,6 +7,7 @@ import SelectComponent from '../../components/Select';
 import { ICustomer } from '../Customers/duck/types/Customer';
 import Input from '../../components/Input';
 import InputCheckBox from '../../components/InputCheckbox';
+import Label from '../../components/Label';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -57,6 +58,9 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
         <div className="col-span-2 flex items-center justify-center">
           <InputCheckBox checked={false} label={'orders.form.label-together'} />
         </div>
+      </div>
+      <div className="w-full pt-2">
+        <Label>orders.form.label-orders-lines</Label>
       </div>
     </Modal>
   );

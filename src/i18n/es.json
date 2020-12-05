@@ -6,6 +6,7 @@
       "title": "Añadir pedido",
       "label-customer": "Cliente",
       "label-fare": "Tarifa",
+      "label-orders-lines": "Lineas de pedido",
       "label-address-delivery": "Lugar de envío",
       "label-together": "Mostrar conjuntamente con otros pedidos"
     }
