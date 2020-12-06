@@ -12,12 +12,12 @@ interface ModalProps {
 }
 
 export default function Modal({ size, open, onCancel, onConfirm, children, title }: ModalProps) {
-  const modalSize = size === 'lg' ? 'lg:w-2/3 w-full' : 'md:w-1/3 w-full';
+  const modalSize = size === 'lg' ? 'lg:w-2/3 w-full' : ' lg:w-1/3 md:w-4/6 w-full';
   const { t } = useTranslation();
   return open ? (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className={`relative w-auto my-6 mx-auto ${modalSize} px-2`}>
+        <div className={`relative w-auto my-6 mx-auto ${modalSize} px-3`}>
           {/*content*/}
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
