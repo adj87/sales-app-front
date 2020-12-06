@@ -9,6 +9,7 @@ import { operations } from './duck';
 import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
 import { columns } from './constants';
+import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
 
 const OrdersComponent = ({
   orders,
@@ -18,23 +19,11 @@ const OrdersComponent = ({
   fetchCustomers,
   customers,
 }: any) => {
-  const { pathname } = history.location;
-  let [openModal, setOpenModal] = useState<boolean>(false);
-  let { id } = useParams<{ id: string }>();
-
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  useEffect(() => {
-    const isThisRouteForCreatingOrEdit = id || pathname.includes('new');
-    if (isThisRouteForCreatingOrEdit) {
-      setOpenModal(true);
-    }
-    if (openModal) {
-      setOpenModal(false);
-    }
-  }, [pathname]);
+  const openModal = useOpenModalByRoutes();
 
   return (
     <MainLayout>
