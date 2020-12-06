@@ -4,7 +4,7 @@ interface ButtonProps {
   text: String;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   color: String;
-  size?: String;
+  size?: 'sm' | 'block' | 'md' | undefined;
   outline?: boolean;
   className?: String;
   style?: CSSProperties;
