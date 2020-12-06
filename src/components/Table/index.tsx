@@ -177,6 +177,7 @@ const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination
         text={t('commons.add')}
         color="secondary"
         className={'absolute right-0 mt-1'}
+        size="sm"
       />
     )}
   </div>

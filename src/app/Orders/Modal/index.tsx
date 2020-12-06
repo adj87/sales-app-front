@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Modal from '../../components/Modal';
 import { useParams } from 'react-router-dom';
-import Select from 'react-select';
-import Axios from 'axios';
-import SelectComponent from '../../components/Select';
-import { ICustomer } from '../Customers/duck/types/Customer';
-import Input from '../../components/Input';
-import InputCheckBox from '../../components/InputCheckbox';
-import Label from '../../components/Label';
+
+import Modal from '../../../components/Modal';
+import SelectComponent from '../../../components/Select';
+import { ICustomer } from '../../Customers/duck/types/Customer';
+import Input from '../../../components/Input';
+import InputCheckBox from '../../../components/InputCheckbox';
+import OrderLinesTable from './OrderLinesTable';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -60,7 +59,7 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
         </div>
       </div>
       <div className="w-full pt-2">
-        <Label>orders.form.label-orders-lines</Label>
+        <OrderLinesTable />
       </div>
     </Modal>
   );
