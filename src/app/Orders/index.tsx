@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, useParams } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
