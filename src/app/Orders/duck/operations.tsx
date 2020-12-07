@@ -6,6 +6,7 @@ import api_node from './api_node';
 import actions from './actions';
 import { SetOrdersAction, SetElementToCreateOrEditAction } from './types';
 import { operations as customersOperations } from '../../Customers/duck';
+import { operations as productsOperations } from '../../Products/duck';
 
 import { IOrder } from './types/Order';
 
@@ -29,5 +30,12 @@ const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEdit
   dispatch(actions.setOrderToCreateOrEdit(null));
 
 const fetchCustomers = customersOperations.fetchCustomers;
+const fetchProducts = productsOperations.fetchProducts;
 
-export default { fetchOrders, fetchOrder, removeElementToCreateOrEdit, fetchCustomers };
+export default {
+  fetchOrders,
+  fetchOrder,
+  removeElementToCreateOrEdit,
+  fetchCustomers,
+  fetchProducts,
+};

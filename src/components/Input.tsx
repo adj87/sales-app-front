@@ -7,9 +7,10 @@ interface InputProps {
   onChange: Function;
   onClick?: React.MouseEventHandler<HTMLInputElement>;
   value: string | number | string[] | undefined;
+  type?: 'text' | 'number' | 'password';
 }
 
-const Input = ({ label, name, value, onChange, onClick }: InputProps) => {
+const Input = ({ label, name, value, onChange, onClick, type }: InputProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
   return (
@@ -19,7 +20,7 @@ const Input = ({ label, name, value, onChange, onClick }: InputProps) => {
       </label>
       <input
         className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
-        type="text"
+        type={type ? type : 'text'}
         placeholder="Username"
         value={value}
         id={htmlFor}

@@ -2,12 +2,12 @@ import React, { ReactNode } from 'react';
 import Button from './Button';
 import { useTranslation } from 'react-i18next';
 
-interface ModalProps {
+export interface ModalProps {
   size?: 'md' | 'lg';
   open: boolean;
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  children: ReactNode;
+  children?: ReactNode;
   title: string;
 }
 

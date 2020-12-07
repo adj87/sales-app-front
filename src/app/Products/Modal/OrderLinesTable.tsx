@@ -27,7 +27,7 @@ const OrderLinesTable = () => {
         title={t('orders.form.products-form.title')}
         size="md"
       >
-        <InputWithCarrousel label="orders.form.products-form.label-product" />
+        {/*  <InputWithCarrousel label="orders.form.products-form.label-product" /> */}
         <div className="grid grid-cols-3 gap-4 mt-2">
           <Input
             value="asd"
