@@ -4,30 +4,30 @@ import { AxiosResponse } from 'axios';
 import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
-import { SetOrdersAction, SetElementToCreateOrEditAction } from './types';
+import { SetProductsAction, SetElementToCreateOrEditAction } from './types';
 import { operations as customersOperations } from '../../Customers/duck';
 
-import { IOrder } from './types/Product';
+import { IProduct } from './types/Product';
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const fetchOrders = () => (dispatch: Dispatch<SetOrdersAction>) => {
-  api.fetchOrders().then((response: AxiosResponse<IOrder[]>) => {
-    return dispatch(actions.setOrders(response.data));
+const fetchProducts = () => (dispatch: Dispatch<SetProductsAction>) => {
+  api.fetchProducts().then((response: AxiosResponse<IProduct[]>) => {
+    return dispatch(actions.setProducts(response.data));
   });
 };
 
 const fetchOrder = (type: string, orderId: Number) => (
   dispatch: Dispatch<SetElementToCreateOrEditAction>,
 ) => {
-  api.fetchOrders(type, orderId).then((response: AxiosResponse<IOrder>) => {
-    return dispatch(actions.setOrderToCreateOrEdit(response.data));
+  api.fetchProducts(orderId).then((response: AxiosResponse<IProduct>) => {
+    return dispatch(actions.setProductToCreateOrEdit(response.data));
   });
 };
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setOrderToCreateOrEdit(null));
+  dispatch(actions.setProductToCreateOrEdit(null));
 
 const fetchCustomers = customersOperations.fetchCustomers;
 
-export default { fetchOrders, fetchOrder, removeElementToCreateOrEdit, fetchCustomers };
+export default { fetchProducts, fetchOrder, removeElementToCreateOrEdit, fetchCustomers };

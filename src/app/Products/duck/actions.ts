@@ -1,22 +1,22 @@
 import {
-  SET_ORDERS,
+  SET_PRODUCTS,
   SetElementToCreateOrEditAction,
-  SET_ORDER_TO_CREATE_OR_EDIT,
-  SetOrdersAction,
+  SET_PRODUCT_TO_CREATE_OR_EDIT,
+  SetProductsAction,
 } from './types';
-import { IOrder } from './types/Product';
+import { IProduct } from './types/Product';
 
-const setOrders = (orders: IOrder[]): SetOrdersAction => ({
-  type: SET_ORDERS,
-  payload: orders,
+const setProducts = (products: IProduct[]): SetProductsAction => ({
+  type: SET_PRODUCTS,
+  payload: products,
 });
 
-const setOrderToCreateOrEdit = (order: IOrder | null): SetElementToCreateOrEditAction => ({
-  type: SET_ORDER_TO_CREATE_OR_EDIT,
-  payload: order,
+const setProductToCreateOrEdit = (product: IProduct | null): SetElementToCreateOrEditAction => ({
+  type: SET_PRODUCT_TO_CREATE_OR_EDIT,
+  payload: product,
 });
 
 export default {
-  setOrders,
-  setOrderToCreateOrEdit,
+  setProducts,
+  setProductToCreateOrEdit,
 };

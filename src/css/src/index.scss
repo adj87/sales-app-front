@@ -16,3 +16,11 @@
 .react-select__option--is-selected {
   @apply bg-primary-dark !important;
 }
+
+.bg-blur-md {
+  backdrop-filter: blur(5px);
+}
+
+.bg-blur-lg {
+  backdrop-filter: blur(10px);
+}

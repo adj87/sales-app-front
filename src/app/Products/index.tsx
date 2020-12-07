@@ -6,7 +6,7 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import { IOrder } from './duck/types/Product';
+import { IProduct } from './duck/types/Product';
 import OrderModal from './Modal';
 import { columns } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
@@ -35,13 +35,13 @@ const OrdersComponent = ({
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
-          const order: IOrder = datatableRowInfo.original;
-          history.push(`/orders/${order.id}/type/${order.type}`);
+          const product: IProduct = datatableRowInfo.original;
+          history.push(`/products/${product.id}`);
         }}
       />
       {openModal && (
         <OrderModal
-          onCancel={() => history.push(`/orders`)}
+          onCancel={() => history.push(`/products`)}
           fetchOrder={fetchOrder}
           fetchCustomers={fetchCustomers}
           customers={customers}
@@ -52,8 +52,7 @@ const OrdersComponent = ({
 };
 
 const mapState = (state: AppStoreInterface) => ({
-  orders: state.orders.data,
-  customers: state.customers.data,
+  products: state.products.data,
 });
 
 const mapDispatch = {
