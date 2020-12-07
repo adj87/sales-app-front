@@ -28,20 +28,26 @@ const ProductModal = ({
       <InputWithCarrousel label="orders.form.products-form.label-product" data={products} />
       <div className="grid grid-cols-3 gap-4 mt-2">
         <Input
-          value="asd"
+          value=""
           label="orders.form.products-form.label-quantity"
           name="quantity"
           type="number"
           onChange={() => console.log('hola')}
         />
         <Input
-          value="asd"
+          value=""
           label="orders.form.products-form.label-promotion"
           name="promotion"
           type="number"
           onChange={() => console.log('hola')}
         />
-        <Input value="asd" label="Precio" name="price" onChange={() => console.log('hola')} />
+        <Input
+          value=""
+          type="number"
+          label="Precio"
+          name="price"
+          onChange={() => console.log('hola')}
+        />
       </div>
     </Modal>
   );
