@@ -21,7 +21,6 @@ const Input = ({ label, name, value, onChange, onClick, type }: InputProps) => {
       <input
         className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
         type={type ? type : 'text'}
-        placeholder="Username"
         value={value}
         id={htmlFor}
         onClick={onClick}
