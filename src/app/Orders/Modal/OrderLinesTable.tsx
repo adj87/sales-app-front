@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../../../components/Table';
 import { columns } from '../constants';
 import Label from '../../../components/Label';
 import Modal from '../../../components/Modal';
+import InputWithCarrousel from '../../../components/InputWithCarrousel';
 
 const OrderLinesTable = () => {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <>
       <Label>orders.form.label-orders-lines</Label>
@@ -12,16 +14,17 @@ const OrderLinesTable = () => {
         data={[]}
         columns={columns}
         tableName="orderLines"
-        onAddButton={(event: React.MouseEvent<HTMLButtonElement>) => console.log(event)}
+        onRowClick={() => setOpenModal(true)}
+        onAddButton={() => setOpenModal(true)}
       />
       <Modal
-        onCancel={() => console.log('hola')}
+        onCancel={() => setOpenModal(false)}
         onConfirm={() => console.log('hola')}
-        open={false}
+        open={openModal}
         title="Hola"
         size="md"
       >
-        {<div>Hola</div>}
+        <InputWithCarrousel />
       </Modal>
     </>
   );

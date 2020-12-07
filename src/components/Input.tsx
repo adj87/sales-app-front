@@ -5,10 +5,11 @@ interface InputProps {
   label: string;
   name: string;
   onChange: Function;
+  onClick?: React.MouseEventHandler<HTMLInputElement>;
   value: string | number | string[] | undefined;
 }
 
-const Input = ({ label, name, value, onChange }: InputProps) => {
+const Input = ({ label, name, value, onChange, onClick }: InputProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
   return (
@@ -22,6 +23,7 @@ const Input = ({ label, name, value, onChange }: InputProps) => {
         placeholder="Username"
         value={value}
         id={htmlFor}
+        onClick={onClick}
         onChange={(e) => onChange(e.target.value, e)}
       />
     </div>

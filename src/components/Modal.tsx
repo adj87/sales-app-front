@@ -19,7 +19,7 @@ export default function Modal({ size, open, onCancel, onConfirm, children, title
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
         <div className={`relative w-auto my-6 mx-auto ${modalSize} px-3`}>
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="p-5  rounded-t">
               <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">
