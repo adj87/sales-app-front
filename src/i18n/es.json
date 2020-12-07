@@ -1,5 +1,5 @@
 {
-  "commons": { "add": "Añadir" },
+  "commons": { "add": "Añadir", "cancel": "Cancelar", "close": "Cerrar" },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
   "orders": {
     "form": {
@@ -8,7 +8,8 @@
       "label-fare": "Tarifa",
       "label-orders-lines": "Lineas de pedido",
       "label-address-delivery": "Lugar de envío",
-      "label-together": "Mostrar conjuntamente con otros pedidos"
+      "label-together": "Mostrar conjuntamente con otros pedidos",
+      "products-form": { "title": "Añadir producto", "label-product": "Producto" }
     }
   }
 }

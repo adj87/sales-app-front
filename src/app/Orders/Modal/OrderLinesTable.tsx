@@ -4,8 +4,10 @@ import { columns } from '../constants';
 import Label from '../../../components/Label';
 import Modal from '../../../components/Modal';
 import InputWithCarrousel from '../../../components/InputWithCarrousel';
+import { useTranslation } from 'react-i18next';
 
 const OrderLinesTable = () => {
+  const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
@@ -21,7 +23,7 @@ const OrderLinesTable = () => {
         onCancel={() => setOpenModal(false)}
         onConfirm={() => console.log('hola')}
         open={openModal}
-        title="Hola"
+        title={t('orders.form.products-form.title')}
         size="md"
       >
         <InputWithCarrousel />
