@@ -5,6 +5,7 @@ import Label from '../../../components/Label';
 import Modal from '../../../components/Modal';
 import InputWithCarrousel from '../../../components/InputWithCarrousel';
 import { useTranslation } from 'react-i18next';
+import Input from '../../../components/Input';
 
 const OrderLinesTable = () => {
   const { t } = useTranslation();
@@ -26,7 +27,22 @@ const OrderLinesTable = () => {
         title={t('orders.form.products-form.title')}
         size="md"
       >
-        <InputWithCarrousel />
+        <InputWithCarrousel label="orders.form.products-form.label-product" />
+        <div className="grid grid-cols-3 gap-4 mt-2">
+          <Input
+            value="asd"
+            label="orders.form.products-form.label-quantity"
+            name="quantity"
+            onChange={() => console.log('hola')}
+          />
+          <Input
+            value="asd"
+            label="orders.form.products-form.label-promotion"
+            name="promotion"
+            onChange={() => console.log('hola')}
+          />
+          <Input value="asd" label="Precio" name="price" onChange={() => console.log('hola')} />
+        </div>
       </Modal>
     </>
   );

@@ -9,7 +9,12 @@
       "label-orders-lines": "Lineas de pedido",
       "label-address-delivery": "Lugar de envío",
       "label-together": "Mostrar conjuntamente con otros pedidos",
-      "products-form": { "title": "Añadir producto", "label-product": "Producto" }
+      "products-form": {
+        "title": "Añadir producto",
+        "label-product": "Producto",
+        "label-quantity": "Cantidad",
+        "label-promotion": "Promoción"
+      }
     }
   }
 }
