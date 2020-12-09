@@ -22,9 +22,10 @@ const Input = ({ label, name, value, onChange, onClick, type }: InputProps) => {
         className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
         type={type ? type : 'text'}
         value={value}
+        name={name}
         id={htmlFor}
         onClick={onClick}
-        onChange={(e) => onChange(e.target.value, e)}
+        onChange={(e) => onChange(e.target.name, e.target.value, e)}
       />
     </div>
   );
