@@ -18,7 +18,6 @@ export const columns = [
   },
 ];
 
-
 export const defaultValues = {
   id: null,
   address: null,
@@ -37,4 +36,19 @@ export const defaultValues = {
   customer_route_id: null,
   type: 'A',
   show_together_with_others: true,
+};
+
+export const defaultOrderLineValues = {
+  order_id: null,
+  order_type: 'A',
+  line_number: null,
+  product_id: null,
+  product_name: null,
+  units_per_box: 0,
+  price: null,
+  cost: null,
+  quantity: null,
+  taxes_rate: 21,
+  surcharge_amount: 0,
+  green_point_amount: 0.01,
 };

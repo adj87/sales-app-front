@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Table from '../../../../components/Table';
-import { columns } from '../../constants';
+import { columns, defaultOrderLineValues } from '../../constants';
 import Label from '../../../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { operations } from '../../duck';
 import { AppStoreInterface } from '../../../../store/AppStoreInterface';
-import ProductModal from './ProductModal';
+import OrderLineModal from './OrderLineModal';
 import { IProduct } from '../../../Products/duck/types/Product';
+import { IOrderLine } from '../../duck/types/Order';
 
 interface OrderLinesTableProps {
   products: IProduct[];
@@ -16,26 +17,31 @@ interface OrderLinesTableProps {
 
 const OrderLinesTable = ({ products, fetchProducts }: OrderLinesTableProps) => {
   const { t } = useTranslation();
-  const [openModal, setOpenModal] = useState(false);
+  const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
+  console.log('el orderlibe', orderLineToEdit);
   return (
     <div className="mt-3">
-      <Label style={{position:"absolute"}}>orders.form.label-orders-lines</Label>
+      <Label style={{ position: 'absolute' }}>orders.form.label-orders-lines</Label>
       <Table
         data={[]}
         columns={columns}
         tableName="orderLines"
-        onRowClick={() => setOpenModal(true)}
-        onAddButton={() => setOpenModal(true)}
+        onRowClick={(orderLine: IOrderLine) => setOrderLineToEdit(orderLine)}
+        onAddButton={() => setOrderLineToEdit(defaultOrderLineValues)}
       />
-      <ProductModal
-        open={openModal}
-        title="orders.form.products-form.title"
-        onCancel={() => setOpenModal(false)}
-        onConfirm={() => setOpenModal(false)}
-        size="md"
-        products={products}
-        fetchProducts={fetchProducts}
-      />
+
+      {Boolean(orderLineToEdit) && (
+        <OrderLineModal
+          open={true}
+          title="orders.form.products-form.title"
+          onCancel={() => setOrderLineToEdit(null)}
+          onConfirm={() => setOrderLineToEdit(null)}
+          size="md"
+          products={products}
+          fetchProducts={fetchProducts}
+          orderLine={orderLineToEdit}
+        />
+      )}
     </div>
   );
 };

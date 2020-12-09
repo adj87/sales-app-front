@@ -8,9 +8,10 @@ interface InputProps {
   onClick?: React.MouseEventHandler<HTMLInputElement>;
   value: string | number | string[] | Object | undefined;
   type?: 'text' | 'number' | 'password';
+  step?: string;
 }
 
-const Input = ({ label, name, value, onChange, onClick, type }: InputProps) => {
+const Input = ({ label, name, value, onChange, onClick, type, step }: InputProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
   // @ts-ignore
@@ -27,7 +28,12 @@ const Input = ({ label, name, value, onChange, onClick, type }: InputProps) => {
         name={name}
         id={htmlFor}
         onClick={onClick}
-        onChange={(e) => onChange(e.target.name, e.target.value, e)}
+        onChange={(e) => {
+          let finalValue = type === 'number' ? parseInt(e.target.value) : e.target.value;
+          if (step) finalValue = parseFloat(e.target.value);
+          onChange(e.target.name, finalValue);
+        }}
+        step={step ?? 1}
       />
     </div>
   );

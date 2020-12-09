@@ -17,3 +17,18 @@ export interface IOrder {
   type: string | null;
   show_together_with_others: boolean;
 }
+
+export interface IOrderLine {
+  order_id: number | null;
+  order_type: string | null;
+  line_number: number | null;
+  product_id: number | null;
+  product_name: string | null;
+  units_per_box: number | null;
+  price: number | null;
+  cost: number | null;
+  quantity: number | null;
+  taxes_rate: number | null;
+  surcharge_amount: number | null;
+  green_point_amount: number | null;
+}

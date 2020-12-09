@@ -4,53 +4,65 @@ import { ModalProps } from '../../../../components/Modal';
 import InputWithCarrousel from '../../../../components/InputWithCarrousel';
 import Input from '../../../../components/Input';
 import { IProduct } from '../../../Products/duck/types/Product';
+import { IOrderLine } from '../../duck/types/Order';
+import { useFormik } from 'formik';
 
-interface ProductModalProps extends ModalProps {
+interface OrderLineModalProps extends ModalProps {
   children?: undefined;
   products: IProduct[];
   fetchProducts: Function;
+  orderLine: IOrderLine | null;
 }
 
-const ProductModal = ({
+const OrderLineModal = ({
   onCancel,
   onConfirm,
   open,
   title,
   products,
   fetchProducts,
-}: ProductModalProps) => {
+  orderLine,
+}: OrderLineModalProps) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+  const { values, setFieldValue } = useFormik<IOrderLine | any>({
+    initialValues: orderLine,
+    onSubmit: (values: IOrderLine) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
+  console.log('the new values', values);
   return (
     <Modal onCancel={onCancel} onConfirm={onConfirm} open={open} title={title} size="md">
       <InputWithCarrousel label="orders.form.products-form.label-product" data={products} />
       <div className="grid grid-cols-3 gap-4 mt-2">
         <Input
-          value=""
+          value={values}
           label="orders.form.products-form.label-quantity"
           name="quantity"
           type="number"
-          onChange={() => console.log('hola')}
+          onChange={setFieldValue}
         />
         <Input
-          value=""
-          label="orders.form.products-form.label-promotion"
-          name="promotion"
-          type="number"
-          onChange={() => console.log('hola')}
-        />
-        <Input
-          value=""
+          value={values}
           type="number"
           label="Precio"
           name="price"
-          onChange={() => console.log('hola')}
+          onChange={setFieldValue}
+          step="0.01"
+        />
+        <Input
+          value={values}
+          label="orders.form.products-form.label-promotion"
+          name="promotion"
+          type="number"
+          onChange={setFieldValue}
         />
       </div>
     </Modal>
   );
 };
 
-export default ProductModal;
+export default OrderLineModal;

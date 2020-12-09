@@ -46,14 +46,14 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
             options={customers}
             labelText="orders.form.label-customer"
             onChange={(customer: ICustomer) => {
-              const {address,fiscal_id,zip_code,id,name} = customer
-              setCustomer(customer)
-              setFieldValue("address",address)
-              setFieldValue("shipping_place",address)
-              setFieldValue("customer_id",id)
-              setFieldValue("customer_name",name)
-              setFieldValue("fiscal_id",fiscal_id)
-              setFieldValue("zip_code",zip_code)
+              const { address, fiscal_id, zip_code, id, name } = customer;
+              setCustomer(customer);
+              setFieldValue('address', address);
+              setFieldValue('shipping_place', address);
+              setFieldValue('customer_id', id);
+              setFieldValue('customer_name', name);
+              setFieldValue('fiscal_id', fiscal_id);
+              setFieldValue('zip_code', zip_code);
             }}
           />
         </div>
