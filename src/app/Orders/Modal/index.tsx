@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal';
 import SelectComponent from '../../../components/Select';
@@ -7,6 +8,8 @@ import { ICustomer } from '../../Customers/duck/types/Customer';
 import Input from '../../../components/Input';
 import InputCheckBox from '../../../components/InputCheckbox';
 import OrderLinesTable from './OrderLinesTable';
+import { defaultValues } from '../defaultValues';
+import { IOrder } from '../duck/types/Order';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -18,6 +21,12 @@ interface OrdersModalProps {
 const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: OrdersModalProps) => {
   const { id, type } = useParams<{ id: string; type: string }>();
   const [customerSelected, setCustomer] = useState<any>(null);
+  const formik = useFormik<IOrder>({
+    initialValues: defaultValues,
+    onSubmit: (values: IOrder) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
   useEffect(() => {
     fetchOrder(type, id);
     fetchCustomers();
