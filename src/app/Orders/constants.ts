@@ -17,3 +17,24 @@ export const columns = [
     ],
   },
 ];
+
+
+export const defaultValues = {
+  id: null,
+  address: null,
+  fiscal_id: null,
+  zip_code: null,
+  date: null,
+  shipping_place: null,
+  delivery_date: null,
+  total_net: 0,
+  total_taxes: 0,
+  total: 0,
+  surcharge: null,
+  customer_id: null,
+  customer_name: null,
+  green_point: null,
+  customer_route_id: null,
+  type: 'A',
+  show_together_with_others: true,
+};
