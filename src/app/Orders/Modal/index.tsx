@@ -68,14 +68,19 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
           onChange={setFieldValue}
           value={values}
         />
-        <div className="col-span-2 flex items-center justify-center">
-          <InputCheckBox
-            checked={values.show_together_with_others}
-            label={'orders.form.label-together'}
-            name="show_together_with_others"
-            onChange={setFieldValue}
-          />
-        </div>
+        <Input
+          label="orders.form.label-delivery-date"
+          name="delivery_date"
+          onChange={setFieldValue}
+          value={values}
+          type="date"
+        />
+        <InputCheckBox
+          checked={values.show_together_with_others}
+          label={'orders.form.label-together'}
+          name="show_together_with_others"
+          onChange={setFieldValue}
+        />
       </div>
       <div className="w-full pt-2">
         <OrderLinesTable
@@ -94,7 +99,10 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
 
               //CREATING
             } else {
-              newOrderLinesValues.push(orderLine);
+              newOrderLinesValues.push({
+                ...orderLine,
+                line_number: newOrderLinesValues.length + 1,
+              });
             }
             setFieldValue('order_lines', newOrderLinesValues);
           }}

@@ -7,7 +7,7 @@ interface InputProps {
   onChange: Function;
   onClick?: React.MouseEventHandler<HTMLInputElement>;
   value: string | number | string[] | Object | undefined;
-  type?: 'text' | 'number' | 'password';
+  type?: 'text' | 'number' | 'password' | 'date';
   step?: string;
 }
 

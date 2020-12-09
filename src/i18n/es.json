@@ -8,6 +8,7 @@
       "label-fare": "Tarifa",
       "label-orders-lines": "Lineas de pedido",
       "label-shipping-place": "Lugar de envío",
+      "label-delivery-date": "Fecha de servicio",
       "label-together": "Mostrar conjuntamente con otros pedidos",
       "products-form": {
         "title": "Añadir producto",
