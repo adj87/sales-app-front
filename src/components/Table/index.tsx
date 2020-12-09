@@ -231,7 +231,7 @@ const Search = ({ globalFilter, setGlobalFilter, preGlobalFilteredRows }) => {
       <Input
         value={value}
         label="Buscar"
-        onChange={(value) => {
+        onChange={(name, value) => {
           setValue(value);
           onChange(value);
         }}

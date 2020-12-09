@@ -3,6 +3,7 @@ export interface IOrder {
   address: string | null;
   fiscal_id: string | null;
   zip_code: string | null;
+  shipping_place: string | null;
   date: string | null;
   delivery_date: string | null;
   total_net: number | null;
@@ -14,4 +15,5 @@ export interface IOrder {
   green_point: number | null;
   customer_route_id: number | null;
   type: string | null;
+  show_together_with_others: boolean;
 }

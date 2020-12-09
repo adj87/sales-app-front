@@ -21,7 +21,7 @@ interface OrdersModalProps {
 const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: OrdersModalProps) => {
   const { id, type } = useParams<{ id: string; type: string }>();
   const [customerSelected, setCustomer] = useState<any>(null);
-  const formik = useFormik<IOrder>({
+  const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: defaultValues,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
@@ -31,6 +31,7 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
     fetchOrder(type, id);
     fetchCustomers();
   }, []);
+  console.log('the values', values);
   return (
     <Modal
       open={true}
@@ -51,20 +52,23 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
         {customerSelected && <CustomerInfo customer={customerSelected} />}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Input label="orders.form.label-fare" name="fare" onChange={setFieldValue} value={values} />
         <Input
-          label="orders.form.label-fare"
-          name="fare"
-          onChange={(value: string) => console.log(value)}
-          value="asdasd"
-        />
-        <Input
-          label="orders.form.label-address-delivery"
-          name="fare"
-          onChange={(value: string) => console.log(value)}
-          value="asdasd"
+          label="orders.form.label-shipping-place"
+          name="shipping_place"
+          onChange={setFieldValue}
+          value={values}
         />
         <div className="col-span-2 flex items-center justify-center">
-          <InputCheckBox checked={false} label={'orders.form.label-together'} />
+          <InputCheckBox
+            checked={values.show_together_with_others}
+            label={'orders.form.label-together'}
+            name="show_together_with_others"
+            onChange={(a: any, b: any) => {
+              console.log('hola', a, b);
+              setFieldValue(a, b);
+            }}
+          />
         </div>
       </div>
       <div className="w-full pt-2">
