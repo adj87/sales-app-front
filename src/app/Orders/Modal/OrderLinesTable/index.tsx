@@ -13,12 +13,16 @@ import { IOrderLine } from '../../duck/types/Order';
 interface OrderLinesTableProps {
   products: IProduct[];
   fetchProducts: Function;
+  onConfirmOrderLineModal: Function;
 }
 
-const OrderLinesTable = ({ products, fetchProducts }: OrderLinesTableProps) => {
+const OrderLinesTable = ({
+  products,
+  fetchProducts,
+  onConfirmOrderLineModal,
+}: OrderLinesTableProps) => {
   const { t } = useTranslation();
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
-  console.log('el orderlibe', orderLineToEdit);
   return (
     <div className="mt-3">
       <Label style={{ position: 'absolute' }}>orders.form.label-orders-lines</Label>
@@ -35,7 +39,10 @@ const OrderLinesTable = ({ products, fetchProducts }: OrderLinesTableProps) => {
           open={true}
           title="orders.form.products-form.title"
           onCancel={() => setOrderLineToEdit(null)}
-          onConfirm={() => setOrderLineToEdit(null)}
+          onConfirm={(values: IOrderLine) => {
+            setOrderLineToEdit(null);
+            onConfirmOrderLineModal(values);
+          }}
           size="md"
           products={products}
           fetchProducts={fetchProducts}

@@ -12,6 +12,7 @@ interface OrderLineModalProps extends ModalProps {
   products: IProduct[];
   fetchProducts: Function;
   orderLine: IOrderLine | null;
+  onConfirm: any;
 }
 
 const OrderLineModal = ({
@@ -26,16 +27,14 @@ const OrderLineModal = ({
   useEffect(() => {
     fetchProducts();
   }, []);
-  const { values, setFieldValue } = useFormik<IOrderLine | any>({
+  const { values, setFieldValue, submitForm } = useFormik<IOrderLine | any>({
     initialValues: orderLine,
-    onSubmit: (values: IOrderLine) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+    onSubmit: onConfirm,
   });
 
   console.log('the new values', values);
   return (
-    <Modal onCancel={onCancel} onConfirm={onConfirm} open={open} title={title} size="md">
+    <Modal onCancel={onCancel} onConfirm={submitForm} open={open} title={title} size="md">
       <InputWithCarrousel label="orders.form.products-form.label-product" data={products} />
       <div className="grid grid-cols-3 gap-4 mt-2">
         <Input

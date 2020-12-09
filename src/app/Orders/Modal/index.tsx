@@ -9,7 +9,7 @@ import Input from '../../../components/Input';
 import InputCheckBox from '../../../components/InputCheckbox';
 import OrderLinesTable from './OrderLinesTable';
 import { defaultValues } from '../constants';
-import { IOrder } from '../duck/types/Order';
+import { IOrder, IOrderLine } from '../duck/types/Order';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -78,7 +78,27 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
         </div>
       </div>
       <div className="w-full pt-2">
-        <OrderLinesTable />
+        <OrderLinesTable
+          onConfirmOrderLineModal={(orderLine: IOrderLine) => {
+            const { order_lines } = values;
+            const orderLineToEdit = order_lines.find(
+              (el: IOrderLine) => el.line_number === orderLine.line_number,
+            );
+            let newOrderLinesValues = [...order_lines];
+            //EDITING
+            if (orderLineToEdit) {
+              newOrderLinesValues = order_lines.map((el: IOrderLine) => {
+                if (el.line_number === orderLine.line_number) return orderLine;
+                return el;
+              });
+
+              //CREATING
+            } else {
+              newOrderLinesValues.push(orderLine);
+            }
+            setFieldValue('order_lines', newOrderLinesValues);
+          }}
+        />
       </div>
     </Modal>
   );

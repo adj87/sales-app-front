@@ -36,6 +36,7 @@ export const defaultValues = {
   customer_route_id: null,
   type: 'A',
   show_together_with_others: true,
+  order_lines: [],
 };
 
 export const defaultOrderLineValues = {

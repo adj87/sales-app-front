@@ -16,6 +16,7 @@ export interface IOrder {
   customer_route_id: number | null;
   type: string | null;
   show_together_with_others: boolean;
+  order_lines: IOrderLine[];
 }
 
 export interface IOrderLine {
