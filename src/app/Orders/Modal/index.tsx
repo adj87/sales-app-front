@@ -8,7 +8,7 @@ import { ICustomer } from '../../Customers/duck/types/Customer';
 import Input from '../../../components/Input';
 import InputCheckBox from '../../../components/InputCheckbox';
 import OrderLinesTable from './OrderLinesTable';
-import { defaultValues } from '../defaultValues';
+import { defaultValues } from '../constants';
 import { IOrder } from '../duck/types/Order';
 
 interface OrdersModalProps {
@@ -45,7 +45,16 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
           <SelectComponent
             options={customers}
             labelText="orders.form.label-customer"
-            onChange={(customer: ICustomer) => setCustomer(customer)}
+            onChange={(customer: ICustomer) => {
+              const {address,fiscal_id,zip_code,id,name} = customer
+              setCustomer(customer)
+              setFieldValue("address",address)
+              setFieldValue("shipping_place",address)
+              setFieldValue("customer_id",id)
+              setFieldValue("customer_name",name)
+              setFieldValue("fiscal_id",fiscal_id)
+              setFieldValue("zip_code",zip_code)
+            }}
           />
         </div>
 
@@ -64,10 +73,7 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
             checked={values.show_together_with_others}
             label={'orders.form.label-together'}
             name="show_together_with_others"
-            onChange={(a: any, b: any) => {
-              console.log('hola', a, b);
-              setFieldValue(a, b);
-            }}
+            onChange={setFieldValue}
           />
         </div>
       </div>
