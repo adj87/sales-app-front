@@ -18,8 +18,8 @@ const OrderLinesTable = ({ products, fetchProducts }: OrderLinesTableProps) => {
   const { t } = useTranslation();
   const [openModal, setOpenModal] = useState(false);
   return (
-    <>
-      <Label>orders.form.label-orders-lines</Label>
+    <div className="mt-3">
+      <Label style={{position:"absolute"}}>orders.form.label-orders-lines</Label>
       <Table
         data={[]}
         columns={columns}
@@ -36,7 +36,7 @@ const OrderLinesTable = ({ products, fetchProducts }: OrderLinesTableProps) => {
         products={products}
         fetchProducts={fetchProducts}
       />
-    </>
+    </div>
   );
 };
 
