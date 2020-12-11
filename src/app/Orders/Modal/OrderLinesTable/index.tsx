@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Table from '../../../../components/Table';
-import { columns, defaultOrderLineValues } from '../../constants';
+import { defaultOrderLineValues, columnsOrderLineTable } from '../../constants';
 import Label from '../../../../components/Label';
 import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -14,23 +14,29 @@ interface OrderLinesTableProps {
   products: IProduct[];
   fetchProducts: Function;
   onConfirmOrderLineModal: Function;
+  data: IOrderLine[];
 }
 
 const OrderLinesTable = ({
   products,
   fetchProducts,
   onConfirmOrderLineModal,
+  data,
 }: OrderLinesTableProps) => {
   const { t } = useTranslation();
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
+  console.log('orderLineToEdit', orderLineToEdit);
   return (
     <div className="mt-3">
       <Label style={{ position: 'absolute' }}>orders.form.label-orders-lines</Label>
       <Table
-        data={[]}
-        columns={columns}
+        data={data}
+        columns={columnsOrderLineTable}
         tableName="orderLines"
-        onRowClick={(orderLine: IOrderLine) => setOrderLineToEdit(orderLine)}
+        onRowClick={(values: any) => {
+          const orderLine: IOrderLine = values.original;
+          setOrderLineToEdit(orderLine);
+        }}
         onAddButton={() => setOrderLineToEdit(defaultOrderLineValues)}
       />
 

@@ -84,6 +84,7 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
       </div>
       <div className="w-full pt-2">
         <OrderLinesTable
+          data={values.order_lines}
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find(
