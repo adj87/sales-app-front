@@ -18,6 +18,26 @@ export const columns = [
   },
 ];
 
+export const columnsOrderLineTable = [
+  {
+    Header: 'Name',
+    columns: [
+      { Header: 'order_id', accessor: 'order_id' },
+      { Header: 'order_type', accessor: 'order_type' },
+      { Header: 'line_number', accessor: 'line_number' },
+      { Header: 'product_id', accessor: 'product_id' },
+      { Header: 'product_name', accessor: 'product_name' },
+      { Header: 'units_per_box', accessor: 'units_per_box' },
+      { Header: 'price', accessor: 'price' },
+      { Header: 'cost', accessor: 'cost' },
+      { Header: 'quantity', accessor: 'quantity' },
+      { Header: 'taxes_rate', accessor: 'taxes_rate' },
+      { Header: 'surcharge_amount', accessor: 'surcharge_amount' },
+      { Header: 'green_point_amount', accessor: 'green_point_amount' },
+    ],
+  },
+];
+
 export const defaultValues = {
   id: null,
   address: null,
