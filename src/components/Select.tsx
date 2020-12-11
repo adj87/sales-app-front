@@ -6,22 +6,35 @@ import { getOptionLabel, getOptionValue } from 'react-select/src/builtins';
 interface SelectComponentProps {
   labelText?: string;
   options: any[];
-  label?: getOptionLabel;
-  value?: getOptionValue;
+  optionLabel?: getOptionLabel;
+  optionValue?: getOptionValue;
   onChange: Function;
+  value?: any;
 }
 
-const SelectComponent = ({ label, options, labelText, value, onChange }: SelectComponentProps) => {
+const SelectComponent = ({
+  optionLabel,
+  optionValue,
+  options,
+  labelText,
+  value,
+  onChange,
+}: SelectComponentProps) => {
   const { t } = useTranslation();
+  optionLabel = optionLabel ?? ((option): any => option.name);
+  optionValue = optionValue ?? ((option): any => option.id);
+  const valueObject = value ? { [optionLabel(value)]: [optionLabel(value)] } : null;
+
   return (
     <div className="w-full">
       {labelText && <label className="block text-primary-dark mb-2">{t(labelText)}</label>}
       <Select
         classNamePrefix="react-select"
         options={options}
-        getOptionLabel={label ? label : (option): any => option.name}
-        getOptionValue={value ? value : (option): any => option.id}
+        getOptionLabel={optionLabel}
+        getOptionValue={optionValue}
         onChange={(option: any) => onChange(option)}
+        value={value}
       />
     </div>
   );
