@@ -32,10 +32,18 @@ const OrderLineModal = ({
     onSubmit: onConfirm,
   });
 
-  console.log('the new values', values);
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} open={open} title={title} size="md">
-      <InputWithCarrousel label="orders.form.products-form.label-product" data={products} />
+      <InputWithCarrousel
+        label="orders.form.products-form.label-product"
+        data={products}
+        onChange={(product: IProduct) => {
+          const { name, id } = product;
+          setFieldValue('product_id', id);
+          setFieldValue('product_name', name);
+        }}
+        value={{ id: values.product_id, name: values.product_name }}
+      />
       <div className="grid grid-cols-3 gap-4 mt-2">
         <Input
           value={values}

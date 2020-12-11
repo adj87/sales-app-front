@@ -7,9 +7,11 @@ interface InputWithCarrouselProps {
   click?: React.MouseEventHandler<HTMLInputElement>;
   label: string;
   data: any[];
+  onChange: Function;
+  value?: any;
 }
 
-const InputWithCarrousel = ({ label, data }: InputWithCarrouselProps) => {
+const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrouselProps) => {
   const { t } = useTranslation();
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const display = openCarrousel ? 'block' : 'hidden';
@@ -33,11 +35,7 @@ const InputWithCarrousel = ({ label, data }: InputWithCarrouselProps) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex items-center justify-center">
         <div className="col-span-2">
-          <SelectComponent
-            options={data}
-            onChange={() => console.log('object')}
-            labelText={label}
-          />
+          <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
         </div>
 
         <div className="hover:scale-125 cursor-pointer transition duration-500 flex justify-center items-center">
