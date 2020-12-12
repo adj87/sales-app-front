@@ -43,7 +43,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
                 src={`${back_host}/images/${el.id}.png`}
                 className="rounded-lg shadow-lg"
                 width="auto"
-                onDoubleClick={() => {
+                onClick={() => {
                   console.log('yeah marakuye');
                   setOpenCarrousel(false);
                   onChange(el);
