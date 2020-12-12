@@ -16,12 +16,19 @@ interface OrdersModalProps {
   fetchOrder: Function;
   fetchCustomers: Function;
   customers: ICustomer[];
+  orderToEdit: IOrder;
 }
 
-const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: OrdersModalProps) => {
+const OrdersModal = ({
+  onCancel,
+  fetchOrder,
+  fetchCustomers,
+  customers,
+  orderToEdit,
+}: OrdersModalProps) => {
   const { id, type } = useParams<{ id: string; type: string }>();
   const [customerSelected, setCustomer] = useState<any>(null);
-  const { values, setFieldValue } = useFormik<IOrder>({
+  const { values, setFieldValue, setValues } = useFormik<IOrder>({
     initialValues: defaultValues,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
@@ -31,7 +38,11 @@ const OrdersModal = ({ onCancel, fetchOrder, fetchCustomers, customers }: Orders
     fetchOrder(type, id);
     fetchCustomers();
   }, []);
-  console.log('the values', values);
+
+  useEffect(() => {
+    if (orderToEdit) setValues(orderToEdit);
+  }, [orderToEdit]);
+  console.log('values', values);
   return (
     <Modal
       open={true}

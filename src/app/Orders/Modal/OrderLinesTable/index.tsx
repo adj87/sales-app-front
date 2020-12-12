@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Table from '../../../../components/Table';
 import { defaultOrderLineValues, columnsOrderLineTable } from '../../constants';
 import Label from '../../../../components/Label';
-import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { operations } from '../../duck';
 import { AppStoreInterface } from '../../../../store/AppStoreInterface';
@@ -23,9 +22,7 @@ const OrderLinesTable = ({
   onConfirmOrderLineModal,
   data,
 }: OrderLinesTableProps) => {
-  const { t } = useTranslation();
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
-  console.log('orderLineToEdit', orderLineToEdit);
   return (
     <div className="mt-3">
       <Label style={{ position: 'absolute' }}>orders.form.label-orders-lines</Label>

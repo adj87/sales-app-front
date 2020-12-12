@@ -11,26 +11,41 @@ interface InputWithCarrouselProps {
   value?: any;
 }
 
+const back_host = process.env.REACT_APP_BACK_HOST;
+
 const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrouselProps) => {
   const { t } = useTranslation();
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const display = openCarrousel ? 'block' : 'hidden';
+  console.log('el value', value);
   return (
     <>
       <div
-        className={`fixed w-full h-full bg-grey-900 top-0 left-0 ${display} bg-opacity-20 flex flex-row justify-start p-4 flex-wrap items-start content-start z-50`}
+        className={`fixed w-full  bg-grey-900 top-0 left-0 ${display} bg-opacity-20 flex flex-row justify-center p-4 flex-wrap items-start content-start z-50`}
       >
+        <h1 className="text-white">Catálogo</h1>
         <button
           onClick={() => setOpenCarrousel(false)}
           className="absolute top-0 right-0 text-white"
         >
           {t('commons.close')}
         </button>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((el: number) => (
-          <div className="h-32 w-32 m-4 transform hover:rotate-3 hover:scale-125 cursor-pointer transition duration-100">
-            <img src="https://picsum.photos/200/200" className="rounded-lg shadow-lg" />
-          </div>
-        ))}
+        {data.map((el: any) => {
+          const normalClass =
+            'h-36 w-40 m-4 transform hover:rotate-3 hover:scale-125 cursor-pointer transition duration-100 bg-white rounded-lg';
+          const selectedClass =
+            'h-36 w-40 m-4 transform scale-125 cursor-pointer transition bg-white rounded-lg';
+          return (
+            <div className={el.id === value.id ? selectedClass : normalClass}>
+              <img
+                src={`${back_host}/images/${el.id}.png`}
+                className="rounded-lg shadow-lg"
+                width="auto"
+              />
+              <p className="text-center text-primary-main">{el.name}</p>
+            </div>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex items-center justify-center">
@@ -40,8 +55,9 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
 
         <div className="hover:scale-125 cursor-pointer transition duration-500 flex justify-center items-center">
           <img
-            src="https://picsum.photos/150/150"
+            src={`${back_host}/images/${value.id}.png`}
             className="rounded-lg shadow-lg"
+            width="80"
             onClick={() => setOpenCarrousel(true)}
           />
         </div>

@@ -18,6 +18,7 @@ const OrdersComponent = ({
   history,
   fetchCustomers,
   customers,
+  orderToEdit,
 }: any) => {
   useEffect(() => {
     fetchOrders();
@@ -45,6 +46,7 @@ const OrdersComponent = ({
           fetchOrder={fetchOrder}
           fetchCustomers={fetchCustomers}
           customers={customers}
+          orderToEdit={orderToEdit}
         />
       )}
     </MainLayout>
@@ -53,6 +55,7 @@ const OrdersComponent = ({
 
 const mapState = (state: AppStoreInterface) => ({
   orders: state.orders.data,
+  orderToEdit: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
 });
 
