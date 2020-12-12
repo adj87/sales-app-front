@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Input from './Input';
 import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
+import { IProduct } from '../app/Products/duck/types/Product';
 
 interface InputWithCarrouselProps {
   click?: React.MouseEventHandler<HTMLInputElement>;
@@ -17,7 +18,8 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
   const { t } = useTranslation();
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const display = openCarrousel ? 'block' : 'hidden';
-  console.log('el value', value);
+  const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
+  console.log('showInMiddle', showInMiddle);
   return (
     <>
       <div
@@ -32,17 +34,22 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
         </button>
         {data.map((el: any) => {
           const normalClass =
-            'h-36 w-40 m-4 transform hover:rotate-3 hover:scale-125 cursor-pointer transition duration-100 bg-white rounded-lg';
+            'h-36 w-40 m-4 transform hover:rotate-3 hover:scale-125 cursor-pointer transition duration-100 bg-white rounded-lg ';
           const selectedClass =
-            'h-36 w-40 m-4 transform scale-125 cursor-pointer transition bg-white rounded-lg';
+            'h-36 w-40 m-4 transform scale-125 cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light';
           return (
             <div className={el.id === value.id ? selectedClass : normalClass}>
               <img
                 src={`${back_host}/images/${el.id}.png`}
                 className="rounded-lg shadow-lg"
                 width="auto"
+                onDoubleClick={() => {
+                  console.log('yeah marakuye');
+                  setOpenCarrousel(false);
+                  onChange(el);
+                }}
               />
-              <p className="text-center text-primary-main">{el.name}</p>
+              <p className="text-center text-primary-main text-sm">{el.name}</p>
             </div>
           );
         })}
@@ -56,12 +63,23 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
         <div className="hover:scale-125 cursor-pointer transition duration-500 flex justify-center items-center">
           <img
             src={`${back_host}/images/${value.id}.png`}
-            className="rounded-lg shadow-lg"
             width="80"
             onClick={() => setOpenCarrousel(true)}
           />
         </div>
       </div>
+      {/*       {showInMiddle !== null && (
+        <div className="absolute z-50 inset-x-1/2 h-screen w-screen top-0 left-0 bg-grey-900">
+          <div
+            className="w-1/3 fixed h-screen margin-auto"
+            style={{
+              backgroundImage: `url(${back_host}/images/${showInMiddle.id}.png)`,
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+            }}
+          />
+        </div>
+      )} */}
     </>
   );
 };
