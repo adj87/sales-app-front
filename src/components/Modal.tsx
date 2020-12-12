@@ -12,7 +12,7 @@ export interface ModalProps {
 }
 
 export default function Modal({ size, open, onCancel, onConfirm, children, title }: ModalProps) {
-  const modalSize = size === 'lg' ? 'lg:w-1/2 w-full' : ' lg:w-1/3 md:w-4/6 w-full';
+  const modalSize = size === 'lg' ? 'lg:w-4/6 xl:w-1/2 w-full' : ' lg:w-1/3 md:w-4/6 w-full';
   const { t } = useTranslation();
   return open ? (
     <>
