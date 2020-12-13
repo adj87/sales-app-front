@@ -45,36 +45,40 @@ const OrderLineModal = ({
         }}
         value={{ id: values.product_id, name: values.product_name }}
       />
-      <div className="grid grid-cols-3 gap-4 mt-2">
-        <Input
-          value={values}
-          label="orders.form.products-form.label-quantity"
-          name="quantity"
-          type="number"
-          onChange={setFieldValue}
-        />
-        <Input
-          value={values}
-          type="number"
-          label="Precio"
-          name="price"
-          onChange={setFieldValue}
-          step="0.01"
-        />
-        <Input
-          value={values}
-          label="orders.form.products-form.label-promotion"
-          name="promotion"
-          type="number"
-          onChange={setFieldValue}
-        />
-      </div>
-      <div className="w-full flex justify-end flex-col items-end">
-        <LabelAndAmount amount={12} label={'Base'} />
-        <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
-        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
-        <LabelAndAmount amount={17.85} label={'Total'} isTotal />
-      </div>
+      {values.product_id && (
+        <>
+          <div className="grid grid-cols-3 gap-4 mt-2">
+            <Input
+              value={values}
+              label="orders.form.products-form.label-quantity"
+              name="quantity"
+              type="number"
+              onChange={setFieldValue}
+            />
+            <Input
+              value={values}
+              type="number"
+              label="Precio"
+              name="price"
+              onChange={setFieldValue}
+              step="0.01"
+            />
+            <Input
+              value={values}
+              label="orders.form.products-form.label-promotion"
+              name="promotion"
+              type="number"
+              onChange={setFieldValue}
+            />
+          </div>
+          <div className="w-full flex justify-end flex-col items-end">
+            <LabelAndAmount amount={12} label={'Base'} />
+            <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
+            <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
+            <LabelAndAmount amount={17.85} label={'Total'} isTotal />
+          </div>
+        </>
+      )}
     </Modal>
   );
 };

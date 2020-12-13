@@ -55,7 +55,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex items-center justify-center">
-        <div className="col-span-2">
+        <div className={`${value.id ? 'col-span-2' : 'col-span-4'}`}>
           <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
         </div>
 
