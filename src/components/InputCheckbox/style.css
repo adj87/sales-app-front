@@ -20,6 +20,7 @@
 
 /* Create a custom checkbox */
 .checkmark {
+  margin-top: 2px;
   position: absolute;
   top: 0;
   left: 0;

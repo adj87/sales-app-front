@@ -15,6 +15,7 @@ import Input from '../Input';
 import Button from '../Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
+import InputCheckBox from '../InputCheckbox';
 
 function Table({
   columns,
@@ -200,17 +201,14 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
         </div>
         <div className={className}>
           {allColumns.map((column) => {
-            let { onChange, ...restToggleHiddenProps } = column.getToggleHiddenProps();
-            onChange = (e) => {
-              column.toggleHidden(!e.target.checked);
+            let { onChange, checked } = column.getToggleHiddenProps();
+            onChange = (name, value) => {
+              column.toggleHidden(!value);
               setColumnToHiddenOrShownInTable(tableName, column.id);
             };
             return (
               <div key={column.id} className="px-2 py-1">
-                <label className="text-grey-500 cursor-pointer">
-                  <input type="checkbox" onChange={onChange} {...restToggleHiddenProps} />{' '}
-                  {column.Header}
-                </label>
+                <InputCheckBox onChange={onChange} label={column.Header} checked={checked} />
               </div>
             );
           })}
