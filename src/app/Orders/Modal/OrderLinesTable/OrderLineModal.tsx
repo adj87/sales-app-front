@@ -71,8 +71,8 @@ const OrderLineModal = ({
       </div>
       <div className="w-full flex justify-end flex-col items-end">
         <LabelAndAmount amount={12} label={'Base'} />
-        <LabelAndAmount amount={2.5} label={'Iva'} />
-        <LabelAndAmount amount={4} label={'P. Verde'} />
+        <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
+        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
         <LabelAndAmount amount={17.85} label={'Total'} isTotal />
       </div>
     </Modal>

@@ -5,11 +5,13 @@ interface LabelAndAmountProps {
   amount: number;
   isTotal?: boolean;
   size?: 'md' | 'lg';
+  isDisabled?: boolean;
 }
 
-const LabelAndAmount = ({ label, amount, isTotal, size }: LabelAndAmountProps) => {
-  const classColorString = isTotal ? 'text-primary-dark' : 'text-grey-500';
+const LabelAndAmount = ({ label, amount, isTotal, size, isDisabled }: LabelAndAmountProps) => {
+  let classColorString = isTotal ? 'text-primary-dark' : 'text-grey-500';
   size = isTotal ? 'lg' : size;
+  classColorString = isDisabled ? 'text-grey-200' : classColorString;
   const classSizeString = size === 'lg' ? 'text-3xl' : 'text-xl';
   return (
     <div className="flex justify-between w-40">

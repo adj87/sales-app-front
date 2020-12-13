@@ -10,6 +10,7 @@ import InputCheckBox from '../../../components/InputCheckbox';
 import OrderLinesTable from './OrderLinesTable';
 import { defaultValues } from '../constants';
 import { IOrder, IOrderLine } from '../duck/types/Order';
+import LabelAndAmount from '../../../components/LabelAndAmount';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -71,7 +72,7 @@ const OrdersModal = ({
 
         {customerSelected && <CustomerInfo customer={customerSelected} />}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Input label="orders.form.label-fare" name="fare" onChange={setFieldValue} value={values} />
         <Input
           label="orders.form.label-shipping-place"
@@ -86,6 +87,8 @@ const OrdersModal = ({
           value={values}
           type="date"
         />
+      </div>
+      <div>
         <InputCheckBox
           checked={values.show_together_with_others}
           label={'orders.form.label-together'}
@@ -119,6 +122,12 @@ const OrdersModal = ({
             setFieldValue('order_lines', newOrderLinesValues);
           }}
         />
+      </div>
+      <div className="m-auto w-1/2 flex justify-center flex-col items-center mt-6">
+        <LabelAndAmount amount={12} label={'Base'} />
+        <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
+        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
+        <LabelAndAmount amount={17.85} label={'Total'} isTotal />
       </div>
     </Modal>
   );
