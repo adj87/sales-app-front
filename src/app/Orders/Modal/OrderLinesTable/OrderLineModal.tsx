@@ -6,6 +6,7 @@ import Input from '../../../../components/Input';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { IOrderLine } from '../../duck/types/Order';
 import { useFormik } from 'formik';
+import LabelAndAmount from '../../../../components/LabelAndAmount';
 
 interface OrderLineModalProps extends ModalProps {
   children?: undefined;
@@ -67,6 +68,12 @@ const OrderLineModal = ({
           type="number"
           onChange={setFieldValue}
         />
+      </div>
+      <div className="w-full flex justify-end flex-col items-end">
+        <LabelAndAmount amount={12} label={'Base'} />
+        <LabelAndAmount amount={2.5} label={'Iva'} />
+        <LabelAndAmount amount={4} label={'P. Verde'} />
+        <LabelAndAmount amount={17.85} label={'Total'} isTotal />
       </div>
     </Modal>
   );

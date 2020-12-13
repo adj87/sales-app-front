@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const columns = [
   {
     Header: 'Name',
@@ -26,7 +28,26 @@ export const columnsOrderLineTable = [
       { Header: 'order_type', accessor: 'order_type' },
       { Header: 'line_number', accessor: 'line_number' },
       { Header: 'product_id', accessor: 'product_id' },
-      { Header: 'product_name', accessor: 'product_name' },
+      {
+        Header: 'product_name',
+        accessor: 'product_name',
+        Cell: ({ row }: any) => {
+          return (
+            <div className="flex items-center justify-center">
+              {
+                <>
+                  <img
+                    src={`http://localhost:3001/images/${row.original.product_id}.png`}
+                    width="20"
+                    className="inline mr-2"
+                  ></img>
+                  <span>{row.original.product_name}</span>
+                </>
+              }
+            </div>
+          );
+        },
+      },
       { Header: 'units_per_box', accessor: 'units_per_box' },
       { Header: 'price', accessor: 'price' },
       { Header: 'cost', accessor: 'cost' },
