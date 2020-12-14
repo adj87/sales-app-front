@@ -14,7 +14,7 @@ export interface IOrder {
   customer_name: string | null;
   green_point: number | null;
   customer_route_id: number | null;
-  type: string | null;
+  type: string;
   show_together_with_others: boolean;
   order_lines: IOrderLine[];
 }

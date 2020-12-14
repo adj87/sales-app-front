@@ -9,6 +9,8 @@
       "label-orders-lines": "Lineas de pedido",
       "label-shipping-place": "Lugar de envío",
       "label-delivery-date": "Fecha de servicio",
+      "label-type": "Serie",
+      "label-surcharge": "Recargo de equivalencia",
       "label-together": "Mostrar conjuntamente con otros pedidos",
       "products-form": {
         "title": "Añadir producto",
