@@ -7,6 +7,7 @@ import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
 import Input from '../../../components/Input';
 import InputCheckBox from '../../../components/InputCheckbox';
+import InputRadio from '../../../components/InputRadio';
 import OrderLinesTable from './OrderLinesTable';
 import { defaultValues } from '../constants';
 import { IOrder, IOrderLine } from '../duck/types/Order';
@@ -88,7 +89,23 @@ const OrdersModal = ({
           type="date"
         />
       </div>
-      <div>
+      <div className="flex items-end mb-5 mt-5 justify-between">
+        <InputRadio
+          label="orders.form.label-type"
+          name="type"
+          onChange={setFieldValue}
+          value={values.type}
+          options={[
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+          ]}
+        />
+        <InputCheckBox
+          checked={Boolean(values.surcharge)}
+          label={'orders.form.label-surcharge'}
+          name="surcharge"
+          onChange={setFieldValue}
+        />
         <InputCheckBox
           checked={values.show_together_with_others}
           label={'orders.form.label-together'}
