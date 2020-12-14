@@ -11,6 +11,7 @@
       "label-delivery-date": "Fecha de servicio",
       "label-type": "Serie",
       "label-surcharge": "Recargo de equivalencia",
+      "label-green-point": "P.Verde",
       "label-together": "Mostrar conjuntamente con otros pedidos",
       "products-form": {
         "title": "Añadir producto",

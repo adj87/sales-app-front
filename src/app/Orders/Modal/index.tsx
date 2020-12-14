@@ -108,6 +108,12 @@ const OrdersModal = ({
         />
         <InputCheckBox
           checked={values.show_together_with_others}
+          label={'orders.form.label-green-point'}
+          name="green_point"
+          onChange={setFieldValue}
+        />
+        <InputCheckBox
+          checked={values.show_together_with_others}
           label={'orders.form.label-together'}
           name="show_together_with_others"
           onChange={setFieldValue}
