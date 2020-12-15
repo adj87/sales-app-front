@@ -18,10 +18,11 @@ const fetchOrders = () => (dispatch: Dispatch<SetOrdersAction>) => {
   });
 };
 
-const fetchOrder = (type: string, orderId: Number) => (
+const fetchOrder = (orderIdAndType: string) => (
   dispatch: Dispatch<SetElementToCreateOrEditAction>,
 ) => {
-  api.fetchOrders(type, orderId).then((response: AxiosResponse<IOrder>) => {
+  const [type, orderId] = orderIdAndType.split('-');
+  api.fetchOrders(type, parseInt(orderId)).then((response: AxiosResponse<IOrder>) => {
     return dispatch(actions.setOrderToCreateOrEdit(response.data));
   });
 };
@@ -31,6 +32,7 @@ const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEdit
 
 const fetchCustomers = customersOperations.fetchCustomers;
 const fetchProducts = productsOperations.fetchProducts;
+const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 
 export default {
   fetchOrders,
@@ -38,4 +40,5 @@ export default {
   removeElementToCreateOrEdit,
   fetchCustomers,
   fetchProducts,
+  setOrderToCreateOrEdit,
 };

@@ -8,7 +8,7 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
-import { columns } from './constants';
+import { columns, defaultValues } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
 
 const OrdersComponent = ({
@@ -19,12 +19,26 @@ const OrdersComponent = ({
   fetchCustomers,
   customers,
   orderToEdit,
+  setOrderToCreateOrEdit,
 }: any) => {
   useEffect(() => {
     fetchOrders();
   }, []);
 
   const openModal = useOpenModalByRoutes();
+  useEffect(() => {
+    if (openModal === 'new') {
+      //CREATE
+      return setOrderToCreateOrEdit(defaultValues);
+    }
+    // @ts-ignore
+    if (openModal) {
+      //EDIT
+      return fetchOrder(openModal);
+    }
+    //CLOSE
+    if (orderToEdit !== null) return setOrderToCreateOrEdit(null);
+  }, [openModal]);
 
   return (
     <MainLayout>
@@ -37,13 +51,12 @@ const OrdersComponent = ({
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          history.push(`/orders/${order.id}/type/${order.type}`);
+          history.push(`/orders/${order.type}-${order.id}`);
         }}
       />
-      {openModal && (
+      {Boolean(orderToEdit) && (
         <OrderModal
           onCancel={() => history.push(`/orders`)}
-          fetchOrder={fetchOrder}
           fetchCustomers={fetchCustomers}
           customers={customers}
           orderToEdit={orderToEdit}

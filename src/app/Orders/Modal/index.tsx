@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal';
@@ -15,36 +14,24 @@ import LabelAndAmount from '../../../components/LabelAndAmount';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  fetchOrder: Function;
   fetchCustomers: Function;
   customers: ICustomer[];
   orderToEdit: IOrder;
 }
 
-const OrdersModal = ({
-  onCancel,
-  fetchOrder,
-  fetchCustomers,
-  customers,
-  orderToEdit,
-}: OrdersModalProps) => {
-  const { id, type } = useParams<{ id: string; type: string }>();
+const OrdersModal = ({ onCancel, fetchCustomers, customers }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
-  const { values, setFieldValue, setValues } = useFormik<IOrder>({
+  const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: defaultValues,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
   useEffect(() => {
-    fetchOrder(type, id);
     fetchCustomers();
   }, []);
 
-  useEffect(() => {
-    if (orderToEdit) setValues(orderToEdit);
-  }, [orderToEdit]);
-  console.log('values', values);
+  console.log(values);
   return (
     <Modal
       open={true}

@@ -28,7 +28,7 @@ export const links: LinksInterface = {
 export const routes: Array<RouteInterface> = [
   { component: () => <div>Login</div>, exact: true, path: 'login' },
   {
-    path: ['/', '/orders', '/orders/:id/type/:type', '/orders/new'],
+    path: ['/', '/orders', '/orders/:id', '/orders/new'],
     component: Orders,
     exact: true,
     authIsRequired: true,
