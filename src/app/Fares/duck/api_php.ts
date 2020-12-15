@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const API_END_POINT = process.env.REACT_APP_API_END_POINT;
-const API_ORDERS = `${API_END_POINT}clientes`;
+const BACK_HOST = process.env.REACT_APP_BACK_HOST;
+const API_FARES = `${BACK_HOST}/fares`;
 
-const fetchOrders = (type?: string, orderId?: Number) => {
-  const url = orderId ? `${API_ORDERS}/?id=${orderId}` : API_ORDERS;
+const fetchFares = (fareId?: Number) => {
+  const url = fareId ? `${API_FARES}/${fareId}` : API_FARES;
   return axios.get(url);
 };
 
 export default {
-  fetchOrders,
+  fetchFares,
 };

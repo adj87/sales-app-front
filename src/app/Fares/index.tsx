@@ -6,7 +6,7 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import { IOrder } from './duck/types/Fare';
+import { IFare } from './duck/types/Fare';
 import OrderModal from './Modal';
 import { columns, defaultValues } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
@@ -50,7 +50,7 @@ const OrdersComponent = ({
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
-          const order: IOrder = datatableRowInfo.original;
+          const order: IFare = datatableRowInfo.original;
           history.push(`/orders/${order.type}-${order.id}`);
         }}
       />

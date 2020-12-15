@@ -1,4 +1,4 @@
-import { SET_ORDERS, OrdersState, SET_ORDER_TO_CREATE_OR_EDIT } from './types';
+import { SET_FARES, FaresState, SET_FARE_TO_CREATE_OR_EDIT } from './types';
 import { AnyAction } from 'redux';
 
 const initialState = {
@@ -6,11 +6,11 @@ const initialState = {
   elementToCreateOrEdit: null,
 };
 
-const ordersReducer = (state = initialState, { type, payload }: AnyAction): OrdersState => {
+const ordersReducer = (state = initialState, { type, payload }: AnyAction): FaresState => {
   switch (type) {
-    case SET_ORDERS:
+    case SET_FARES:
       return { ...state, data: payload };
-    case SET_ORDER_TO_CREATE_OR_EDIT:
+    case SET_FARE_TO_CREATE_OR_EDIT:
       return { ...state, elementToCreateOrEdit: payload };
     default:
       return state;

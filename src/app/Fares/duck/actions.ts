@@ -1,22 +1,22 @@
 import {
-  SET_ORDERS,
+  SET_FARES,
   SetElementToCreateOrEditAction,
-  SET_ORDER_TO_CREATE_OR_EDIT,
-  SetOrdersAction,
+  SET_FARE_TO_CREATE_OR_EDIT,
+  SetFaresAction,
 } from './types';
-import { IOrder } from './types/Fare';
+import { IFare } from './types/Fare';
 
-const setOrders = (orders: IOrder[]): SetOrdersAction => ({
-  type: SET_ORDERS,
-  payload: orders,
+const setFares = (fares: IFare[]): SetFaresAction => ({
+  type: SET_FARES,
+  payload: fares,
 });
 
-const setOrderToCreateOrEdit = (order: IOrder | null): SetElementToCreateOrEditAction => ({
-  type: SET_ORDER_TO_CREATE_OR_EDIT,
-  payload: order,
+const setOrderToCreateOrEdit = (fare: IFare | null): SetElementToCreateOrEditAction => ({
+  type: SET_FARE_TO_CREATE_OR_EDIT,
+  payload: fare,
 });
 
 export default {
-  setOrders,
+  setFares,
   setOrderToCreateOrEdit,
 };
