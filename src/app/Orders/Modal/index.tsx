@@ -8,7 +8,6 @@ import Input from '../../../components/Input';
 import InputCheckBox from '../../../components/InputCheckbox';
 import InputRadio from '../../../components/InputRadio';
 import OrderLinesTable from './OrderLinesTable';
-import { defaultValues } from '../constants';
 import { IOrder, IOrderLine } from '../duck/types/Order';
 import LabelAndAmount from '../../../components/LabelAndAmount';
 
@@ -16,13 +15,13 @@ interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   fetchCustomers: Function;
   customers: ICustomer[];
-  orderToEdit: IOrder;
+  order: IOrder;
 }
 
-const OrdersModal = ({ onCancel, fetchCustomers, customers }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, fetchCustomers, customers, order }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
-    initialValues: defaultValues,
+    initialValues: order,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },

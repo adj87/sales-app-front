@@ -18,7 +18,7 @@ const OrdersComponent = ({
   history,
   fetchCustomers,
   customers,
-  orderToEdit,
+  orderToForm,
   setOrderToCreateOrEdit,
 }: any) => {
   useEffect(() => {
@@ -37,7 +37,7 @@ const OrdersComponent = ({
       return fetchOrder(openModal);
     }
     //CLOSE
-    if (orderToEdit !== null) return setOrderToCreateOrEdit(null);
+    if (orderToForm !== null) return setOrderToCreateOrEdit(null);
   }, [openModal]);
 
   return (
@@ -54,12 +54,12 @@ const OrdersComponent = ({
           history.push(`/orders/${order.type}-${order.id}`);
         }}
       />
-      {Boolean(orderToEdit) && (
+      {Boolean(orderToForm) && (
         <OrderModal
           onCancel={() => history.push(`/orders`)}
           fetchCustomers={fetchCustomers}
           customers={customers}
-          orderToEdit={orderToEdit}
+          order={orderToForm}
         />
       )}
     </MainLayout>
@@ -68,7 +68,7 @@ const OrdersComponent = ({
 
 const mapState = (state: AppStoreInterface) => ({
   orders: state.orders.data,
-  orderToEdit: state.orders.elementToCreateOrEdit,
+  orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
 });
 
