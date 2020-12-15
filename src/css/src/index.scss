@@ -6,6 +6,7 @@
 
 .react-select__control {
   border-color: none !important;
+  min-height: 34px !important;
   @apply border rounded border-primary-light !important;
 }
 
@@ -15,6 +16,14 @@
 
 .react-select__option--is-selected {
   @apply bg-primary-dark !important;
+}
+
+.react-select__value-container {
+  padding: 0px 8px !important;
+}
+
+.react-select__dropdown-indicator {
+  padding: 6px !important;
 }
 
 .bg-blur-md {
