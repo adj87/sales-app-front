@@ -14,9 +14,8 @@ import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoute
 const OrdersComponent = ({
   orders,
   fetchOrders,
-  fetchOrder,
+  fetchOrderAndCustomersAndFaresAndProducts,
   history,
-  fetchCustomersAndFaresAndProducts,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
@@ -34,7 +33,7 @@ const OrdersComponent = ({
     // @ts-ignore
     if (openModal) {
       //EDIT
-      return fetchOrder(openModal);
+      return fetchOrderAndCustomersAndFaresAndProducts(openModal);
     }
     //CLOSE
     if (orderToForm !== null) return setOrderToCreateOrEdit(null);
@@ -57,7 +56,6 @@ const OrdersComponent = ({
       {Boolean(orderToForm) && (
         <OrderModal
           onCancel={() => history.push(`/orders`)}
-          fetchOnOpen={fetchCustomersAndFaresAndProducts}
           customers={customers}
           order={orderToForm}
         />
