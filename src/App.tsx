@@ -5,10 +5,12 @@ import { routes, RouteInterface } from './routesAndLinks';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Provider } from 'react-redux';
 import store from './store';
+import Loading from './app/Loading';
 
 function App() {
   return (
     <Provider store={store}>
+      <Loading />
       <BrowserRouter>
         <Switch>
           {routes.map(({ component, path, exact, authIsRequired }: RouteInterface) => {
