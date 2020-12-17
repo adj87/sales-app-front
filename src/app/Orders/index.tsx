@@ -16,7 +16,7 @@ const OrdersComponent = ({
   fetchOrders,
   fetchOrder,
   history,
-  fetchCustomers,
+  fetchCustomersAndFaresAndProducts,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
@@ -57,7 +57,7 @@ const OrdersComponent = ({
       {Boolean(orderToForm) && (
         <OrderModal
           onCancel={() => history.push(`/orders`)}
-          fetchCustomers={fetchCustomers}
+          fetchOnOpen={fetchCustomersAndFaresAndProducts}
           customers={customers}
           order={orderToForm}
         />

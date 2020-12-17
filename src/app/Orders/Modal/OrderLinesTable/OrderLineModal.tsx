@@ -11,7 +11,6 @@ import LabelAndAmount from '../../../../components/LabelAndAmount';
 interface OrderLineModalProps extends ModalProps {
   children?: undefined;
   products: IProduct[];
-  fetchProducts: Function;
   orderLine: IOrderLine | null;
   onConfirm: any;
 }
@@ -22,12 +21,8 @@ const OrderLineModal = ({
   open,
   title,
   products,
-  fetchProducts,
   orderLine,
 }: OrderLineModalProps) => {
-  useEffect(() => {
-    fetchProducts();
-  }, []);
   const { values, setFieldValue, submitForm } = useFormik<IOrderLine | any>({
     initialValues: orderLine,
     onSubmit: onConfirm,

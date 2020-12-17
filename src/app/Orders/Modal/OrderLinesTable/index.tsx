@@ -11,14 +11,13 @@ import { IOrderLine } from '../../duck/types/Order';
 
 interface OrderLinesTableProps {
   products: IProduct[];
-  fetchProducts: Function;
   onConfirmOrderLineModal: Function;
   data: IOrderLine[];
 }
 
 const OrderLinesTable = ({
   products,
-  fetchProducts,
+
   onConfirmOrderLineModal,
   data,
 }: OrderLinesTableProps) => {
@@ -48,7 +47,6 @@ const OrderLinesTable = ({
           }}
           size="md"
           products={products}
-          fetchProducts={fetchProducts}
           orderLine={orderLineToEdit}
         />
       )}

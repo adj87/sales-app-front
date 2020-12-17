@@ -13,12 +13,12 @@ import LabelAndAmount from '../../../components/LabelAndAmount';
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  fetchCustomers: Function;
+  fetchOnOpen: Function;
   customers: ICustomer[];
   order: IOrder;
 }
 
-const OrdersModal = ({ onCancel, fetchCustomers, customers, order }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, fetchOnOpen, customers, order }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: order,
@@ -27,10 +27,9 @@ const OrdersModal = ({ onCancel, fetchCustomers, customers, order }: OrdersModal
     },
   });
   useEffect(() => {
-    fetchCustomers();
+    fetchOnOpen();
   }, []);
 
-  console.log(values);
   return (
     <Modal
       open={true}

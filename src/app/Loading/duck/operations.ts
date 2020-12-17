@@ -12,7 +12,7 @@ const fetchOperationWithLoading = (
 ) => (dispatch: Dispatch<any>) => {
   if (!noLoading) dispatch(actions.setLoading(true));
   api()
-    .then((res: AxiosResponse) => {
+    .then((res: AxiosResponse, hola: any) => {
       if (setterAction) {
         if (setterAction.constructor !== Array) {
           // @ts-ignore
