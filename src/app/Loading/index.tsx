@@ -3,11 +3,11 @@ import { BarLoader } from 'react-spinners';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { connect } from 'react-redux';
 
-interface SpinnerProps {
-  loading: boolean;
+interface LoadingProps {
+  loading?: boolean;
 }
 
-export const Spinner = ({ loading }: SpinnerProps) => {
+const Loading = ({ loading }: LoadingProps) => {
   return (
     <>
       {loading && (
@@ -25,7 +25,7 @@ export const Spinner = ({ loading }: SpinnerProps) => {
 };
 
 const mapState = (state: AppStoreInterface) => ({
-  orders: state.orders.data,
+  loading: state.loading,
 });
 
-export const Orders = connect(mapState, null)(Spinner);
+export default connect(mapState, null)(Loading);

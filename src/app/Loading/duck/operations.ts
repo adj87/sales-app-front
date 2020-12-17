@@ -6,9 +6,9 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 const fetchOperationWithLoading = (
   api: Function,
-  setterAction: AnyAction | AnyAction[],
-  cbOnSuccess: Function,
-  noLoading: boolean,
+  setterAction: any,
+  cbOnSuccess?: Function,
+  noLoading?: boolean,
 ) => (dispatch: Dispatch<any>) => {
   if (!noLoading) dispatch(actions.setLoading(true));
   api()
@@ -16,11 +16,11 @@ const fetchOperationWithLoading = (
       if (setterAction) {
         if (setterAction.constructor !== Array) {
           // @ts-ignore
-          dispatch(setterAction(res.data.data));
+          dispatch(setterAction(res.data));
         } else {
           setterAction.forEach((setter: AnyAction, index: number) => {
             // @ts-ignore
-            dispatch(setter(res[index].data.data));
+            dispatch(setter(res[index].data));
           });
         }
       }

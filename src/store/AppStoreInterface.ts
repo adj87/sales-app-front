@@ -6,4 +6,5 @@ export interface AppStoreInterface {
   orders: OrdersState;
   products: ProductsState;
   customers: CustomersState;
+  loading: boolean;
 }
