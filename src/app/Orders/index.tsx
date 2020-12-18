@@ -19,6 +19,7 @@ const OrdersComponent = ({
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
+  fares,
 }: any) => {
   useEffect(() => {
     fetchOrders();
@@ -57,6 +58,7 @@ const OrdersComponent = ({
         <OrderModal
           onCancel={() => history.push(`/orders`)}
           customers={customers}
+          fares={fares}
           order={orderToForm}
         />
       )}
@@ -68,6 +70,7 @@ const mapState = (state: AppStoreInterface) => ({
   orders: state.orders.data,
   orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
+  fares: state.fares.data,
 });
 
 const mapDispatch = {

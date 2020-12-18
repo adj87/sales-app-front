@@ -15,9 +15,10 @@ interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   customers: ICustomer[];
   order: IOrder;
+  fares: any;
 }
 
-const OrdersModal = ({ onCancel, customers, order }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: order,
@@ -55,7 +56,12 @@ const OrdersModal = ({ onCancel, customers, order }: OrdersModalProps) => {
         {customerSelected && <CustomerInfo customer={customerSelected} />}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Input label="orders.form.label-fare" name="fare" onChange={setFieldValue} value={values} />
+        <SelectComponent
+          labelText="orders.form.label-fare"
+          onChange={setFieldValue}
+          value={values}
+          options={fares}
+        />
         <Input
           label="orders.form.label-shipping-place"
           name="shipping_place"
