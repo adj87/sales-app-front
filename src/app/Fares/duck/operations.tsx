@@ -12,18 +12,6 @@ import { IFare } from './types/Fare';
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const fetchFares = () => (dispatch: Dispatch<SetFaresAction>) => {
-  api.fetchFares().then((response: AxiosResponse<IFare[]>) => {
-    return dispatch(actions.setFares(response.data));
-  });
-};
-
-const fetchOrder = (fareId: number) => (dispatch: Dispatch<SetElementToCreateOrEditAction>) => {
-  api.fetchFares(fareId).then((response: AxiosResponse<IFare>) => {
-    return dispatch(actions.setOrderToCreateOrEdit(response.data));
-  });
-};
-
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
 
@@ -32,8 +20,6 @@ const fetchProducts = productsOperations.fetchProducts;
 const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 
 export default {
-  fetchFares,
-  fetchOrder,
   removeElementToCreateOrEdit,
   fetchCustomers,
   fetchProducts,
