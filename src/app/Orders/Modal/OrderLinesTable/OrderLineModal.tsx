@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Modal from '../../../../components/Modal';
 import { ModalProps } from '../../../../components/Modal';
 import InputWithCarrousel from '../../../../components/InputWithCarrousel';
-import Input from '../../../../components/Input';
+import Input from '../../../../components/Inputs/InputText';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { IOrderLine } from '../../duck/types/Order';
 import { useFormik } from 'formik';

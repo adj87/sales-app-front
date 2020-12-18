@@ -4,9 +4,9 @@ import { useFormik } from 'formik';
 import Modal from '../../../components/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
-import Input from '../../../components/Input';
-import InputCheckBox from '../../../components/InputCheckbox';
-import InputRadio from '../../../components/InputRadio';
+import Input from '../../../components/Inputs/InputText';
+import InputCheckBox from '../../../components/Inputs/InputCheckbox';
+import InputRadio from '../../../components/Inputs/InputRadio';
 import LabelAndAmount from '../../../components/LabelAndAmount';
 
 const OrdersModal = () => {

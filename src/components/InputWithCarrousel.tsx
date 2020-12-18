@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Input from './Input';
+import Input from './Inputs/InputText';
 import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';

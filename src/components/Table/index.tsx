@@ -11,11 +11,11 @@ import {
   faAngleRight,
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
-import Input from '../Input';
+import Input from '../Inputs/InputText';
 import Button from '../Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
-import InputCheckBox from '../InputCheckbox';
+import InputCheckBox from '../Inputs/InputCheckbox';
 
 function Table({
   columns,

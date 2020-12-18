@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom';
 import Modal from '../../../components/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
-import Input from '../../../components/Input';
-import InputCheckBox from '../../../components/InputCheckbox';
+import Input from '../../../components/Inputs/InputText';
+import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import OrderLinesTable from './OrderLinesTable';
 
 interface OrdersModalProps {

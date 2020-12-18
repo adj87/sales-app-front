@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 import { useTranslation } from 'react-i18next';
-import Label from '../Label';
+import Label from '../../Label';
 
 interface Option {
   label: string;

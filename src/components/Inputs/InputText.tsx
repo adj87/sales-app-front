@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface InputProps {
+interface InputTextProps {
   label: string;
   name: string;
   onChange: Function;
@@ -11,7 +11,7 @@ interface InputProps {
   step?: string;
 }
 
-const Input = ({ label, name, value, onChange, onClick, type, step }: InputProps) => {
+const InputText = ({ label, name, value, onChange, onClick, type, step }: InputTextProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
   // @ts-ignore
@@ -39,4 +39,4 @@ const Input = ({ label, name, value, onChange, onClick, type, step }: InputProps
   );
 };
 
-export default Input;
+export default InputText;
