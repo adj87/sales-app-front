@@ -15,6 +15,7 @@ import withFormikValues from '../../../components/Inputs/withFormikValues';
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
 const InputCheckBoxWithFV = withFormikValues(InputCheckBox);
+const SelectComponentWithFV = withFormikValues(SelectComponent);
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;

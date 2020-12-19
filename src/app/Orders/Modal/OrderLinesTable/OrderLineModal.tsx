@@ -7,6 +7,9 @@ import { IProduct } from '../../../Products/duck/types/Product';
 import { IOrderLine } from '../../duck/types/Order';
 import { useFormik } from 'formik';
 import LabelAndAmount from '../../../../components/LabelAndAmount';
+import withFormikValues from '../../../../components/Inputs/withFormikValues';
+
+const InputWithFormikValues = withFormikValues(Input);
 
 interface OrderLineModalProps extends ModalProps {
   children?: undefined;
@@ -43,23 +46,23 @@ const OrderLineModal = ({
       {values.product_id && (
         <>
           <div className="grid grid-cols-3 gap-4 mt-2">
-            <Input
-              value={values}
+            <InputWithFormikValues
+              formikValues={values}
               label="orders.form.products-form.label-quantity"
               name="quantity"
               type="number"
               onChange={setFieldValue}
             />
-            <Input
-              value={values}
+            <InputWithFormikValues
+              formikValues={values}
               type="number"
               label="Precio"
               name="price"
               onChange={setFieldValue}
               step="0.01"
             />
-            <Input
-              value={values}
+            <InputWithFormikValues
+              formikValues={values}
               label="orders.form.products-form.label-promotion"
               name="promotion"
               type="number"
