@@ -134,6 +134,8 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
               newOrderLinesValues.push({
                 ...orderLine,
                 line_number: newOrderLinesValues.length + 1,
+                order_id: values.id,
+                order_type: values.type,
               });
             }
             setFieldValue('order_lines', newOrderLinesValues);
