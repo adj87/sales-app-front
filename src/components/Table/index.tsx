@@ -208,7 +208,7 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
             };
             return (
               <div key={column.id} className="px-2 py-1">
-                <InputCheckBox onChange={onChange} label={column.Header} checked={checked} />
+                <InputCheckBox onChange={onChange} label={column.Header} value={checked} />
               </div>
             );
           })}
