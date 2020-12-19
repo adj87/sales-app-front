@@ -6,7 +6,7 @@ interface InputTextProps {
   name: string;
   onChange: Function;
   onClick?: React.MouseEventHandler<HTMLInputElement>;
-  value: string | number | string[] | Object | undefined;
+  value: string | number | undefined;
   type?: 'text' | 'number' | 'password' | 'date';
   step?: string;
 }
@@ -14,8 +14,6 @@ interface InputTextProps {
 const InputText = ({ label, name, value, onChange, onClick, type, step }: InputTextProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
-  // @ts-ignore
-  const newValue = value && value.constructor === Object ? value[name] : value;
   return (
     <div className="mb-4 w-full">
       <label className="block text-primary-dark mb-2" htmlFor={htmlFor}>
@@ -24,7 +22,7 @@ const InputText = ({ label, name, value, onChange, onClick, type, step }: InputT
       <input
         className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
         type={type ? type : 'text'}
-        value={newValue}
+        value={value}
         name={name}
         id={htmlFor}
         onClick={onClick}

@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 interface InputCheckBoxProps {
   label: string;
-  checked: boolean;
+  value: boolean;
   name: string;
   onChange: Function;
 }
 
-const InputCheckBox = ({ label, checked, name, onChange }: InputCheckBoxProps) => {
+const InputCheckBox = ({ label, value, name, onChange }: InputCheckBoxProps) => {
   const { t } = useTranslation();
 
   return (
@@ -17,7 +17,7 @@ const InputCheckBox = ({ label, checked, name, onChange }: InputCheckBoxProps) =
       {t(label)}
       <input
         type="checkbox"
-        checked={checked}
+        checked={value}
         onChange={(e) => {
           onChange(e.target.name, e.target.checked);
         }}

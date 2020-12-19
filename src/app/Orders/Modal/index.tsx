@@ -10,6 +10,11 @@ import InputRadio from '../../../components/Inputs/InputRadio';
 import OrderLinesTable from './OrderLinesTable';
 import { IOrder, IOrderLine } from '../duck/types/Order';
 import LabelAndAmount from '../../../components/LabelAndAmount';
+import withFormikValues from '../../../components/Inputs/withFormikValues';
+
+const InputWithFV = withFormikValues(Input);
+const InputRadioWithFV = withFormikValues(InputRadio);
+const InputCheckBoxWithFV = withFormikValues(InputCheckBox);
 
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -26,6 +31,7 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
       alert(JSON.stringify(values, null, 2));
     },
   });
+  console.log(values);
 
   return (
     <Modal
@@ -62,45 +68,45 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
           value={values}
           options={fares}
         />
-        <Input
+        <InputWithFV
           label="orders.form.label-shipping-place"
           name="shipping_place"
           onChange={setFieldValue}
-          value={values}
+          formikValues={values}
         />
-        <Input
+        <InputWithFV
           label="orders.form.label-delivery-date"
           name="delivery_date"
           onChange={setFieldValue}
-          value={values}
+          formikValues={values}
           type="date"
         />
       </div>
       <div className="flex items-end mb-5 mt-5 justify-between">
-        <InputRadio
+        <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
           onChange={setFieldValue}
-          value={values.type}
+          formikValues={values}
           options={[
             { value: 'A', label: 'A' },
             { value: 'B', label: 'B' },
           ]}
         />
-        <InputCheckBox
-          checked={Boolean(values.surcharge)}
+        <InputCheckBoxWithFV
+          formikValues={values}
           label={'orders.form.label-surcharge'}
           name="surcharge"
           onChange={setFieldValue}
         />
-        <InputCheckBox
-          checked={values.show_together_with_others}
+        <InputCheckBoxWithFV
+          formikValues={values}
           label={'orders.form.label-green-point'}
           name="green_point"
           onChange={setFieldValue}
         />
-        <InputCheckBox
-          checked={values.show_together_with_others}
+        <InputCheckBoxWithFV
+          formikValues={values}
           label={'orders.form.label-together'}
           name="show_together_with_others"
           onChange={setFieldValue}
