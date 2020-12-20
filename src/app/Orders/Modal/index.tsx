@@ -11,7 +11,7 @@ import OrderLinesTable from './OrderLinesTable';
 import { IOrder, IOrderLine } from '../duck/types/Order';
 import LabelAndAmount from '../../../components/LabelAndAmount';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
-import { IFare } from '../../Fares/duck/types/Fare';
+import { IFare, IFareLine } from '../../Fares/duck/types/Fare';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -27,18 +27,29 @@ interface OrdersModalProps {
 
 const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
-  const [fare, setFare] = useState<any>(null);
+  const [fare, setFare] = useState<IFare | null>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-  /*   useEffect(()=>{
-     const selectedFare = fares.find(el=>)
-  },[fares.length]) */
 
-  console.log(fare);
+  useEffect(() => {
+    if (fare) {
+      const newOrderLines: IOrderLine[] = values.order_lines.map((oLine: IOrderLine) => {
+        const match = fare.fare_lines.find(
+          (fLine: IFareLine) => fLine.product_id === oLine.product_id,
+        );
+        if (match) return { ...oLine, price: match.price_1 };
+        return { ...oLine };
+      });
+      setFieldValue('order_lines', newOrderLines);
+    }
+  }, [fare]);
+
+  console.log(values);
+  console.log(fare?.fare_lines);
 
   return (
     <Modal
@@ -66,7 +77,7 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
           />
         </div>
 
-        {customerSelected && <CustomerInfo customer={customerSelected} />}
+        {/*         {customerSelected && <CustomerInfo customer={customerSelected} />} */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponent
@@ -160,7 +171,7 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
   );
 };
 
-const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
+/* const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
   const infoElementsExcluded = ['created_at', 'updated_at', 'id', 'zip_code', 'name'];
   return (
     <div className="border-grey-300 rounded-md border px-2 py-5 flex flex-wrap">
@@ -175,8 +186,7 @@ const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
                 className="text-grey-300 pl-1 text-sm"
                 style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
               >
-                {/* 
-  // @ts-ignore */}
+
                 {customer[property]}
               </label>
             </div>
@@ -184,6 +194,6 @@ const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
         })}
     </div>
   );
-};
+}; */
 
 export default OrdersModal;

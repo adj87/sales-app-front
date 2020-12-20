@@ -8,10 +8,10 @@ export interface IFareLine {
   product_id: number;
   customer_id: number;
   customer_name: string;
-  price_1: string;
-  price_2: string;
-  price_3: string;
-  price_4: string;
+  price_1: number;
+  price_2: number;
+  price_3: number;
+  price_4: number;
   to_sell: number;
   to_charge: number;
 }

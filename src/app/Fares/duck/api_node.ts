@@ -14,13 +14,13 @@ const fetchFares = (fareId?: Number) => {
         const newFare = {
           customer_name: el.customer_name,
           customer_id: el.customer_id,
-          fare: [el],
+          fare_lines: [el],
         };
         acc.push(newFare);
       } else {
-        let newFares = [...acc[positionInArr].fare];
+        let newFares = [...acc[positionInArr].fare_lines];
         newFares.push(el);
-        acc[positionInArr] = { ...acc[positionInArr], fare: newFares };
+        acc[positionInArr] = { ...acc[positionInArr], fare_lines: newFares };
       }
       return acc;
     }, []);
