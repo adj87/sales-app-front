@@ -11,6 +11,7 @@ import OrderLinesTable from './OrderLinesTable';
 import { IOrder, IOrderLine } from '../duck/types/Order';
 import LabelAndAmount from '../../../components/LabelAndAmount';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
+import { IFare } from '../../Fares/duck/types/Fare';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -26,13 +27,18 @@ interface OrdersModalProps {
 
 const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
+  const [fare, setFare] = useState<any>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-  console.log(values);
+  /*   useEffect(()=>{
+     const selectedFare = fares.find(el=>)
+  },[fares.length]) */
+
+  console.log(fare);
 
   return (
     <Modal
@@ -65,8 +71,10 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponent
           labelText="orders.form.label-fare"
-          onChange={setFieldValue}
-          value={values}
+          onChange={setFare}
+          value={fare}
+          optionLabel={(option: IFare) => option.customer_name}
+          optionValue={(option: IFare) => option.customer_id.toString()}
           options={fares}
         />
         <InputWithFV
