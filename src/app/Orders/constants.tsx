@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 export const columns = [
   {
@@ -8,8 +9,16 @@ export const columns = [
       { Header: 'id', accessor: 'id' },
       { Header: 'customer_name', accessor: 'customer_name' },
       { Header: 'address', accessor: 'address' },
-      { Header: 'date', accessor: 'date' },
-      { Header: 'delivery_date', accessor: 'delivery_date' },
+      {
+        Header: 'date',
+        accessor: 'date',
+        Cell: ({ row }: any) => dayjs(row.original.date).format('DD-MM-YYYY'),
+      },
+      {
+        Header: 'delivery_date',
+        accessor: 'delivery_date',
+        Cell: ({ row }: any) => dayjs(row.original.delivery_date).format('DD-MM-YYYY'),
+      },
       { Header: 'zip_code', accessor: 'zip_code' },
       { Header: 'green_point', accessor: 'green_point' },
       { Header: 'customer_route_id', accessor: 'customer_route_id' },

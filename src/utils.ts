@@ -27,3 +27,5 @@ export const setColumnToHiddenOrShownInTable = (tableName: String, columnToShowO
   };
   return localStorage.setItem('columnsTableConfig', JSON.stringify(newColumnsTableConfig));
 };
+
+export const roundToTwoDec = (number: number | null) => number && Math.round(number * 100) / 100;

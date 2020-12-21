@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal';
+import { roundToTwoDec } from '../../../utils';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
 import Input from '../../../components/Inputs/InputText';
@@ -45,11 +46,13 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
         return { ...oLine };
       });
       setFieldValue('order_lines', newOrderLines);
+      const totalNet = sum(newOrderLines, 'price');
+      const totalTaxes = totalNet && values.type === 'A' ? totalNet * 0.21 : 0;
+      setFieldValue('total_net', totalNet);
+      setFieldValue('total_taxes', totalTaxes);
+      setFieldValue('total', totalNet ? totalNet + totalTaxes : 0);
     }
   }, [fare]);
-
-  console.log(values);
-  console.log(fare?.fare_lines);
 
   return (
     <Modal
@@ -157,18 +160,37 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
                 order_type: values.type,
               });
             }
+            const totalNet = sum(newOrderLinesValues, 'price');
+            setFieldValue('total_net', totalNet);
             setFieldValue('order_lines', newOrderLinesValues);
           }}
         />
       </div>
       <div className="m-auto w-1/2 flex justify-center flex-col items-center mt-6">
-        <LabelAndAmount amount={12} label={'Base'} />
-        <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
-        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
-        <LabelAndAmount amount={17.85} label={'Total'} isTotal />
+        <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
+        <LabelAndAmount
+          amount={roundToTwoDec(values.total_taxes)}
+          label={'Iva'}
+          isDisabled={values.type === 'B'}
+        />
+        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
+        <LabelAndAmount amount={values.total} label={'Total'} isTotal />
       </div>
     </Modal>
   );
+};
+
+const sum = (orderLines: IOrderLine[], type: string) => {
+  if (orderLines) {
+    return orderLines.reduce((acc: number, el: IOrderLine) => {
+      // @ts-ignore
+      if (el[type] && el.quantity && el.units_per_box) {
+        // @ts-ignore
+        acc += el[type] * el.quantity * el.units_per_box;
+      }
+      return acc;
+    }, 0);
+  }
 };
 
 /* const CustomerInfo = ({ customer }: { customer: ICustomer }) => {

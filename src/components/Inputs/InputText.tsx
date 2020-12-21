@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import dayjs from 'dayjs'
 
 interface InputTextProps {
   label: string;
@@ -22,7 +23,7 @@ const InputText = ({ label, name, value, onChange, onClick, type, step }: InputT
       <input
         className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
         type={type ? type : 'text'}
-        value={value}
+        value={type==="date" ? dayjs(value).format('YYYY-MM-DD') : value}
         name={name}
         id={htmlFor}
         onClick={onClick}
