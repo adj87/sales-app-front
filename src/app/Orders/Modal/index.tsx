@@ -48,9 +48,9 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
       setFieldValue('order_lines', newOrderLines);
       const totalNet = sum(newOrderLines, 'price');
       const totalTaxes = totalNet && values.type === 'A' ? totalNet * 0.21 : 0;
-      setFieldValue('total_net', totalNet);
-      setFieldValue('total_taxes', totalTaxes);
-      setFieldValue('total', totalNet ? totalNet + totalTaxes : 0);
+      setFieldValue('total_net', roundToTwoDec(totalNet ? totalNet : 0));
+      setFieldValue('total_taxes', roundToTwoDec(totalTaxes));
+      setFieldValue('total', totalNet ? roundToTwoDec(totalNet + totalTaxes) : 0);
     }
   }, [fare]);
 
@@ -109,7 +109,10 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
-          onChange={setFieldValue}
+          onChange={(field: string, value: string) => {
+            setFieldValue(field, value);
+            setFieldValue('total_taxes', 0);
+          }}
           formikValues={values}
           options={[
             { value: 'A', label: 'A' },
@@ -161,20 +164,25 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
               });
             }
             const totalNet = sum(newOrderLinesValues, 'price');
+            const totalTaxes = totalNet ? totalNet * 0.21 : 0;
             setFieldValue('total_net', totalNet);
+            setFieldValue('total_taxes', totalTaxes);
+            setFieldValue('total', totalNet ?? 0 + totalTaxes);
             setFieldValue('order_lines', newOrderLinesValues);
           }}
         />
       </div>
-      <div className="m-auto w-1/2 flex justify-center flex-col items-center mt-6">
-        <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
-        <LabelAndAmount
-          amount={roundToTwoDec(values.total_taxes)}
-          label={'Iva'}
-          isDisabled={values.type === 'B'}
-        />
-        <LabelAndAmount amount={4} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
-        <LabelAndAmount amount={values.total} label={'Total'} isTotal />
+      <div className="flex justify-center mt-5">
+        <div className="w-2/6 flex flex-col mt-6">
+          <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
+          <LabelAndAmount
+            amount={roundToTwoDec(values.total_taxes)}
+            label={'Iva'}
+            isDisabled={values.type === 'B'}
+          />
+          <LabelAndAmount amount={4} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
+          <LabelAndAmount amount={values.total} label={'Total'} isTotal />
+        </div>
       </div>
     </Modal>
   );
