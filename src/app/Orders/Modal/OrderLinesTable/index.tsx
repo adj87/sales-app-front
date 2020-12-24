@@ -38,7 +38,6 @@ const OrderLinesTable = ({
 
       {Boolean(orderLineToEdit) && (
         <OrderLineModal
-          open={true}
           title="orders.form.products-form.title"
           onCancel={() => setOrderLineToEdit(null)}
           onConfirm={(values: IOrderLine) => {

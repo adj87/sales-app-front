@@ -13,16 +13,17 @@ import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoute
 
 const OrdersComponent = ({
   orders,
-  fetchOrders,
+  fetchOrdersAndProducts,
   fetchOrderAndCustomersAndFaresAndProducts,
   history,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
+  products,
   fares,
 }: any) => {
   useEffect(() => {
-    fetchOrders();
+    fetchOrdersAndProducts();
   }, []);
 
   const openModal = useOpenModalByRoutes();
@@ -59,6 +60,7 @@ const OrdersComponent = ({
           onCancel={() => history.push(`/orders`)}
           customers={customers}
           fares={fares}
+          products={products}
           order={orderToForm}
         />
       )}
@@ -68,6 +70,7 @@ const OrdersComponent = ({
 
 const mapState = (state: AppStoreInterface) => ({
   orders: state.orders.data,
+  products: state.products.data,
   orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
   fares: state.fares.data,

@@ -13,6 +13,8 @@ import { IOrder, IOrderLine } from '../duck/types/Order';
 import LabelAndAmount from '../../../components/LabelAndAmount';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { IFare, IFareLine } from '../../Fares/duck/types/Fare';
+import { IProduct } from '../../Products/duck/types/Product';
+import { TAXES_RATE, RECHARGE_RATE } from '../../../constants';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -22,11 +24,12 @@ const SelectComponentWithFV = withFormikValues(SelectComponent);
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   customers: ICustomer[];
+  products: IProduct[];
   order: IOrder;
   fares: any;
 }
 
-const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModalProps) => {
   const [customerSelected, setCustomer] = useState<any>(null);
   const [fare, setFare] = useState<IFare | null>(null);
   const { values, setFieldValue } = useFormik<IOrder>({
@@ -54,9 +57,13 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
     }
   }, [fare]);
 
+  useEffect(() => {
+    const total = calculateTotals(values, fare, products);
+    console.log(total);
+  }, [values.type]);
+
   return (
     <Modal
-      open={true}
       onCancel={onCancel}
       onConfirm={() => console.log('hello confirm')}
       size="lg"
@@ -109,9 +116,8 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
-          onChange={(field: string, value: string) => {
-            setFieldValue(field, value);
-            setFieldValue('total_taxes', 0);
+          onChange={async (field: string, value: string) => {
+            await setFieldValue(field, value);
           }}
           formikValues={values}
           options={[
@@ -186,6 +192,32 @@ const OrdersModal = ({ onCancel, customers, order, fares }: OrdersModalProps) =>
       </div>
     </Modal>
   );
+};
+
+const calculateTotals = (values: IOrder, fare: IFare | null, products?: IProduct[]) => {
+  if (values && fare && products) {
+    return values.order_lines.reduce(
+      (acc: any, oL: IOrderLine) => {
+        const product = products.find((pr: IProduct) => pr.id === oL.product_id);
+        // @ts-ignore
+        acc.total += oL.quantity * product.units_per_box * oL.price;
+        // @ts-ignore
+        acc.total_green_point += oL.quantity * product.units_per_box * product.green_point_amount;
+        // @ts-ignore
+        if (values.type === 'A') acc.total_taxes += acc.total * TAXES_RATE;
+        if (Boolean(values.surcharge)) acc.total_recharge += acc.total * RECHARGE_RATE;
+
+        return acc;
+      },
+      {
+        total: 0,
+        total_taxes: 0,
+        total_green_point: 0,
+        total_recharge: 0,
+      },
+    );
+  }
+  return null;
 };
 
 const sum = (orderLines: IOrderLine[], type: string) => {

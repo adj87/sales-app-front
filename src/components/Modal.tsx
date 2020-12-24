@@ -5,14 +5,14 @@ import { useTranslation } from 'react-i18next';
 
 export interface ModalProps {
   size?: 'md' | 'lg';
-  open: boolean;
+
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   title: string;
 }
 
-export default function Modal({ size, open, onCancel, onConfirm, children, title }: ModalProps) {
+export default function Modal({ size, onCancel, onConfirm, children, title }: ModalProps) {
   const modalSize = size === 'lg' ? 'md:w-800 w-full' : 'md:w-500 w-full';
   const { t } = useTranslation();
   const [modal, setModal] = useState<any>(null);
@@ -20,13 +20,14 @@ export default function Modal({ size, open, onCancel, onConfirm, children, title
   useEffect(() => {
     const modal = document.createElement('div');
     modal.className =
-      'overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
+      'modalclass overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
     // @ts-ignore
     document.body.appendChild(modal);
     document.body.style.overflow = 'hidden';
     setModal(modal);
     return () => {
-      document.body.style.overflow = 'unset';
+      const numberOfModalsOpen = document.getElementsByClassName('modalclass').length;
+      if (numberOfModalsOpen === 1) document.body.style.overflow = 'unset';
       document.body.removeChild(modal);
     };
   }, []);

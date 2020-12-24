@@ -21,7 +21,6 @@ interface OrderLineModalProps extends ModalProps {
 const OrderLineModal = ({
   onCancel,
   onConfirm,
-  open,
   title,
   products,
   orderLine,
@@ -32,7 +31,7 @@ const OrderLineModal = ({
   });
 
   return (
-    <Modal onCancel={onCancel} onConfirm={submitForm} open={open} title={title} size="md">
+    <Modal onCancel={onCancel} onConfirm={submitForm} title={title} size="md">
       <InputWithCarrousel
         label="orders.form.products-form.label-product"
         data={products}

@@ -23,7 +23,6 @@ const OrderLinesTable = () => {
       <Modal
         onCancel={() => setOpenModal(false)}
         onConfirm={() => console.log('hola')}
-        open={openModal}
         title={t('orders.form.products-form.title')}
         size="md"
       >

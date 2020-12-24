@@ -13,8 +13,11 @@ const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const { fetchOperationWithLoading } = loadingOperations;
 
-const fetchOrders = () =>
-  fetchOperationWithLoading(() => apiOrders.fetchOrders(), actions.setOrders);
+const fetchOrdersAndProducts = () =>
+  fetchOperationWithLoading(
+    () => Promise.all([apiOrders.fetchOrders(), productsApi.fetchProducts()]),
+    [actions.setOrders, productsAction.setProducts],
+  );
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
@@ -41,7 +44,7 @@ const fetchOrderAndCustomersAndFaresAndProducts = (orderIdAndType: string) => {
 const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 
 export default {
-  fetchOrders,
+  fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
   fetchOrderAndCustomersAndFaresAndProducts,
   setOrderToCreateOrEdit,
