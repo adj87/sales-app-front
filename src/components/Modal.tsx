@@ -1,4 +1,5 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import Button from './Button';
 import { useTranslation } from 'react-i18next';
 
@@ -14,12 +15,31 @@ export interface ModalProps {
 export default function Modal({ size, open, onCancel, onConfirm, children, title }: ModalProps) {
   const modalSize = size === 'lg' ? 'md:w-800 w-full' : 'md:w-500 w-full';
   const { t } = useTranslation();
-  return open ? (
-    <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg transition duration-500">
+  const [modal, setModal] = useState<any>(null);
+
+  useEffect(() => {
+    const modal = document.createElement('div');
+    modal.className =
+      'overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
+    // @ts-ignore
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    setModal(modal);
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.removeChild(modal);
+    };
+  }, []);
+
+  // @ts-ignore
+
+  return (
+    modal &&
+    ReactDOM.createPortal(
+      <>
         <div className={`relative w-auto my-6 mx-auto ${modalSize} px-3`}>
           {/*content*/}
-          <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
             {/*header*/}
             <div className="p-5  rounded-t">
               <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">
@@ -52,8 +72,9 @@ export default function Modal({ size, open, onCancel, onConfirm, children, title
             </div>
           </div>
         </div>
-      </div>
-      <div className="opacity-50 fixed inset-0 z-40 bg-primary-light"></div>
-    </>
-  ) : null;
+      </>,
+      // @ts-ignore
+      modal,
+    )
+  );
 }
