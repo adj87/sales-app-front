@@ -59,7 +59,6 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
 
   useEffect(() => {
     const total = calculateTotals(values, fare, products);
-    console.log(total);
   }, [values.type, values.green_point]);
 
   return (

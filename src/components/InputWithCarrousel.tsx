@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import Input from './Inputs/InputText';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';
@@ -35,18 +35,30 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
           </button>
           {data.map((el: any) => {
             const normalClass =
-              'h-36 w-40 m-4 transform hover:rotate-3 hover:scale-125 cursor-pointer transition duration-100 bg-white rounded-lg ';
+              'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
             const selectedClass =
-              'h-36 w-40 m-4 transform scale-150 cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-20';
+              'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-secondary-dark z-50';
             return (
-              <div className={el.id === value.id ? selectedClass : normalClass}>
-                <img
-                  src={`${back_host}/images/${el.id}.png`}
-                  className="rounded-lg shadow-lg"
-                  width="auto"
-                  onClick={() => setShowInMiddle(el)}
-                />
-                <p className="text-center text-primary-main text-sm">{el.name}</p>
+              <div className="flex flex-col">
+                <div className={el.id === value.id ? selectedClass : normalClass}>
+                  <FontAwesomeIcon
+                    inverse
+                    icon={faFileAlt}
+                    size="lg"
+                    className="text-primary-dark absolute top-0"
+                    style={{ right: '2px', top: '2px' }}
+                    onClick={() => setShowInMiddle(el)}
+                  />
+                  <img
+                    src={`${back_host}/images/${el.id}.png`}
+                    className="rounded-lg shadow-lg"
+                    width="auto"
+                    onClick={() => {
+                      onChange(el);
+                      setOpenCarrousel(false);
+                    }}
+                  />
+                </div>
               </div>
             );
           })}
@@ -110,14 +122,14 @@ const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
           <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">
             {product.name}
           </p>
-          <div className="px-10">
+          <div className="px-10 xl:px-20">
             <p className="text-center text-primary-main uppercase font-bold">
               {t('commons.bottle-details')}
             </p>
             <Line label="commons.bar-code" title={'848958965841'} />
             <Line label="commons.capacity" title={product.capacity.toString()} />
             <Line label="commons.weight" title={product.capacity.toString()} />
-            <p className="text-center text-primary-main pt-3 uppercase font-bold">
+            <p className="text-center text-primary-main pt-5 uppercase font-bold">
               {t('commons.box-details')}
             </p>
             <Line label="commons.units-per-box" title={product.units_per_box.toString()} />
@@ -125,7 +137,7 @@ const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
             <Line label="commons.width" title={product.capacity.toString()} />
             <Line label="commons.length" title={product.capacity.toString()} />
             <Line label="commons.height" title={product.capacity.toString()} />
-            <p className="text-center text-primary-main pt-3 uppercase font-bold">
+            <p className="text-center text-primary-main pt-5 uppercase font-bold">
               {t('commons.pallet-details')}
             </p>
             <Line label="commons.units-per-pallet" title={product.capacity.toString()} />
@@ -137,8 +149,8 @@ const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
         </div>
       </div>
       <div className="flex justify-around w-1/2 lg:w-1/5 m-auto">
-        <Button text="commons.cancel" color="primary" onClick={() => onClose()} outline></Button>
-        <Button text="commons.add" color="primary" onClick={() => onAdd()}></Button>
+        <Button text="commons.cancel" color="secondary" onClick={() => onClose()} outline></Button>
+        <Button text="commons.add" color="secondary" onClick={() => onAdd()}></Button>
       </div>
       <div className="absolute top-0 right-0 p-4 cursor-pointer" onClick={() => onClose()}>
         X

@@ -10,15 +10,27 @@ export interface ModalProps {
   onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   title: string;
+  centered?: boolean;
 }
 
-export default function Modal({ size, onCancel, onConfirm, children, title }: ModalProps) {
+export default function Modal({
+  size,
+  onCancel,
+  onConfirm,
+  children,
+  title,
+  centered,
+}: ModalProps) {
   const modalSize = size === 'lg' ? 'md:w-800 w-full' : 'md:w-500 w-full';
   const { t } = useTranslation();
 
   return (
     <LayerOutOfRoot>
-      <div className={`relative w-auto my-6 mx-auto ${modalSize} px-3`}>
+      <div
+        className={`${
+          centered && 'h-full justify-center items-center flex '
+        }relative w-auto my-6 mx-auto ${modalSize} px-3`}
+      >
         {/*content*/}
         <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
           {/*header*/}
