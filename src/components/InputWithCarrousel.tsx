@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import Input from './Inputs/InputText';
 import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';
+import Button from './Button';
 
 interface InputWithCarrouselProps {
   click?: React.MouseEventHandler<HTMLInputElement>;
@@ -41,11 +43,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
                   src={`${back_host}/images/${el.id}.png`}
                   className="rounded-lg shadow-lg"
                   width="auto"
-                  onClick={() => {
-                    console.log('yeah marakuye');
-                    setOpenCarrousel(false);
-                    onChange(el);
-                  }}
+                  onClick={() => setShowInMiddle(el)}
                 />
                 <p className="text-center text-primary-main text-sm">{el.name}</p>
               </div>
@@ -67,20 +65,53 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
           />
         </div>
       </div>
-      {/*       {showInMiddle !== null && (
-        <div className="absolute z-50 inset-x-1/2 h-screen w-screen top-0 left-0 bg-grey-900">
+      {showInMiddle !== null && (
+        <Layer>
           <div
-            className="w-1/3 fixed h-screen margin-auto"
-            style={{
-              backgroundImage: `url(${back_host}/images/${showInMiddle.id}.png)`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-            }}
-          />
-        </div>
-      )} */}
+            className="flex w-full lg:w-1/2 justify-center items-center m-auto"
+            style={{ height: '90%' }}
+          >
+            <div className="flex-1">
+              <img
+                className="w-full lg:w-5/6"
+                src={`${back_host}/images/${showInMiddle.id}.png`}
+                // className="rounded-lg shadow-lg"
+              />
+            </div>
+            <div className="flex-1">Hola que tal</div>
+          </div>
+          <div className="flex justify-center">
+            <Button text="commons.add" color="primary" onClick={() => console.log('hola')}></Button>
+          </div>
+          <div
+            className="absolute top-0 right-0 p-4 cursor-pointer"
+            onClick={() => setShowInMiddle(null)}
+          >
+            X
+          </div>
+        </Layer>
+      )}
     </>
   );
+};
+
+const Layer = ({ children }: any) => {
+  const [modal, setModal] = useState<any>(null);
+  useEffect(() => {
+    const modal = document.createElement('div');
+    modal.className = 'modalclass fixed w-full h-full z-50 top-0 left-0 bg-white';
+    // @ts-ignore
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    setModal(modal);
+    return () => {
+      const numberOfModalsOpen = document.getElementsByClassName('modalclass').length;
+      if (numberOfModalsOpen === 1) document.body.style.overflow = 'unset';
+      document.body.removeChild(modal);
+    };
+  }, []);
+
+  return modal && ReactDOM.createPortal(children, modal);
 };
 
 export default InputWithCarrousel;

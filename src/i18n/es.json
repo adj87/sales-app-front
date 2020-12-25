@@ -1,5 +1,5 @@
 {
-  "commons": { "add": "Añadir", "cancel": "Cancelar", "close": "Cerrar" },
+  "commons": { "add": "Añadir", "cancel": "Cancelar", "close": "Cerrar", "ok": "Aceptar" },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
   "orders": {
     "form": {

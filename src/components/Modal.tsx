@@ -54,7 +54,7 @@ export default function Modal({ size, onCancel, onConfirm, children, title }: Mo
             <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
               <div className="px-8 w-full">
                 <Button
-                  text={'cancelar'}
+                  text={'commons.cancel'}
                   color="secondary"
                   outline
                   size="block"
@@ -63,7 +63,7 @@ export default function Modal({ size, onCancel, onConfirm, children, title }: Mo
               </div>
               <div className="px-8 w-full">
                 <Button
-                  text={'aceptar'}
+                  text={'commons.ok'}
                   color="secondary"
                   size="block"
                   style={{ transition: 'all .15s ease' }}

@@ -60,7 +60,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
   useEffect(() => {
     const total = calculateTotals(values, fare, products);
     console.log(total);
-  }, [values.type]);
+  }, [values.type, values.green_point]);
 
   return (
     <Modal
@@ -200,12 +200,14 @@ const calculateTotals = (values: IOrder, fare: IFare | null, products?: IProduct
       (acc: any, oL: IOrderLine) => {
         const product = products.find((pr: IProduct) => pr.id === oL.product_id);
         // @ts-ignore
-        acc.total += oL.quantity * product.units_per_box * oL.price;
+        const total = oL.quantity * product.units_per_box * oL.price;
+        acc.total += total;
+        if (values.green_point)
+          // @ts-ignore
+          acc.total_green_point += oL.quantity * product.units_per_box * product.green_point_amount;
         // @ts-ignore
-        acc.total_green_point += oL.quantity * product.units_per_box * product.green_point_amount;
-        // @ts-ignore
-        if (values.type === 'A') acc.total_taxes += acc.total * TAXES_RATE;
-        if (Boolean(values.surcharge)) acc.total_recharge += acc.total * RECHARGE_RATE;
+        if (values.type === 'A') acc.total_taxes += total * TAXES_RATE;
+        if (Boolean(values.surcharge)) acc.total_recharge += total * RECHARGE_RATE;
 
         return acc;
       },

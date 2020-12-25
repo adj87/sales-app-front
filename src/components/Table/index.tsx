@@ -175,7 +175,7 @@ const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination
     {onAddButton && (
       <Button
         onClick={onAddButton}
-        text={t('commons.add')}
+        text={'commons.add'}
         color="secondary"
         className={'absolute right-0 mt-1'}
         size="sm"

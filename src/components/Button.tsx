@@ -1,16 +1,18 @@
 import React, { CSSProperties } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ButtonProps {
-  text: String;
+  text: string;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  color: String;
+  color: string;
   size?: 'sm' | 'block' | 'md' | undefined;
   outline?: boolean;
-  className?: String;
+  className?: string;
   style?: CSSProperties;
 }
 
 const Button = ({ text, onClick, color, className, style, size, outline }: ButtonProps) => {
+  const { t } = useTranslation();
   const cssSize = getCssSize(size);
   const cssColor = getCssColor(color, outline);
   return (
@@ -19,7 +21,7 @@ const Button = ({ text, onClick, color, className, style, size, outline }: Butto
       className={`${cssColor}  ${cssSize} rounded ${className} capitalize transition-colors duration-500 ease-in-out`}
       onClick={onClick}
     >
-      {text}
+      {t(text)}
     </button>
   );
 };
