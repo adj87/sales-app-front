@@ -1,5 +1,22 @@
 {
-  "commons": { "add": "Añadir", "cancel": "Cancelar", "close": "Cerrar", "ok": "Aceptar" },
+  "commons": {
+    "add": "Añadir",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "ok": "Aceptar",
+    "units-per-box": "Unidades/Caja",
+    "units-per-pallet": "Unidades/Palet",
+    "capacity": "Volumen",
+    "height": "Altura",
+    "width": "Ancho",
+    "base": "Base",
+    "weight": "Peso",
+    "length": "Largo",
+    "bar-code": "Código de barras",
+    "bottle-details": "Detalles de artículo",
+    "box-details": "Detalles de caja",
+    "pallet-details": "Detalles de palet"
+  },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
   "orders": {
     "form": {

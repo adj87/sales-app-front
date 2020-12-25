@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Modal from '../../../../components/Modal';
-import { ModalProps } from '../../../../components/Modal';
+import Modal from '../../../../components/Modal/Modal';
+import { ModalProps } from '../../../../components/Modal/Modal';
 import InputWithCarrousel from '../../../../components/InputWithCarrousel';
 import Input from '../../../../components/Inputs/InputText';
 import { IProduct } from '../../../Products/duck/types/Product';

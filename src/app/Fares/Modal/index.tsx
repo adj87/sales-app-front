@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 
-import Modal from '../../../components/Modal';
+import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
 import Input from '../../../components/Inputs/InputText';

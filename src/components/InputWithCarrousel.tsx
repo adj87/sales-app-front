@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';
 import Button from './Button';
+import LayerOutOfRoot from './Modal/Layer';
 
 interface InputWithCarrouselProps {
   click?: React.MouseEventHandler<HTMLInputElement>;
@@ -66,52 +67,84 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
         </div>
       </div>
       {showInMiddle !== null && (
-        <Layer>
-          <div
-            className="flex w-full lg:w-1/2 justify-center items-center m-auto"
-            style={{ height: '90%' }}
-          >
-            <div className="flex-1">
-              <img
-                className="w-full lg:w-5/6"
-                src={`${back_host}/images/${showInMiddle.id}.png`}
-                // className="rounded-lg shadow-lg"
-              />
-            </div>
-            <div className="flex-1">Hola que tal</div>
-          </div>
-          <div className="flex justify-center">
-            <Button text="commons.add" color="primary" onClick={() => console.log('hola')}></Button>
-          </div>
-          <div
-            className="absolute top-0 right-0 p-4 cursor-pointer"
-            onClick={() => setShowInMiddle(null)}
-          >
-            X
-          </div>
-        </Layer>
+        <ProductDetail
+          product={showInMiddle}
+          onClose={() => setShowInMiddle(null)}
+          onAdd={() => {
+            onChange(showInMiddle);
+            setShowInMiddle(null);
+            setOpenCarrousel(false);
+          }}
+        />
       )}
     </>
   );
 };
 
-const Layer = ({ children }: any) => {
-  const [modal, setModal] = useState<any>(null);
-  useEffect(() => {
-    const modal = document.createElement('div');
-    modal.className = 'modalclass fixed w-full h-full z-50 top-0 left-0 bg-white';
-    // @ts-ignore
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-    setModal(modal);
-    return () => {
-      const numberOfModalsOpen = document.getElementsByClassName('modalclass').length;
-      if (numberOfModalsOpen === 1) document.body.style.overflow = 'unset';
-      document.body.removeChild(modal);
-    };
-  }, []);
+interface ProductDetailProps {
+  product: IProduct;
+  onClose: Function;
+  onAdd: Function;
+}
 
-  return modal && ReactDOM.createPortal(children, modal);
+const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
+  const { t } = useTranslation();
+  const Line = ({ label, title }: { label: string; title: string }) => {
+    return (
+      <div className="flex flex-row justify-between py-2">
+        <span className="text-grey-900  ">{t(label)}</span>
+        <span className="text-grey-500">{title}</span>
+      </div>
+    );
+  };
+  return (
+    <LayerOutOfRoot className="modalclass fixed w-full h-full z-50 top-0 left-0 bg-white">
+      <div
+        className="flex w-full lg:w-2/3 justify-center items-center m-auto"
+        style={{ height: '90%' }}
+      >
+        <div className="flex-1 flex justify-center">
+          <img className="w-full lg:w-2/3 mt-10" src={`${back_host}/images/${product?.id}.png`} />
+        </div>
+        <div className="flex-1 flex flex-col p-5">
+          <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">
+            {product.name}
+          </p>
+          <div className="px-10">
+            <p className="text-center text-primary-main uppercase font-bold">
+              {t('commons.bottle-details')}
+            </p>
+            <Line label="commons.bar-code" title={'848958965841'} />
+            <Line label="commons.capacity" title={product.capacity.toString()} />
+            <Line label="commons.weight" title={product.capacity.toString()} />
+            <p className="text-center text-primary-main pt-3 uppercase font-bold">
+              {t('commons.box-details')}
+            </p>
+            <Line label="commons.units-per-box" title={product.units_per_box.toString()} />
+            <Line label="commons.capacity" title={product.capacity.toString()} />
+            <Line label="commons.width" title={product.capacity.toString()} />
+            <Line label="commons.length" title={product.capacity.toString()} />
+            <Line label="commons.height" title={product.capacity.toString()} />
+            <p className="text-center text-primary-main pt-3 uppercase font-bold">
+              {t('commons.pallet-details')}
+            </p>
+            <Line label="commons.units-per-pallet" title={product.capacity.toString()} />
+            <Line label="commons.base" title={product.capacity.toString()} />
+            <Line label="commons.capacity" title={product.capacity.toString()} />
+            <Line label="commons.height" title={product.capacity.toString()} />
+            <Line label="commons.weight" title={product.capacity.toString()} />
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-around w-1/2 lg:w-1/5 m-auto">
+        <Button text="commons.cancel" color="primary" onClick={() => onClose()} outline></Button>
+        <Button text="commons.add" color="primary" onClick={() => onAdd()}></Button>
+      </div>
+      <div className="absolute top-0 right-0 p-4 cursor-pointer" onClick={() => onClose()}>
+        X
+      </div>
+    </LayerOutOfRoot>
+  );
 };
 
 export default InputWithCarrousel;
