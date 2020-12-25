@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';
 import Button from './Button';
+import { DEFAULT_IMAGE_URL } from '../constants';
 import LayerOutOfRoot from './Modal/Layer';
 
 interface InputWithCarrouselProps {
@@ -37,7 +38,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
             const normalClass =
               'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
             const selectedClass =
-              'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-secondary-dark z-50';
+              'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
             return (
               <div className="flex flex-col">
                 <div className={el.id === value.id ? selectedClass : normalClass}>
@@ -66,13 +67,13 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex items-center justify-center">
-        <div className={`${value.id ? 'col-span-2' : 'col-span-4'}`}>
+        <div className={`col-span-2`}>
           <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
         </div>
 
         <div className="hover:scale-125 cursor-pointer transition duration-500 flex justify-center items-center">
           <img
-            src={`${back_host}/images/${value.id}.png`}
+            src={`${value.id ? `${back_host}/images/${value.id}.png` : `${DEFAULT_IMAGE_URL}`} `}
             width="80"
             onClick={() => setOpenCarrousel(true)}
           />
