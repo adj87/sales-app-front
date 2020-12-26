@@ -8,6 +8,7 @@ import { IOrderLine } from '../../duck/types/Order';
 import { useFormik } from 'formik';
 import LabelAndAmount from '../../../../components/LabelAndAmount';
 import withFormikValues from '../../../../components/Inputs/withFormikValues';
+import Button from '../../../../components/Button';
 
 const InputWithFormikValues = withFormikValues(Input);
 
@@ -31,7 +32,7 @@ const OrderLineModal = ({
   });
 
   return (
-    <Modal onCancel={onCancel} onConfirm={submitForm} title={title} size="md" centered>
+    <Modal onCancel={onCancel} onConfirm={submitForm} title={title} size="xs" centered>
       <InputWithCarrousel
         label="orders.form.products-form.label-product"
         data={products}
@@ -44,7 +45,7 @@ const OrderLineModal = ({
       />
       {values.product_id && (
         <>
-          <div className="grid grid-cols-3 gap-4 mt-2">
+          <div className="flex flex-col w-4/5 m-auto">
             <InputWithFormikValues
               formikValues={values}
               label="orders.form.products-form.label-quantity"
@@ -60,19 +61,28 @@ const OrderLineModal = ({
               onChange={setFieldValue}
               step="0.01"
             />
-            <InputWithFormikValues
-              formikValues={values}
-              label="orders.form.products-form.label-promotion"
-              name="promotion"
-              type="number"
-              onChange={setFieldValue}
-            />
           </div>
-          <div className="w-full flex justify-end flex-col items-end">
+          <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
             <LabelAndAmount amount={12} label={'Base'} />
             <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
             <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
             <LabelAndAmount amount={17.85} label={'Total'} isTotal />
+          </div>
+          <div className="flex flex-col mt-10 ">
+            <Button
+              text="commons.ok"
+              color="secondary"
+              onClick={submitForm}
+              size="block"
+              className="mb-2"
+            />
+            <Button
+              text="commons.cancel"
+              color="secondary"
+              onClick={onCancel}
+              size="block"
+              outline
+            />
           </div>
         </>
       )}

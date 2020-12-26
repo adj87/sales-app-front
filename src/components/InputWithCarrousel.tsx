@@ -66,18 +66,17 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex items-center justify-center">
-        <div className={`col-span-2`}>
-          <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
-        </div>
-
-        <div className="hover:scale-125 cursor-pointer transition duration-500 flex justify-center items-center">
-          <img
-            src={`${value.id ? `${back_host}/images/${value.id}.png` : `${DEFAULT_IMAGE_URL}`} `}
-            width="80"
-            onClick={() => setOpenCarrousel(true)}
-          />
-        </div>
+      <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
+        <img
+          src={`${value.id ? `${back_host}/images/${value.id}.png` : `${DEFAULT_IMAGE_URL}`} `}
+          width="80"
+          onClick={() => setOpenCarrousel(true)}
+        />
+        {value.id && (
+          <div className="w-full">
+            <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
+          </div>
+        )}
       </div>
       {showInMiddle !== null && (
         <ProductDetail
