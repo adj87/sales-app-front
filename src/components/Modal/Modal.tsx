@@ -29,7 +29,7 @@ export default function Modal({
       <div
         className={`${
           centered && 'h-full justify-center items-center flex '
-        }relative w-auto my-6 mx-auto ${modalSize} px-3`}
+        }relative w-auto py-6 mx-auto ${modalSize} px-3`}
       >
         {/*content*/}
         <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
