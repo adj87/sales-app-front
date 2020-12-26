@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import LayerOutOfRoot from './Layer';
 
 export interface ModalProps {
-  size?: 'md' | 'lg';
+  size?: 'md' | 'lg' | 'xs';
 
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  onConfirm: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onConfirm?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   title: string;
   centered?: boolean;
@@ -21,7 +21,16 @@ export default function Modal({
   title,
   centered,
 }: ModalProps) {
-  const modalSize = size === 'lg' ? 'md:w-800 w-full' : 'md:w-500 w-full';
+  const modalSize = (size: string = 'md') => {
+    switch (size) {
+      case 'lg':
+        return 'md:w-800 w-full';
+      case 'xs':
+        return 'md:w-330 w-full';
+      default:
+        return 'md:w-500 w-full';
+    }
+  };
   const { t } = useTranslation();
 
   return (
@@ -29,7 +38,7 @@ export default function Modal({
       <div
         className={`${
           centered && 'h-full justify-center items-center flex '
-        }relative w-auto py-6 mx-auto ${modalSize} px-3`}
+        }relative w-auto py-6 mx-auto ${modalSize(size)} px-3`}
       >
         {/*content*/}
         <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
@@ -43,26 +52,29 @@ export default function Modal({
           {/*body*/}
           <div className="relative p-6 flex-auto">{children}</div>
           {/*footer*/}
-          <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
-            <div className="px-8 w-full">
-              <Button
-                text={'commons.cancel'}
-                color="secondary"
-                outline
-                size="block"
-                onClick={onCancel}
-              />
+          {!onConfirm && (
+            <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
+              <div className="px-8 w-full">
+                <Button
+                  text={'commons.cancel'}
+                  color="secondary"
+                  outline
+                  size="block"
+                  onClick={onCancel}
+                />
+              </div>
+              <div className="px-8 w-full">
+                <Button
+                  text={'commons.ok'}
+                  color="secondary"
+                  size="block"
+                  style={{ transition: 'all .15s ease' }}
+                  // @ts-ignore
+                  onClick={onConfirm}
+                />
+              </div>
             </div>
-            <div className="px-8 w-full">
-              <Button
-                text={'commons.ok'}
-                color="secondary"
-                size="block"
-                style={{ transition: 'all .15s ease' }}
-                onClick={onConfirm}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </LayerOutOfRoot>
