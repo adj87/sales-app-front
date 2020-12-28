@@ -32,7 +32,7 @@ const OrderLineModal = ({
   });
 
   return (
-    <Modal onCancel={onCancel} onConfirm={submitForm} title={title} size="xs" centered>
+    <Modal title={title} size="xs" centered>
       <InputWithCarrousel
         label="orders.form.products-form.label-product"
         data={products}
@@ -79,6 +79,7 @@ const OrderLineModal = ({
             <Button
               text="commons.cancel"
               color="secondary"
+              // @ts-ignore
               onClick={onCancel}
               size="block"
               outline

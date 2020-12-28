@@ -6,7 +6,7 @@ import LayerOutOfRoot from './Layer';
 export interface ModalProps {
   size?: 'md' | 'lg' | 'xs';
 
-  onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onCancel?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   title: string;
@@ -52,7 +52,7 @@ export default function Modal({
           {/*body*/}
           <div className="relative p-6 flex-auto">{children}</div>
           {/*footer*/}
-          {!onConfirm && (
+          {onConfirm && (
             <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
               <div className="px-8 w-full">
                 <Button
@@ -60,6 +60,7 @@ export default function Modal({
                   color="secondary"
                   outline
                   size="block"
+                  // @ts-ignore
                   onClick={onCancel}
                 />
               </div>
