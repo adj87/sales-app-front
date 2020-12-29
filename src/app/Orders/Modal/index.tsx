@@ -15,6 +15,8 @@ import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { IFare, IFareLine } from '../../Fares/duck/types/Fare';
 import { IProduct } from '../../Products/duck/types/Product';
 import { TAXES_RATE, RECHARGE_RATE } from '../../../constants';
+import Button from '../../../components/Button';
+import MoreInfo from './MoreInfo';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -68,35 +70,22 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
       size="lg"
       title="orders.form.title"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className="flex items-center">
-          <SelectComponent
-            options={customers}
-            labelText="orders.form.label-customer"
-            onChange={(customer: ICustomer) => {
-              const { address, fiscal_id, zip_code, id, name } = customer;
-              setCustomer(customer);
-              setFieldValue('address', address);
-              setFieldValue('shipping_place', address);
-              setFieldValue('customer_id', id);
-              setFieldValue('customer_name', name);
-              setFieldValue('fiscal_id', fiscal_id);
-              setFieldValue('zip_code', zip_code);
-            }}
-          />
-        </div>
-
-        {/*         {customerSelected && <CustomerInfo customer={customerSelected} />} */}
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponent
-          labelText="orders.form.label-fare"
-          onChange={setFare}
-          value={fare}
-          optionLabel={(option: IFare) => option.customer_name}
-          optionValue={(option: IFare) => option.customer_id.toString()}
-          options={fares}
+          options={customers}
+          labelText="orders.form.label-customer"
+          onChange={(customer: ICustomer) => {
+            const { address, fiscal_id, zip_code, id, name } = customer;
+            setCustomer(customer);
+            setFieldValue('address', address);
+            setFieldValue('shipping_place', address);
+            setFieldValue('customer_id', id);
+            setFieldValue('customer_name', name);
+            setFieldValue('fiscal_id', fiscal_id);
+            setFieldValue('zip_code', zip_code);
+          }}
         />
+
         <InputWithFV
           label="orders.form.label-shipping-place"
           name="shipping_place"
@@ -111,7 +100,17 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           type="date"
         />
       </div>
-      <div className="flex items-end mb-5 mt-5 justify-between">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/*         <SelectComponent
+          labelText="orders.form.label-fare"
+          onChange={setFare}
+          value={fare}
+          optionLabel={(option: IFare) => option.customer_name}
+          optionValue={(option: IFare) => option.customer_id.toString()}
+          options={fares}
+        /> */}
+      </div>
+      <div className="flex items-end mb-20 justify-between">
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
@@ -177,7 +176,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           }}
         />
       </div>
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-end mt-5">
         <div className="w-2/6 flex flex-col mt-6">
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
           <LabelAndAmount
@@ -189,6 +188,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           <LabelAndAmount amount={values.total} label={'Total'} isTotal />
         </div>
       </div>
+      <MoreInfo />
     </Modal>
   );
 };
