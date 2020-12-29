@@ -14,7 +14,11 @@ const LabelAndAmount = ({ label, amount, isTotal, size, isDisabled }: LabelAndAm
   classColorString = isDisabled ? 'text-grey-200' : classColorString;
   const classSizeString = size === 'lg' ? 'text-3xl' : 'text-xl';
   return (
-    <div className="flex justify-between flex-row w-full mt-1">
+    <div
+      className={`flex justify-between flex-row w-full mt-1 ${
+        isTotal && 'border-t border-primary-dark mt-5'
+      }`}
+    >
       <span className={`${classColorString} ${classSizeString} font-light`}>{label}</span>
       <span className={`${classColorString} ${classSizeString} ${isTotal && 'font-bold'}`}>
         {amount}
