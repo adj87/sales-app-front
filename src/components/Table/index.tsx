@@ -11,12 +11,21 @@ import {
   faAngleRight,
   faAngleDoubleRight,
 } from '@fortawesome/free-solid-svg-icons';
-import Input from '../Input';
+import Input from '../Inputs/InputText';
 import Button from '../Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
+import InputCheckBox from '../Inputs/InputCheckbox';
 
-function Table({ columns, data, onAddButton, tableName, withSearching, withPagination }: any) {
+function Table({
+  columns,
+  data,
+  onAddButton,
+  tableName,
+  withSearching,
+  withPagination,
+  onRowClick,
+}: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -69,7 +78,12 @@ function Table({ columns, data, onAddButton, tableName, withSearching, withPagin
       />
       <table {...getTableProps()} className="w-full">
         <THead headerGroups={headerGroups} />
-        <TBody getTableBodyProps={getTableBodyProps} page={page} prepareRow={prepareRow} />
+        <TBody
+          getTableBodyProps={getTableBodyProps}
+          page={page}
+          prepareRow={prepareRow}
+          onRowClick={onRowClick}
+        />
       </table>
 
       <PaginationAndAddButton
@@ -129,12 +143,16 @@ const THead = ({ headerGroups }) => (
   </thead>
 );
 
-const TBody = ({ getTableBodyProps, page, prepareRow }) => (
+const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick }) => (
   <tbody {...getTableBodyProps()}>
     {page.map((row, i) => {
       prepareRow(row);
       return (
-        <tr {...row.getRowProps()}>
+        <tr
+          {...row.getRowProps()}
+          onClick={onRowClick ? () => onRowClick(row) : undefined}
+          className={onRowClick ? 'cursor-pointer' : ''}
+        >
           {row.cells.map((cell) => {
             return (
               <td
@@ -157,9 +175,10 @@ const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination
     {onAddButton && (
       <Button
         onClick={onAddButton}
-        text={t('commons.add')}
+        text={'commons.add'}
         color="secondary"
         className={'absolute right-0 mt-1'}
+        size="sm"
       />
     )}
   </div>
@@ -182,17 +201,14 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
         </div>
         <div className={className}>
           {allColumns.map((column) => {
-            let { onChange, ...restToggleHiddenProps } = column.getToggleHiddenProps();
-            onChange = (e) => {
-              column.toggleHidden(!e.target.checked);
+            let { onChange, checked } = column.getToggleHiddenProps();
+            onChange = (name, value) => {
+              column.toggleHidden(!value);
               setColumnToHiddenOrShownInTable(tableName, column.id);
             };
             return (
               <div key={column.id} className="px-2 py-1">
-                <label className="text-grey-500">
-                  <input type="checkbox" onChange={onChange} {...restToggleHiddenProps} />{' '}
-                  {column.Header}
-                </label>
+                <InputCheckBox onChange={onChange} label={column.Header} value={checked} />
               </div>
             );
           })}
@@ -213,7 +229,7 @@ const Search = ({ globalFilter, setGlobalFilter, preGlobalFilteredRows }) => {
       <Input
         value={value}
         label="Buscar"
-        onChange={(value) => {
+        onChange={(name, value) => {
           setValue(value);
           onChange(value);
         }}

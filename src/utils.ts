@@ -21,11 +21,11 @@ export const setColumnToHiddenOrShownInTable = (tableName: String, columnToShowO
   } else {
     columnsHiddenInTable.push(columnToShowOrHide);
   }
-
-  const columnsTablesConfig = getColumnsTablesConfig()[tableName.toString()];
   const newColumnsTableConfig = {
-    ...columnsTablesConfig,
+    ...getColumnsTablesConfig(),
     [tableName.toString()]: columnsHiddenInTable,
   };
   return localStorage.setItem('columnsTableConfig', JSON.stringify(newColumnsTableConfig));
 };
+
+export const roundToTwoDec = (number: number | null) => number && Math.round(number * 100) / 100;

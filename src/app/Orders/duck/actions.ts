@@ -1,12 +1,22 @@
-import { SET_ORDERS } from './types';
-import { Order } from '../mainInterfaces';
-import { SetOrdersAction } from './types';
+import {
+  SET_ORDERS,
+  SetElementToCreateOrEditAction,
+  SET_ORDER_TO_CREATE_OR_EDIT,
+  SetOrdersAction,
+} from './types';
+import { IOrder } from './types/Order';
 
-const setOrders = (orders: Order[]): SetOrdersAction => ({
+const setOrders = (orders: IOrder[]): SetOrdersAction => ({
   type: SET_ORDERS,
   payload: orders,
 });
 
+const setOrderToCreateOrEdit = (order: IOrder | null): SetElementToCreateOrEditAction => ({
+  type: SET_ORDER_TO_CREATE_OR_EDIT,
+  payload: order,
+});
+
 export default {
   setOrders,
+  setOrderToCreateOrEdit,
 };

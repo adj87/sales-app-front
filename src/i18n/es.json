@@ -1,1 +1,47 @@
-{ "commons": { "add": "Añadd" }, "main-layout": { "customers": "Clientes", "orders": "Pedidos" } }
+{
+  "commons": {
+    "add": "Añadir",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "ok": "Aceptar",
+    "units-per-box": "Unidades/Caja",
+    "units-per-pallet": "Unidades/Palet",
+    "capacity": "Volumen",
+    "height": "Altura",
+    "width": "Ancho",
+    "base": "Base",
+    "weight": "Peso",
+    "length": "Largo",
+    "bar-code": "Código de barras",
+    "bottle-details": "Detalles de artículo",
+    "box-details": "Detalles de caja",
+    "pallet-details": "Detalles de palet",
+    "more-info": "Mostrar + info"
+  },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
+  "orders": {
+    "form": {
+      "title": "Añadir pedido",
+      "label-customer": "Cliente",
+      "label-fare": "Tarifa",
+      "label-orders-lines": "Lineas de pedido",
+      "label-shipping-place": "Lugar de envío",
+      "label-delivery-date": "Fecha de servicio",
+      "label-type": "Serie",
+      "label-surcharge": "Recargo de equivalencia",
+      "label-green-point": "P.Verde",
+      "label-together": "Mostrar conjuntamente con otros pedidos",
+      "more-info": {
+        "check-fare": "Ver tarifa",
+        "check-customer-info": "Ver info cliente",
+        "check-statistics": "Ver últimas estadisticas"
+      },
+      "products-form": {
+        "title": "Añadir producto",
+        "label-product": "Producto",
+        "label-quantity": "Cantidad",
+        "label-promotion": "Promoción"
+      }
+    }
+  }
+}

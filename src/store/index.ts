@@ -1,8 +1,18 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import ordersReducer from '../app/Orders/duck';
+import customersReducer from '../app/Customers/duck';
+import productsReducer from '../app/Products/duck';
+import loadingReducer from '../app/Loading/duck';
+import faresReducer from '../app/Fares/duck';
 
-const appReducer = combineReducers({ orders: ordersReducer });
+const appReducer = combineReducers({
+  orders: ordersReducer,
+  customers: customersReducer,
+  products: productsReducer,
+  fares: faresReducer,
+  loading: loadingReducer,
+});
 
 const middlewares = [thunk];
 
