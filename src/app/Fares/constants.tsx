@@ -19,37 +19,7 @@ export const columns = [
 ];
 
 export const defaultValues = {
-  id: null,
-  address: null,
-  fiscal_id: null,
-  zip_code: null,
-  date: null,
-  shipping_place: null,
-  delivery_date: null,
-  total_net: 0,
-  total_taxes: 0,
-  total: 0,
-  surcharge: null,
-  customer_id: null,
   customer_name: null,
-  green_point: null,
-  customer_route_id: null,
-  type: 'A',
-  show_together_with_others: true,
-  order_lines: [],
-};
-
-export const defaultOrderLineValues = {
-  order_id: null,
-  order_type: 'A',
-  line_number: null,
-  product_id: null,
-  product_name: null,
-  units_per_box: 0,
-  price: null,
-  cost: null,
-  quantity: null,
-  taxes_rate: 21,
-  surcharge_amount: 0,
-  green_point_amount: 0.01,
+  customer_id: null,
+  fare_lines: [],
 };
