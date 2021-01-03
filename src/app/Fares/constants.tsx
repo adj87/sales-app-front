@@ -4,57 +4,16 @@ export const columns = [
   {
     Header: 'Name',
     columns: [
-      { Header: 'type', accessor: 'type' },
-      { Header: 'id', accessor: 'id' },
+      { Header: 'customer_id', accessor: 'customer_id' },
+      { Header: 'product_name', accessor: 'product_name' },
       { Header: 'customer_name', accessor: 'customer_name' },
-      { Header: 'address', accessor: 'address' },
-      { Header: 'date', accessor: 'date' },
-      { Header: 'delivery_date', accessor: 'delivery_date' },
-      { Header: 'zip_code', accessor: 'zip_code' },
-      { Header: 'green_point', accessor: 'green_point' },
-      { Header: 'customer_route_id', accessor: 'customer_route_id' },
-      { Header: 'total', accessor: 'total' },
-      { Header: 'total_net', accessor: 'total_net' },
-      { Header: 'total_taxes', accessor: 'total_taxes' },
-    ],
-  },
-];
-
-export const columnsOrderLineTable = [
-  {
-    Header: 'Name',
-    columns: [
-      { Header: 'order_id', accessor: 'order_id' },
-      { Header: 'order_type', accessor: 'order_type' },
-      { Header: 'line_number', accessor: 'line_number' },
+      { Header: 'price_1', accessor: 'price_1' },
+      { Header: 'price_2', accessor: 'price_2' },
+      { Header: 'price_3', accessor: 'price_3' },
+      { Header: 'price_4', accessor: 'price_4' },
       { Header: 'product_id', accessor: 'product_id' },
-      {
-        Header: 'product_name',
-        accessor: 'product_name',
-        Cell: ({ row }: any) => {
-          return (
-            <div className="flex items-center justify-center">
-              {
-                <>
-                  <img
-                    src={`http://localhost:3001/images/${row.original.product_id}.png`}
-                    width="20"
-                    className="inline mr-2"
-                  ></img>
-                  <span>{row.original.product_name}</span>
-                </>
-              }
-            </div>
-          );
-        },
-      },
-      { Header: 'units_per_box', accessor: 'units_per_box' },
-      { Header: 'price', accessor: 'price' },
-      { Header: 'cost', accessor: 'cost' },
-      { Header: 'quantity', accessor: 'quantity' },
-      { Header: 'taxes_rate', accessor: 'taxes_rate' },
-      { Header: 'surcharge_amount', accessor: 'surcharge_amount' },
-      { Header: 'green_point_amount', accessor: 'green_point_amount' },
+      { Header: 'to_charge', accessor: 'to_charge' },
+      { Header: 'to_sell', accessor: 'to_sell' },
     ],
   },
 ];
