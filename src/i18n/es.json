@@ -18,7 +18,7 @@
     "pallet-details": "Detalles de palet",
     "more-info": "Mostrar + info"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {
     "form": {
       "title": "Añadir pedido",

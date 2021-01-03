@@ -11,12 +11,12 @@ const setFares = (fares: IFare[]): SetFaresAction => ({
   payload: fares,
 });
 
-const setOrderToCreateOrEdit = (fare: IFare | null): SetElementToCreateOrEditAction => ({
+const setFareToCreateOrEdit = (fare: IFare | null): SetElementToCreateOrEditAction => ({
   type: SET_FARE_TO_CREATE_OR_EDIT,
   payload: fare,
 });
 
 export default {
   setFares,
-  setOrderToCreateOrEdit,
+  setFareToCreateOrEdit,
 };

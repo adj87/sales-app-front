@@ -1,27 +1,39 @@
 import { Dispatch } from 'react';
-import { AxiosResponse } from 'axios';
 
 import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
-import { SetFaresAction, SetElementToCreateOrEditAction } from './types';
-import { operations as customersOperations } from '../../Customers/duck';
-import { operations as productsOperations } from '../../Products/duck';
+import { SetElementToCreateOrEditAction } from './types';
+import { operations as loadingOperations } from '../../Loading/duck';
 
-import { IFare } from './types/Fare';
+import { actions as customersAction, api as customersApi } from '../../Customers/duck';
+import { actions as productsAction, api as productsApi } from '../../Products/duck';
+
+const { fetchOperationWithLoading } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setOrderToCreateOrEdit(null));
+  dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchCustomers = customersOperations.fetchCustomers;
-const fetchProducts = productsOperations.fetchProducts;
-const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
+const fetchFares = () => fetchOperationWithLoading(api.fetchFares, actions.setFares);
+
+const fetchFareCustomersAndProducts = (idCustomerFare: number) =>
+  fetchOperationWithLoading(
+    () =>
+      Promise.all([
+        api.fetchFares(idCustomerFare),
+        customersApi.fetchCustomers(),
+        productsApi.fetchProducts(),
+      ]),
+    [actions.setFareToCreateOrEdit, customersAction.setCustomers, productsAction.setProducts],
+  );
+
+const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 
 export default {
   removeElementToCreateOrEdit,
-  fetchCustomers,
-  fetchProducts,
-  setOrderToCreateOrEdit,
+  fetchFares,
+  fetchFareCustomersAndProducts,
+  setFareToCreateOrEdit,
 };
