@@ -43,5 +43,14 @@
         "label-promotion": "Promoción"
       }
     }
+  },
+  "fares": {
+    "form": {
+      "title": "Añadir tarifa",
+      "title-edit": "Editar tarifa",
+      "label-customer": "Cliente",
+      "inherit-from-another-customer-button": "Heredar de otro cliente",
+      "inherit-from-another-customer-label": "Heredar de"
+    }
   }
 }
