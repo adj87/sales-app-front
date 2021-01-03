@@ -22,7 +22,7 @@ const fetchFareCustomersAndProducts = (idCustomerFare: number) =>
   fetchOperationWithLoading(
     () =>
       Promise.all([
-        api.fetchFares(idCustomerFare),
+        api.fetchFares(idCustomerFare, true),
         customersApi.fetchCustomers(),
         productsApi.fetchProducts(),
       ]),

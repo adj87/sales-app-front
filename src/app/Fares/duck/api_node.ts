@@ -25,7 +25,7 @@ const fetchFares = (fareId?: Number, byCustomersGrouping?: boolean) => {
         }
         return acc;
       }, []);
-      return { data: dataReorganized };
+      return { data: fareId ? dataReorganized[0] : dataReorganized };
     } else {
       return res;
     }
