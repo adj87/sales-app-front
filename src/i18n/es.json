@@ -50,6 +50,7 @@
       "title-edit": "Editar tarifa",
       "label-customer": "Cliente",
       "inherit-from-another-customer-button": "Heredar de otro cliente",
+      "inheriting-from-customer-button": "Heredando de",
       "inherit-from-another-customer-label": "Heredar de"
     }
   }
