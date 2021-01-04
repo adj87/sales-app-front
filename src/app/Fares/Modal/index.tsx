@@ -15,6 +15,8 @@ import Table from '../../../components/Table';
 import { columns } from '../constants';
 import Button from '../../../components/Button';
 import { api } from '../duck';
+import InheritFromModal from './InheritFromModal';
+import { useTranslation } from 'react-i18next';
 
 interface FaresModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -22,15 +24,27 @@ interface FaresModalProps {
   products: IProduct[];
   fare: IFare;
   fares: IFareLine[];
+  setFareToInheritFrom: Function;
+  fetchFareWithCb: Function;
+  fareToInheritFrom: IFare;
 }
 
-const FaresModal = ({ onCancel, fare, customers }: FaresModalProps) => {
+const FaresModal = ({
+  onCancel,
+  fare,
+  customers,
+  setFareToInheritFrom,
+  fareToInheritFrom,
+  fetchFareWithCb,
+}: FaresModalProps) => {
   const { values, setFieldValue } = useFormik<IFare>({
     initialValues: fare,
     onSubmit: (values: IFare) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+
+  const { t } = useTranslation();
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   return (
     <>
@@ -39,7 +53,6 @@ const FaresModal = ({ onCancel, fare, customers }: FaresModalProps) => {
         onConfirm={() => console.log('holasd')}
         onCancel={onCancel}
         size="lg"
-        centered
       >
         <div className="flex justify-center">
           <div className="w-1/2">
@@ -57,7 +70,13 @@ const FaresModal = ({ onCancel, fare, customers }: FaresModalProps) => {
         <div className="mt-5">
           <Table data={values.fare_lines} columns={columns} tableName={'fares'} />
           <Button
-            text="fares.form.inherit-from-another-customer-button"
+            text={`${
+              fareToInheritFrom
+                ? `${t('fares.form.inheriting-from-customer-button')} ${
+                    fareToInheritFrom.customer_name
+                  }`
+                : 'fares.form.inherit-from-another-customer-button'
+            }`}
             color="primary"
             onClick={() => setInheritModal(true)}
             size="sm"
@@ -65,21 +84,17 @@ const FaresModal = ({ onCancel, fare, customers }: FaresModalProps) => {
         </div>
       </Modal>
       {inheritModal && (
-        <Modal
-          size="xs"
-          centered
+        <InheritFromModal
           onCancel={() => setInheritModal(false)}
-          onConfirm={() => {
+          onConfirm={(fare: IFare) => {
+            setFieldValue('fare_lines', fare.fare_lines);
             setInheritModal(false);
-            setFieldValue('fare_lines', []);
+            setFareToInheritFrom(fare);
           }}
-        >
-          <SelectComponent
-            onChange={(customer: ICustomer) => api.fetchFares(customer.id)}
-            options={customers}
-            labelText="fares.form.inherit-from-another-customer-label"
-          />
-        </Modal>
+          customers={customers}
+          fetchFareWithCb={fetchFareWithCb}
+          fareToInheritFrom={fareToInheritFrom}
+        />
       )}
     </>
   );
