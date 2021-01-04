@@ -20,6 +20,9 @@ const FaresComponent = ({
   customers,
   fetchFareCustomersAndProducts,
   products,
+  setFareToInheritFrom,
+  fetchFareWithCb,
+  fareToInheritFrom,
 }: any) => {
   useEffect(() => {
     fetchFares();
@@ -54,11 +57,14 @@ const FaresComponent = ({
       />
       {Boolean(fareToForm) && (
         <FaresModal
+          fetchFareWithCb={fetchFareWithCb}
           onCancel={() => history.push(`/fares`)}
           customers={customers}
           fares={fares}
           products={products}
           fare={fareToForm}
+          setFareToInheritFrom={setFareToInheritFrom}
+          fareToInheritFrom={fareToInheritFrom}
         />
       )}
     </MainLayout>
@@ -70,6 +76,7 @@ const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
   customers: state.customers.data,
   fareToForm: state.fares.elementToCreateOrEdit,
+  fareToInheritFrom: state.fares.fareToInheritFrom,
 });
 
 const mapDispatch = {

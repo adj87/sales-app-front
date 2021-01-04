@@ -2,34 +2,39 @@ import React, { useState } from 'react';
 import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
-import { IFare } from '../duck/types/Fare';
+import { IFare, IFareLine } from '../duck/types/Fare';
+import { reduceToCustomersGrouping } from '../constants';
 
 interface InheritFromModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: Function;
   fareToInheritFrom: IFare;
   fetchFareWithCb: Function;
-  customers: ICustomer[];
+  fareLines: IFareLine[];
 }
 
 const InheritFromModal = ({
   onCancel,
   onConfirm,
   fareToInheritFrom,
-  customers,
+  fareLines,
   fetchFareWithCb,
 }: InheritFromModalProps) => {
   const [fare, setFare] = useState<IFare | null>(fareToInheritFrom);
-
+  const fares = fareLines.reduce(reduceToCustomersGrouping,[]) 
+  console.log(fare);
   return (
     <Modal size="xs" centered onCancel={onCancel} onConfirm={() => onConfirm(fare)}>
       <SelectComponent
-        onChange={(customer: ICustomer) =>
-          fetchFareWithCb(customer.id, (res: any) => setFare(res.data))
+        onChange={(fare: IFare) =>
+          fetchFareWithCb(fare.customer_id, (res: any) => setFare(res.data))
         }
-        options={customers}
+        // @ts-ignore
+        options={fares}
+        optionLabel={(fare:IFare)=>fare.customer_name}
+        optionValue={(fare:IFare)=>fare.customer_id.toString()}
         labelText="fares.form.inherit-from-another-customer-label"
-        value={fare ? { name: fare.customer_name, id: fare.customer_id } : null}
+        value={fare}
       />
     </Modal>
   );

@@ -12,14 +12,14 @@ import { IProduct } from '../../Products/duck/types/Product';
 import { IOrder } from '../../Orders/duck/types/Order';
 import { IFare, IFareLine } from '../duck/types/Fare';
 import Table from '../../../components/Table';
-import { columns } from '../constants';
+import { columns, reduceToCustomersGrouping } from '../constants';
 import Button from '../../../components/Button';
 import { api } from '../duck';
 import InheritFromModal from './InheritFromModal';
 import { useTranslation } from 'react-i18next';
 
 interface FaresModalProps {
-  onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onCancel: Function;
   customers: ICustomer[];
   products: IProduct[];
   fare: IFare;
@@ -36,6 +36,7 @@ const FaresModal = ({
   setFareToInheritFrom,
   fareToInheritFrom,
   fetchFareWithCb,
+  fares,
 }: FaresModalProps) => {
   const { values, setFieldValue } = useFormik<IFare>({
     initialValues: fare,
@@ -51,7 +52,10 @@ const FaresModal = ({
       <Modal
         title="fares.form.title"
         onConfirm={() => console.log('holasd')}
-        onCancel={onCancel}
+        onCancel={() => {
+          setFareToInheritFrom(null);
+          onCancel();
+        }}
         size="lg"
       >
         <div className="flex justify-center">
@@ -91,7 +95,7 @@ const FaresModal = ({
             setInheritModal(false);
             setFareToInheritFrom(fare);
           }}
-          customers={customers}
+          fareLines={fares}
           fetchFareWithCb={fetchFareWithCb}
           fareToInheritFrom={fareToInheritFrom}
         />
