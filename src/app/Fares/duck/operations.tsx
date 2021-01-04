@@ -30,10 +30,15 @@ const fetchFareCustomersAndProducts = (idCustomerFare: number) =>
   );
 
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
+const setFareToInheritFrom = actions.setFareToInheritFrom;
+const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
+  fetchOperationWithLoading(() => api.fetchFares(idCustomerFare, true), null, cb);
 
 export default {
   removeElementToCreateOrEdit,
   fetchFares,
   fetchFareCustomersAndProducts,
   setFareToCreateOrEdit,
+  fetchFareWithCb,
+  setFareToInheritFrom,
 };

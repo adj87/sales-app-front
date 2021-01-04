@@ -3,6 +3,8 @@ import {
   SetElementToCreateOrEditAction,
   SET_FARE_TO_CREATE_OR_EDIT,
   SetFaresAction,
+  SET_FARE_TO_INHERIT_FROM,
+  SetFareToInheritFromAction,
 } from './types';
 import { IFare } from './types/Fare';
 
@@ -16,7 +18,13 @@ const setFareToCreateOrEdit = (fare: IFare | null): SetElementToCreateOrEditActi
   payload: fare,
 });
 
+const setFareToInheritFrom = (fare: IFare | null): SetFareToInheritFromAction => ({
+  type: SET_FARE_TO_INHERIT_FROM,
+  payload: fare,
+});
+
 export default {
   setFares,
   setFareToCreateOrEdit,
+  setFareToInheritFrom,
 };
