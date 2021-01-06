@@ -58,7 +58,7 @@ const fetchFareLinesCustomersAndProducts = () =>
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 const setFareToInheritFrom = actions.setFareToInheritFrom;
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
-  fetchOperationWithLoading(() => api.fetchFareLines(idCustomerFare, true), null, cb);
+  fetchOperationWithLoading(() => api.fetchFares(idCustomerFare), null, cb);
 
 export default {
   removeElementToCreateOrEdit,

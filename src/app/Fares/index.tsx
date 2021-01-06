@@ -14,6 +14,7 @@ import FaresModal from './Modal';
 const FaresComponent = ({
   fetchFareLines,
   fareLines,
+  fares,
   history,
   setFareToCreateOrEdit,
   fareToForm,
@@ -60,7 +61,8 @@ const FaresComponent = ({
           fetchFareWithCb={fetchFareWithCb}
           onCancel={() => history.push(`/fares`)}
           customers={customers}
-          fares={fareLines}
+          fares={fares}
+          fareLines={fareLines}
           products={products}
           fare={fareToForm}
           setFareToInheritFrom={setFareToInheritFrom}
@@ -73,6 +75,7 @@ const FaresComponent = ({
 
 const mapState = (state: AppStoreInterface) => ({
   fareLines: state.fares.data.fareLines,
+  fares: state.fares.data.fares,
   products: state.products.data,
   customers: state.customers.data,
   fareToForm: state.fares.elementToCreateOrEdit,
