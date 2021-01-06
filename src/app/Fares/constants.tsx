@@ -24,6 +24,18 @@ export const defaultValues = {
   fare_lines: [],
 };
 
+export const defaultValuesFareLine = {
+  product_id: null,
+  product_name: null,
+  customer_id: null,
+  customer_name: null,
+  price_1: null,
+  price_2: null,
+  price_3: null,
+  price_4: null,
+  to_sell: null,
+  to_charge: null,
+};
 
 export const reduceToCustomersGrouping = (acc: any, el: any, i: number) => {
   const listIds = acc.map((el: any) => el.customer_id);
@@ -42,4 +54,4 @@ export const reduceToCustomersGrouping = (acc: any, el: any, i: number) => {
     acc[positionInArr] = { ...acc[positionInArr], fare_lines: newFares };
   }
   return acc;
-}
+};
