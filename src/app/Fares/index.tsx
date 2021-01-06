@@ -13,13 +13,13 @@ import FaresModal from './Modal';
 
 const FaresComponent = ({
   fetchFareLines,
-  fares,
+  fareLines,
   history,
   setFareToCreateOrEdit,
   fareToForm,
   customers,
   fetchFaresLinesFareCustomersAndProducts,
-  fetchFaresLinesCustomersAndProducts,
+  fetchFareLinesCustomersAndProducts,
   products,
   setFareToInheritFrom,
   fetchFareWithCb,
@@ -29,7 +29,7 @@ const FaresComponent = ({
   useEffect(() => {
     if (openModal === 'new') {
       //CREATE
-      fetchFaresLinesCustomersAndProducts();
+      fetchFareLinesCustomersAndProducts();
       return setFareToCreateOrEdit(defaultValues);
     }
     // @ts-ignore
@@ -45,7 +45,7 @@ const FaresComponent = ({
     <MainLayout>
       <Table
         columns={columns}
-        data={fares}
+        data={fareLines}
         onAddButton={() => history.push('/fares/new')}
         tableName={'fares'}
         withSearching
@@ -60,7 +60,7 @@ const FaresComponent = ({
           fetchFareWithCb={fetchFareWithCb}
           onCancel={() => history.push(`/fares`)}
           customers={customers}
-          fares={fares}
+          fares={fareLines}
           products={products}
           fare={fareToForm}
           setFareToInheritFrom={setFareToInheritFrom}
@@ -72,7 +72,7 @@ const FaresComponent = ({
 };
 
 const mapState = (state: AppStoreInterface) => ({
-  fares: state.fares.data,
+  fareLines: state.fares.data.fareLines,
   products: state.products.data,
   customers: state.customers.data,
   fareToForm: state.fares.elementToCreateOrEdit,

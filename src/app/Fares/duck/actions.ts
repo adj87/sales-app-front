@@ -5,11 +5,18 @@ import {
   SetFaresAction,
   SET_FARE_TO_INHERIT_FROM,
   SetFareToInheritFromAction,
+  SET_FARE_LINES,
+  SetFareLinesAction,
 } from './types';
-import { IFare } from './types/Fare';
+import { IFare, IFareLine } from './types/Fare';
 
 const setFares = (fares: IFare[]): SetFaresAction => ({
   type: SET_FARES,
+  payload: fares,
+});
+
+const setFareLines = (fares: IFareLine[]): SetFareLinesAction => ({
+  type: SET_FARE_LINES,
   payload: fares,
 });
 
@@ -25,6 +32,7 @@ const setFareToInheritFrom = (fare: IFare | null): SetFareToInheritFromAction =>
 
 export default {
   setFares,
+  setFareLines,
   setFareToCreateOrEdit,
   setFareToInheritFrom,
 };

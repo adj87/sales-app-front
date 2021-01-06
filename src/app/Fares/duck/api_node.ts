@@ -6,17 +6,18 @@ const API_FARES = `${BACK_HOST}/fares`;
 
 const fetchFareLines = (customerId?: Number, byCustomersGrouping?: boolean) => {
   const url = customerId ? `${API_FARES}/${customerId}` : API_FARES;
+  return axios.get(url);
+};
+
+const fetchFares = (customerId?: Number) => {
+  const url = customerId ? `${API_FARES}/${customerId}` : API_FARES;
   return axios.get(url).then((res) => {
-    if (byCustomersGrouping) {
-      debugger;
-      const dataReorganized = fareLinesToFares(res.data);
-      return { data: customerId ? dataReorganized[0] : dataReorganized };
-    } else {
-      return res;
-    }
+    const dataReorganized = fareLinesToFares(res.data);
+    return { data: customerId ? dataReorganized[0] : dataReorganized };
   });
 };
 
 export default {
   fetchFareLines,
+  fetchFares,
 };

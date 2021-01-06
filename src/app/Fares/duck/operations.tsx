@@ -8,6 +8,7 @@ import { operations as loadingOperations } from '../../Loading/duck';
 
 import { actions as customersAction, api as customersApi } from '../../Customers/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
+import { fareLinesToFares } from '../constants';
 
 const { fetchOperationWithLoading } = loadingOperations;
 
@@ -16,26 +17,30 @@ const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFares);
+const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFareLines);
 
 const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
   fetchOperationWithLoading(
     () =>
       Promise.all([
         api.fetchFareLines(),
-        api.fetchFareLines(idCustomerFare, true),
+        api.fetchFares(idCustomerFare),
         customersApi.fetchCustomers(),
         productsApi.fetchProducts(),
       ]),
     [
-      actions.setFares,
+      actions.setFareLines,
       actions.setFareToCreateOrEdit,
       customersAction.setCustomers,
       productsAction.setProducts,
     ],
+    (res: any, dispatch: any) => {
+      const fares = fareLinesToFares(res[0].data);
+      dispatch(actions.setFares(fares));
+    },
   );
 
-const fetchFaresLinesCustomersAndProducts = () =>
+const fetchFareLinesCustomersAndProducts = () =>
   fetchOperationWithLoading(
     () =>
       Promise.all([
@@ -43,7 +48,11 @@ const fetchFaresLinesCustomersAndProducts = () =>
         customersApi.fetchCustomers(),
         productsApi.fetchProducts(),
       ]),
-    [actions.setFares, customersAction.setCustomers, productsAction.setProducts],
+    [actions.setFareLines, customersAction.setCustomers, productsAction.setProducts],
+    (res: any, dispatch: any) => {
+      const fares = fareLinesToFares(res[0].data);
+      dispatch(actions.setFares(fares));
+    },
   );
 
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
@@ -55,7 +64,7 @@ export default {
   removeElementToCreateOrEdit,
   fetchFareLines,
   fetchFaresLinesFareCustomersAndProducts,
-  fetchFaresLinesCustomersAndProducts,
+  fetchFareLinesCustomersAndProducts,
   setFareToCreateOrEdit,
   fetchFareWithCb,
   setFareToInheritFrom,
