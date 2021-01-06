@@ -16,14 +16,14 @@ const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchFareLines = () => fetchOperationWithLoading(api.fetchFares, actions.setFares);
+const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFares);
 
 const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
   fetchOperationWithLoading(
     () =>
       Promise.all([
-        api.fetchFares(),
-        api.fetchFares(idCustomerFare, true),
+        api.fetchFareLines(),
+        api.fetchFareLines(idCustomerFare, true),
         customersApi.fetchCustomers(),
         productsApi.fetchProducts(),
       ]),
@@ -38,14 +38,18 @@ const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
 const fetchFaresLinesCustomersAndProducts = () =>
   fetchOperationWithLoading(
     () =>
-      Promise.all([api.fetchFares(), customersApi.fetchCustomers(), productsApi.fetchProducts()]),
+      Promise.all([
+        api.fetchFareLines(),
+        customersApi.fetchCustomers(),
+        productsApi.fetchProducts(),
+      ]),
     [actions.setFares, customersAction.setCustomers, productsAction.setProducts],
   );
 
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 const setFareToInheritFrom = actions.setFareToInheritFrom;
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
-  fetchOperationWithLoading(() => api.fetchFares(idCustomerFare, true), null, cb);
+  fetchOperationWithLoading(() => api.fetchFareLines(idCustomerFare, true), null, cb);
 
 export default {
   removeElementToCreateOrEdit,

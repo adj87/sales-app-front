@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
-import { ICustomer } from '../../Customers/duck/types/Customer';
-import { IFare, IFareLine } from '../duck/types/Fare';
-import { reduceToCustomersGrouping } from '../constants';
+import { IFareLine } from '../duck/types/Fare';
 import { IProduct } from '../../Products/duck/types/Product';
 import { useFormik } from 'formik';
 import Input from '../../../components/Inputs/InputText';

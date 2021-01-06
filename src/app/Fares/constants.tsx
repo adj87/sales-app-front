@@ -1,4 +1,5 @@
 import React from 'react';
+import { IFareLine, IFare } from './duck/types/Fare';
 
 export const columns = [
   {
@@ -37,21 +38,23 @@ export const defaultValuesFareLine = {
   to_charge: null,
 };
 
-export const reduceToCustomersGrouping = (acc: any, el: any, i: number) => {
-  const listIds = acc.map((el: any) => el.customer_id);
-  const positionInArr = listIds.indexOf(el.customer_id);
+export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
+  return fareLines.reduce((acc: any, el: any, i: number) => {
+    const listIds = acc.map((el: any) => el.customer_id);
+    const positionInArr = listIds.indexOf(el.customer_id);
 
-  if (positionInArr === -1) {
-    const newFare = {
-      customer_name: el.customer_name,
-      customer_id: el.customer_id,
-      fare_lines: [el],
-    };
-    acc.push(newFare);
-  } else {
-    let newFares = [...acc[positionInArr].fare_lines];
-    newFares.push(el);
-    acc[positionInArr] = { ...acc[positionInArr], fare_lines: newFares };
-  }
-  return acc;
+    if (positionInArr === -1) {
+      const newFare = {
+        customer_name: el.customer_name,
+        customer_id: el.customer_id,
+        fare_lines: [el],
+      };
+      acc.push(newFare);
+    } else {
+      let newFares = [...acc[positionInArr].fare_lines];
+      newFares.push(el);
+      acc[positionInArr] = { ...acc[positionInArr], fare_lines: newFares };
+    }
+    return acc;
+  }, []);
 };
