@@ -16,17 +16,30 @@ const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchFares = () => fetchOperationWithLoading(api.fetchFares, actions.setFares);
+const fetchFareLines = () => fetchOperationWithLoading(api.fetchFares, actions.setFares);
 
-const fetchFareCustomersAndProducts = (idCustomerFare: number) =>
+const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
   fetchOperationWithLoading(
     () =>
       Promise.all([
+        api.fetchFares(),
         api.fetchFares(idCustomerFare, true),
         customersApi.fetchCustomers(),
         productsApi.fetchProducts(),
       ]),
-    [actions.setFareToCreateOrEdit, customersAction.setCustomers, productsAction.setProducts],
+    [
+      actions.setFares,
+      actions.setFareToCreateOrEdit,
+      customersAction.setCustomers,
+      productsAction.setProducts,
+    ],
+  );
+
+const fetchFaresLinesCustomersAndProducts = () =>
+  fetchOperationWithLoading(
+    () =>
+      Promise.all([api.fetchFares(), customersApi.fetchCustomers(), productsApi.fetchProducts()]),
+    [actions.setFares, customersAction.setCustomers, productsAction.setProducts],
   );
 
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
@@ -36,8 +49,9 @@ const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
 
 export default {
   removeElementToCreateOrEdit,
-  fetchFares,
-  fetchFareCustomersAndProducts,
+  fetchFareLines,
+  fetchFaresLinesFareCustomersAndProducts,
+  fetchFaresLinesCustomersAndProducts,
   setFareToCreateOrEdit,
   fetchFareWithCb,
   setFareToInheritFrom,
