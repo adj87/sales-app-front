@@ -4,19 +4,14 @@ import { useFormik } from 'formik';
 import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
-import Input from '../../../components/Inputs/InputText';
-import InputCheckBox from '../../../components/Inputs/InputCheckbox';
-import InputRadio from '../../../components/Inputs/InputRadio';
-import LabelAndAmount from '../../../components/LabelAndAmount';
 import { IProduct } from '../../Products/duck/types/Product';
-import { IOrder } from '../../Orders/duck/types/Order';
 import { IFare, IFareLine } from '../duck/types/Fare';
 import Table from '../../../components/Table';
-import { columns, reduceToCustomersGrouping } from '../constants';
+import { columns, defaultValuesFareLine } from '../constants';
 import Button from '../../../components/Button';
-import { api } from '../duck';
 import InheritFromModal from './InheritFromModal';
 import { useTranslation } from 'react-i18next';
+import FareLineModal from './FareLineModal';
 
 interface FaresModalProps {
   onCancel: Function;
@@ -27,6 +22,7 @@ interface FaresModalProps {
   setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   fareToInheritFrom: IFare;
+  isEditingMode: boolean;
 }
 
 const FaresModal = ({
@@ -37,6 +33,8 @@ const FaresModal = ({
   fareToInheritFrom,
   fetchFareWithCb,
   fares,
+  isEditingMode,
+  products,
 }: FaresModalProps) => {
   const { values, setFieldValue } = useFormik<IFare>({
     initialValues: fare,
@@ -44,13 +42,17 @@ const FaresModal = ({
       alert(JSON.stringify(values, null, 2));
     },
   });
-
   const { t } = useTranslation();
   const [inheritModal, setInheritModal] = useState<boolean>(false);
+  const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
+  // @ts-ignore
+  const idProductsAlreadyInFareLines = values.fare_lines.map(
+    (fareLine: IFareLine) => fareLine.product_id,
+  );
   return (
     <>
       <Modal
-        title="fares.form.title"
+        title={`${isEditingMode ? 'fares.form.title-edit' : 'fares.form.title'}`}
         onConfirm={() => console.log('holasd')}
         onCancel={() => {
           setFareToInheritFrom(null);
@@ -68,11 +70,21 @@ const FaresModal = ({
                 //setFieldValue('customer_id', customer.id);
               }}
               options={customers}
+              isDisabled={isEditingMode}
             />
           </div>
         </div>
         <div className="mt-5">
-          <Table data={values.fare_lines} columns={columns} tableName={'fares'} />
+          <Table
+            data={values.fare_lines}
+            columns={columns}
+            tableName={'fares'}
+            onAddButton={() => setFareLineToForm(defaultValuesFareLine)}
+            onRowClick={({ original }: any) => {
+              const fareLine: IFareLine = original;
+              setFareLineToForm(fareLine);
+            }}
+          />
           <Button
             text={`${
               fareToInheritFrom
@@ -98,6 +110,20 @@ const FaresModal = ({
           fareLines={fares}
           fetchFareWithCb={fetchFareWithCb}
           fareToInheritFrom={fareToInheritFrom}
+        />
+      )}
+      {Boolean(fareLineToForm) && (
+        <FareLineModal
+          onCancel={() => setFareLineToForm(null)}
+          onConfirm={(fareLine: IFare) => {
+            console.log('hola');
+          }}
+          // @ts-ignore
+          fareLine={fareLineToForm}
+          isProductAlreadyInFare={(product: IProduct) =>
+            idProductsAlreadyInFareLines.includes(product.id)
+          }
+          products={products}
         />
       )}
     </>
