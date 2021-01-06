@@ -21,8 +21,7 @@ const InheritFromModal = ({
   fetchFareWithCb,
 }: InheritFromModalProps) => {
   const [fare, setFare] = useState<IFare | null>(fareToInheritFrom);
-  const fares = fareLines.reduce(reduceToCustomersGrouping,[]) 
-  console.log(fare);
+  const fares = fareLines.reduce(reduceToCustomersGrouping, []);
   return (
     <Modal size="xs" centered onCancel={onCancel} onConfirm={() => onConfirm(fare)}>
       <SelectComponent
@@ -31,8 +30,10 @@ const InheritFromModal = ({
         }
         // @ts-ignore
         options={fares}
-        optionLabel={(fare:IFare)=>fare.customer_name}
-        optionValue={(fare:IFare)=>fare.customer_id.toString()}
+        // @ts-ignore
+        optionLabel={(fare: IFare) => fare.customer_name}
+        // @ts-ignore
+        optionValue={(fare: IFare) => fare.customer_id.toString()}
         labelText="fares.form.inherit-from-another-customer-label"
         value={fare}
       />
