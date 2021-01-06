@@ -12,34 +12,34 @@ import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoute
 import FaresModal from './Modal';
 
 const FaresComponent = ({
-  fetchFares,
+  fetchFareLines,
   fares,
   history,
   setFareToCreateOrEdit,
   fareToForm,
   customers,
-  fetchFareCustomersAndProducts,
+  fetchFaresLinesFareCustomersAndProducts,
+  fetchFaresLinesCustomersAndProducts,
   products,
   setFareToInheritFrom,
   fetchFareWithCb,
   fareToInheritFrom,
 }: any) => {
-  useEffect(() => {
-    fetchFares();
-  }, []);
   const openModal = useOpenModalByRoutes();
   useEffect(() => {
     if (openModal === 'new') {
       //CREATE
+      fetchFaresLinesCustomersAndProducts();
       return setFareToCreateOrEdit(defaultValues);
     }
     // @ts-ignore
     if (openModal) {
       //EDIT
-      return fetchFareCustomersAndProducts(openModal);
+      return fetchFaresLinesFareCustomersAndProducts(openModal);
     }
     //CLOSE
-    if (fareToForm !== null) return setFareToCreateOrEdit(null);
+    if (fareToForm !== null) fetchFareLines();
+    return setFareToCreateOrEdit(null);
   }, [openModal]);
   return (
     <MainLayout>
@@ -65,6 +65,7 @@ const FaresComponent = ({
           fare={fareToForm}
           setFareToInheritFrom={setFareToInheritFrom}
           fareToInheritFrom={fareToInheritFrom}
+          isEditingMode={openModal !== 'new'}
         />
       )}
     </MainLayout>
