@@ -26,20 +26,20 @@ const FareLineModal = ({
   fareLine,
   isProductAlreadyInFare,
 }: FareLineModalProps) => {
-  const { values, setFieldValue } = useFormik<IFareLine>({
+  const isNewFareLine = !fareLine.product_id;
+  const { values, setFieldValue, submitForm } = useFormik<IFareLine>({
     initialValues: fareLine,
     onSubmit: (values: IFareLine) => {
-      alert(JSON.stringify(values, null, 2));
+      onConfirm(values, isNewFareLine);
     },
   });
-  console.log('initialVlaues', values);
   return (
     <Modal
       size="xs"
       centered
       onCancel={onCancel}
-      onConfirm={() => onConfirm()}
-      title="fares.form-order-line.title"
+      onConfirm={submitForm}
+      title={`${isNewFareLine ? 'fares.form-fare-line.title' : 'fares.form-fare-line.title-edit'}`}
     >
       <div className="pb-5">
         <SelectComponent
@@ -48,15 +48,16 @@ const FareLineModal = ({
             setFieldValue('product_id', product.id);
           }}
           options={products}
-          labelText="fares.form-order-line.label-product"
+          labelText="fares.form-fare-line.label-product"
           value={values.product_id ? { name: values.product_name, id: values.product_id } : null}
           isOptionDisabled={isProductAlreadyInFare}
+          isDisabled={!isNewFareLine}
         />
       </div>
       <div className="pt-5">
         <InputWithFV
           name="price_1"
-          label="fares.form-order-line.label-price-1"
+          label="fares.form-fare-line.label-price-1"
           onChange={setFieldValue}
           formikValues={values}
           type="number"
@@ -66,17 +67,17 @@ const FareLineModal = ({
       <div className="pt-5">
         <InputWithFV
           name="price_2"
-          label="fares.form-order-line.label-price-2"
+          label="fares.form-fare-line.label-price-2"
           onChange={setFieldValue}
           formikValues={values}
           type="number"
           step="0.01"
         />
       </div>
-      <div className="pt-5">
+      {/*       <div className="pt-5">
         <InputWithFV
           name="price_3"
-          label="fares.form-order-line.label-price-3"
+          label="fares.form-fare-line.label-price-3"
           onChange={setFieldValue}
           formikValues={values}
           type="number"
@@ -86,7 +87,7 @@ const FareLineModal = ({
       <div className="pt-5">
         <InputWithFV
           name="price_4"
-          label="fares.form-order-line.label-price-4"
+          label="fares.form-fare-line.label-price-4"
           onChange={setFieldValue}
           formikValues={values}
           type="number"
@@ -96,13 +97,13 @@ const FareLineModal = ({
       <div className="pt-5">
         <InputWithFV
           name="price_5"
-          label="fares.form-order-line.label-price-5"
+          label="fares.form-fare-line.label-price-5"
           onChange={setFieldValue}
           formikValues={values}
           type="number"
           step="0.01"
         />
-      </div>
+      </div> */}
     </Modal>
   );
 };

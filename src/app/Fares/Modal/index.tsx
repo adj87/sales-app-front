@@ -115,8 +115,23 @@ const FaresModal = ({
       {Boolean(fareLineToForm) && (
         <FareLineModal
           onCancel={() => setFareLineToForm(null)}
-          onConfirm={(fareLine: IFare) => {
-            console.log('hola');
+          onConfirm={(fareLine: IFareLine, isNew: boolean) => {
+            if (isNew) {
+              fareLine.customer_id = values.customer_id;
+              fareLine.customer_name = values.customer_name;
+              let newFareLines = [...values.fare_lines];
+              newFareLines.push(fareLine);
+              setFieldValue('fare_lines', newFareLines);
+            } else {
+              // @ts-ignore
+              const newFareLines = values.fare_lines.map((el: IFareLine) => {
+                if (el.product_id === fareLine.product_id) return fareLine;
+                return el;
+              });
+              setFieldValue('fare_lines', newFareLines);
+            }
+            //close modal
+            setFareLineToForm(null);
           }}
           // @ts-ignore
           fareLine={fareLineToForm}
