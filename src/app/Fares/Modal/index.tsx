@@ -22,7 +22,6 @@ interface FaresModalProps {
   setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   fareToInheritFrom: IFare;
-  isEditingMode: boolean;
 }
 
 const FaresModal = ({
@@ -33,7 +32,6 @@ const FaresModal = ({
   fareToInheritFrom,
   fetchFareWithCb,
   fares,
-  isEditingMode,
   products,
 }: FaresModalProps) => {
   const { values, setFieldValue } = useFormik<IFare>({
@@ -45,6 +43,7 @@ const FaresModal = ({
   const { t } = useTranslation();
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
+  const isEditingMode = Boolean(fare.customer_id);
   // @ts-ignore
   const idProductsAlreadyInFareLines = values.fare_lines.map(
     (fareLine: IFareLine) => fareLine.product_id,

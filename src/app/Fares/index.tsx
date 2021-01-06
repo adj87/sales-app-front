@@ -65,7 +65,6 @@ const FaresComponent = ({
           fare={fareToForm}
           setFareToInheritFrom={setFareToInheritFrom}
           fareToInheritFrom={fareToInheritFrom}
-          isEditingMode={openModal !== 'new'}
         />
       )}
     </MainLayout>
