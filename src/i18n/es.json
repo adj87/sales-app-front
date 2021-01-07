@@ -17,7 +17,9 @@
     "bottle-details": "Detalles de artículo",
     "box-details": "Detalles de caja",
     "pallet-details": "Detalles de palet",
-    "more-info": "Mostrar + info"
+    "more-info": "Mostrar + info",
+    "new": "nuevo",
+    "edited": "editado"
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {

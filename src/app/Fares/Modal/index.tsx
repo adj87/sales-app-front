@@ -129,7 +129,7 @@ const FaresModal = ({
             setInheritModal(false);
             setFareToInheritFrom(fare);
           }}
-          fareLines={fareLines}
+          fares={fares.filter((el: IFare) => el.customer_id !== values.customer_id)}
           fetchFareWithCb={fetchFareWithCb}
           fareToInheritFrom={fareToInheritFrom}
         />
@@ -140,14 +140,18 @@ const FaresModal = ({
           onConfirm={(fareLine: IFareLine, isNew: boolean) => {
             if (isNew) {
               fareLine.customer_id = values.customer_id;
-              fareLine.customer_name = values.customer_name;
+              fareLine.customer_name = `${t('commons.new')}`;
               let newFareLines = [...values.fare_lines];
               newFareLines.push(fareLine);
               setFieldValue('fare_lines', newFareLines);
             } else {
               // @ts-ignore
               const newFareLines = values.fare_lines.map((el: IFareLine) => {
-                if (el.product_id === fareLine.product_id) return fareLine;
+                if (el.product_id === fareLine.product_id)
+                  return {
+                    ...fareLine,
+                    customer_name: `${fareLine.customer_name}-${t('commons.edited')}`,
+                  };
                 return el;
               });
               setFieldValue('fare_lines', newFareLines);
