@@ -8,7 +8,7 @@ const withFormikValues = (WrappedComponent) => (props) => {
     <div>
       <WrappedComponent name={name} value={formikValues[name.toString()]} {...others} />
       <span
-        className={`text-danger-dark block visible ${Boolean(errors[name]) ? 'visible' : 'hidden'}`}
+        className={`text-danger-dark block ${Boolean(errors[name]) ? 'visible' : 'hidden'}`}
         style={{ marginTop: '-12px' }}
       >
         {errors && errors[name]}

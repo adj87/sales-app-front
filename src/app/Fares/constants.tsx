@@ -63,6 +63,12 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
 
 export const validationSchemaFare = Yup.object().shape({
   customer_id: Yup.number().nullable().required('campo requerido'),
+  fare_lines: Yup.array().test(
+    'is-decimal',
+    'campo requerido',
+    // @ts-ignore
+    (fareLines: IFareLine) => fareLines.length > 0,
+  ),
 });
 
 export const validationSchemaFareLine = Yup.object().shape({

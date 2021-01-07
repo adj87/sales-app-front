@@ -115,6 +115,7 @@ const FaresModal = ({
               setFareLineToForm(fareLine);
             }}
           />
+          <p className="text-danger-dark">{errors?.fare_lines}</p>
           <Button
             text={`${
               fareToInheritFrom
