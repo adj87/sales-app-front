@@ -1,96 +1,60 @@
 import React from 'react';
+import { IFareLine, IFare } from './duck/types/Fare';
 
 export const columns = [
   {
     Header: 'Name',
     columns: [
-      { Header: 'type', accessor: 'type' },
-      { Header: 'id', accessor: 'id' },
+      { Header: 'customer_id', accessor: 'customer_id' },
       { Header: 'customer_name', accessor: 'customer_name' },
-      { Header: 'address', accessor: 'address' },
-      { Header: 'date', accessor: 'date' },
-      { Header: 'delivery_date', accessor: 'delivery_date' },
-      { Header: 'zip_code', accessor: 'zip_code' },
-      { Header: 'green_point', accessor: 'green_point' },
-      { Header: 'customer_route_id', accessor: 'customer_route_id' },
-      { Header: 'total', accessor: 'total' },
-      { Header: 'total_net', accessor: 'total_net' },
-      { Header: 'total_taxes', accessor: 'total_taxes' },
-    ],
-  },
-];
-
-export const columnsOrderLineTable = [
-  {
-    Header: 'Name',
-    columns: [
-      { Header: 'order_id', accessor: 'order_id' },
-      { Header: 'order_type', accessor: 'order_type' },
-      { Header: 'line_number', accessor: 'line_number' },
+      { Header: 'product_name', accessor: 'product_name' },
+      { Header: 'price_1', accessor: 'price_1' },
+      { Header: 'price_2', accessor: 'price_2' },
+      { Header: 'price_3', accessor: 'price_3' },
+      { Header: 'price_4', accessor: 'price_4' },
       { Header: 'product_id', accessor: 'product_id' },
-      {
-        Header: 'product_name',
-        accessor: 'product_name',
-        Cell: ({ row }: any) => {
-          return (
-            <div className="flex items-center justify-center">
-              {
-                <>
-                  <img
-                    src={`http://localhost:3001/images/${row.original.product_id}.png`}
-                    width="20"
-                    className="inline mr-2"
-                  ></img>
-                  <span>{row.original.product_name}</span>
-                </>
-              }
-            </div>
-          );
-        },
-      },
-      { Header: 'units_per_box', accessor: 'units_per_box' },
-      { Header: 'price', accessor: 'price' },
-      { Header: 'cost', accessor: 'cost' },
-      { Header: 'quantity', accessor: 'quantity' },
-      { Header: 'taxes_rate', accessor: 'taxes_rate' },
-      { Header: 'surcharge_amount', accessor: 'surcharge_amount' },
-      { Header: 'green_point_amount', accessor: 'green_point_amount' },
+      { Header: 'to_charge', accessor: 'to_charge' },
+      { Header: 'to_sell', accessor: 'to_sell' },
     ],
   },
 ];
 
 export const defaultValues = {
-  id: null,
-  address: null,
-  fiscal_id: null,
-  zip_code: null,
-  date: null,
-  shipping_place: null,
-  delivery_date: null,
-  total_net: 0,
-  total_taxes: 0,
-  total: 0,
-  surcharge: null,
-  customer_id: null,
   customer_name: null,
-  green_point: null,
-  customer_route_id: null,
-  type: 'A',
-  show_together_with_others: true,
-  order_lines: [],
+  customer_id: null,
+  fare_lines: [],
 };
 
-export const defaultOrderLineValues = {
-  order_id: null,
-  order_type: 'A',
-  line_number: null,
+export const defaultValuesFareLine = {
   product_id: null,
   product_name: null,
-  units_per_box: 0,
-  price: null,
-  cost: null,
-  quantity: null,
-  taxes_rate: 21,
-  surcharge_amount: 0,
-  green_point_amount: 0.01,
+  customer_id: null,
+  customer_name: null,
+  price_1: null,
+  price_2: null,
+  price_3: null,
+  price_4: null,
+  to_sell: null,
+  to_charge: null,
+};
+
+export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
+  return fareLines.reduce((acc: any, el: any, i: number) => {
+    const listIds = acc.map((el: any) => el.customer_id);
+    const positionInArr = listIds.indexOf(el.customer_id);
+
+    if (positionInArr === -1) {
+      const newFare = {
+        customer_name: el.customer_name,
+        customer_id: el.customer_id,
+        fare_lines: [el],
+      };
+      acc.push(newFare);
+    } else {
+      let newFares = [...acc[positionInArr].fare_lines];
+      newFares.push(el);
+      acc[positionInArr] = { ...acc[positionInArr], fare_lines: newFares };
+    }
+    return acc;
+  }, []);
 };

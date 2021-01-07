@@ -18,7 +18,7 @@ const Button = ({ text, onClick, color, className, style, size, outline }: Butto
   return (
     <button
       style={style ?? {}}
-      className={`${cssColor}  ${cssSize} rounded ${className} capitalize transition-colors duration-500 ease-in-out`}
+      className={`${cssColor}  ${cssSize} rounded ${className} transition-colors duration-500 ease-in-out`}
       onClick={onClick}
     >
       {t(text)}

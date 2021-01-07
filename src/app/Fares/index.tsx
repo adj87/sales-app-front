@@ -9,30 +9,83 @@ import { operations } from './duck';
 import { IFare } from './duck/types/Fare';
 import { columns, defaultValues } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
+import FaresModal from './Modal';
 
-const OrdersComponent = ({
-  orders,
-  fetchOrders,
-  fetchOrder,
+const FaresComponent = ({
+  fetchFareLines,
+  fareLines,
+  fares,
   history,
-  fetchCustomers,
+  setFareToCreateOrEdit,
+  fareToForm,
   customers,
-  orderToForm,
-  setOrderToCreateOrEdit,
+  fetchFaresLinesFareCustomersAndProducts,
+  fetchFareLinesCustomersAndProducts,
+  products,
+  setFareToInheritFrom,
+  fetchFareWithCb,
+  fareToInheritFrom,
 }: any) => {
-  return <div></div>;
+  const openModal = useOpenModalByRoutes();
+  useEffect(() => {
+    if (openModal === 'new') {
+      //CREATE
+      fetchFareLinesCustomersAndProducts();
+      return setFareToCreateOrEdit(defaultValues);
+    }
+    // @ts-ignore
+    if (openModal) {
+      //EDIT
+      return fetchFaresLinesFareCustomersAndProducts(openModal);
+    }
+    //CLOSE
+    if (fareToForm !== null) fetchFareLines();
+    return setFareToCreateOrEdit(null);
+  }, [openModal]);
+  return (
+    <MainLayout>
+      <Table
+        columns={columns}
+        data={fareLines}
+        onAddButton={() => history.push('/fares/new')}
+        tableName={'fares'}
+        withSearching
+        withPagination
+        onRowClick={(datatableRowInfo: any) => {
+          const fare: IFare = datatableRowInfo.original;
+          history.push(`/fares/${fare.customer_id}`);
+        }}
+      />
+      {Boolean(fareToForm) && (
+        <FaresModal
+          fetchFareWithCb={fetchFareWithCb}
+          onCancel={() => history.push(`/fares`)}
+          customers={customers}
+          fares={fares}
+          fareLines={fareLines}
+          products={products}
+          fare={fareToForm}
+          setFareToInheritFrom={setFareToInheritFrom}
+          fareToInheritFrom={fareToInheritFrom}
+        />
+      )}
+    </MainLayout>
+  );
 };
 
 const mapState = (state: AppStoreInterface) => ({
-  orders: state.orders.data,
-  orderToForm: state.orders.elementToCreateOrEdit,
+  fareLines: state.fares.data.fareLines,
+  fares: state.fares.data.fares,
+  products: state.products.data,
   customers: state.customers.data,
+  fareToForm: state.fares.elementToCreateOrEdit,
+  fareToInheritFrom: state.fares.fareToInheritFrom,
 });
 
 const mapDispatch = {
   ...operations,
 };
 
-const OrdersComponentWithHistory = withRouter(OrdersComponent);
+const FaresComponentWithHistory = withRouter(FaresComponent);
 
-export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);
+export const Fares = connect(mapState, mapDispatch)(FaresComponentWithHistory);

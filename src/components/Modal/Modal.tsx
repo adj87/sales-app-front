@@ -9,7 +9,7 @@ export interface ModalProps {
   onCancel?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
-  title: string;
+  title?: string;
   centered?: boolean;
 }
 
@@ -43,12 +43,14 @@ export default function Modal({
         {/*content*/}
         <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
           {/*header*/}
-          <div className="p-5  rounded-t">
-            <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">
-              {t(title)}
-            </h2>
-            <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 text-3xl leading-none font-semibold outline-none focus:outline-none absolute right-0"></button>
-          </div>
+          {title && (
+            <div className="p-5  rounded-t">
+              <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">
+                {t(title)}
+              </h2>
+              <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 text-3xl leading-none font-semibold outline-none focus:outline-none absolute right-0"></button>
+            </div>
+          )}
           {/*body*/}
           <div className="relative p-6 flex-auto">{children}</div>
           {/*footer*/}

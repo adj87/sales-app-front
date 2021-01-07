@@ -11,6 +11,8 @@ interface SelectComponentProps {
   onChange: Function;
   value?: any;
   name?: string;
+  isDisabled?: boolean;
+  isOptionDisabled?: ((option: any) => boolean) | undefined;
 }
 
 const SelectComponent = ({
@@ -21,6 +23,8 @@ const SelectComponent = ({
   value,
   onChange,
   name,
+  isDisabled,
+  isOptionDisabled,
 }: SelectComponentProps) => {
   const { t } = useTranslation();
   optionLabel = optionLabel ?? ((option): any => option.name);
@@ -39,6 +43,8 @@ const SelectComponent = ({
           name ? onChange(name, option) : onChange(option);
         }}
         value={value}
+        isDisabled={isDisabled}
+        isOptionDisabled={isOptionDisabled}
       />
     </div>
   );

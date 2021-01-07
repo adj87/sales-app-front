@@ -4,6 +4,7 @@
     "cancel": "Cancelar",
     "close": "Cerrar",
     "ok": "Aceptar",
+    "already-in-fare": "Ya en tarifa",
     "units-per-box": "Unidades/Caja",
     "units-per-pallet": "Unidades/Palet",
     "capacity": "Volumen",
@@ -16,9 +17,11 @@
     "bottle-details": "Detalles de artículo",
     "box-details": "Detalles de caja",
     "pallet-details": "Detalles de palet",
-    "more-info": "Mostrar + info"
+    "more-info": "Mostrar + info",
+    "new": "nuevo",
+    "edited": "editado"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {
     "form": {
       "title": "Añadir pedido",
@@ -42,6 +45,26 @@
         "label-quantity": "Cantidad",
         "label-promotion": "Promoción"
       }
+    }
+  },
+  "fares": {
+    "form": {
+      "title": "Añadir tarifa",
+      "title-edit": "Editar tarifa",
+      "label-customer": "Cliente",
+      "inherit-from-another-customer-button": "Heredar de otro cliente",
+      "inheriting-from-customer-button": "Heredando de",
+      "inherit-from-another-customer-label": "Heredar de"
+    },
+    "form-fare-line": {
+      "title": "Añadir producto",
+      "title-edit": "Editar producto",
+      "label-product": "Producto",
+      "label-price-1": "Precio 1",
+      "label-price-2": "Precio 2",
+      "label-price-3": "Precio 3",
+      "label-price-4": "Precio 4",
+      "label-price-5": "Precio 5"
     }
   }
 }

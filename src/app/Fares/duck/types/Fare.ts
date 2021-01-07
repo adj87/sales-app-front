@@ -1,17 +1,18 @@
 export interface IFare {
-  customer_id: number;
-  customer_name: string;
-  fare_lines: IFareLine[];
+  customer_id: number | null;
+  customer_name: string | null;
+  fare_lines: IFareLine[] | [];
 }
 
 export interface IFareLine {
-  product_id: number;
-  customer_id: number;
-  customer_name: string;
-  price_1: number;
-  price_2: number;
-  price_3: number;
-  price_4: number;
-  to_sell: number;
-  to_charge: number;
+  product_id: number | null;
+  product_name: string | null;
+  customer_id: number | null;
+  customer_name: string | null;
+  price_1: number | null;
+  price_2: number | null;
+  price_3: number | null;
+  price_4: number | null;
+  to_sell: number | null;
+  to_charge: number | null;
 }

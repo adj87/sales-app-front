@@ -1,27 +1,71 @@
 import { Dispatch } from 'react';
-import { AxiosResponse } from 'axios';
 
 import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
-import { SetFaresAction, SetElementToCreateOrEditAction } from './types';
-import { operations as customersOperations } from '../../Customers/duck';
-import { operations as productsOperations } from '../../Products/duck';
+import { SetElementToCreateOrEditAction } from './types';
+import { operations as loadingOperations } from '../../Loading/duck';
 
-import { IFare } from './types/Fare';
+import { actions as customersAction, api as customersApi } from '../../Customers/duck';
+import { actions as productsAction, api as productsApi } from '../../Products/duck';
+import { fareLinesToFares } from '../constants';
+
+const { fetchOperationWithLoading } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setOrderToCreateOrEdit(null));
+  dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchCustomers = customersOperations.fetchCustomers;
-const fetchProducts = productsOperations.fetchProducts;
-const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
+const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFareLines);
+
+const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
+  fetchOperationWithLoading(
+    () =>
+      Promise.all([
+        api.fetchFareLines(),
+        api.fetchFares(idCustomerFare),
+        customersApi.fetchCustomers(),
+        productsApi.fetchProducts(),
+      ]),
+    [
+      actions.setFareLines,
+      actions.setFareToCreateOrEdit,
+      customersAction.setCustomers,
+      productsAction.setProducts,
+    ],
+    (res: any, dispatch: any) => {
+      const fares = fareLinesToFares(res[0].data);
+      dispatch(actions.setFares(fares));
+    },
+  );
+
+const fetchFareLinesCustomersAndProducts = () =>
+  fetchOperationWithLoading(
+    () =>
+      Promise.all([
+        api.fetchFareLines(),
+        customersApi.fetchCustomers(),
+        productsApi.fetchProducts(),
+      ]),
+    [actions.setFareLines, customersAction.setCustomers, productsAction.setProducts],
+    (res: any, dispatch: any) => {
+      const fares = fareLinesToFares(res[0].data);
+      dispatch(actions.setFares(fares));
+    },
+  );
+
+const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
+const setFareToInheritFrom = actions.setFareToInheritFrom;
+const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
+  fetchOperationWithLoading(() => api.fetchFares(idCustomerFare), null, cb);
 
 export default {
   removeElementToCreateOrEdit,
-  fetchCustomers,
-  fetchProducts,
-  setOrderToCreateOrEdit,
+  fetchFareLines,
+  fetchFaresLinesFareCustomersAndProducts,
+  fetchFareLinesCustomersAndProducts,
+  setFareToCreateOrEdit,
+  fetchFareWithCb,
+  setFareToInheritFrom,
 };
