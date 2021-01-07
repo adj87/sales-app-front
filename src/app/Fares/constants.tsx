@@ -6,8 +6,8 @@ export const columns = [
     Header: 'Name',
     columns: [
       { Header: 'customer_id', accessor: 'customer_id' },
-      { Header: 'product_name', accessor: 'product_name' },
       { Header: 'customer_name', accessor: 'customer_name' },
+      { Header: 'product_name', accessor: 'product_name' },
       { Header: 'price_1', accessor: 'price_1' },
       { Header: 'price_2', accessor: 'price_2' },
       { Header: 'price_3', accessor: 'price_3' },
