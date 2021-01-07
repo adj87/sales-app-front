@@ -25,7 +25,7 @@ const InheritFromModal = ({
   return (
     <Modal size="xs" centered onCancel={onCancel} onConfirm={() => onConfirm(fare)}>
       <SelectComponent
-        onChange={(fare: IFare) =>
+        onChange={(name: string, fare: IFare) =>
           fetchFareWithCb(fare.customer_id, (res: any) => setFare(res.data))
         }
         // @ts-ignore
@@ -33,9 +33,10 @@ const InheritFromModal = ({
         // @ts-ignore
         optionLabel={(fare: IFare) => fare.customer_name}
         // @ts-ignore
-        optionValue={(fare: IFare) => fare.customer_id.toString()}
+        optionValue={(fare: IFare) => fare.customer_id}
         labelText="fares.form.inherit-from-another-customer-label"
-        value={fare}
+        value={fare && fare.customer_id}
+        name="inherit_from"
       />
     </Modal>
   );

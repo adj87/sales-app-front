@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { getOptionLabel, getOptionValue } from 'react-select/src/builtins';
@@ -9,7 +9,7 @@ interface SelectComponentProps {
   optionLabel?: getOptionLabel;
   optionValue?: getOptionValue;
   onChange: Function;
-  value?: any;
+  value: number | null;
   name?: string;
   isDisabled?: boolean;
   isOptionDisabled?: ((option: any) => boolean) | undefined;
@@ -27,12 +27,17 @@ const SelectComponent = ({
   isOptionDisabled,
 }: SelectComponentProps) => {
   const { t } = useTranslation();
+  const [optionSelected, setOptionSelected] = useState<any>(null);
   optionLabel = optionLabel ?? ((option): any => option.name);
   optionValue = optionValue ?? ((option): any => option.id);
-  const valueObject = value ? { [optionLabel(value)]: [optionLabel(value)] } : null;
+  useEffect(() => {
+    // @ts-ignore
+    const optionFound = options.find((opt: any) => optionValue(opt) === value);
+    setOptionSelected(optionFound || null);
+  }, [options.length, value]);
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-4">
       {labelText && <label className="block text-primary-dark mb-2">{t(labelText)}</label>}
       <Select
         classNamePrefix="react-select"
@@ -42,7 +47,7 @@ const SelectComponent = ({
         onChange={(option: any) => {
           name ? onChange(name, option) : onChange(option);
         }}
-        value={value}
+        value={optionSelected}
         isDisabled={isDisabled}
         isOptionDisabled={isOptionDisabled}
       />

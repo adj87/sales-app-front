@@ -1,4 +1,6 @@
 import React from 'react';
+import * as Yup from 'yup';
+
 import { IFareLine, IFare } from './duck/types/Fare';
 
 export const columns = [
@@ -58,3 +60,16 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
     return acc;
   }, []);
 };
+
+export const validationSchemaFare = Yup.object().shape({
+  customer_id: Yup.number().nullable().required('campo requerido'),
+});
+
+export const validationSchemaFareLine = Yup.object().shape({
+  product_id: Yup.number().nullable().required('campo requerido'),
+  price_1: Yup.number()
+    .nullable()
+    .transform((value) => (isNaN(value) ? null : value))
+    .required('campo requerido'),
+  price_2: Yup.number().nullable(),
+});

@@ -6,8 +6,10 @@ import { IProduct } from '../../Products/duck/types/Product';
 import { useFormik } from 'formik';
 import Input from '../../../components/Inputs/InputText';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
+import { validationSchemaFareLine } from '../constants';
 
 const InputWithFV = withFormikValues(Input);
+const SelectWithFV = withFormikValues(SelectComponent);
 
 interface FareLineModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -25,12 +27,14 @@ const FareLineModal = ({
   isProductAlreadyInFare,
 }: FareLineModalProps) => {
   const isNewFareLine = !fareLine.product_id;
-  const { values, setFieldValue, submitForm } = useFormik<IFareLine>({
+  const { values, setFieldValue, submitForm, errors } = useFormik<IFareLine>({
     initialValues: fareLine,
     onSubmit: (values: IFareLine) => {
       onConfirm(values, isNewFareLine);
     },
+    validationSchema: validationSchemaFareLine,
   });
+  console.log(errors, values);
   return (
     <Modal
       size="xs"
@@ -39,17 +43,19 @@ const FareLineModal = ({
       onConfirm={submitForm}
       title={`${isNewFareLine ? 'fares.form-fare-line.title' : 'fares.form-fare-line.title-edit'}`}
     >
-      <div className="pb-5">
-        <SelectComponent
-          onChange={(product: IProduct) => {
+      <div className="pt-5">
+        <SelectWithFV
+          onChange={(name: string, product: IProduct) => {
             setFieldValue('product_name', product.name);
             setFieldValue('product_id', product.id);
           }}
           options={products}
           labelText="fares.form-fare-line.label-product"
-          value={values.product_id ? { name: values.product_name, id: values.product_id } : null}
+          formikValues={values}
           isOptionDisabled={isProductAlreadyInFare}
           isDisabled={!isNewFareLine}
+          errors={errors}
+          name="product_id"
         />
       </div>
       <div className="pt-5">
@@ -60,6 +66,7 @@ const FareLineModal = ({
           formikValues={values}
           type="number"
           step="0.01"
+          errors={errors}
         />
       </div>
       <div className="pt-5">
@@ -70,6 +77,7 @@ const FareLineModal = ({
           formikValues={values}
           type="number"
           step="0.01"
+          errors={errors}
         />
       </div>
       {/*       <div className="pt-5">

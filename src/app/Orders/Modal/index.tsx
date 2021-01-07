@@ -71,7 +71,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
       title="orders.form.title"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <SelectComponent
+        {/*         <SelectComponent
           options={customers}
           labelText="orders.form.label-customer"
           onChange={(customer: ICustomer) => {
@@ -84,7 +84,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
             setFieldValue('fiscal_id', fiscal_id);
             setFieldValue('zip_code', zip_code);
           }}
-        />
+        /> */}
 
         <InputWithFV
           label="orders.form.label-shipping-place"

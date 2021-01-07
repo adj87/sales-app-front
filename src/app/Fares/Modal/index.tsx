@@ -7,11 +7,14 @@ import { ICustomer } from '../../Customers/duck/types/Customer';
 import { IProduct } from '../../Products/duck/types/Product';
 import { IFare, IFareLine } from '../duck/types/Fare';
 import Table from '../../../components/Table';
-import { columns, defaultValuesFareLine } from '../constants';
+import { columns, defaultValuesFareLine, validationSchemaFare } from '../constants';
 import Button from '../../../components/Button';
 import InheritFromModal from './InheritFromModal';
 import { useTranslation } from 'react-i18next';
 import FareLineModal from './FareLineModal';
+import withFormikValues from '../../../components/Inputs/withFormikValues';
+
+const SelectWithFV = withFormikValues(SelectComponent);
 
 interface FaresModalProps {
   onCancel: Function;
@@ -36,7 +39,8 @@ const FaresModal = ({
   fareLines,
   products,
 }: FaresModalProps) => {
-  const { values, setFieldValue } = useFormik<IFare>({
+  const { values, setFieldValue, submitForm, errors } = useFormik<IFare>({
+    validationSchema: validationSchemaFare,
     initialValues: fare,
     onSubmit: (values: IFare) => {
       alert(JSON.stringify(values, null, 2));
@@ -52,6 +56,7 @@ const FaresModal = ({
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
   const isEditingMode = Boolean(fare.customer_id);
+
   // @ts-ignore
 
   useEffect(() => {
@@ -71,7 +76,7 @@ const FaresModal = ({
     <>
       <Modal
         title={`${isEditingMode ? 'fares.form.title-edit' : 'fares.form.title'}`}
-        onConfirm={() => console.log('holasd')}
+        onConfirm={submitForm}
         onCancel={() => {
           setFareToInheritFrom(null);
           onCancel();
@@ -80,11 +85,13 @@ const FaresModal = ({
       >
         <div className="flex justify-center">
           <div className="w-1/2">
-            <SelectComponent
-              value={{ name: values.customer_name, id: values.customer_id }}
+            <SelectWithFV
+              name={'customer_id'}
+              formikValues={values}
               labelText={'fares.form.label-customer'}
-              onChange={(customer: ICustomer) => {
+              onChange={(name: string, customer: ICustomer) => {
                 setFieldValue('customer_name', customer.name);
+                setFieldValue('customer_id', customer.id);
                 //setFieldValue('customer_id', customer.id);
               }}
               options={customers}
@@ -93,6 +100,7 @@ const FaresModal = ({
                 // @ts-ignore
                 idCustomersAlreadyWithFares.includes(customer.id)
               }
+              errors={errors}
             />
           </div>
         </div>
