@@ -10,18 +10,18 @@ interface InheritFromModalProps {
   onConfirm: Function;
   fareToInheritFrom: IFare;
   fetchFareWithCb: Function;
-  fareLines: IFareLine[];
+  fares: IFare[];
 }
 
 const InheritFromModal = ({
   onCancel,
   onConfirm,
   fareToInheritFrom,
-  fareLines,
+  fares,
   fetchFareWithCb,
 }: InheritFromModalProps) => {
   const [fare, setFare] = useState<IFare | null>(fareToInheritFrom);
-  const fares = fareLinesToFares(fareLines);
+
   return (
     <Modal size="xs" centered onCancel={onCancel} onConfirm={() => onConfirm(fare)}>
       <SelectComponent
