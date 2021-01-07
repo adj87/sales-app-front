@@ -3,25 +3,25 @@ import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
 import { IFare, IFareLine } from '../duck/types/Fare';
-import { reduceToCustomersGrouping } from '../constants';
+import { fareLinesToFares } from '../constants';
 
 interface InheritFromModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: Function;
   fareToInheritFrom: IFare;
   fetchFareWithCb: Function;
-  fareLines: IFareLine[];
+  fares: IFare[];
 }
 
 const InheritFromModal = ({
   onCancel,
   onConfirm,
   fareToInheritFrom,
-  fareLines,
+  fares,
   fetchFareWithCb,
 }: InheritFromModalProps) => {
   const [fare, setFare] = useState<IFare | null>(fareToInheritFrom);
-  const fares = fareLines.reduce(reduceToCustomersGrouping, []);
+
   return (
     <Modal size="xs" centered onCancel={onCancel} onConfirm={() => onConfirm(fare)}>
       <SelectComponent

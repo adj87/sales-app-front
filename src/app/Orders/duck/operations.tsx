@@ -28,7 +28,7 @@ const fetchOrderAndCustomersAndFaresAndProducts = (orderIdAndType: string) => {
     () =>
       Promise.all([
         customersApi.fetchCustomers(),
-        faresApi.fetchFares(),
+        faresApi.fetchFareLines(),
         productsApi.fetchProducts(),
         apiOrders.fetchOrders(type, parseInt(orderId)),
       ]),

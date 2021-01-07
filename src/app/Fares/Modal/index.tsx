@@ -18,7 +18,8 @@ interface FaresModalProps {
   customers: ICustomer[];
   products: IProduct[];
   fare: IFare;
-  fares: IFareLine[];
+  fareLines: IFareLine[];
+  fares: IFare[];
   setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   fareToInheritFrom: IFare;
@@ -27,11 +28,12 @@ interface FaresModalProps {
 const FaresModal = ({
   onCancel,
   fare,
+  fares,
   customers,
   setFareToInheritFrom,
   fareToInheritFrom,
   fetchFareWithCb,
-  fares,
+  fareLines,
   products,
 }: FaresModalProps) => {
   const { values, setFieldValue } = useFormik<IFare>({
@@ -41,13 +43,30 @@ const FaresModal = ({
     },
   });
   const { t } = useTranslation();
+  const [idCustomersAlreadyWithFares, setIdCustomersAlreadyWithFares] = useState<number[] | null>(
+    null,
+  );
+  const [idProductsAlreadyInFareLines, setIdProductsAlreadyInFareLines] = useState<number[] | null>(
+    null,
+  );
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
   const isEditingMode = Boolean(fare.customer_id);
   // @ts-ignore
-  const idProductsAlreadyInFareLines = values.fare_lines.map(
-    (fareLine: IFareLine) => fareLine.product_id,
-  );
+
+  useEffect(() => {
+    // @ts-ignore
+    const idProductsAlreadyInFareLines = values.fare_lines.map(
+      (fareLine: IFareLine) => fareLine.product_id,
+    );
+    setIdProductsAlreadyInFareLines(idProductsAlreadyInFareLines);
+  }, [values.fare_lines]);
+  useEffect(() => {
+    const idCustomersAlreadyWithFares = fares.map((fare: IFare) => fare.customer_id);
+    // @ts-ignore
+    setIdCustomersAlreadyWithFares(idCustomersAlreadyWithFares);
+  }, [fares.length]);
+
   return (
     <>
       <Modal
@@ -70,6 +89,10 @@ const FaresModal = ({
               }}
               options={customers}
               isDisabled={isEditingMode}
+              isOptionDisabled={(customer: ICustomer) =>
+                // @ts-ignore
+                idCustomersAlreadyWithFares.includes(customer.id)
+              }
             />
           </div>
         </div>
@@ -106,7 +129,7 @@ const FaresModal = ({
             setInheritModal(false);
             setFareToInheritFrom(fare);
           }}
-          fareLines={fares}
+          fares={fares.filter((el: IFare) => el.customer_id !== values.customer_id)}
           fetchFareWithCb={fetchFareWithCb}
           fareToInheritFrom={fareToInheritFrom}
         />
@@ -117,14 +140,18 @@ const FaresModal = ({
           onConfirm={(fareLine: IFareLine, isNew: boolean) => {
             if (isNew) {
               fareLine.customer_id = values.customer_id;
-              fareLine.customer_name = values.customer_name;
+              fareLine.customer_name = `${t('commons.new')}`;
               let newFareLines = [...values.fare_lines];
               newFareLines.push(fareLine);
               setFieldValue('fare_lines', newFareLines);
             } else {
               // @ts-ignore
               const newFareLines = values.fare_lines.map((el: IFareLine) => {
-                if (el.product_id === fareLine.product_id) return fareLine;
+                if (el.product_id === fareLine.product_id)
+                  return {
+                    ...fareLine,
+                    customer_name: `${fareLine.customer_name}-${t('commons.edited')}`,
+                  };
                 return el;
               });
               setFieldValue('fare_lines', newFareLines);
@@ -135,6 +162,7 @@ const FaresModal = ({
           // @ts-ignore
           fareLine={fareLineToForm}
           isProductAlreadyInFare={(product: IProduct) =>
+            // @ts-ignore
             idProductsAlreadyInFareLines.includes(product.id)
           }
           products={products}

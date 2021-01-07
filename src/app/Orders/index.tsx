@@ -73,7 +73,7 @@ const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
   orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
-  fares: state.fares.data,
+  fareLines: state.fares.data.fareLines,
 });
 
 const mapDispatch = {
