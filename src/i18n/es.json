@@ -19,7 +19,12 @@
     "pallet-details": "Detalles de palet",
     "more-info": "Mostrar + info",
     "new": "nuevo",
-    "edited": "editado"
+    "edited": "editado",
+    "errors": {
+      "field_required": "Campo requerido",
+      "must_be_positive_number": "Debe ser un número positivo",
+      "must_be_a_reasonable_price": "Debe ser un número razonable"
+    }
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {
