@@ -1,7 +1,8 @@
-import React from 'react';
 import * as Yup from 'yup';
+import i18 from 'i18next';
 
 import { IFareLine, IFare } from './duck/types/Fare';
+import { reasonablePriceValidation } from '../../utils';
 
 export const columns = [
   {
@@ -62,20 +63,17 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
 };
 
 export const validationSchemaFare = Yup.object().shape({
-  customer_id: Yup.number().nullable().required('campo requerido'),
+  customer_id: Yup.number().nullable().required(i18.t('commons.errors.field_required')),
   fare_lines: Yup.array().test(
     'is-decimal',
-    'campo requerido',
+    i18.t('commons.errors.field_required'),
     // @ts-ignore
     (fareLines: IFareLine) => fareLines.length > 0,
   ),
 });
 
 export const validationSchemaFareLine = Yup.object().shape({
-  product_id: Yup.number().nullable().required('campo requerido'),
-  price_1: Yup.number()
-    .nullable()
-    .transform((value) => (isNaN(value) ? null : value))
-    .required('campo requerido'),
-  price_2: Yup.number().nullable(),
+  product_id: Yup.number().nullable().required(i18.t('commons.errors.field_required')),
+  price_1: reasonablePriceValidation.required(i18.t('commons.errors.field_required')),
+  price_2: reasonablePriceValidation,
 });

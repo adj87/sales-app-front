@@ -1,18 +1,15 @@
 // @ts-nocheck
 import React from 'react';
+import LabelError from '../LabelError';
 
 const withFormikValues = (WrappedComponent) => (props) => {
-  const { name, formikValues, errors, ...others } = props;
+  const { name, formikObject, ...others } = props;
+  const { values, errors, submitCount } = formikObject;
 
   return (
     <div>
-      <WrappedComponent name={name} value={formikValues[name.toString()]} {...others} />
-      <span
-        className={`text-danger-dark block ${Boolean(errors[name]) ? 'visible' : 'hidden'}`}
-        style={{ marginTop: '-12px' }}
-      >
-        {errors && errors[name]}
-      </span>
+      <WrappedComponent name={name} value={values[name.toString()]} {...others} />
+      <LabelError error={submitCount > 0 && errors[name]} />
     </div>
   );
 };

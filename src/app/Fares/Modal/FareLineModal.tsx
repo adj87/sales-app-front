@@ -27,14 +27,14 @@ const FareLineModal = ({
   isProductAlreadyInFare,
 }: FareLineModalProps) => {
   const isNewFareLine = !fareLine.product_id;
-  const { values, setFieldValue, submitForm, errors } = useFormik<IFareLine>({
+  const formik = useFormik<IFareLine>({
     initialValues: fareLine,
     onSubmit: (values: IFareLine) => {
       onConfirm(values, isNewFareLine);
     },
     validationSchema: validationSchemaFareLine,
   });
-  console.log(errors, values);
+  const { setFieldValue, submitForm } = formik;
   return (
     <Modal
       size="xs"
@@ -51,10 +51,9 @@ const FareLineModal = ({
           }}
           options={products}
           labelText="fares.form-fare-line.label-product"
-          formikValues={values}
+          formikObject={formik}
           isOptionDisabled={isProductAlreadyInFare}
           isDisabled={!isNewFareLine}
-          errors={errors}
           name="product_id"
         />
       </div>
@@ -63,10 +62,9 @@ const FareLineModal = ({
           name="price_1"
           label="fares.form-fare-line.label-price-1"
           onChange={setFieldValue}
-          formikValues={values}
+          formikObject={formik}
           type="number"
           step="0.01"
-          errors={errors}
         />
       </div>
       <div className="pt-5">
@@ -74,42 +72,11 @@ const FareLineModal = ({
           name="price_2"
           label="fares.form-fare-line.label-price-2"
           onChange={setFieldValue}
-          formikValues={values}
-          type="number"
-          step="0.01"
-          errors={errors}
-        />
-      </div>
-      {/*       <div className="pt-5">
-        <InputWithFV
-          name="price_3"
-          label="fares.form-fare-line.label-price-3"
-          onChange={setFieldValue}
-          formikValues={values}
+          formikObject={formik}
           type="number"
           step="0.01"
         />
       </div>
-      <div className="pt-5">
-        <InputWithFV
-          name="price_4"
-          label="fares.form-fare-line.label-price-4"
-          onChange={setFieldValue}
-          formikValues={values}
-          type="number"
-          step="0.01"
-        />
-      </div>
-      <div className="pt-5">
-        <InputWithFV
-          name="price_5"
-          label="fares.form-fare-line.label-price-5"
-          onChange={setFieldValue}
-          formikValues={values}
-          type="number"
-          step="0.01"
-        />
-      </div> */}
     </Modal>
   );
 };

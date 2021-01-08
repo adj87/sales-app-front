@@ -13,6 +13,7 @@ import InheritFromModal from './InheritFromModal';
 import { useTranslation } from 'react-i18next';
 import FareLineModal from './FareLineModal';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
+import LabelError from '../../../components/LabelError';
 
 const SelectWithFV = withFormikValues(SelectComponent);
 
@@ -36,16 +37,16 @@ const FaresModal = ({
   setFareToInheritFrom,
   fareToInheritFrom,
   fetchFareWithCb,
-  fareLines,
   products,
 }: FaresModalProps) => {
-  const { values, setFieldValue, submitForm, errors } = useFormik<IFare>({
+  const formik = useFormik<IFare>({
     validationSchema: validationSchemaFare,
     initialValues: fare,
     onSubmit: (values: IFare) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+  const { setFieldValue, submitForm, values, errors, submitCount } = formik;
   const { t } = useTranslation();
   const [idCustomersAlreadyWithFares, setIdCustomersAlreadyWithFares] = useState<number[] | null>(
     null,
@@ -87,7 +88,7 @@ const FaresModal = ({
           <div className="w-1/2">
             <SelectWithFV
               name={'customer_id'}
-              formikValues={values}
+              formikObject={formik}
               labelText={'fares.form.label-customer'}
               onChange={(name: string, customer: ICustomer) => {
                 setFieldValue('customer_name', customer.name);
@@ -100,7 +101,6 @@ const FaresModal = ({
                 // @ts-ignore
                 idCustomersAlreadyWithFares.includes(customer.id)
               }
-              errors={errors}
             />
           </div>
         </div>
@@ -115,7 +115,8 @@ const FaresModal = ({
               setFareLineToForm(fareLine);
             }}
           />
-          <p className="text-danger-dark">{errors?.fare_lines}</p>
+
+          <LabelError error={submitCount > 0 && errors.fare_lines} />
           <Button
             text={`${
               fareToInheritFrom
