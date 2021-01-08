@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 interface UnknownObject {
   [key: string]: Array<String>;
 }
@@ -29,3 +31,10 @@ export const setColumnToHiddenOrShownInTable = (tableName: String, columnToShowO
 };
 
 export const roundToTwoDec = (number: number | null) => number && Math.round(number * 100) / 100;
+
+export const numberValidation = Yup.number()
+  .nullable()
+  .transform((value) => (isNaN(value) ? null : value));
+
+export const positiveNumberValidation = numberValidation.moreThan(0, ' must be positive');
+export const reasonablePriceValidation = positiveNumberValidation.lessThan(5, 'must be reasonable');
