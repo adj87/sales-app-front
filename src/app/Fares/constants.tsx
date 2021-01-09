@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import i18 from 'i18next';
+import i18n from '../../i18n';
 
 import { IFareLine, IFare } from './duck/types/Fare';
 import { reasonablePriceValidation } from '../../utils';
@@ -63,17 +63,17 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
 };
 
 export const validationSchemaFare = Yup.object().shape({
-  customer_id: Yup.number().nullable().required(i18.t('commons.errors.field_required')),
+  customer_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   fare_lines: Yup.array().test(
     'is-decimal',
-    i18.t('commons.errors.field_required'),
+    i18n.t('commons.errors.field_required'),
     // @ts-ignore
     (fareLines: IFareLine) => fareLines.length > 0,
   ),
 });
 
 export const validationSchemaFareLine = Yup.object().shape({
-  product_id: Yup.number().nullable().required(i18.t('commons.errors.field_required')),
-  price_1: reasonablePriceValidation.required(i18.t('commons.errors.field_required')),
+  product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
+  price_1: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
   price_2: reasonablePriceValidation,
 });

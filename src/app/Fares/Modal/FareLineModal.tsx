@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import Input from '../../../components/Inputs/InputText';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { validationSchemaFareLine } from '../constants';
+import useTranslateFormErrors from '../../../i18n/useTranslateFormErrors';
+import i18n from '../../../i18n';
 
 const InputWithFV = withFormikValues(Input);
 const SelectWithFV = withFormikValues(SelectComponent);
@@ -35,6 +37,7 @@ const FareLineModal = ({
     validationSchema: validationSchemaFareLine,
   });
   const { setFieldValue, submitForm } = formik;
+  useTranslateFormErrors(formik);
   return (
     <Modal
       size="xs"
@@ -77,6 +80,7 @@ const FareLineModal = ({
           step="0.01"
         />
       </div>
+      <button onClick={() => i18n.changeLanguage('en')}>Hola</button>
     </Modal>
   );
 };
