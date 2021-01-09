@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useLocation, useParams } from 'react-router-dom';
 
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
@@ -26,22 +26,24 @@ const FaresComponent = ({
   fetchFareWithCb,
   fareToInheritFrom,
 }: any) => {
-  const openModal = useOpenModalByRoutes();
+  const { open, location } = useOpenModalByRoutes();
+  console.log('la location', location);
+
   useEffect(() => {
-    if (openModal === 'new') {
+    if (open === 'new') {
       //CREATE
       fetchFareLinesCustomersAndProducts();
       return setFareToCreateOrEdit(defaultValues);
     }
     // @ts-ignore
-    if (openModal) {
+    if (open) {
       //EDIT
-      return fetchFaresLinesFareCustomersAndProducts(openModal);
+      return fetchFaresLinesFareCustomersAndProducts(open);
     }
     //CLOSE
     if (fareToForm !== null) fetchFareLines();
     return setFareToCreateOrEdit(null);
-  }, [openModal]);
+  }, [open]);
   return (
     <MainLayout>
       <Table

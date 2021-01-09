@@ -1,20 +1,37 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, RouteProps, useHistory } from 'react-router-dom';
+import { History, Location } from 'history';
 
-export const useOpenModalByRoutes = () => {
-  const [openModal, setOpenModal] = useState<false | string>(false);
-  let { id } = useParams<{ id: string }>();
-  const { pathname } = useLocation();
+interface IOpenAndRoutingProps {
+  open: false | string;
+  location: Location;
+  history: History;
+}
+
+export const useOpenModalByRoutes = (): IOpenAndRoutingProps => {
+  const params = useParams<{ id: string }>();
+  const history = useHistory();
+  const location = useLocation();
+  const [openAndRoutingProps, setOpenAndRoutingProps] = useState<IOpenAndRoutingProps>({
+    open: false,
+    location: location,
+    history: history,
+  });
   useEffect(() => {
-    const isThisRouteForCreatingOrEdit = id || pathname.includes('new');
+    const isThisRouteForCreatingOrEdit = params.id || location.pathname.includes('new');
+    let open: string | false = false;
     if (isThisRouteForCreatingOrEdit) {
-      if (id) return setOpenModal(id);
-      return setOpenModal('new');
+      if (params.id) {
+        open = params.id;
+      } else {
+        open = 'new';
+      }
     }
-    if (openModal) {
-      setOpenModal(false);
+    if (openAndRoutingProps.open) {
+      open = false;
     }
+    setOpenAndRoutingProps((oldState: IOpenAndRoutingProps) => ({ ...oldState, open }));
   }, [location.pathname]);
 
-  return openModal;
+  return openAndRoutingProps;
 };

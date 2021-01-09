@@ -15,7 +15,6 @@ const OrdersComponent = ({
   orders,
   fetchOrdersAndProducts,
   fetchOrderAndCustomersAndFaresAndProducts,
-  history,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
@@ -26,20 +25,20 @@ const OrdersComponent = ({
     fetchOrdersAndProducts();
   }, []);
 
-  const openModal = useOpenModalByRoutes();
+  const { open, history } = useOpenModalByRoutes();
   useEffect(() => {
-    if (openModal === 'new') {
+    if (open === 'new') {
       //CREATE
       return setOrderToCreateOrEdit(defaultValues);
     }
     // @ts-ignore
-    if (openModal) {
+    if (open) {
       //EDIT
-      return fetchOrderAndCustomersAndFaresAndProducts(openModal);
+      return fetchOrderAndCustomersAndFaresAndProducts(open);
     }
     //CLOSE
     if (orderToForm !== null) return setOrderToCreateOrEdit(null);
-  }, [openModal]);
+  }, [open]);
 
   return (
     <MainLayout>
