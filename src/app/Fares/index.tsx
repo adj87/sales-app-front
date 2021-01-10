@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, useLocation, useParams } from 'react-router-dom';
 
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
@@ -15,34 +14,34 @@ const FaresComponent = ({
   fetchFareLines,
   fareLines,
   fares,
-  history,
   setFareToCreateOrEdit,
   fareToForm,
   customers,
   fetchFaresLinesFareCustomersAndProducts,
-  fetchFareLinesCustomersAndProducts,
   products,
   setFareToInheritFrom,
   fetchFareWithCb,
   fareToInheritFrom,
 }: any) => {
-  const { open, location } = useOpenModalByRoutes();
-  console.log('la location', location);
+  const { open, history } = useOpenModalByRoutes();
 
   useEffect(() => {
     if (open === 'new') {
       //CREATE
-      fetchFareLinesCustomersAndProducts();
+      fetchFaresLinesFareCustomersAndProducts(true, null, true);
       return setFareToCreateOrEdit(defaultValues);
     }
-    // @ts-ignore
+
+    if (open === 'close') {
+      return setFareToCreateOrEdit(null);
+    }
+
     if (open) {
       //EDIT
-      return fetchFaresLinesFareCustomersAndProducts(open);
+      return fetchFaresLinesFareCustomersAndProducts(true, open, true);
     }
-    //CLOSE
-    if (fareToForm !== null) fetchFareLines();
-    return setFareToCreateOrEdit(null);
+
+    return fetchFareLines();
   }, [open]);
   return (
     <MainLayout>
@@ -61,7 +60,7 @@ const FaresComponent = ({
       {Boolean(fareToForm) && (
         <FaresModal
           fetchFareWithCb={fetchFareWithCb}
-          onCancel={() => history.push(`/fares`)}
+          onCancel={() => history.push({ pathname: `/fares`, state: { closeModal: true } })}
           customers={customers}
           fares={fares}
           fareLines={fareLines}
@@ -88,6 +87,4 @@ const mapDispatch = {
   ...operations,
 };
 
-const FaresComponentWithHistory = withRouter(FaresComponent);
-
-export const Fares = connect(mapState, mapDispatch)(FaresComponentWithHistory);
+export const Fares = connect(mapState, mapDispatch)(FaresComponent);

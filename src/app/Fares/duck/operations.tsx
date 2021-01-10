@@ -19,41 +19,48 @@ const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEdit
 
 const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFareLines);
 
-const fetchFaresLinesFareCustomersAndProducts = (idCustomerFare: number) =>
-  fetchOperationWithLoading(
-    () =>
-      Promise.all([
-        api.fetchFareLines(),
-        api.fetchFares(idCustomerFare),
-        customersApi.fetchCustomers(),
-        productsApi.fetchProducts(),
-      ]),
-    [
-      actions.setFareLines,
-      actions.setFareToCreateOrEdit,
-      customersAction.setCustomers,
-      productsAction.setProducts,
-    ],
+const fetchFaresLinesFareCustomersAndProducts = (
+  withFlines: boolean,
+  idCustomerFare: number,
+  withCustomersAndProducts: boolean,
+) => {
+  const setOfRequests: any = {
+    fLines: () => api.fetchFareLines(),
+    fare: () => api.fetchFares(idCustomerFare),
+    customers: () => customersApi.fetchCustomers(),
+    products: () => productsApi.fetchProducts(),
+  };
+  const setOfActions: any = {
+    fLines: actions.setFareLines,
+    fare: actions.setFareToCreateOrEdit,
+    customers: customersAction.setCustomers,
+    products: productsAction.setProducts,
+  };
+  if (!idCustomerFare) {
+    delete setOfRequests.fare;
+    delete setOfActions.fare;
+  }
+  if (!withFlines) {
+    delete setOfRequests.fLines;
+    delete setOfActions.fLines;
+  }
+  if (!withCustomersAndProducts) {
+    delete setOfRequests.customers;
+    delete setOfRequests.products;
+    delete setOfActions.customers;
+    delete setOfActions.products;
+  }
+  return fetchOperationWithLoading(
+    () => Promise.all(Object.values(setOfRequests).map((req: any) => req())),
+    Object.values(setOfActions),
     (res: any, dispatch: any) => {
-      const fares = fareLinesToFares(res[0].data);
-      dispatch(actions.setFares(fares));
+      if (withFlines) {
+        const fares = fareLinesToFares(res[0].data);
+        dispatch(actions.setFares(fares));
+      }
     },
   );
-
-const fetchFareLinesCustomersAndProducts = () =>
-  fetchOperationWithLoading(
-    () =>
-      Promise.all([
-        api.fetchFareLines(),
-        customersApi.fetchCustomers(),
-        productsApi.fetchProducts(),
-      ]),
-    [actions.setFareLines, customersAction.setCustomers, productsAction.setProducts],
-    (res: any, dispatch: any) => {
-      const fares = fareLinesToFares(res[0].data);
-      dispatch(actions.setFares(fares));
-    },
-  );
+};
 
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 const setFareToInheritFrom = actions.setFareToInheritFrom;
@@ -64,7 +71,6 @@ export default {
   removeElementToCreateOrEdit,
   fetchFareLines,
   fetchFaresLinesFareCustomersAndProducts,
-  fetchFareLinesCustomersAndProducts,
   setFareToCreateOrEdit,
   fetchFareWithCb,
   setFareToInheritFrom,

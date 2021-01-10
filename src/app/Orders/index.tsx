@@ -26,6 +26,7 @@ const OrdersComponent = ({
   }, []);
 
   const { open, history } = useOpenModalByRoutes();
+
   useEffect(() => {
     if (open === 'new') {
       //CREATE
