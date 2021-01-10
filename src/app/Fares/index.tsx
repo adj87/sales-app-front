@@ -33,7 +33,6 @@ const FaresComponent = ({
           fetchFaresLinesFareCustomersAndProducts(true, null, true);
           return setFareToCreateOrEdit(defaultValues);
         case 'close':
-          debugger;
           return setFareToCreateOrEdit(null);
         case 'edit':
           return fetchFaresLinesFareCustomersAndProducts(true, state?.actionModal?.params, true);

@@ -21,49 +21,48 @@ const OrdersComponent = ({
   products,
   fares,
 }: any) => {
+  const state = useOpenModalByRoutes();
+  // @ts-ignore
+
   useEffect(() => {
-    fetchOrdersAndProducts();
-  }, []);
-
-  /*   const { actionModal, history } = useOpenModalByRoutes(); */
-
-  /*   useEffect(() => {
-    if (open === 'new') {
-      //CREATE
-      return setOrderToCreateOrEdit(defaultValues);
-    }
-    // @ts-ignore
-    if (open) {
-      //EDIT
-      return fetchOrderAndCustomersAndFaresAndProducts(open);
-    }
-    //CLOSE
-    if (orderToForm !== null) return setOrderToCreateOrEdit(null);
-  }, [open]); */
+    if (state?.actionModal)
+      switch (state?.actionModal.name) {
+        case 'new':
+          return setOrderToCreateOrEdit(defaultValues);
+        case 'close':
+          return setOrderToCreateOrEdit(null);
+        case 'edit':
+          return fetchOrderAndCustomersAndFaresAndProducts(state?.actionModal?.params);
+        case 'nothing':
+          return fetchOrdersAndProducts();
+      }
+  }, [state]);
 
   return (
     <MainLayout>
-      {/*       <Table
+      <Table
         columns={columns}
         data={orders}
-        onAddButton={() => history.push('/orders/new')}
+        onAddButton={() => state && state.history.push('/orders/new')}
         tableName={'orders'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          history.push(`/orders/${order.type}-${order.id}`);
+          state && state.history.push(`/orders/${order.type}-${order.id}`);
         }}
       />
       {Boolean(orderToForm) && (
         <OrderModal
-          onCancel={() => history.push(`/orders`)}
+          onCancel={() =>
+            state && state.history.push({ pathname: `/orders`, state: { closeModal: true } })
+          }
           customers={customers}
           fares={fares}
           products={products}
           order={orderToForm}
         />
-      )} */}
+      )}
     </MainLayout>
   );
 };

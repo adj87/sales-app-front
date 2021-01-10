@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import LabelAndAmount from '../../../../components/LabelAndAmount';
 import withFormikValues from '../../../../components/Inputs/withFormikValues';
 import Button from '../../../../components/Button';
+import { validationSchemaOrderLine } from '../../constants';
 
 const InputWithFormikValues = withFormikValues(Input);
 
@@ -26,10 +27,12 @@ const OrderLineModal = ({
   products,
   orderLine,
 }: OrderLineModalProps) => {
-  const { values, setFieldValue, submitForm } = useFormik<IOrderLine | any>({
+  const formik = useFormik<IOrderLine | any>({
+    validationSchema: validationSchemaOrderLine,
     initialValues: orderLine,
     onSubmit: onConfirm,
   });
+  const { values, setFieldValue, submitForm } = formik;
 
   return (
     <Modal title={title} size="xs" centered>
@@ -41,52 +44,51 @@ const OrderLineModal = ({
           setFieldValue('product_id', id);
           setFieldValue('product_name', name);
         }}
-        value={{ id: values.product_id, name: values.product_name }}
+        value={values.product_id}
       />
-      {values.product_id && (
-        <>
-          <div className="flex flex-col w-4/5 m-auto">
-            <InputWithFormikValues
-              formikValues={values}
-              label="orders.form.products-form.label-quantity"
-              name="quantity"
-              type="number"
-              onChange={setFieldValue}
-            />
-            <InputWithFormikValues
-              formikValues={values}
-              type="number"
-              label="Precio"
-              name="price"
-              onChange={setFieldValue}
-              step="0.01"
-            />
-          </div>
-          <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
-            <LabelAndAmount amount={12} label={'Base'} />
-            <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
-            <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
-            <LabelAndAmount amount={17.85} label={'Total'} isTotal />
-          </div>
-          <div className="flex flex-col mt-10 ">
-            <Button
-              text="commons.ok"
-              color="secondary"
-              onClick={submitForm}
-              size="block"
-              className="mb-2"
-            />
-            <Button
-              text="commons.cancel"
-              color="secondary"
-              // @ts-ignore
-              onClick={onCancel}
-              size="block"
-              outline
-            />
-          </div>
-        </>
-      )}
+
+      <>
+        <div className="flex flex-col w-4/5 m-auto">
+          <InputWithFormikValues
+            formikObject={formik}
+            label="orders.form.products-form.label-quantity"
+            name="quantity"
+            type="number"
+            onChange={setFieldValue}
+          />
+          <InputWithFormikValues
+            formikObject={formik}
+            type="number"
+            label="Precio"
+            name="price"
+            onChange={setFieldValue}
+            step="0.01"
+          />
+        </div>
+        <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
+          <LabelAndAmount amount={12} label={'Base'} />
+          <LabelAndAmount amount={2.5} label={'Iva'} isDisabled />
+          <LabelAndAmount amount={4} label={'P. Verde'} isDisabled />
+          <LabelAndAmount amount={17.85} label={'Total'} isTotal />
+        </div>
+        <div className="flex flex-col mt-10 ">
+          <Button
+            text="commons.ok"
+            color="secondary"
+            onClick={submitForm}
+            size="block"
+            className="mb-2"
+          />
+          <Button
+            text="commons.cancel"
+            color="secondary"
+            // @ts-ignore
+            onClick={onCancel}
+            size="block"
+            outline
+          />
+        </div>
+      </>
     </Modal>
   );
 };

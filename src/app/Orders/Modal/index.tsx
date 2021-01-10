@@ -32,14 +32,14 @@ interface OrdersModalProps {
 }
 
 const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModalProps) => {
-  const [customerSelected, setCustomer] = useState<any>(null);
   const [fare, setFare] = useState<IFare | null>(null);
-  const { values, setFieldValue } = useFormik<IOrder>({
+  const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
+  const { values, setFieldValue } = formik;
 
   useEffect(() => {
     if (fare) {
@@ -71,12 +71,13 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
       title="orders.form.title"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/*         <SelectComponent
+        <SelectComponentWithFV
+          name="customer_id"
+          formikObject={formik}
           options={customers}
           labelText="orders.form.label-customer"
-          onChange={(customer: ICustomer) => {
+          onChange={(input_name: string, customer: ICustomer) => {
             const { address, fiscal_id, zip_code, id, name } = customer;
-            setCustomer(customer);
             setFieldValue('address', address);
             setFieldValue('shipping_place', address);
             setFieldValue('customer_id', id);
@@ -84,32 +85,23 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
             setFieldValue('fiscal_id', fiscal_id);
             setFieldValue('zip_code', zip_code);
           }}
-        /> */}
+        />
 
         <InputWithFV
           label="orders.form.label-shipping-place"
           name="shipping_place"
           onChange={setFieldValue}
-          formikValues={values}
+          formikObject={formik}
         />
         <InputWithFV
           label="orders.form.label-delivery-date"
           name="delivery_date"
           onChange={setFieldValue}
-          formikValues={values}
+          formikObject={formik}
           type="date"
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/*         <SelectComponent
-          labelText="orders.form.label-fare"
-          onChange={setFare}
-          value={fare}
-          optionLabel={(option: IFare) => option.customer_name}
-          optionValue={(option: IFare) => option.customer_id.toString()}
-          options={fares}
-        /> */}
-      </div>
+
       <div className="flex items-end mb-20 justify-between">
         <InputRadioWithFV
           label="orders.form.label-type"
@@ -117,26 +109,26 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           onChange={async (field: string, value: string) => {
             await setFieldValue(field, value);
           }}
-          formikValues={values}
+          formikObject={formik}
           options={[
             { value: 'A', label: 'A' },
             { value: 'B', label: 'B' },
           ]}
         />
         <InputCheckBoxWithFV
-          formikValues={values}
+          formikObject={formik}
           label={'orders.form.label-surcharge'}
           name="surcharge"
           onChange={setFieldValue}
         />
         <InputCheckBoxWithFV
-          formikValues={values}
+          formikObject={formik}
           label={'orders.form.label-green-point'}
           name="green_point"
           onChange={setFieldValue}
         />
         <InputCheckBoxWithFV
-          formikValues={values}
+          formikObject={formik}
           label={'orders.form.label-together'}
           name="show_together_with_others"
           onChange={setFieldValue}

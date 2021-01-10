@@ -19,7 +19,6 @@ interface InputWithCarrouselProps {
 const back_host = process.env.REACT_APP_BACK_HOST;
 
 const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrouselProps) => {
-  const { t } = useTranslation();
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const display = openCarrousel ? 'block' : 'hidden';
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
@@ -41,7 +40,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
               'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
             return (
               <div className="flex flex-col">
-                <div className={el.id === value.id ? selectedClass : normalClass}>
+                <div className={el.id === value ? selectedClass : normalClass}>
                   <FontAwesomeIcon
                     inverse
                     icon={faFileAlt}
@@ -68,15 +67,14 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
 
       <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
         <img
-          src={`${value.id ? `${back_host}/images/${value.id}.png` : `${DEFAULT_IMAGE_URL}`} `}
+          src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `}
           width="80"
           onClick={() => setOpenCarrousel(true)}
         />
-        {value.id && (
-          <div className="w-full">
-            <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
-          </div>
-        )}
+
+        <div className="w-full">
+          <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
+        </div>
       </div>
       {showInMiddle !== null && (
         <ProductDetail

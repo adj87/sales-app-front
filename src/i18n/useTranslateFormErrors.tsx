@@ -11,7 +11,6 @@ const useTranslateFormErrors = (formikObject: any) => {
   useEffect(() => {
     i18n.on('languageChanged', (lng) => {
       Object.keys(errors).forEach((fieldName) => {
-        debugger;
         if (Object.keys(touched).includes(fieldName)) {
           setFieldTouched(fieldName);
         }
