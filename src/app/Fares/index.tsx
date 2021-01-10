@@ -23,44 +23,44 @@ const FaresComponent = ({
   fetchFareWithCb,
   fareToInheritFrom,
 }: any) => {
-  const { open, history } = useOpenModalByRoutes();
+  const state = useOpenModalByRoutes();
+  // @ts-ignore
 
   useEffect(() => {
-    if (open === 'new') {
-      //CREATE
-      fetchFaresLinesFareCustomersAndProducts(true, null, true);
-      return setFareToCreateOrEdit(defaultValues);
-    }
-
-    if (open === 'close') {
-      return setFareToCreateOrEdit(null);
-    }
-
-    if (open) {
-      //EDIT
-      return fetchFaresLinesFareCustomersAndProducts(true, open, true);
-    }
-
-    return fetchFareLines();
-  }, [open]);
+    if (state?.actionModal)
+      switch (state?.actionModal.name) {
+        case 'new':
+          fetchFaresLinesFareCustomersAndProducts(true, null, true);
+          return setFareToCreateOrEdit(defaultValues);
+        case 'close':
+          debugger;
+          return setFareToCreateOrEdit(null);
+        case 'edit':
+          return fetchFaresLinesFareCustomersAndProducts(true, state?.actionModal?.params, true);
+        case 'nothing':
+          return fetchFaresLinesFareCustomersAndProducts(true);
+      }
+  }, [state]);
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={fareLines}
-        onAddButton={() => history.push('/fares/new')}
+        onAddButton={() => state && state.history.push('/fares/new')}
         tableName={'fares'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const fare: IFare = datatableRowInfo.original;
-          history.push(`/fares/${fare.customer_id}`);
+          state && state.history.push(`/fares/${fare.customer_id}`);
         }}
       />
       {Boolean(fareToForm) && (
         <FaresModal
           fetchFareWithCb={fetchFareWithCb}
-          onCancel={() => history.push({ pathname: `/fares`, state: { closeModal: true } })}
+          onCancel={() =>
+            state && state.history.push({ pathname: `/fares`, state: { closeModal: true } })
+          }
           customers={customers}
           fares={fares}
           fareLines={fareLines}

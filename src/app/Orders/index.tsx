@@ -25,9 +25,9 @@ const OrdersComponent = ({
     fetchOrdersAndProducts();
   }, []);
 
-  const { open, history } = useOpenModalByRoutes();
+  /*   const { actionModal, history } = useOpenModalByRoutes(); */
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (open === 'new') {
       //CREATE
       return setOrderToCreateOrEdit(defaultValues);
@@ -39,11 +39,11 @@ const OrdersComponent = ({
     }
     //CLOSE
     if (orderToForm !== null) return setOrderToCreateOrEdit(null);
-  }, [open]);
+  }, [open]); */
 
   return (
     <MainLayout>
-      <Table
+      {/*       <Table
         columns={columns}
         data={orders}
         onAddButton={() => history.push('/orders/new')}
@@ -63,7 +63,7 @@ const OrdersComponent = ({
           products={products}
           order={orderToForm}
         />
-      )}
+      )} */}
     </MainLayout>
   );
 };
