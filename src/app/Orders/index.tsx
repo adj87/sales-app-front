@@ -21,56 +21,41 @@ interface OrdersComponentProps {
   fareLines: IFareLine[];
   orderToForm: IOrder | null;
   fetchOrdersAndProducts: Function;
-  fetchOrderAndCustomersAndFaresAndProducts: Function;
+  fetchOrderAndCustomersAndFareAndProducts: Function;
   setOrderToCreateOrEdit: Function;
 }
 
 const OrdersComponent = ({
   orders,
-  fetchOrdersAndProducts,
-  fetchOrderAndCustomersAndFaresAndProducts,
+  fetchOrderAndCustomersAndFareAndProducts,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
   products,
+  fetchOrdersAndProducts,
   fareLines,
 }: OrdersComponentProps) => {
-  const state = useOpenModalByRoutes();
-  // @ts-ignore
-
   useEffect(() => {
-    if (state?.actionModal)
-      switch (state?.actionModal.name) {
-        case 'new':
-          return setOrderToCreateOrEdit(defaultValues);
-        case 'close':
-          return setOrderToCreateOrEdit(null);
-        case 'edit':
-          return fetchOrderAndCustomersAndFaresAndProducts(state?.actionModal?.params);
-        case 'nothing':
-          return fetchOrdersAndProducts();
-      }
-  }, [state]);
+    fetchOrdersAndProducts();
+  }, []);
 
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={orders}
-        onAddButton={() => state && state.history.push('/orders/new')}
+        onAddButton={() => fetchOrderAndCustomersAndFareAndProducts('new')}
         tableName={'orders'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          state && state.history.push(`/orders/${order.type}-${order.id}`);
+          fetchOrderAndCustomersAndFareAndProducts(`${order.type}-${order.id}`, order.customer_id);
         }}
       />
       {Boolean(orderToForm) && (
         <OrderModal
-          onCancel={() =>
-            state && state.history.push({ pathname: `/orders`, state: { closeModal: true } })
-          }
+          onCancel={() => setOrderToCreateOrEdit(null)}
           customers={customers}
           fares={fareLines}
           products={products}

@@ -8,6 +8,7 @@ import { actions as customersAction, api as customersApi } from '../../Customers
 import { actions as faresAction, api as faresApi } from '../../Fares/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { operations as loadingOperations } from '../../Loading/duck';
+import { defaultValues } from '../constants';
 
 const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
@@ -22,22 +23,36 @@ const fetchOrdersAndProducts = () =>
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
 
-const fetchOrderAndCustomersAndFaresAndProducts = (orderIdAndType: string) => {
+const fetchOrderAndCustomersAndFareAndProducts = (orderIdAndType: string, customerId?: number) => {
   const [type, orderId] = orderIdAndType.split('-');
+
+  const setOfRequests: any = {
+    customers: () => customersApi.fetchCustomers(),
+    fare: () => faresApi.fetchFares(customerId),
+    order: () => apiOrders.fetchOrders(type, parseInt(orderId)),
+  };
+
+  const setOfActions: any = {
+    customers: customersAction.setCustomers,
+    fare: actions.setFare,
+    order: actions.setOrderToCreateOrEdit,
+  };
+
+  if (orderIdAndType === 'new') {
+    delete setOfRequests.order;
+    delete setOfActions.order;
+    delete setOfRequests.fare;
+    delete setOfActions.fare;
+  }
+
   return fetchOperationWithLoading(
-    () =>
-      Promise.all([
-        customersApi.fetchCustomers(),
-        faresApi.fetchFareLines(),
-        productsApi.fetchProducts(),
-        apiOrders.fetchOrders(type, parseInt(orderId)),
-      ]),
-    [
-      customersAction.setCustomers,
-      faresAction.setFareLines,
-      productsAction.setProducts,
-      actions.setOrderToCreateOrEdit,
-    ],
+    () => Promise.all(Object.values(setOfRequests).map((req: any) => req())),
+    Object.values(setOfActions),
+    (res: any, dispatch: any) => {
+      if (orderIdAndType === 'new') {
+        dispatch(actions.setOrderToCreateOrEdit(defaultValues));
+      }
+    },
   );
 };
 
@@ -46,6 +61,6 @@ const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 export default {
   fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
-  fetchOrderAndCustomersAndFaresAndProducts,
+  fetchOrderAndCustomersAndFareAndProducts,
   setOrderToCreateOrEdit,
 };
