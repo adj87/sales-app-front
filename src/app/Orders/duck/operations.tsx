@@ -34,7 +34,7 @@ const fetchOrderAndCustomersAndFaresAndProducts = (orderIdAndType: string) => {
       ]),
     [
       customersAction.setCustomers,
-      faresAction.setFares,
+      faresAction.setFareLines,
       productsAction.setProducts,
       actions.setOrderToCreateOrEdit,
     ],

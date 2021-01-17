@@ -10,6 +10,20 @@ import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
 import { columns, defaultValues } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
+import { ICustomer } from '../Customers/duck/types/Customer';
+import { IProduct } from '../Products/duck/types/Product';
+import { IFareLine } from '../Fares/duck/types/Fare';
+
+interface OrdersComponentProps {
+  orders: IOrder[];
+  customers: ICustomer[];
+  products: IProduct[];
+  fareLines: IFareLine[];
+  orderToForm: IOrder | null;
+  fetchOrdersAndProducts: Function;
+  fetchOrderAndCustomersAndFaresAndProducts: Function;
+  setOrderToCreateOrEdit: Function;
+}
 
 const OrdersComponent = ({
   orders,
@@ -19,8 +33,8 @@ const OrdersComponent = ({
   orderToForm,
   setOrderToCreateOrEdit,
   products,
-  fares,
-}: any) => {
+  fareLines,
+}: OrdersComponentProps) => {
   const state = useOpenModalByRoutes();
   // @ts-ignore
 
@@ -58,8 +72,9 @@ const OrdersComponent = ({
             state && state.history.push({ pathname: `/orders`, state: { closeModal: true } })
           }
           customers={customers}
-          fares={fares}
+          fares={fareLines}
           products={products}
+          // @ts-ignore
           order={orderToForm}
         />
       )}
@@ -79,6 +94,4 @@ const mapDispatch = {
   ...operations,
 };
 
-const OrdersComponentWithHistory = withRouter(OrdersComponent);
-
-export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);
+export const Orders = connect(mapState, mapDispatch)(OrdersComponent);
