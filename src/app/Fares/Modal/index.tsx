@@ -27,6 +27,8 @@ interface FaresModalProps {
   setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   fareToInheritFrom: IFare;
+  editingMode?: boolean;
+  selectDisabled?: boolean;
 }
 
 const FaresModal = ({
@@ -38,6 +40,8 @@ const FaresModal = ({
   fareToInheritFrom,
   fetchFareWithCb,
   products,
+  editingMode,
+  selectDisabled,
 }: FaresModalProps) => {
   const formik = useFormik<IFare>({
     validationSchema: validationSchemaFare,
@@ -56,7 +60,7 @@ const FaresModal = ({
   );
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
-  const isEditingMode = Boolean(fare.customer_id);
+  const isEditingMode = editingMode !== undefined ? editingMode : Boolean(fare.customer_id);
 
   // @ts-ignore
 
@@ -67,6 +71,7 @@ const FaresModal = ({
     );
     setIdProductsAlreadyInFareLines(idProductsAlreadyInFareLines);
   }, [values.fare_lines]);
+
   useEffect(() => {
     const idCustomersAlreadyWithFares = fares.map((fare: IFare) => fare.customer_id);
     // @ts-ignore
@@ -96,7 +101,7 @@ const FaresModal = ({
                 //setFieldValue('customer_id', customer.id);
               }}
               options={customers}
-              isDisabled={isEditingMode}
+              isDisabled={selectDisabled ?? isEditingMode}
               isOptionDisabled={(customer: ICustomer) =>
                 // @ts-ignore
                 idCustomersAlreadyWithFares.includes(customer.id)

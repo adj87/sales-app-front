@@ -21,13 +21,13 @@ interface OrdersComponentProps {
   fareLines: IFareLine[];
   orderToForm: IOrder | null;
   fetchOrdersAndProducts: Function;
-  fetchOrderAndCustomersAndFareAndProducts: Function;
+  fetchOrderAndCustomersAndFareAndProductsAndFares: Function;
   setOrderToCreateOrEdit: Function;
 }
 
 const OrdersComponent = ({
   orders,
-  fetchOrderAndCustomersAndFareAndProducts,
+  fetchOrderAndCustomersAndFareAndProductsAndFares,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
@@ -44,13 +44,13 @@ const OrdersComponent = ({
       <Table
         columns={columns}
         data={orders}
-        onAddButton={() => fetchOrderAndCustomersAndFareAndProducts('new')}
+        onAddButton={() => fetchOrderAndCustomersAndFareAndProductsAndFares('new')}
         tableName={'orders'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          fetchOrderAndCustomersAndFareAndProducts(`${order.type}-${order.id}`, order.customer_id);
+          fetchOrderAndCustomersAndFareAndProductsAndFares(`${order.type}-${order.id}`, order.customer_id);
         }}
       />
       {Boolean(orderToForm) && (

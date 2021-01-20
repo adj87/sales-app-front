@@ -57,6 +57,7 @@
       "title": "Add tarifa",
       "title-edit": "Edit tarifa",
       "label-customer": "Customer",
+      "no-own-fare": "Este cliente no tiene tarifa de reparto por lo que actualmente tira de reparto. Agregue artículos para que tenga una tarifa propia",
       "inherit-from-another-customer-button": "Inherit from other customer",
       "inheriting-from-customer-button": "Inheriting from",
       "inherit-from-another-customer-label": "Inherit from"

@@ -23,19 +23,21 @@ const fetchOrdersAndProducts = () =>
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
 
-const fetchOrderAndCustomersAndFareAndProducts = (orderIdAndType: string, customerId?: number) => {
+const fetchOrderAndCustomersAndFareAndProductsAndFares = (orderIdAndType: string, customerId?: number) => {
   const [type, orderId] = orderIdAndType.split('-');
 
   const setOfRequests: any = {
     customers: () => customersApi.fetchCustomers(),
     fare: () => faresApi.fetchFares(customerId),
     order: () => apiOrders.fetchOrders(type, parseInt(orderId)),
+    fares: () => faresApi.fetchFares()
   };
 
   const setOfActions: any = {
     customers: customersAction.setCustomers,
     fare: actions.setFare,
     order: actions.setOrderToCreateOrEdit,
+    fares:faresAction.setFares
   };
 
   if (orderIdAndType === 'new') {
@@ -56,11 +58,18 @@ const fetchOrderAndCustomersAndFareAndProducts = (orderIdAndType: string, custom
   );
 };
 
+const setFareToInheritFrom = actions.setFareToInheritFrom;
+
 const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
+
+const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
+  fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
 
 export default {
   fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
-  fetchOrderAndCustomersAndFareAndProducts,
+  fetchOrderAndCustomersAndFareAndProductsAndFares,
   setOrderToCreateOrEdit,
+  setFareToInheritFrom,
+  fetchFareWithCb,
 };

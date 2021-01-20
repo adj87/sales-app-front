@@ -32,7 +32,6 @@ interface OrdersModalProps {
 }
 
 const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModalProps) => {
-  const [fare, setFare] = useState<IFare | null>(null);
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
@@ -40,28 +39,6 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
     },
   });
   const { values, setFieldValue } = formik;
-
-  useEffect(() => {
-    if (fare) {
-      const newOrderLines: IOrderLine[] = values.order_lines.map((oLine: IOrderLine) => {
-        const match = fare.fare_lines.find(
-          (fLine: IFareLine) => fLine.product_id === oLine.product_id,
-        );
-        if (match) return { ...oLine, price: match.price_1 };
-        return { ...oLine };
-      });
-      setFieldValue('order_lines', newOrderLines);
-      const totalNet = sum(newOrderLines, 'price');
-      const totalTaxes = totalNet && values.type === 'A' ? totalNet * 0.21 : 0;
-      setFieldValue('total_net', roundToTwoDec(totalNet ? totalNet : 0));
-      setFieldValue('total_taxes', roundToTwoDec(totalTaxes));
-      setFieldValue('total', totalNet ? roundToTwoDec(totalNet + totalTaxes) : 0);
-    }
-  }, [fare]);
-
-  useEffect(() => {
-    const total = calculateTotals(values, fare, products);
-  }, [values.type, values.green_point]);
 
   return (
     <Modal
@@ -180,7 +157,9 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           <LabelAndAmount amount={values.total} label={'Total'} isTotal />
         </div>
       </div>
-      <MoreInfo />
+      {/* 
+      //@ts-ignore */}
+      <MoreInfo customerId={values.customer_id}/>
     </Modal>
   );
 };
