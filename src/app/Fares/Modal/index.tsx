@@ -123,13 +123,7 @@ const FaresModal = ({
 
           <LabelError error={submitCount > 0 && errors.fare_lines} />
           <Button
-            text={`${
-              fareToInheritFrom
-                ? `${t('fares.form.inheriting-from-customer-button')} ${
-                    fareToInheritFrom.customer_name
-                  }`
-                : 'fares.form.inherit-from-another-customer-button'
-            }`}
+            text={'fares.form.inherit-from-another-customer-button'}
             color="primary"
             onClick={() => setInheritModal(true)}
             size="sm"
@@ -140,7 +134,7 @@ const FaresModal = ({
         <InheritFromModal
           onCancel={() => setInheritModal(false)}
           onConfirm={(fare: IFare) => {
-            setFieldValue('fare_lines', fare.fare_lines);
+            setFieldValue('fare_lines', [...values.fare_lines, ...fare.fare_lines]);
             setInheritModal(false);
             setFareToInheritFrom(fare);
           }}

@@ -2,11 +2,11 @@ import React from 'react';
 
 interface LabelErrorProps {
   error: string | undefined | any;
-  style?: React.CSSProperties;
+  className?: string;
 }
 
-const LabelError = ({ error, style }: LabelErrorProps) => {
-  return <label className={`text-danger-dark block`}>{error ?? ''}</label>;
+const LabelError = ({ error, className }: LabelErrorProps) => {
+  return <label className={`text-danger-dark block ${className ?? ''}`}>{error ?? ''}</label>;
 };
 
 export default LabelError;
