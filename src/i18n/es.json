@@ -23,7 +23,8 @@
     "errors": {
       "field_required": "Campo requerido",
       "must_be_positive_number": "Debe ser un número positivo",
-      "must_be_a_reasonable_price": "Debe ser un número razonable"
+      "must_be_a_reasonable_price": "Debe ser un número razonable",
+      "elements-repeated": "Hay elementos repetidos. Elimine los repetidos"
     }
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },

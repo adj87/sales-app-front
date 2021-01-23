@@ -119,15 +119,19 @@ const FaresModal = ({
               const fareLine: IFareLine = original;
               setFareLineToForm(fareLine);
             }}
+            deleteOnRowPress={(row: any) => {
+              const fLine: IFareLine = row.original;
+              console.log(fLine);
+            }}
           />
 
-          <LabelError error={submitCount > 0 && errors.fare_lines} />
           <Button
             text={'fares.form.inherit-from-another-customer-button'}
             color="primary"
             onClick={() => setInheritModal(true)}
             size="sm"
           />
+          <LabelError error={submitCount > 0 && errors.fare_lines} className="mb-5 text-center" />
         </div>
       </Modal>
       {inheritModal && (

@@ -64,13 +64,20 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
 
 export const validationSchemaFare = Yup.object().shape({
   customer_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  fare_lines: Yup.array().test(
-    'is-decimal',
-    i18n.t('commons.errors.field_required'),
-    // @ts-ignore
-    (fareLines: IFareLine) => fareLines.length > 0,
-  ),
+  fare_lines: Yup.array()
+    .test(
+      'is-decimal',
+      i18n.t('commons.errors.field_required'),
+      // @ts-ignore
+      (fareLines: IFareLine[]) => fareLines.length > 0,
+    )
+    .test('any-is-repeated', i18n.t('commons.errors.elements-repeated'), (fareLines: any) =>
+      fareLines.some((el: any, i: any, arr: any) => countInArray(arr, el) > 1),
+    ),
 });
+
+// @ts-ignore
+export const countInArray = (array, value) => array.reduce((n, x) => n + (x === value), 0);
 
 export const validationSchemaFareLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),

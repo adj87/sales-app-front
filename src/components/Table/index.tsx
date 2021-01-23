@@ -16,6 +16,7 @@ import Button from '../Button';
 import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../utils.ts';
 import { useTranslation } from 'react-i18next';
 import InputCheckBox from '../Inputs/InputCheckbox';
+import Modal from '../Modal/Modal';
 
 function Table({
   columns,
@@ -25,6 +26,8 @@ function Table({
   withSearching,
   withPagination,
   onRowClick,
+  onRowLongPress,
+  deleteOnRowPress,
 }: any) {
   const {
     getTableProps,
@@ -83,6 +86,8 @@ function Table({
           page={page}
           prepareRow={prepareRow}
           onRowClick={onRowClick}
+          onRowLongPress={onRowLongPress}
+          deleteOnRowPress={deleteOnRowPress}
         />
       </table>
 
@@ -143,31 +148,65 @@ const THead = ({ headerGroups }) => (
   </thead>
 );
 
-const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick }) => (
-  <tbody {...getTableBodyProps()}>
-    {page.map((row, i) => {
-      prepareRow(row);
-      return (
-        <tr
-          {...row.getRowProps()}
-          onClick={onRowClick ? () => onRowClick(row) : undefined}
-          className={onRowClick ? 'cursor-pointer' : ''}
+const TBody = ({
+  getTableBodyProps,
+  page,
+  prepareRow,
+  onRowClick,
+  onRowLongPress,
+  deleteOnRowPress,
+}) => {
+  const [rowToDelete, setRowToDelete] = useState(false);
+  return (
+    <tbody {...getTableBodyProps()}>
+      {page.map((row, i) => {
+        let clickHoldTimer = null;
+        let functionExecuted = false;
+        prepareRow(row);
+        return (
+          <tr
+            {...row.getRowProps()}
+            className={onRowClick ? 'cursor-pointer' : ''}
+            onPointerDown={() => {
+              clickHoldTimer = setTimeout(() => {
+                functionExecuted = true;
+                onRowLongPress && onRowLongPress(row);
+                deleteOnRowPress && setRowToDelete(row);
+              }, 500);
+            }}
+            onPointerUp={() => {
+              !functionExecuted && onRowClick && onRowClick(row);
+              functionExecuted = false;
+              clearInterval(clickHoldTimer);
+            }}
+          >
+            {row.cells.map((cell) => {
+              return (
+                <td
+                  {...cell.getCellProps()}
+                  className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
+                >
+                  {cell.render('Cell')}
+                </td>
+              );
+            })}
+          </tr>
+        );
+      })}
+      {rowToDelete && (
+        <Modal
+          size="xs"
+          onConfirm={() => deleteOnRowPress(rowToDelete)}
+          onCancel={() => setRowToDelete(false)}
+          title={'commons'}
+          centered
         >
-          {row.cells.map((cell) => {
-            return (
-              <td
-                {...cell.getCellProps()}
-                className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
-              >
-                {cell.render('Cell')}
-              </td>
-            );
-          })}
-        </tr>
-      );
-    })}
-  </tbody>
-);
+          {'Desea eliminar'}
+        </Modal>
+      )}
+    </tbody>
+  );
+};
 
 const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination, isShown, t }) => (
   <div className="flex md:flex-row lg:flex-column  justify-center items-center relative mt-6">
