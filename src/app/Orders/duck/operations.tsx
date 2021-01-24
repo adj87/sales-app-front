@@ -9,6 +9,8 @@ import { actions as faresAction, api as faresApi } from '../../Fares/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
+import { IFare } from '../../Fares/duck/types/Fare';
+import { generalCreateOrEditOperation } from '../../Loading/duck/operations';
 
 const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
@@ -23,21 +25,24 @@ const fetchOrdersAndProducts = () =>
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
   dispatch(actions.setOrderToCreateOrEdit(null));
 
-const fetchOrderAndCustomersAndFareAndProductsAndFares = (orderIdAndType: string, customerId?: number) => {
+const fetchOrderAndCustomersAndFareAndProductsAndFares = (
+  orderIdAndType: string,
+  customerId?: number,
+) => {
   const [type, orderId] = orderIdAndType.split('-');
 
   const setOfRequests: any = {
     customers: () => customersApi.fetchCustomers(),
     fare: () => faresApi.fetchFares(customerId),
     order: () => apiOrders.fetchOrders(type, parseInt(orderId)),
-    fares: () => faresApi.fetchFares()
+    fares: () => faresApi.fetchFares(),
   };
 
   const setOfActions: any = {
     customers: customersAction.setCustomers,
     fare: actions.setFare,
     order: actions.setOrderToCreateOrEdit,
-    fares:faresAction.setFares
+    fares: faresAction.setFares,
   };
 
   if (orderIdAndType === 'new') {
@@ -65,6 +70,12 @@ const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
   fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
 
+const createFare = (fare: IFare, cb: Function) =>
+  generalCreateOrEditOperation(
+    () => faresApi.createFare(fare),
+    (res: any) => cb(res),
+  );
+
 export default {
   fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
@@ -72,4 +83,5 @@ export default {
   setOrderToCreateOrEdit,
   setFareToInheritFrom,
   fetchFareWithCb,
+  createFare,
 };
