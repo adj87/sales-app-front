@@ -62,8 +62,6 @@ const FaresModal = ({
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
   const isEditingMode = editingMode !== undefined ? editingMode : Boolean(fare.customer_id);
 
-  // @ts-ignore
-
   useEffect(() => {
     // @ts-ignore
     const idProductsAlreadyInFareLines = values.fare_lines.map(
@@ -121,7 +119,16 @@ const FaresModal = ({
             }}
             deleteOnRowPress={(row: any) => {
               const fLine: IFareLine = row.original;
-              console.log(fLine);
+              const newFareLines = values.fare_lines.filter(
+                (fl: IFareLine) =>
+                  !(
+                    fl.customer_id === fLine.customer_id &&
+                    fl.price_1 === fLine.price_1 &&
+                    fl.product_id === fLine.product_id &&
+                    fl.customer_name === fLine.customer_name
+                  ),
+              );
+              setFieldValue('fare_lines', newFareLines);
             }}
           />
 

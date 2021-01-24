@@ -71,9 +71,12 @@ export const validationSchemaFare = Yup.object().shape({
       // @ts-ignore
       (fareLines: IFareLine[]) => fareLines.length > 0,
     )
-    .test('any-is-repeated', i18n.t('commons.errors.elements-repeated'), (fareLines: any) =>
-      fareLines.some((el: any, i: any, arr: any) => countInArray(arr, el) > 1),
-    ),
+    .test('any-is-repeated', i18n.t('commons.errors.elements-repeated'), (fareLines: any) => {
+      const arrMapped = fareLines.map((el: any) => el.product_id);
+      return fareLines.every(
+        (el: any, i: any, arr: any) => countInArray(arrMapped, el.product_id) === 1,
+      );
+    }),
 });
 
 // @ts-ignore

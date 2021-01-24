@@ -174,7 +174,7 @@ const TBody = ({
                 deleteOnRowPress && setRowToDelete(row);
               }, 500);
             }}
-            onPointerUp={() => {
+            onMouseUp={() => {
               !functionExecuted && onRowClick && onRowClick(row);
               functionExecuted = false;
               clearInterval(clickHoldTimer);
@@ -196,13 +196,14 @@ const TBody = ({
       {rowToDelete && (
         <Modal
           size="xs"
-          onConfirm={() => deleteOnRowPress(rowToDelete)}
+          onConfirm={() => {
+            setRowToDelete(false);
+            deleteOnRowPress(rowToDelete);
+          }}
           onCancel={() => setRowToDelete(false)}
-          title={'commons'}
+          title={'commons.delete-row'}
           centered
-        >
-          {'Desea eliminar'}
-        </Modal>
+        />
       )}
     </tbody>
   );
