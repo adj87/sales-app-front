@@ -12,7 +12,7 @@ const fetchOperationWithLoading = (
 ) => (dispatch: Dispatch<any>) => {
   if (!noLoading) dispatch(actions.setLoading(true));
   api()
-    .then((res: AxiosResponse, hola: any) => {
+    .then((res: AxiosResponse) => {
       if (setterAction) {
         if (setterAction.constructor !== Array) {
           // @ts-ignore
@@ -38,6 +38,35 @@ const fetchOperationWithLoading = (
                         statusError: ''
                     })
                 ); */
+    });
+};
+
+export const generalCreateOrEditOperation = (api: Function, cbOnSuccess: Function) => (
+  dispatch: Dispatch<any>,
+) => {
+  dispatch(actions.setLoading(true));
+  api()
+    .then((res: AxiosResponse) => {
+      dispatch(actions.setLoading(false));
+      if (res.data.status === 'OK') {
+        /*     dispatch(); */
+        /*           alertsOperations.addSuccess({
+            statusError: '',
+            statusErrorText: res.data.info,
+          }), */
+      } else {
+        /* dispatch(); */
+        /*           alertsOperations.addError({
+            statusError: '',
+            statusErrorText: res.data.info,
+          }), */
+      }
+      if (cbOnSuccess) {
+        cbOnSuccess(res, dispatch);
+      }
+    })
+    .catch((err: AxiosError) => {
+      dispatch(actions.setLoading(false));
     });
 };
 
