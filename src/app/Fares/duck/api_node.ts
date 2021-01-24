@@ -20,10 +20,7 @@ const fetchFares = (customerId?: Number) => {
 
 const createFare = (fare: IFare) => {
   const url = `${API_FARES}`;
-  return axios.post(url, fare).then((res) => {
-    const dataReorganized = fareLinesToFares(res.data);
-    return { data: dataReorganized[0] };
-  });
+  return axios.post(url, fare);
 };
 
 export default {

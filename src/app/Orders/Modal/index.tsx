@@ -65,7 +65,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare }: Order
         <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
       </div>
 
-      <div className="flex items-end mb-20 justify-between">
+      <div className="flex items-end mb-5 justify-between">
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"

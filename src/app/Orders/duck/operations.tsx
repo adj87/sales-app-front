@@ -10,25 +10,20 @@ import { actions as productsAction, api as productsApi } from '../../Products/du
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
 import { IFare } from '../../Fares/duck/types/Fare';
-import { generalCreateOrEditOperation } from '../../Loading/duck/operations';
 
 const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const { fetchOperationWithLoading } = loadingOperations;
+const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
 const fetchOrdersAndProducts = () =>
-  fetchOperationWithLoading(
-    () => Promise.all([apiOrders.fetchOrders(), productsApi.fetchProducts()]),
-    [actions.setOrders, productsAction.setProducts],
-  );
+  fetchOperationWithLoading(() => Promise.all([apiOrders.fetchOrders(), productsApi.fetchProducts()]), [
+    actions.setOrders,
+    productsAction.setProducts,
+  ]);
 
-const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setOrderToCreateOrEdit(null));
+const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
 
-const fetchOrderAndCustomersAndFareAndProductsAndFares = (
-  orderIdAndType: string,
-  customerId?: number,
-) => {
+const fetchOrderAndCustomersAndFareAndProductsAndFares = (orderIdAndType: string, customerId?: number) => {
   const [type, orderId] = orderIdAndType.split('-');
 
   const setOfRequests: any = {
@@ -67,13 +62,16 @@ const setFareToInheritFrom = actions.setFareToInheritFrom;
 
 const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 
-const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
-  fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
+const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
 
 const createFare = (fare: IFare, cb: Function) =>
   generalCreateOrEditOperation(
     () => faresApi.createFare(fare),
-    (res: any) => cb(res),
+    (fare: any, dispatch: any) => {
+      debugger;
+      dispatch(actions.setFare(fare));
+      cb(fare);
+    },
   );
 
 export default {
