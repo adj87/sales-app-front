@@ -20,6 +20,7 @@ interface MoreInfoProps {
   setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   customerId: number;
+  onFareModalConfirm: Function;
 }
 
 const MoreInfo = ({
@@ -31,6 +32,7 @@ const MoreInfo = ({
   fetchFareWithCb,
   fares,
   customerId,
+  onFareModalConfirm,
 }: MoreInfoProps) => {
   const { t } = useTranslation();
 
@@ -97,6 +99,10 @@ const MoreInfo = ({
           fetchFareWithCb={fetchFareWithCb}
           editingMode={hasOwnFare(fare)}
           selectDisabled
+          onConfirm={(fare: IFare) => {
+            setModalInfoToOpen(null);
+            onFareModalConfirm(fare);
+          }}
         />
       )}
     </>

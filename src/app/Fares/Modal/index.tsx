@@ -5,7 +5,7 @@ import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
 import { ICustomer } from '../../Customers/duck/types/Customer';
 import { IProduct } from '../../Products/duck/types/Product';
-import { IFare, IFareLine } from '../duck/types/Fare';
+import { IFare, IFareLine, IFareLineWithCheck } from '../duck/types/Fare';
 import Table from '../../../components/Table';
 import { columns, defaultValuesFareLine, validationSchemaFare } from '../constants';
 import Button from '../../../components/Button';
@@ -29,6 +29,7 @@ interface FaresModalProps {
   fareToInheritFrom: IFare;
   editingMode?: boolean;
   selectDisabled?: boolean;
+  onConfirm: Function;
 }
 
 const FaresModal = ({
@@ -42,31 +43,40 @@ const FaresModal = ({
   products,
   editingMode,
   selectDisabled,
+  onConfirm,
 }: FaresModalProps) => {
   const formik = useFormik<IFare>({
     validationSchema: validationSchemaFare,
     initialValues: fare,
     onSubmit: (values: IFare) => {
-      alert(JSON.stringify(values, null, 2));
+      const finalValues: IFare = {
+        ...values,
+        // @ts-ignore
+        fare_lines: values.fare_lines.map((el: IFareLineWithCheck) => {
+          let fLine: IFareLineWithCheck = { ...el };
+          // @ts-ignore
+          delete fLine.checked;
+          return {
+            ...fLine,
+            customer_id: values.customer_id,
+            customer_name: values.customer_name,
+          };
+        }),
+      };
+      onConfirm(finalValues);
     },
   });
   const { setFieldValue, submitForm, values, errors, submitCount } = formik;
   const { t } = useTranslation();
-  const [idCustomersAlreadyWithFares, setIdCustomersAlreadyWithFares] = useState<number[] | null>(
-    null,
-  );
-  const [idProductsAlreadyInFareLines, setIdProductsAlreadyInFareLines] = useState<number[] | null>(
-    null,
-  );
+  const [idCustomersAlreadyWithFares, setIdCustomersAlreadyWithFares] = useState<number[] | null>(null);
+  const [idProductsAlreadyInFareLines, setIdProductsAlreadyInFareLines] = useState<number[] | null>(null);
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
   const isEditingMode = editingMode !== undefined ? editingMode : Boolean(fare.customer_id);
 
   useEffect(() => {
     // @ts-ignore
-    const idProductsAlreadyInFareLines = values.fare_lines.map(
-      (fareLine: IFareLine) => fareLine.product_id,
-    );
+    const idProductsAlreadyInFareLines = values.fare_lines.map((fareLine: IFareLine) => fareLine.product_id);
     setIdProductsAlreadyInFareLines(idProductsAlreadyInFareLines);
   }, [values.fare_lines]);
 
@@ -96,7 +106,6 @@ const FaresModal = ({
               onChange={(name: string, customer: ICustomer) => {
                 setFieldValue('customer_name', customer.name);
                 setFieldValue('customer_id', customer.id);
-                //setFieldValue('customer_id', customer.id);
               }}
               options={customers}
               isDisabled={selectDisabled ?? isEditingMode}
@@ -119,25 +128,13 @@ const FaresModal = ({
             }}
             deleteOnRowPress={(row: any) => {
               const fLine: IFareLine = row.original;
-              const newFareLines = values.fare_lines.filter(
-                (fl: IFareLine) =>
-                  !(
-                    fl.customer_id === fLine.customer_id &&
-                    fl.price_1 === fLine.price_1 &&
-                    fl.product_id === fLine.product_id &&
-                    fl.customer_name === fLine.customer_name
-                  ),
-              );
+              // prettier-ignore
+              const newFareLines = values.fare_lines.filter((fl: IFareLine) => !( fl.customer_id === fLine.customer_id && fl.price_1 === fLine.price_1 &&    fl.product_id === fLine.product_id &&  fl.customer_name === fLine.customer_name))
               setFieldValue('fare_lines', newFareLines);
             }}
           />
 
-          <Button
-            text={'fares.form.inherit-from-another-customer-button'}
-            color="primary"
-            onClick={() => setInheritModal(true)}
-            size="sm"
-          />
+          <Button text={'fares.form.inherit-from-another-customer-button'} color="primary" onClick={() => setInheritModal(true)} size="sm" />
           <LabelError error={submitCount > 0 && errors.fare_lines} className="mb-5 text-center" />
         </div>
       </Modal>

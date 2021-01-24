@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal/Modal';
@@ -15,8 +15,10 @@ import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { IFare, IFareLine } from '../../Fares/duck/types/Fare';
 import { IProduct } from '../../Products/duck/types/Product';
 import { TAXES_RATE, RECHARGE_RATE } from '../../../constants';
-import Button from '../../../components/Button';
 import MoreInfo from './MoreInfo';
+import { operations } from '../duck';
+import { AppStoreInterface } from '../../../store/AppStoreInterface';
+import { connect } from 'react-redux';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -28,10 +30,10 @@ interface OrdersModalProps {
   customers: ICustomer[];
   products: IProduct[];
   order: IOrder;
-  fares: any;
+  createFare: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, products, createFare }: OrdersModalProps) => {
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
@@ -41,12 +43,7 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
   const { values, setFieldValue } = formik;
 
   return (
-    <Modal
-      onCancel={onCancel}
-      onConfirm={() => console.log('hello confirm')}
-      size="lg"
-      title="orders.form.title"
-    >
+    <Modal onCancel={onCancel} onConfirm={() => console.log('hello confirm')} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponentWithFV
           name="customer_id"
@@ -64,19 +61,8 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
           }}
         />
 
-        <InputWithFV
-          label="orders.form.label-shipping-place"
-          name="shipping_place"
-          onChange={setFieldValue}
-          formikObject={formik}
-        />
-        <InputWithFV
-          label="orders.form.label-delivery-date"
-          name="delivery_date"
-          onChange={setFieldValue}
-          formikObject={formik}
-          type="date"
-        />
+        <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
+        <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
       </div>
 
       <div className="flex items-end mb-20 justify-between">
@@ -92,33 +78,16 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
             { value: 'B', label: 'B' },
           ]}
         />
-        <InputCheckBoxWithFV
-          formikObject={formik}
-          label={'orders.form.label-surcharge'}
-          name="surcharge"
-          onChange={setFieldValue}
-        />
-        <InputCheckBoxWithFV
-          formikObject={formik}
-          label={'orders.form.label-green-point'}
-          name="green_point"
-          onChange={setFieldValue}
-        />
-        <InputCheckBoxWithFV
-          formikObject={formik}
-          label={'orders.form.label-together'}
-          name="show_together_with_others"
-          onChange={setFieldValue}
-        />
+        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="surcharge" onChange={setFieldValue} />
+        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="green_point" onChange={setFieldValue} />
+        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
       </div>
       <div className="w-full pt-2">
         <OrderLinesTable
           data={values.order_lines}
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
             const { order_lines } = values;
-            const orderLineToEdit = order_lines.find(
-              (el: IOrderLine) => el.line_number === orderLine.line_number,
-            );
+            const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
             let newOrderLinesValues = [...order_lines];
             //EDITING
             if (orderLineToEdit) {
@@ -148,18 +117,19 @@ const OrdersModal = ({ onCancel, customers, order, fares, products }: OrdersModa
       <div className="flex justify-end mt-5">
         <div className="w-2/6 flex flex-col mt-6">
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
-          <LabelAndAmount
-            amount={roundToTwoDec(values.total_taxes)}
-            label={'Iva'}
-            isDisabled={values.type === 'B'}
-          />
+          <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
           <LabelAndAmount amount={4} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
           <LabelAndAmount amount={values.total} label={'Total'} isTotal />
         </div>
       </div>
-      {/* 
-      //@ts-ignore */}
-      <MoreInfo customerId={values.customer_id}/>
+
+      <MoreInfo
+        // @ts-ignore
+        customerId={values.customer_id}
+        onFareModalConfirm={(fare: IFare) => {
+          createFare(fare, (res: any) => console.log('hello', res));
+        }}
+      />
     </Modal>
   );
 };
@@ -229,5 +199,15 @@ const sum = (orderLines: IOrderLine[], type: string) => {
     </div>
   );
 }; */
+const mapState = (state: AppStoreInterface) => ({
+  customers: state.customers.data,
+  products: state.products.data,
+  orders: state.orders.data,
+});
 
-export default OrdersModal;
+const mapDispatch = {
+  ...operations,
+};
+
+//@ts-ignore
+export default connect(mapState, mapDispatch)(OrdersModal);

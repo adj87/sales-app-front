@@ -56,6 +56,7 @@ const FaresComponent = ({
       />
       {Boolean(fareToForm) && (
         <FaresModal
+          onConfirm={(fare: IFare) => console.log('la fare', fare)}
           fetchFareWithCb={fetchFareWithCb}
           onCancel={() =>
             state && state.history.push({ pathname: `/fares`, state: { closeModal: true } })
