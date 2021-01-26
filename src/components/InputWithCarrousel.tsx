@@ -24,18 +24,14 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
   return (
     <>
-      <div className={`fixed w-full  bg-grey-900 top-0 left-0 ${display} bg-opacity-20  z-50`}>
+      <div className={`fixed w-full h-full  bg-grey-900 top-0 left-0 ${display} bg-opacity-20  z-50`}>
         <h1 className="text-white text-center text-6xl mb-8">Productos</h1>
         <div className="flex flex-row justify-center p-4 flex-wrap items-start content-start">
-          <button
-            onClick={() => setOpenCarrousel(false)}
-            className="absolute top-0 right-0 text-white p-4 cursor-pointer"
-          >
+          <button onClick={() => setOpenCarrousel(false)} className="absolute top-0 right-0 text-white p-4 cursor-pointer">
             {'X'}
           </button>
           {data.map((el: any) => {
-            const normalClass =
-              'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
+            const normalClass = 'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
             const selectedClass =
               'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
             return (
@@ -66,11 +62,7 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
       </div>
 
       <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
-        <img
-          src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `}
-          width="80"
-          onClick={() => setOpenCarrousel(true)}
-        />
+        <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="80" onClick={() => setOpenCarrousel(true)} />
 
         <div className="w-full">
           <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
@@ -109,35 +101,24 @@ const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
   };
   return (
     <LayerOutOfRoot className="modalclass fixed w-full h-full z-50 top-0 left-0 bg-white">
-      <div
-        className="flex w-full lg:w-2/3 justify-center items-center m-auto"
-        style={{ height: '90%' }}
-      >
+      <div className="flex w-full lg:w-2/3 justify-center items-center m-auto" style={{ height: '90%' }}>
         <div className="flex-1 flex justify-center">
           <img className="w-full lg:w-2/3 mt-10" src={`${back_host}/images/${product?.id}.png`} />
         </div>
         <div className="flex-1 flex flex-col p-5">
-          <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">
-            {product.name}
-          </p>
+          <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">{product.name}</p>
           <div className="px-10 xl:px-20">
-            <p className="text-center text-primary-main uppercase font-bold">
-              {t('commons.bottle-details')}
-            </p>
+            <p className="text-center text-primary-main uppercase font-bold">{t('commons.bottle-details')}</p>
             <Line label="commons.bar-code" title={'848958965841'} />
             <Line label="commons.capacity" title={product.capacity.toString()} />
             <Line label="commons.weight" title={product.capacity.toString()} />
-            <p className="text-center text-primary-main pt-5 uppercase font-bold">
-              {t('commons.box-details')}
-            </p>
+            <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.box-details')}</p>
             <Line label="commons.units-per-box" title={product.units_per_box.toString()} />
             <Line label="commons.capacity" title={product.capacity.toString()} />
             <Line label="commons.width" title={product.capacity.toString()} />
             <Line label="commons.length" title={product.capacity.toString()} />
             <Line label="commons.height" title={product.capacity.toString()} />
-            <p className="text-center text-primary-main pt-5 uppercase font-bold">
-              {t('commons.pallet-details')}
-            </p>
+            <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.pallet-details')}</p>
             <Line label="commons.units-per-pallet" title={product.capacity.toString()} />
             <Line label="commons.base" title={product.capacity.toString()} />
             <Line label="commons.capacity" title={product.capacity.toString()} />

@@ -8,16 +8,18 @@ import { AppStoreInterface } from '../../../../store/AppStoreInterface';
 import OrderLineModal from './OrderLineModal';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { IOrderLine } from '../../duck/types/Order';
+import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
 
 interface OrderLinesTableProps {
   products: IProduct[];
+  fare: IFare | null;
   onConfirmOrderLineModal: Function;
   data: IOrderLine[];
 }
 
 const OrderLinesTable = ({
   products,
-
+  fare,
   onConfirmOrderLineModal,
   data,
 }: OrderLinesTableProps) => {
@@ -45,8 +47,10 @@ const OrderLinesTable = ({
             onConfirmOrderLineModal(values);
           }}
           size="md"
+          // @ts-ignore
           products={products}
           orderLine={orderLineToEdit}
+          fare={fare}
         />
       )}
     </div>
@@ -55,6 +59,7 @@ const OrderLinesTable = ({
 
 const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
+  fare:state.orders.fare
 });
 
 const mapDispatch = {
