@@ -48,6 +48,7 @@
       },
       "products-form": {
         "title": "Añadir producto",
+        "title-edit": "Editar producto",
         "label-product": "Producto",
         "label-quantity": "Cantidad",
         "label-promotion": "Promoción"

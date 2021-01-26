@@ -35,7 +35,7 @@ const OrderLineModal = ({
   const { values, setFieldValue, submitForm } = formik;
 
   return (
-    <Modal title={title} size="xs" centered>
+    <Modal title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title' } size="xs" centered>
       <InputWithCarrousel
         label="orders.form.products-form.label-product"
         data={products}
