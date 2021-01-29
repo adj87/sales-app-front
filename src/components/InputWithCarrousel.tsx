@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import SelectComponent from './Select';
 import { IProduct } from '../app/Products/duck/types/Product';
 import Button from './Button';
 import { DEFAULT_IMAGE_URL } from '../constants';
 import LayerOutOfRoot from './Modal/Layer';
 
 interface InputWithCarrouselProps {
-  click?: React.MouseEventHandler<HTMLInputElement>;
-  label: string;
   data: any[];
   onChange: Function;
   value?: any;
@@ -18,13 +15,13 @@ interface InputWithCarrouselProps {
 
 const back_host = process.env.REACT_APP_BACK_HOST;
 
-const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrouselProps) => {
+const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) => {
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const display = openCarrousel ? 'block' : 'hidden';
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
   return (
     <>
-      <div className={`fixed w-full h-full  bg-grey-900 top-0 left-0 ${display} bg-opacity-20  z-50`}>
+      <LayerOutOfRoot>
         <h1 className="text-white text-center text-6xl mb-8">Productos</h1>
         <div className="flex flex-row justify-center p-4 flex-wrap items-start content-start">
           <button onClick={() => setOpenCarrousel(false)} className="absolute top-0 right-0 text-white p-4 cursor-pointer">
@@ -59,14 +56,12 @@ const InputWithCarrousel = ({ label, data, onChange, value }: InputWithCarrousel
             );
           })}
         </div>
-      </div>
+      </LayerOutOfRoot>
 
       <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
         <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="80" onClick={() => setOpenCarrousel(true)} />
 
-        <div className="w-full">
-          <SelectComponent options={data} onChange={onChange} labelText={label} value={value} />
-        </div>
+        <div className="w-full"></div>
       </div>
       {showInMiddle !== null && (
         <ProductDetail

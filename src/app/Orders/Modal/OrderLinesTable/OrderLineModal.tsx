@@ -11,8 +11,10 @@ import withFormikValues from '../../../../components/Inputs/withFormikValues';
 import Button from '../../../../components/Button';
 import { validationSchemaOrderLine } from '../../constants';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
+import SelectComponent from '../../../../components/Select';
 
 const InputWithFormikValues = withFormikValues(Input);
+const SelectWithFV = withFormikValues(SelectComponent);
 
 interface OrderLineModalProps extends ModalProps {
   children?: undefined;
@@ -29,24 +31,28 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare }: Orde
     onSubmit: onConfirm,
   });
   const { values, setFieldValue, submitForm } = formik;
+  // @ts-ignore
+  const productsInFare = products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id));
+
+  const onChangeProduct = (product: IProduct) => {
+    const { name, id } = product;
+    setFieldValue('product_id', id);
+    setFieldValue('product_name', name);
+    setFieldValue('price', fare?.fare_lines.find((el: IFareLine) => el.product_id === id)?.price_1);
+  };
 
   return (
     <Modal title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'} size="xs" centered>
-      <InputWithCarrousel
-        label="orders.form.products-form.label-product"
-        // @ts-ignore
-        data={products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id))}
-        onChange={(product: IProduct) => {
-          const { name, id } = product;
-          setFieldValue('product_id', id);
-          setFieldValue('product_name', name);
-          setFieldValue('price', fare?.fare_lines.find((el: IFareLine) => el.product_id === id)?.price_1);
-        }}
-        value={values.product_id}
-      />
-
+      <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
       <>
         <div className="flex flex-col w-4/5 m-auto">
+          <SelectWithFV
+            options={productsInFare}
+            onChange={onChangeProduct}
+            labelText="orders.form.products-form.label-product"
+            formikObject={formik}
+            name={'product_id'}
+          />
           <InputWithFormikValues
             formikObject={formik}
             label="orders.form.products-form.label-quantity"
