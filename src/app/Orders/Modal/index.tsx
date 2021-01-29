@@ -46,7 +46,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   const { values, setFieldValue, setValues } = formik;
 
   useDidUpdateEffect(() => {
-    recalculateValues(values, setValues, fare, products);
+    setPricesToNewFareAndSetTotals(values, setValues, fare, products);
   }, [fare?.customer_id]);
 
   console.log('los values', values);
@@ -127,7 +127,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <div className="w-2/6 flex flex-col mt-6">
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
           <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
-          <LabelAndAmount amount={4} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
+          <LabelAndAmount amount={roundToTwoDec(values.green_point)} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
           <LabelAndAmount amount={values.total} label={'Total'} isTotal />
         </div>
       </div>
@@ -192,18 +192,24 @@ const sum = (orderLines: IOrderLine[], type: string) => {
   }
 };
 
-const recalculateValues = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
-  const price = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;
+const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
+  const getPriceFromFare = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;
 
   const newOrderLines = values.order_lines.map((ol: IOrderLine) => {
-    return { ...ol, price: price(ol, fare) };
+    const price = getPriceFromFare(ol, fare);
+    const green_point_amount = Boolean(values.green_point) ? products.find((pr: IProduct) => pr.id === ol.product_id)?.green_point_amount ?? 0 : 0;
+    return {
+      ...ol,
+      price,
+      green_point_amount,
+    };
   });
 
   let newValues = { ...values, order_lines: newOrderLines };
 
-  const { total, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, fare, products);
+  const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, fare, products);
 
-  newValues = { ...newValues, total, total_taxes, green_point, surcharge };
+  newValues = { ...newValues, total_net, total, total_taxes, green_point, surcharge };
   setValues(newValues);
 };
 
