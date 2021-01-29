@@ -63,12 +63,12 @@ const setFareToInheritFrom = actions.setFareToInheritFrom;
 const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
 
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
+const fetchFare = (idCustomerFare: number) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), actions.setFare);
 
 const createFare = (fare: IFare, cb: Function) =>
   generalCreateOrEditOperation(
     () => faresApi.createFare(fare),
     (fare: any, dispatch: any) => {
-      debugger;
       dispatch(actions.setFare(fare));
       cb(fare);
     },
@@ -82,4 +82,5 @@ export default {
   setFareToInheritFrom,
   fetchFareWithCb,
   createFare,
+  fetchFare,
 };

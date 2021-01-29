@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import { connect } from 'react-redux';
 
 import Modal from '../../../components/Modal/Modal';
 import { roundToTwoDec } from '../../../utils';
@@ -18,7 +19,7 @@ import { TAXES_RATE, RECHARGE_RATE } from '../../../constants';
 import MoreInfo from './MoreInfo';
 import { operations } from '../duck';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
-import { connect } from 'react-redux';
+import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -30,18 +31,25 @@ interface OrdersModalProps {
   customers: ICustomer[];
   products: IProduct[];
   order: IOrder;
+  fare: IFare;
   createFare: Function;
+  fetchFare: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, products, createFare }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare }: OrdersModalProps) => {
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-  const { values, setFieldValue } = formik;
+  const { values, setFieldValue, setValues } = formik;
 
+  useDidUpdateEffect(() => {
+    recalculateValues(values, setValues, fare, products);
+  }, [fare?.customer_id]);
+
+  console.log('los values', values);
   return (
     <Modal onCancel={onCancel} onConfirm={() => console.log('hello confirm')} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -58,6 +66,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare }: Order
             setFieldValue('customer_name', name);
             setFieldValue('fiscal_id', fiscal_id);
             setFieldValue('zip_code', zip_code);
+            fetchFare(id);
           }}
         />
 
@@ -134,28 +143,36 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare }: Order
   );
 };
 
-const calculateTotals = (values: IOrder, fare: IFare | null, products?: IProduct[]) => {
+const calculateTotals = (values: IOrder, fare: IFare | null, products: IProduct[]) => {
   if (values && fare && products) {
     return values.order_lines.reduce(
       (acc: any, oL: IOrderLine) => {
         const product = products.find((pr: IProduct) => pr.id === oL.product_id);
         // @ts-ignore
-        const total = oL.quantity * product.units_per_box * oL.price;
-        acc.total += total;
-        if (values.green_point)
-          // @ts-ignore
-          acc.total_green_point += oL.quantity * product.units_per_box * product.green_point_amount;
+        const amountOfBottles = oL.quantity * product.units_per_box;
+
         // @ts-ignore
-        if (values.type === 'A') acc.total_taxes += total * TAXES_RATE;
-        if (Boolean(values.surcharge)) acc.total_recharge += total * RECHARGE_RATE;
+        const net = amountOfBottles * oL.price;
+        acc.total_net += net;
+
+        // @ts-ignore
+        const green_point = Boolean(values.green_point) ? amountOfBottles * product.green_point_amount * oL.price : 0;
+        acc.total_green_point += green_point;
+
+        const taxes = values.type === 'A' ? net * TAXES_RATE : 0;
+        acc.total_taxes += taxes;
+
+        const surcharge = Boolean(values.surcharge) ? net * RECHARGE_RATE : 0;
+        acc.total_surcharge = surcharge;
 
         return acc;
       },
       {
-        total: 0,
+        total_net: 0,
         total_taxes: 0,
+        total: 0,
         total_green_point: 0,
-        total_recharge: 0,
+        total_surcharge: 0,
       },
     );
   }
@@ -173,6 +190,21 @@ const sum = (orderLines: IOrderLine[], type: string) => {
       return acc;
     }, 0);
   }
+};
+
+const recalculateValues = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
+  const price = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;
+
+  const newOrderLines = values.order_lines.map((ol: IOrderLine) => {
+    return { ...ol, price: price(ol, fare) };
+  });
+
+  let newValues = { ...values, order_lines: newOrderLines };
+
+  const { total, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, fare, products);
+
+  newValues = { ...newValues, total, total_taxes, green_point, surcharge };
+  setValues(newValues);
 };
 
 /* const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
@@ -203,6 +235,7 @@ const mapState = (state: AppStoreInterface) => ({
   customers: state.customers.data,
   products: state.products.data,
   orders: state.orders.data,
+  fare: state.orders.fare,
 });
 
 const mapDispatch = {
