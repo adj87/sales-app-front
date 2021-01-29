@@ -17,7 +17,6 @@ const back_host = process.env.REACT_APP_BACK_HOST;
 
 const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) => {
   const [openCarrousel, setOpenCarrousel] = useState(false);
-  const display = openCarrousel ? 'block' : 'hidden';
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
   return (
     <>
@@ -31,7 +30,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
             {data.map((el: any) => {
               const normalClass = 'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
               const selectedClass =
-                'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
+                'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-dark z-50';
               return (
                 <div className="flex flex-col">
                   <div className={el.id === value ? selectedClass : normalClass}>

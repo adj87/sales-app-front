@@ -48,7 +48,7 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare }: Orde
         <div className="flex flex-col w-4/5 m-auto">
           <SelectWithFV
             options={productsInFare}
-            onChange={onChangeProduct}
+            onChange={(name: string, product: IProduct) => onChangeProduct(product)}
             labelText="orders.form.products-form.label-product"
             formikObject={formik}
             name={'product_id'}
