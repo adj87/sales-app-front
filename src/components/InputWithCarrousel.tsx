@@ -21,42 +21,44 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
   return (
     <>
-      <LayerOutOfRoot>
-        <h1 className="text-white text-center text-6xl mb-8">Productos</h1>
-        <div className="flex flex-row justify-center p-4 flex-wrap items-start content-start">
-          <button onClick={() => setOpenCarrousel(false)} className="absolute top-0 right-0 text-white p-4 cursor-pointer">
-            {'X'}
-          </button>
-          {data.map((el: any) => {
-            const normalClass = 'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
-            const selectedClass =
-              'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
-            return (
-              <div className="flex flex-col">
-                <div className={el.id === value ? selectedClass : normalClass}>
-                  <FontAwesomeIcon
-                    inverse
-                    icon={faFileAlt}
-                    size="lg"
-                    className="text-primary-dark absolute top-0"
-                    style={{ right: '2px', top: '2px' }}
-                    onClick={() => setShowInMiddle(el)}
-                  />
-                  <img
-                    src={`${back_host}/images/${el.id}.png`}
-                    className="rounded-lg shadow-lg"
-                    width="auto"
-                    onClick={() => {
-                      onChange(el);
-                      setOpenCarrousel(false);
-                    }}
-                  />
+      {openCarrousel && (
+        <LayerOutOfRoot>
+          <h1 className="text-white text-center text-6xl mb-8">Productos</h1>
+          <div className="flex flex-row justify-center p-4 flex-wrap items-start content-start">
+            <button onClick={() => setOpenCarrousel(false)} className="absolute top-0 right-0 text-white p-4 cursor-pointer">
+              {'X'}
+            </button>
+            {data.map((el: any) => {
+              const normalClass = 'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
+              const selectedClass =
+                'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-light z-50';
+              return (
+                <div className="flex flex-col">
+                  <div className={el.id === value ? selectedClass : normalClass}>
+                    <FontAwesomeIcon
+                      inverse
+                      icon={faFileAlt}
+                      size="lg"
+                      className="text-primary-dark absolute top-0"
+                      style={{ right: '2px', top: '2px' }}
+                      onClick={() => setShowInMiddle(el)}
+                    />
+                    <img
+                      src={`${back_host}/images/${el.id}.png`}
+                      className="rounded-lg shadow-lg"
+                      width="auto"
+                      onClick={() => {
+                        onChange(el);
+                        setOpenCarrousel(false);
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </LayerOutOfRoot>
+              );
+            })}
+          </div>
+        </LayerOutOfRoot>
+      )}
 
       <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
         <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="80" onClick={() => setOpenCarrousel(true)} />
