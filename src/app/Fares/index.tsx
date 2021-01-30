@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
@@ -15,51 +14,53 @@ const FaresComponent = ({
   fetchFareLines,
   fareLines,
   fares,
-  history,
   setFareToCreateOrEdit,
   fareToForm,
   customers,
   fetchFaresLinesFareCustomersAndProducts,
-  fetchFareLinesCustomersAndProducts,
   products,
   setFareToInheritFrom,
   fetchFareWithCb,
   fareToInheritFrom,
 }: any) => {
-  const openModal = useOpenModalByRoutes();
+  const state = useOpenModalByRoutes();
+  // @ts-ignore
+
   useEffect(() => {
-    if (openModal === 'new') {
-      //CREATE
-      fetchFareLinesCustomersAndProducts();
-      return setFareToCreateOrEdit(defaultValues);
-    }
-    // @ts-ignore
-    if (openModal) {
-      //EDIT
-      return fetchFaresLinesFareCustomersAndProducts(openModal);
-    }
-    //CLOSE
-    if (fareToForm !== null) fetchFareLines();
-    return setFareToCreateOrEdit(null);
-  }, [openModal]);
+    if (state?.actionModal)
+      switch (state?.actionModal.name) {
+        case 'new':
+          fetchFaresLinesFareCustomersAndProducts(true, null, true);
+          return setFareToCreateOrEdit(defaultValues);
+        case 'close':
+          return setFareToCreateOrEdit(null);
+        case 'edit':
+          return fetchFaresLinesFareCustomersAndProducts(true, state?.actionModal?.params, true);
+        case 'nothing':
+          return fetchFaresLinesFareCustomersAndProducts(true);
+      }
+  }, [state]);
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={fareLines}
-        onAddButton={() => history.push('/fares/new')}
+        onAddButton={() => state && state.history.push('/fares/new')}
         tableName={'fares'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const fare: IFare = datatableRowInfo.original;
-          history.push(`/fares/${fare.customer_id}`);
+          state && state.history.push(`/fares/${fare.customer_id}`);
         }}
       />
       {Boolean(fareToForm) && (
         <FaresModal
+          onConfirm={(fare: IFare) => console.log('la fare', fare)}
           fetchFareWithCb={fetchFareWithCb}
-          onCancel={() => history.push(`/fares`)}
+          onCancel={() =>
+            state && state.history.push({ pathname: `/fares`, state: { closeModal: true } })
+          }
           customers={customers}
           fares={fares}
           fareLines={fareLines}
@@ -86,6 +87,4 @@ const mapDispatch = {
   ...operations,
 };
 
-const FaresComponentWithHistory = withRouter(FaresComponent);
-
-export const Fares = connect(mapState, mapDispatch)(FaresComponentWithHistory);
+export const Fares = connect(mapState, mapDispatch)(FaresComponent);

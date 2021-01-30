@@ -16,3 +16,7 @@ export interface IFareLine {
   to_sell: number | null;
   to_charge: number | null;
 }
+
+export interface IFareLineWithCheck extends IFareLine {
+  checked: boolean;
+}

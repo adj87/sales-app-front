@@ -51,6 +51,7 @@ module.exports = {
         A700: '#616161',
       },
       background: '#F6F6F6',
+      danger: { dark: '#FF4545' },
     },
     variants: {},
     plugins: [],

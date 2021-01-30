@@ -1,1 +1,77 @@
-{ "commons": { "add": "Adddd" }, "main-layout": { "customers": "Customers", "orders": "Orders" } }
+{
+  "commons": {
+    "add": "Add",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "ok": "Aceptar",
+    "already-in-fare": "Ya en tarifa",
+    "units-per-box": "Unidades/Caja",
+    "units-per-pallet": "Unidades/Palet",
+    "capacity": "Volumen",
+    "height": "Altura",
+    "width": "Ancho",
+    "base": "Base",
+    "weight": "Peso",
+    "length": "Largo",
+    "bar-code": "Código de barras",
+    "bottle-details": "Detalles de artículo",
+    "box-details": "Detalles de caja",
+    "pallet-details": "Detalles de palet",
+    "more-info": "Mostrar + info",
+    "new": "nuevo",
+    "edited": "editado",
+    "errors": {
+      "field_required": "Field required",
+      "must_be_positive_number": "Debe ser un número positivo",
+      "must_be_a_reasonable_price": "Debe ser un número razonable"
+    }
+  },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
+  "orders": {
+    "form": {
+      "title": "Add pedido",
+      "label-customer": "Customer",
+      "label-fare": "Tarifa",
+      "label-orders-lines": "Lineas de pedido",
+      "label-shipping-place": "Lugar de envío",
+      "label-delivery-date": "Fecha de servicio",
+      "label-type": "Serie",
+      "label-surcharge": "Recargo de equivalencia",
+      "label-green-point": "P.Verde",
+      "label-together": "Mostrar conjuntamente con otros pedidos",
+      "more-info": {
+        "check-fare": "Ver tarifa",
+        "check-customer-info": "Ver info customer",
+        "check-statistics": "Ver últimas estadisticas"
+      },
+      "products-form": {
+        "title": "Add product",
+        "title-edit": "Edit product",
+        "label-product": "Product",
+        "label-quantity": "Quantity",
+        "label-promotion": "Promoción"
+      }
+    }
+  },
+  "fares": {
+    "form": {
+      "title": "Add tarifa",
+      "title-edit": "Edit tarifa",
+      "label-customer": "Customer",
+      "no-own-fare": "Este cliente no tiene tarifa de reparto por lo que actualmente tira de reparto. Agregue artículos para que tenga una tarifa propia",
+      "inherit-from-another-customer-button": "Inherit from other customer",
+      "inheriting-from-customer-button": "Inheriting from",
+      "inherit-from-another-customer-label": "Inherit from"
+    },
+    "form-fare-line": {
+      "title": "Add product",
+      "title-edit": "Edit product",
+      "label-product": "Product",
+      "label-price-1": "Price 1",
+      "label-price-2": "Price 2",
+      "label-price-3": "Price 3",
+      "label-price-4": "Price 4",
+      "label-price-5": "Price 5"
+    }
+  }
+}

@@ -1,5 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import * as Yup from 'yup';
+
+import i18n from '../../i18n';
+import { positiveNumberValidation, reasonablePriceValidation } from '../../utils';
 
 export const columns = [
   {
@@ -103,3 +107,9 @@ export const defaultOrderLineValues = {
   surcharge_amount: 0,
   green_point_amount: 0.01,
 };
+
+export const validationSchemaOrderLine = Yup.object().shape({
+  product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
+  quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
+  price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
+});

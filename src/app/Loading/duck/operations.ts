@@ -4,15 +4,10 @@ import { AnyAction } from 'redux';
 import { Dispatch } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
 
-const fetchOperationWithLoading = (
-  api: Function,
-  setterAction: any,
-  cbOnSuccess?: Function,
-  noLoading?: boolean,
-) => (dispatch: Dispatch<any>) => {
+const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess?: Function, noLoading?: boolean) => (dispatch: Dispatch<any>) => {
   if (!noLoading) dispatch(actions.setLoading(true));
   api()
-    .then((res: AxiosResponse, hola: any) => {
+    .then((res: AxiosResponse) => {
       if (setterAction) {
         if (setterAction.constructor !== Array) {
           // @ts-ignore
@@ -41,4 +36,31 @@ const fetchOperationWithLoading = (
     });
 };
 
-export default { fetchOperationWithLoading };
+const generalCreateOrEditOperation = (api: Function, cbOnSuccess: Function) => (dispatch: Dispatch<any>) => {
+  dispatch(actions.setLoading(true));
+  api()
+    .then((res: AxiosResponse) => {
+      dispatch(actions.setLoading(false));
+      if (res.data.success) {
+        /*     dispatch(); */
+        /*           alertsOperations.addSuccess({
+            statusError: '',
+            statusErrorText: res.data.info,
+          }), */
+      } else {
+        /* dispatch(); */
+        /*           alertsOperations.addError({
+            statusError: '',
+            statusErrorText: res.data.info,
+          }), */
+      }
+      if (cbOnSuccess) {
+        cbOnSuccess(res.data.data, dispatch, res);
+      }
+    })
+    .catch((err: AxiosError) => {
+      dispatch(actions.setLoading(false));
+    });
+};
+
+export default { fetchOperationWithLoading, generalCreateOrEditOperation };

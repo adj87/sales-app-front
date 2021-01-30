@@ -19,7 +19,14 @@
     "pallet-details": "Detalles de palet",
     "more-info": "Mostrar + info",
     "new": "nuevo",
-    "edited": "editado"
+    "edited": "editado",
+    "errors": {
+      "field_required": "Campo requerido",
+      "must_be_positive_number": "Debe ser un número positivo",
+      "must_be_a_reasonable_price": "Debe ser un número razonable",
+      "elements-repeated": "Hay elementos repetidos. Elimine los repetidos"
+    },
+    "delete-row": "¿Desea eliminar el registro?"
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {
@@ -41,6 +48,7 @@
       },
       "products-form": {
         "title": "Añadir producto",
+        "title-edit": "Editar producto",
         "label-product": "Producto",
         "label-quantity": "Cantidad",
         "label-promotion": "Promoción"

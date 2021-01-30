@@ -10,57 +10,56 @@ import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
 import { columns, defaultValues } from './constants';
 import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
+import { ICustomer } from '../Customers/duck/types/Customer';
+import { IProduct } from '../Products/duck/types/Product';
+import { IFareLine } from '../Fares/duck/types/Fare';
+
+interface OrdersComponentProps {
+  orders: IOrder[];
+  customers: ICustomer[];
+  products: IProduct[];
+  fareLines: IFareLine[];
+  orderToForm: IOrder | null;
+  fetchOrdersAndProducts: Function;
+  fetchOrderAndCustomersAndFareAndProductsAndFares: Function;
+  setOrderToCreateOrEdit: Function;
+}
 
 const OrdersComponent = ({
   orders,
-  fetchOrdersAndProducts,
-  fetchOrderAndCustomersAndFaresAndProducts,
-  history,
+  fetchOrderAndCustomersAndFareAndProductsAndFares,
   customers,
   orderToForm,
   setOrderToCreateOrEdit,
   products,
-  fares,
-}: any) => {
+  fetchOrdersAndProducts,
+  fareLines,
+}: OrdersComponentProps) => {
   useEffect(() => {
     fetchOrdersAndProducts();
   }, []);
-
-  const openModal = useOpenModalByRoutes();
-  useEffect(() => {
-    if (openModal === 'new') {
-      //CREATE
-      return setOrderToCreateOrEdit(defaultValues);
-    }
-    // @ts-ignore
-    if (openModal) {
-      //EDIT
-      return fetchOrderAndCustomersAndFaresAndProducts(openModal);
-    }
-    //CLOSE
-    if (orderToForm !== null) return setOrderToCreateOrEdit(null);
-  }, [openModal]);
 
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={orders}
-        onAddButton={() => history.push('/orders/new')}
+        onAddButton={() => fetchOrderAndCustomersAndFareAndProductsAndFares('new')}
         tableName={'orders'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          history.push(`/orders/${order.type}-${order.id}`);
+          fetchOrderAndCustomersAndFareAndProductsAndFares(`${order.type}-${order.id}`, order.customer_id);
         }}
       />
       {Boolean(orderToForm) && (
         <OrderModal
-          onCancel={() => history.push(`/orders`)}
+          onCancel={() => setOrderToCreateOrEdit(null)}
           customers={customers}
-          fares={fares}
+          fares={fareLines}
           products={products}
+          // @ts-ignore
           order={orderToForm}
         />
       )}
@@ -80,6 +79,4 @@ const mapDispatch = {
   ...operations,
 };
 
-const OrdersComponentWithHistory = withRouter(OrdersComponent);
-
-export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);
+export const Orders = connect(mapState, mapDispatch)(OrdersComponent);
