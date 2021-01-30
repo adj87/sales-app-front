@@ -49,11 +49,7 @@ export const columnsOrderLineTable = [
             <div className="flex items-center justify-center">
               {
                 <>
-                  <img
-                    src={`http://localhost:3001/images/${row.original.product_id}.png`}
-                    width="20"
-                    className="inline mr-2"
-                  ></img>
+                  <img src={`http://localhost:3001/images/${row.original.product_id}.png`} width="20" className="inline mr-2"></img>
                   <span>{row.original.product_name}</span>
                 </>
               }
@@ -82,11 +78,12 @@ export const defaultValues = {
   delivery_date: null,
   total_net: 0,
   total_taxes: 0,
+  total_surcharge: 0,
+  is_green_point: false,
+  is_surcharge: false,
   total: 0,
-  surcharge: null,
   customer_id: null,
   customer_name: null,
-  green_point: null,
   customer_route_id: null,
   type: 'A',
   show_together_with_others: true,

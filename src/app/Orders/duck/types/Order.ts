@@ -6,13 +6,14 @@ export interface IOrder {
   shipping_place: string | null;
   date: string | null;
   delivery_date: string | null;
-  total_net: number | null;
+  is_green_point: boolean; // loperpv
+  is_surcharge: boolean; // lrecargo
+  total_net: number | null; // this also includes total green point
   total_taxes: number | null;
+  total_surcharge: number | null; //ntotreq
   total: number | null;
-  surcharge: number | null;
   customer_id: number | null;
   customer_name: string | null;
-  green_point: number | null;
   customer_route_id: number | null;
   type: string;
   show_together_with_others: boolean;

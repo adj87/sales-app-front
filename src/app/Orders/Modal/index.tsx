@@ -50,9 +50,9 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   }, [fare?.customer_id]);
 
   useDidUpdateEffect(() => {
-    const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(values, products);
-    setValues({ ...values, total_net, total, total_taxes, green_point, surcharge });
-  }, [values?.type]);
+    const { total, total_net, total_taxes, total_surcharge } = calculateTotals(values, products);
+    setValues({ ...values, total_net, total, total_taxes, total_surcharge });
+  }, [values?.type, values.is_surcharge, values.is_green_point]);
 
   console.log('los values', values);
   return (
@@ -83,8 +83,10 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
-          onChange={async (field: string, value: string) => {
-            await setFieldValue(field, value);
+          onChange={(field: string, value: string) => {
+            const is_surcharge = value === 'B' ? false : values.is_surcharge;
+            const newValues = { ...values, [field]: value, is_surcharge };
+            setValues(newValues);
           }}
           formikObject={formik}
           options={[
@@ -92,8 +94,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
             { value: 'B', label: 'B' },
           ]}
         />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="surcharge" onChange={setFieldValue} />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="green_point" onChange={setFieldValue} />
+        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="is_surcharge" onChange={setFieldValue} />
+        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
         <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
       </div>
       <div className="w-full pt-2">
@@ -132,7 +134,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <div className="w-2/6 flex flex-col mt-6">
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
           <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
-          <LabelAndAmount amount={roundToTwoDec(values.green_point)} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
+          <LabelAndAmount amount={roundToTwoDec(values.total_surcharge)} label={'Recargo'} isDisabled={values.type === 'B'} />
+          {/*  <LabelAndAmount amount={roundToTwoDec(values.total_green_point)} label={'P. Verde'} isDisabled={values.is_green_point} /> */}
           <LabelAndAmount amount={roundToTwoDec(values.total)} label={'Total'} isTotal />
         </div>
       </div>
@@ -157,20 +160,19 @@ const calculateTotals = (values: IOrder, products: IProduct[]) => {
         const amountOfBottles = oL.quantity * product.units_per_box;
 
         // @ts-ignore
-        const net = amountOfBottles * oL.price;
-        acc.total_net += net;
+        const green_point = values.is_green_point ? amountOfBottles * product.green_point_amount * oL.price : 0;
 
         // @ts-ignore
-        const green_point = Boolean(values.green_point) ? amountOfBottles * product.green_point_amount * oL.price : 0;
-        acc.total_green_point += green_point;
+        const net = amountOfBottles * oL.price + green_point;
+        acc.total_net += net;
 
-        const taxes = values.type === 'A' ? (net + green_point) * TAXES_RATE : 0;
+        const taxes = values.type === 'A' ? net * TAXES_RATE : 0;
         acc.total_taxes += taxes;
 
-        const surcharge = Boolean(values.surcharge) ? net * RECHARGE_RATE : 0;
+        const surcharge = values.is_surcharge ? net * RECHARGE_RATE : 0;
         acc.total_surcharge += surcharge;
 
-        acc.total += net + green_point + taxes + surcharge;
+        acc.total += net + taxes + surcharge;
 
         return acc;
       },
@@ -178,7 +180,6 @@ const calculateTotals = (values: IOrder, products: IProduct[]) => {
         total_net: 0,
         total_taxes: 0,
         total: 0,
-        total_green_point: 0,
         total_surcharge: 0,
       },
     );
@@ -204,7 +205,7 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
   const newOrderLines = values.order_lines.map((ol: IOrderLine) => {
     const price = getPriceFromFare(ol, fare);
-    const green_point_amount = Boolean(values.green_point) ? products.find((pr: IProduct) => pr.id === ol.product_id)?.green_point_amount ?? 0 : 0;
+    const green_point_amount = values.is_green_point ? products.find((pr: IProduct) => pr.id === ol.product_id)?.green_point_amount ?? 0 : 0;
     return {
       ...ol,
       price,
@@ -214,9 +215,9 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
   let newValues = { ...values, order_lines: newOrderLines };
 
-  const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, products);
+  const { total, total_net, total_taxes, total_surcharge } = calculateTotals(newValues, products);
 
-  newValues = { ...newValues, total_net, total, total_taxes, green_point, surcharge };
+  newValues = { ...newValues, total_net, total, total_taxes, total_surcharge };
   setValues(newValues);
 };
 
