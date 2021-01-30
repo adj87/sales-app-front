@@ -49,6 +49,11 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setPricesToNewFareAndSetTotals(values, setValues, fare, products);
   }, [fare?.customer_id]);
 
+  useDidUpdateEffect(() => {
+    const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(values, products);
+    setValues({ ...values, total_net, total, total_taxes, green_point, surcharge });
+  }, [values?.type]);
+
   console.log('los values', values);
   return (
     <Modal onCancel={onCancel} onConfirm={() => console.log('hello confirm')} size="lg" title="orders.form.title">
@@ -128,7 +133,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
           <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
           <LabelAndAmount amount={roundToTwoDec(values.green_point)} label={'P. Verde'} isDisabled={Boolean(!values.green_point)} />
-          <LabelAndAmount amount={values.total} label={'Total'} isTotal />
+          <LabelAndAmount amount={roundToTwoDec(values.total)} label={'Total'} isTotal />
         </div>
       </div>
 
@@ -143,8 +148,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   );
 };
 
-const calculateTotals = (values: IOrder, fare: IFare | null, products: IProduct[]) => {
-  if (values && fare && products) {
+const calculateTotals = (values: IOrder, products: IProduct[]) => {
+  if (values && products) {
     return values.order_lines.reduce(
       (acc: any, oL: IOrderLine) => {
         const product = products.find((pr: IProduct) => pr.id === oL.product_id);
@@ -159,11 +164,13 @@ const calculateTotals = (values: IOrder, fare: IFare | null, products: IProduct[
         const green_point = Boolean(values.green_point) ? amountOfBottles * product.green_point_amount * oL.price : 0;
         acc.total_green_point += green_point;
 
-        const taxes = values.type === 'A' ? net * TAXES_RATE : 0;
+        const taxes = values.type === 'A' ? (net + green_point) * TAXES_RATE : 0;
         acc.total_taxes += taxes;
 
         const surcharge = Boolean(values.surcharge) ? net * RECHARGE_RATE : 0;
-        acc.total_surcharge = surcharge;
+        acc.total_surcharge += surcharge;
+
+        acc.total += net + green_point + taxes + surcharge;
 
         return acc;
       },
@@ -207,7 +214,7 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
   let newValues = { ...values, order_lines: newOrderLines };
 
-  const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, fare, products);
+  const { total, total_net, total_taxes, total_green_point: green_point, total_surcharge: surcharge } = calculateTotals(newValues, products);
 
   newValues = { ...newValues, total_net, total, total_taxes, green_point, surcharge };
   setValues(newValues);
