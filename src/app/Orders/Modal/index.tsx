@@ -108,7 +108,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
       </div>
       <div className="w-full pt-2">
         <OrderLinesTable
-          data={values.order_lines}
+          values={values}
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
@@ -211,19 +211,6 @@ const calculateTotals = (values: IOrder, products: IProduct[]) => {
   return null;
 };
 
-const sum = (orderLines: IOrderLine[], type: string) => {
-  if (orderLines) {
-    return orderLines.reduce((acc: number, el: IOrderLine) => {
-      // @ts-ignore
-      if (el[type] && el.quantity && el.units_per_box) {
-        // @ts-ignore
-        acc += el[type] * el.quantity * el.units_per_box;
-      }
-      return acc;
-    }, 0);
-  }
-};
-
 const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
   const getPriceFromFare = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;
 
@@ -245,30 +232,6 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
   setValues(newValues);
 };
 
-/* const CustomerInfo = ({ customer }: { customer: ICustomer }) => {
-  const infoElementsExcluded = ['created_at', 'updated_at', 'id', 'zip_code', 'name'];
-  return (
-    <div className="border-grey-300 rounded-md border px-2 py-5 flex flex-wrap">
-      {Object.keys(customer)
-        .filter((el) => !infoElementsExcluded.includes(el))
-        .map((property: string) => {
-          return (
-            <div className="flex-2 flex justify-between w-1/2 p-1">
-              <label className="text-primary-light text-sm">{property}</label>
-
-              <label
-                className="text-grey-300 pl-1 text-sm"
-                style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-              >
-
-                {customer[property]}
-              </label>
-            </div>
-          );
-        })}
-    </div>
-  );
-}; */
 const mapState = (state: AppStoreInterface) => ({
   customers: state.customers.data,
   products: state.products.data,

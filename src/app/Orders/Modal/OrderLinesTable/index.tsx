@@ -7,7 +7,7 @@ import { operations } from '../../duck';
 import { AppStoreInterface } from '../../../../store/AppStoreInterface';
 import OrderLineModal from './OrderLineModal';
 import { IProduct } from '../../../Products/duck/types/Product';
-import { IOrderLine } from '../../duck/types/Order';
+import { IOrderLine, IOrder } from '../../duck/types/Order';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
 
 interface OrderLinesTableProps {
@@ -15,16 +15,16 @@ interface OrderLinesTableProps {
   fare: IFare | null;
   onConfirmOrderLineModal: Function;
   deleteOnRowPress: Function;
-  data: IOrderLine[];
+  values: IOrder;
 }
 
-const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, data, deleteOnRowPress }: OrderLinesTableProps) => {
+const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, deleteOnRowPress }: OrderLinesTableProps) => {
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
   return (
     <div className="mt-3">
       <Label style={{ position: 'absolute' }}>orders.form.label-orders-lines</Label>
       <Table
-        data={data}
+        data={values.order_lines}
         columns={columnsOrderLineTable}
         tableName="orderLines"
         onRowClick={(values: any) => {
@@ -46,6 +46,9 @@ const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, data, delete
           // @ts-ignore
           products={products}
           orderLine={orderLineToEdit}
+          isGreenPoint={values.is_green_point}
+          isSurcharge={values.is_surcharge}
+          isTypeA={values.type === 'A'}
           fare={fare}
         />
       )}
