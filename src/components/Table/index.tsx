@@ -18,17 +18,7 @@ import { useTranslation } from 'react-i18next';
 import InputCheckBox from '../Inputs/InputCheckbox';
 import Modal from '../Modal/Modal';
 
-function Table({
-  columns,
-  data,
-  onAddButton,
-  tableName,
-  withSearching,
-  withPagination,
-  onRowClick,
-  onRowLongPress,
-  deleteOnRowPress,
-}: any) {
+function Table({ columns, data, onAddButton, tableName, withSearching, withPagination, onRowClick, onRowLongPress, deleteOnRowPress }: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -66,13 +56,7 @@ function Table({
 
   return (
     <>
-      {withSearching && (
-        <Search
-          globalFilter={globalFilter}
-          setGlobalFilter={setGlobalFilter}
-          preGlobalFilteredRows={preGlobalFilteredRows}
-        />
-      )}
+      {withSearching && <Search globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} preGlobalFilteredRows={preGlobalFilteredRows} />}
       <ColumnsChecks
         allColumns={allColumns}
         tableName={tableName}
@@ -148,14 +132,7 @@ const THead = ({ headerGroups }) => (
   </thead>
 );
 
-const TBody = ({
-  getTableBodyProps,
-  page,
-  prepareRow,
-  onRowClick,
-  onRowLongPress,
-  deleteOnRowPress,
-}) => {
+const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress, deleteOnRowPress }) => {
   const [rowToDelete, setRowToDelete] = useState(false);
   return (
     <tbody {...getTableBodyProps()}>
@@ -182,10 +159,7 @@ const TBody = ({
           >
             {row.cells.map((cell) => {
               return (
-                <td
-                  {...cell.getCellProps()}
-                  className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white"
-                >
+                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white">
                   {cell.render('Cell')}
                 </td>
               );
@@ -203,7 +177,9 @@ const TBody = ({
           onCancel={() => setRowToDelete(false)}
           title={'commons.delete-row'}
           centered
-        />
+        >
+          <p>{rowToDelete.original.name || rowToDelete.original.product_name}</p>
+        </Modal>
       )}
     </tbody>
   );
@@ -212,22 +188,12 @@ const TBody = ({
 const PaginationAndAddButton = ({ paginationMethods, onAddButton, withPagination, isShown, t }) => (
   <div className="flex md:flex-row lg:flex-column  justify-center items-center relative mt-6">
     {isShown && <Pagination paginationMethods={paginationMethods} />}
-    {onAddButton && (
-      <Button
-        onClick={onAddButton}
-        text={'commons.add'}
-        color="secondary"
-        className={'absolute right-0 mt-1'}
-        size="sm"
-      />
-    )}
+    {onAddButton && <Button onClick={onAddButton} text={'commons.add'} color="secondary" className={'absolute right-0 mt-1'} size="sm" />}
   </div>
 );
 
 const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, tableName }) => {
-  const className = showColumnsOptions
-    ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary z-10'
-    : 'hidden';
+  const className = showColumnsOptions ? 'absolute bg-white border-primary-light p-3 rounded-md right-0 top-1 border border-primary z-10' : 'hidden';
   return (
     <div className="flex justify-end relative">
       <div className={'flex-column justify-end mb-1'}>
@@ -292,10 +258,7 @@ const Pagination = ({ paginationMethods }) => {
     // pageSize,
   } = paginationMethods;
   return (
-    <div
-      className="flex flex-column justify-between items-center m-auto mt-2"
-      style={{ width: '300px' }}
-    >
+    <div className="flex flex-column justify-between items-center m-auto mt-2" style={{ width: '300px' }}>
       <PaginationButton onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
         <FontAwesomeIcon icon={faAngleDoubleLeft} />
       </PaginationButton>

@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { IFare } from './app/Fares/duck/types/Fare';
+import i18n from './i18n';
 
 const DEFAULT_FARE = process.env.REACT_APP_BACK_DEFAULT_FARE;
 
@@ -38,6 +39,14 @@ export const roundToTwoDec = (number: number | null) => number && Math.round(num
 export const numberValidation = Yup.number()
   .nullable()
   .transform((value) => (isNaN(value) ? null : value));
+
+export const numberOfElementsInArrValidation = (min: number = 0) =>
+  Yup.array().test(
+    'is-decimal',
+    i18n.t('commons.errors.field_required'),
+    // @ts-ignore
+    (elements: any[]) => elements.length > min,
+  );
 
 export const positiveNumberValidation = numberValidation.moreThan(0, ' must be positive');
 export const reasonablePriceValidation = positiveNumberValidation.lessThan(5, 'must be reasonable');

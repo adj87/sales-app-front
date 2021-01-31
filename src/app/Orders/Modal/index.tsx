@@ -20,6 +20,8 @@ import MoreInfo from './MoreInfo';
 import { operations } from '../duck';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
+import { validationSchemaOrder } from '../constants';
+import LabelError from '../../../components/LabelError';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -43,8 +45,10 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     onSubmit: (values: IOrder) => {
       alert(JSON.stringify(values, null, 2));
     },
+
+    validationSchema: validationSchemaOrder,
   });
-  const { values, setFieldValue, setValues } = formik;
+  const { values, setFieldValue, setValues, errors, submitForm } = formik;
 
   useEffect(() => {
     if (values.id) {
@@ -63,8 +67,9 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
+  console.log('los errors', errors);
   return (
-    <Modal onCancel={onCancel} onConfirm={() => console.log('hello confirm')} size="lg" title="orders.form.title">
+    <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponentWithFV
           name="customer_id"
@@ -145,6 +150,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
             setTotalGreenPoint(total_green_point);
           }}
         />
+        <LabelError error={errors.order_lines} className="text-center" />
       </div>
       <div className="flex justify-end mt-5">
         <div className="w-2/6 flex flex-col mt-6">

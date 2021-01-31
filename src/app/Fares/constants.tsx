@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import i18n from '../../i18n';
 
 import { IFareLine, IFare, IFareLineWithCheck } from './duck/types/Fare';
-import { reasonablePriceValidation } from '../../utils';
+import { reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 
 export const columns = [
   {
@@ -64,19 +64,10 @@ export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
 
 export const validationSchemaFare = Yup.object().shape({
   customer_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  fare_lines: Yup.array()
-    .test(
-      'is-decimal',
-      i18n.t('commons.errors.field_required'),
-      // @ts-ignore
-      (fareLines: IFareLine[]) => fareLines.length > 0,
-    )
-    .test('any-is-repeated', i18n.t('commons.errors.elements-repeated'), (fareLines: any) => {
-      const arrMapped = fareLines.map((el: any) => el.product_id);
-      return fareLines.every(
-        (el: any, i: any, arr: any) => countInArray(arrMapped, el.product_id) === 1,
-      );
-    }),
+  fare_lines: numberOfElementsInArrValidation().test('any-is-repeated', i18n.t('commons.errors.elements-repeated'), (fareLines: any) => {
+    const arrMapped = fareLines.map((el: any) => el.product_id);
+    return fareLines.every((el: any, i: any, arr: any) => countInArray(arrMapped, el.product_id) === 1);
+  }),
 });
 
 // @ts-ignore
