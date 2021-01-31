@@ -14,15 +14,11 @@ interface OrderLinesTableProps {
   products: IProduct[];
   fare: IFare | null;
   onConfirmOrderLineModal: Function;
+  deleteOnRowPress: Function;
   data: IOrderLine[];
 }
 
-const OrderLinesTable = ({
-  products,
-  fare,
-  onConfirmOrderLineModal,
-  data,
-}: OrderLinesTableProps) => {
+const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, data, deleteOnRowPress }: OrderLinesTableProps) => {
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
   return (
     <div className="mt-3">
@@ -36,11 +32,11 @@ const OrderLinesTable = ({
           setOrderLineToEdit(orderLine);
         }}
         onAddButton={() => setOrderLineToEdit(defaultOrderLineValues)}
+        deleteOnRowPress={deleteOnRowPress}
       />
 
       {Boolean(orderLineToEdit) && (
         <OrderLineModal
-     
           onCancel={() => setOrderLineToEdit(null)}
           onConfirm={(values: IOrderLine) => {
             setOrderLineToEdit(null);
@@ -59,7 +55,7 @@ const OrderLinesTable = ({
 
 const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
-  fare:state.orders.fare
+  fare: state.orders.fare,
 });
 
 const mapDispatch = {

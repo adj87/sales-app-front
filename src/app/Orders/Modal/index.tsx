@@ -51,7 +51,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
       const { total_green_point } = calculateTotals(values, products);
       setTotalGreenPoint(total_green_point);
     }
-  }, [values.is_green_point]);
+  }, []);
 
   useDidUpdateEffect(() => {
     setPricesToNewFareAndSetTotals(values, setValues, fare, products);
@@ -113,29 +113,42 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
-            let newOrderLinesValues = [...order_lines];
+            const productSelected = products.find((el: IProduct) => el.id === orderLine.product_id);
+            const green_point_amount = productSelected?.green_point_amount ?? 0;
+            const units_per_box = productSelected?.units_per_box ?? 0;
+            let newOrderLines = [...order_lines];
             //EDITING
             if (orderLineToEdit) {
-              newOrderLinesValues = order_lines.map((el: IOrderLine) => {
+              newOrderLines = order_lines.map((el: IOrderLine) => {
                 if (el.line_number === orderLine.line_number) return orderLine;
                 return el;
               });
 
               //CREATING
             } else {
-              newOrderLinesValues.push({
+              newOrderLines.push({
                 ...orderLine,
-                line_number: newOrderLinesValues.length + 1,
+                line_number: newOrderLines.length + 1,
                 order_id: values.id,
                 order_type: values.type,
+                green_point_amount: values.is_green_point ? green_point_amount : 0,
+                units_per_box,
               });
             }
-            const totalNet = sum(newOrderLinesValues, 'price');
-            const totalTaxes = totalNet ? totalNet * 0.21 : 0;
-            setFieldValue('total_net', totalNet);
-            setFieldValue('total_taxes', totalTaxes);
-            setFieldValue('total', totalNet ?? 0 + totalTaxes);
-            setFieldValue('order_lines', newOrderLinesValues);
+            let newValues = { ...values, order_lines: newOrderLines };
+            const { total, total_net, total_taxes, total_surcharge, total_green_point } = calculateTotals(newValues, products);
+            newValues = { ...newValues, total, total_net, total_taxes, total_surcharge };
+            setValues(newValues);
+            setTotalGreenPoint(total_green_point);
+          }}
+          deleteOnRowPress={(row: any) => {
+            const rowToDelete: IOrderLine = row.original;
+            const newOrderLines = [...values.order_lines].filter((el: IOrderLine) => el.line_number !== rowToDelete.line_number);
+            let newValues = { ...values, order_lines: newOrderLines };
+            const { total, total_net, total_taxes, total_surcharge, total_green_point } = calculateTotals(newValues, products);
+            newValues = { ...newValues, total, total_net, total_taxes, total_surcharge };
+            setValues(newValues);
+            setTotalGreenPoint(total_green_point);
           }}
         />
       </div>
@@ -153,7 +166,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         // @ts-ignore
         customerId={values.customer_id}
         onFareModalConfirm={(fare: IFare) => {
-          createFare(fare, (res: any) => console.log('hello', res));
+          createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
         }}
       />
     </Modal>
