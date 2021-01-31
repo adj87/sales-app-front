@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 
@@ -37,6 +37,7 @@ interface OrdersModalProps {
 }
 
 const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare }: OrdersModalProps) => {
+  const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (values: IOrder) => {
@@ -45,12 +46,20 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   });
   const { values, setFieldValue, setValues } = formik;
 
+  useEffect(() => {
+    if (values.id) {
+      const { total_green_point } = calculateTotals(values, products);
+      setTotalGreenPoint(total_green_point);
+    }
+  }, [values.is_green_point]);
+
   useDidUpdateEffect(() => {
     setPricesToNewFareAndSetTotals(values, setValues, fare, products);
   }, [fare?.customer_id]);
 
   useDidUpdateEffect(() => {
-    const { total, total_net, total_taxes, total_surcharge } = calculateTotals(values, products);
+    const { total, total_net, total_taxes, total_surcharge, total_green_point } = calculateTotals(values, products);
+    setTotalGreenPoint(total_green_point);
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
@@ -134,8 +143,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <div className="w-2/6 flex flex-col mt-6">
           <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
           <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
-          <LabelAndAmount amount={roundToTwoDec(values.total_surcharge)} label={'Recargo'} isDisabled={values.type === 'B'} />
-          {/*  <LabelAndAmount amount={roundToTwoDec(values.total_green_point)} label={'P. Verde'} isDisabled={values.is_green_point} /> */}
+          <LabelAndAmount amount={roundToTwoDec(values.total_surcharge)} label={'Recargo'} isDisabled={!values.is_surcharge} />
+          <LabelAndAmount amount={roundToTwoDec(totalGreenPoint)} label={'P. Verde'} isDisabled={!values.is_green_point} />
           <LabelAndAmount amount={roundToTwoDec(values.total)} label={'Total'} isTotal />
         </div>
       </div>
@@ -161,6 +170,7 @@ const calculateTotals = (values: IOrder, products: IProduct[]) => {
 
         // @ts-ignore
         const green_point = values.is_green_point ? amountOfBottles * product.green_point_amount * oL.price : 0;
+        acc.total_green_point += green_point;
 
         // @ts-ignore
         const net = amountOfBottles * oL.price + green_point;
@@ -178,6 +188,7 @@ const calculateTotals = (values: IOrder, products: IProduct[]) => {
       },
       {
         total_net: 0,
+        total_green_point: 0,
         total_taxes: 0,
         total: 0,
         total_surcharge: 0,
