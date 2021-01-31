@@ -63,7 +63,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
-  console.log('los values', values);
   return (
     <Modal onCancel={onCancel} onConfirm={() => console.log('hello confirm')} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -73,14 +72,9 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           options={customers}
           labelText="orders.form.label-customer"
           onChange={(input_name: string, customer: ICustomer) => {
-            const { address, fiscal_id, zip_code, id, name } = customer;
-            setFieldValue('address', address);
-            setFieldValue('shipping_place', address);
-            setFieldValue('customer_id', id);
-            setFieldValue('customer_name', name);
-            setFieldValue('fiscal_id', fiscal_id);
-            setFieldValue('zip_code', zip_code);
-            fetchFare(id);
+            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name } = customer;
+            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code });
+            fetchFare(customer_id);
           }}
         />
 
