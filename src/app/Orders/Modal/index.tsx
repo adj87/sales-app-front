@@ -15,12 +15,11 @@ import LabelAndAmount from '../../../components/LabelAndAmount';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { IFare, IFareLine } from '../../Fares/duck/types/Fare';
 import { IProduct } from '../../Products/duck/types/Product';
-import { TAXES_RATE, RECHARGE_RATE } from '../../../constants';
 import MoreInfo from './MoreInfo';
 import { operations } from '../duck';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
-import { validationSchemaOrder } from '../constants';
+import { validationSchemaOrder, calculateTotals } from '../constants';
 import LabelError from '../../../components/LabelError';
 
 const InputWithFV = withFormikValues(Input);
@@ -67,7 +66,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
-  console.log('los errors', errors);
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -168,43 +166,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   );
 };
 
-const calculateTotals = (values: IOrder, products: IProduct[]) => {
-  if (values && products) {
-    const { is_green_point, type, is_surcharge } = values;
-    return values.order_lines.reduce(
-      (acc: any, oL: IOrderLine) => {
-        // @ts-ignore
-        const amountOfBottles = oL.quantity * oL.units_per_box;
-
-        // @ts-ignore
-        const green_point = is_green_point ? amountOfBottles * oL.green_point_amount * oL.price : 0;
-        acc.total_green_point += green_point;
-
-        // @ts-ignore
-        const net = amountOfBottles * oL.price + green_point;
-        acc.total_net += net;
-
-        const taxes = type === 'A' ? net * TAXES_RATE : 0;
-        acc.total_taxes += taxes;
-
-        const surcharge = is_surcharge ? net * RECHARGE_RATE : 0;
-        acc.total_surcharge += surcharge;
-
-        acc.total += net + taxes + surcharge;
-
-        return acc;
-      },
-      {
-        total_net: 0,
-        total_green_point: 0,
-        total_taxes: 0,
-        total: 0,
-        total_surcharge: 0,
-      },
-    );
-  }
-  return null;
-};
 
 const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
   const getPriceFromFare = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;

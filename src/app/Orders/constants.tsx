@@ -4,6 +4,9 @@ import * as Yup from 'yup';
 
 import i18n from '../../i18n';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
+import { IOrder, IOrderLine } from './duck/types/Order';
+import { IProduct } from '../Products/duck/types/Product';
+import { TAXES_RATE, RECHARGE_RATE } from '../../constants';
 
 export const columns = [
   {
@@ -116,3 +119,48 @@ export const validationSchemaOrderLine = Yup.object().shape({
   quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
   price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
 });
+
+
+/**
+ * This function is used to calculate all types of total
+ * total_net, total_green_point,total_taxes,total, total_surcharge
+ * @param values 
+ * @param products 
+ */
+export const calculateTotals = (values: IOrder, products: IProduct[]) => {
+  if (values && products) {
+    const { is_green_point, type, is_surcharge } = values;
+    return values.order_lines.reduce(
+      (acc: any, oL: IOrderLine) => {
+        // @ts-ignore
+        const amountOfBottles = oL.quantity * oL.units_per_box;
+
+        // @ts-ignore
+        const green_point = is_green_point ? amountOfBottles * oL.green_point_amount * oL.price : 0;
+        acc.total_green_point += green_point;
+
+        // @ts-ignore
+        const net = amountOfBottles * oL.price + green_point;
+        acc.total_net += net;
+
+        const taxes = type === 'A' ? net * TAXES_RATE : 0;
+        acc.total_taxes += taxes;
+
+        const surcharge = is_surcharge ? net * RECHARGE_RATE : 0;
+        acc.total_surcharge += surcharge;
+
+        acc.total += net + taxes + surcharge;
+
+        return acc;
+      },
+      {
+        total_net: 0,
+        total_green_point: 0,
+        total_taxes: 0,
+        total: 0,
+        total_surcharge: 0,
+      },
+    );
+  }
+  return null;
+};
