@@ -112,9 +112,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
-            const productSelected = products.find((el: IProduct) => el.id === orderLine.product_id);
-            const green_point_amount = productSelected?.green_point_amount ?? 0;
-            const units_per_box = productSelected?.units_per_box ?? 0;
             let newOrderLines = [...order_lines];
             //EDITING
             if (orderLineToEdit) {
@@ -130,8 +127,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
                 line_number: newOrderLines.length + 1,
                 order_id: values.id,
                 order_type: values.type,
-                green_point_amount: values.is_green_point ? green_point_amount : 0,
-                units_per_box,
               });
             }
             let newValues = { ...values, order_lines: newOrderLines };
@@ -175,24 +170,24 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
 
 const calculateTotals = (values: IOrder, products: IProduct[]) => {
   if (values && products) {
+    const { is_green_point, type, is_surcharge } = values;
     return values.order_lines.reduce(
       (acc: any, oL: IOrderLine) => {
-        const product = products.find((pr: IProduct) => pr.id === oL.product_id);
         // @ts-ignore
-        const amountOfBottles = oL.quantity * product.units_per_box;
+        const amountOfBottles = oL.quantity * oL.units_per_box;
 
         // @ts-ignore
-        const green_point = values.is_green_point ? amountOfBottles * product.green_point_amount * oL.price : 0;
+        const green_point = is_green_point ? amountOfBottles * oL.green_point_amount * oL.price : 0;
         acc.total_green_point += green_point;
 
         // @ts-ignore
         const net = amountOfBottles * oL.price + green_point;
         acc.total_net += net;
 
-        const taxes = values.type === 'A' ? net * TAXES_RATE : 0;
+        const taxes = type === 'A' ? net * TAXES_RATE : 0;
         acc.total_taxes += taxes;
 
-        const surcharge = values.is_surcharge ? net * RECHARGE_RATE : 0;
+        const surcharge = is_surcharge ? net * RECHARGE_RATE : 0;
         acc.total_surcharge += surcharge;
 
         acc.total += net + taxes + surcharge;

@@ -40,13 +40,12 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   const productsInFare = products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id));
 
   const onChangeProduct = (product: IProduct) => {
-    const { name: product_name, id: product_id, units_per_box } = product;
+    const { name: product_name, id: product_id, units_per_box, green_point_amount } = product;
     const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
-    setValues({ ...values, product_name, product_id, price, units_per_box });
+    setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount });
   };
 
   const calculateAmounts = (values: IOrderLine, isGreenPoint: boolean, isSurcharge: boolean, isTypeA: boolean, products: IProduct[]) => {
-    const productSelected = products.find((el: IProduct) => el.id === values.product_id);
     // @ts-ignore
     let net = 0,
       tax = 0,
