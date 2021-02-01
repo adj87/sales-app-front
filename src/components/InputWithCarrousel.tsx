@@ -18,6 +18,7 @@ const back_host = process.env.REACT_APP_BACK_HOST;
 const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) => {
   const [openCarrousel, setOpenCarrousel] = useState(false);
   const [showInMiddle, setShowInMiddle] = useState<IProduct | null>(null);
+
   return (
     <>
       {openCarrousel && (
@@ -59,8 +60,8 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
         </LayerOutOfRoot>
       )}
 
-      <div className="flex justify-center items-center flex-col mb-5 mt-2 w-4/5 m-auto">
-        <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="80" onClick={() => setOpenCarrousel(true)} />
+      <div className="flex  items-center flex-col mt-10 w-3/5 m-auto cursor-pointer">
+        <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="70%" onClick={() => setOpenCarrousel(true)} />
 
         <div className="w-full"></div>
       </div>

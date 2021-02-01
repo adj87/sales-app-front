@@ -75,10 +75,15 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   const { net, greenPoint, tax, surcharge, total } = calculateAmounts(values, isGreenPoint, isSurcharge, isTypeA, products);
 
   return (
-    <Modal title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'} size="xs" centered>
-      <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
-      <>
-        <div className="flex flex-col w-4/5 m-auto">
+    <Modal
+      title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'}
+      size="md"
+      centered
+      onConfirm={submitForm}
+      onCancel={onCancel}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="flex flex-col w-full">
           <SelectWithFV
             options={productsInFare}
             onChange={(name: string, product: IProduct) => onChangeProduct(product)}
@@ -94,26 +99,27 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
             type="number"
             onChange={setFieldValue}
           />
+          <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
+            <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
+            <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
+            <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
+            <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
+            <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
+          </div>
         </div>
-        <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
-          <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
-          <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
-          <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
-          <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
-          <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
-        </div>
-        <div className="flex flex-col mt-10 ">
-          <Button text="commons.ok" color="secondary" onClick={submitForm} size="block" className="mb-2" />
-          <Button
-            text="commons.cancel"
-            color="secondary"
-            // @ts-ignore
-            onClick={onCancel}
-            size="block"
-            outline
-          />
-        </div>
-      </>
+        <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
+      </div>
+      {/*       <div className="flex flex-col mt-10 ">
+        <Button text="commons.ok" color="secondary" onClick={submitForm} size="block" className="mb-2" />
+        <Button
+          text="commons.cancel"
+          color="secondary"
+          // @ts-ignore
+          onClick={onCancel}
+          size="block"
+          outline
+        />
+      </div> */}
     </Modal>
   );
 };
