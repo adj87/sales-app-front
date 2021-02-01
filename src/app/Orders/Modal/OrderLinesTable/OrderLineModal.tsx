@@ -35,15 +35,14 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
     initialValues: orderLine,
     onSubmit: onConfirm,
   });
-  const { values, setFieldValue, submitForm } = formik;
+  const { values, setFieldValue, submitForm, setValues } = formik;
   // @ts-ignore
   const productsInFare = products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id));
 
   const onChangeProduct = (product: IProduct) => {
-    const { name, id } = product;
-    setFieldValue('product_id', id);
-    setFieldValue('product_name', name);
-    setFieldValue('price', fare?.fare_lines.find((el: IFareLine) => el.product_id === id)?.price_1);
+    const { name: product_name, id: product_id, units_per_box } = product;
+    const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
+    setValues({ ...values, product_name, product_id, price, units_per_box });
   };
 
   const calculateAmounts = (values: IOrderLine, isGreenPoint: boolean, isSurcharge: boolean, isTypeA: boolean, products: IProduct[]) => {
@@ -54,12 +53,12 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
       surcharge = 0,
       total = 0,
       greenPoint = 0;
-    if (productSelected) {
-      const { green_point_amount = 0, units_per_box = 0 } = productSelected;
-      const { price = 0, quantity = 0 } = values;
+    if (values.product_id) {
+      const { price = 0, quantity = 0, green_point_amount = 0, units_per_box = 0 } = values;
       const isPerformable = Boolean(price) && Boolean(quantity);
       // @ts-ignore
       const amountOfBottles = isPerformable ? quantity * units_per_box : 0;
+      // @ts-ignore
       greenPoint = isGreenPoint ? amountOfBottles * green_point_amount : 0;
       // @ts-ignore
       net = amountOfBottles * price + greenPoint;
