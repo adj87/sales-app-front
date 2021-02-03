@@ -10,6 +10,7 @@ import { actions as productsAction, api as productsApi } from '../../Products/du
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
 import { IFare } from '../../Fares/duck/types/Fare';
+import { IOrder } from './types/Order';
 
 const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
@@ -74,6 +75,8 @@ const createFare = (fare: IFare, cb: Function) =>
     },
   );
 
+const createOrder = (order: IOrder) => generalCreateOrEditOperation(() => apiOrders.createOrder(order));
+
 export default {
   fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
@@ -83,4 +86,5 @@ export default {
   fetchFareWithCb,
   createFare,
   fetchFare,
+  createOrder,
 };

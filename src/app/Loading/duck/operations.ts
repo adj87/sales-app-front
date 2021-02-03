@@ -36,7 +36,7 @@ const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess
     });
 };
 
-const generalCreateOrEditOperation = (api: Function, cbOnSuccess: Function) => (dispatch: Dispatch<any>) => {
+const generalCreateOrEditOperation = (api: Function, cbOnSuccess?: Function) => (dispatch: Dispatch<any>) => {
   dispatch(actions.setLoading(true));
   api()
     .then((res: AxiosResponse) => {

@@ -111,7 +111,6 @@ export const defaultOrderLineValues = {
 export const validationSchemaOrder = Yup.object().shape({
   customer_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   order_lines: numberOfElementsInArrValidation(),
-  price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
 });
 
 export const validationSchemaOrderLine = Yup.object().shape({
@@ -120,12 +119,11 @@ export const validationSchemaOrderLine = Yup.object().shape({
   price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
 });
 
-
 /**
  * This function is used to calculate all types of total
  * total_net, total_green_point,total_taxes,total, total_surcharge
- * @param values 
- * @param products 
+ * @param values
+ * @param products
  */
 export const calculateTotals = (values: IOrder, products: IProduct[]) => {
   if (values && products) {

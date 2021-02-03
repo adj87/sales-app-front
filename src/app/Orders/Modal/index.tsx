@@ -35,14 +35,15 @@ interface OrdersModalProps {
   fare: IFare;
   createFare: Function;
   fetchFare: Function;
+  createOrder: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder }: OrdersModalProps) => {
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
-    onSubmit: (values: IOrder) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: (order: IOrder) => {
+      createOrder(order);
     },
 
     validationSchema: validationSchemaOrder,
@@ -65,6 +66,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setTotalGreenPoint(total_green_point);
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
+
+  console.log('los errores', errors);
 
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title="orders.form.title">
