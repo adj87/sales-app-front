@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
 import Modal from '../../../../components/Modal/Modal';
 import { ModalProps } from '../../../../components/Modal/Modal';
 import InputWithCarrousel from '../../../../components/InputWithCarrousel';
@@ -8,12 +8,12 @@ import { IOrderLine, IOrder } from '../../duck/types/Order';
 import { useFormik } from 'formik';
 import LabelAndAmount from '../../../../components/LabelAndAmount';
 import withFormikValues from '../../../../components/Inputs/withFormikValues';
-import Button from '../../../../components/Button';
 import { validationSchemaOrderLine } from '../../constants';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
 import SelectComponent from '../../../../components/Select';
 import { TAXES_RATE, RECHARGE_RATE } from '../../../../constants';
 import { roundToTwoDec } from '../../../../utils';
+import { useTranslation } from 'react-i18next';
 
 const InputWithFormikValues = withFormikValues(Input);
 const SelectWithFV = withFormikValues(SelectComponent);
@@ -35,9 +35,14 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
     initialValues: orderLine,
     onSubmit: onConfirm,
   });
+
   const { values, setFieldValue, submitForm, setValues } = formik;
   // @ts-ignore
-  const productsInFare = products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id));
+  const productsInFare = useMemo(() => products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id)), [
+    products,
+  ]);
+
+  const productSelected = useMemo(() => products.find((el: IProduct) => el.id === values.product_id), [values.product_id]);
 
   const onChangeProduct = (product: IProduct) => {
     const { name: product_name, id: product_id, units_per_box, green_point_amount } = product;
@@ -74,10 +79,16 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
 
   const { net, greenPoint, tax, surcharge, total } = calculateAmounts(values, isGreenPoint, isSurcharge, isTypeA, products);
 
+  console.log(productSelected);
   return (
-    <Modal title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'} size="xs" centered>
-      <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
-      <>
+    <Modal
+      title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'}
+      size="lg"
+      centered
+      onConfirm={submitForm}
+      onCancel={onCancel}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="flex flex-col w-4/5 m-auto">
           <SelectWithFV
             options={productsInFare}
@@ -94,27 +105,38 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
             type="number"
             onChange={setFieldValue}
           />
+          <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
+            <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
+            <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
+            <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
+            <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
+            <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
+          </div>
         </div>
-        <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
-          <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
-          <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
-          <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
-          <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
-          <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
+        <div className="w-4/5 m-auto">
+          <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
+
+          {productSelected && (
+            <div className="pt-5 px-5">
+              <Element value={productSelected.capacity} label="commons.capacity" />
+              <Element value={productSelected.units_per_box} label="commons.units-per-box" />
+
+              {/*    <p className="text-secondary-dark text-right my-4">{`${t('commons.capacity')} ${productSelected.capacity}`}</p> */}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col mt-10 ">
-          <Button text="commons.ok" color="secondary" onClick={submitForm} size="block" className="mb-2" />
-          <Button
-            text="commons.cancel"
-            color="secondary"
-            // @ts-ignore
-            onClick={onCancel}
-            size="block"
-            outline
-          />
-        </div>
-      </>
+      </div>
     </Modal>
+  );
+};
+
+const Element = (props: { label: string; value: string | number }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex justify-between my-2">
+      <span className="text-primary-main">{t(props.label)}</span>
+      <span className="text-grey-400">{props.value}</span>
+    </div>
   );
 };
 

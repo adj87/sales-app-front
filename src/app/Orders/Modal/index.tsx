@@ -47,7 +47,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
 
     validationSchema: validationSchemaOrder,
   });
-  const { values, setFieldValue, setValues, errors, submitForm } = formik;
+  const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
 
   useEffect(() => {
     if (values.id) {
@@ -143,17 +143,19 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
             setTotalGreenPoint(total_green_point);
           }}
         />
-        <LabelError error={errors.order_lines} className="text-center" />
+        <LabelError error={submitCount > 0 && errors.order_lines} className="text-center" />
       </div>
-      <div className="flex justify-end mt-5">
-        <div className="w-2/6 flex flex-col mt-6">
-          <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
-          <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
-          <LabelAndAmount amount={roundToTwoDec(values.total_surcharge)} label={'Recargo'} isDisabled={!values.is_surcharge} />
-          <LabelAndAmount amount={roundToTwoDec(totalGreenPoint)} label={'P. Verde'} isDisabled={!values.is_green_point} />
-          <LabelAndAmount amount={roundToTwoDec(values.total)} label={'Total'} isTotal />
+      {values.order_lines.length > 0 && (
+        <div className="flex justify-end mt-20">
+          <div className="w-2/6 flex flex-col mt-6">
+            <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
+            <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
+            <LabelAndAmount amount={roundToTwoDec(values.total_surcharge)} label={'Recargo'} isDisabled={!values.is_surcharge} />
+            <LabelAndAmount amount={roundToTwoDec(totalGreenPoint)} label={'P. Verde'} isDisabled={!values.is_green_point} />
+            <LabelAndAmount amount={roundToTwoDec(values.total)} label={'Total'} isTotal />
+          </div>
         </div>
-      </div>
+      )}
 
       <MoreInfo
         // @ts-ignore
@@ -165,7 +167,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     </Modal>
   );
 };
-
 
 const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IFare, products: IProduct[]) => {
   const getPriceFromFare = (ol: IOrderLine, fare: IFare) => fare.fare_lines.find((fl: IFareLine) => fl.product_id === ol.product_id)?.price_1 || 0;
