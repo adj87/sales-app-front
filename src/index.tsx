@@ -4,6 +4,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
 
+import dayjs from 'dayjs';
+import es from 'dayjs/locale/es'; // load on demand
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+dayjs.locale('es', es);
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
