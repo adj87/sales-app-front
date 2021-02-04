@@ -78,8 +78,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           options={customers}
           labelText="orders.form.label-customer"
           onChange={(input_name: string, customer: ICustomer) => {
-            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name } = customer;
-            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code });
+            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point } = customer;
+            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point });
             fetchFare(customer_id);
           }}
         />
