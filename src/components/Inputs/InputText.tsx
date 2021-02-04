@@ -34,6 +34,8 @@ const InputText = ({ label, name, value, onChange, onClick, type, step }: InputT
             switch (type) {
               case 'date':
                 return dayjs(value).format(dateFormat);
+              case 'number':
+                return parseFloat(value);
               default:
                 return value;
             }

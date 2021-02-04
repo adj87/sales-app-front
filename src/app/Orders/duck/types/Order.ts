@@ -33,4 +33,5 @@ export interface IOrderLine {
   taxes_rate: number | null;
   surcharge_amount: number | null;
   green_point_amount: number | null;
+  capacity: number | null
 }

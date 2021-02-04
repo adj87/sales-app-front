@@ -41,13 +41,10 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   const productsInFare = useMemo(() => products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id)), [
     products,
   ]);
-
-  const productSelected = useMemo(() => products.find((el: IProduct) => el.id === values.product_id), [values.product_id]);
-
   const onChangeProduct = (product: IProduct) => {
-    const { name: product_name, id: product_id, units_per_box, green_point_amount } = product;
+    const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity } = product;
     const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
-    setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount });
+    setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity });
   };
 
   const calculateAmounts = (values: IOrderLine, isGreenPoint: boolean, isSurcharge: boolean, isTypeA: boolean, products: IProduct[]) => {
@@ -79,7 +76,8 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
 
   const { net, greenPoint, tax, surcharge, total } = calculateAmounts(values, isGreenPoint, isSurcharge, isTypeA, products);
 
-  console.log(productSelected);
+  console.log('esto son los values', values);
+
   return (
     <Modal
       title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'}
@@ -116,10 +114,11 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
         <div className="w-4/5 m-auto">
           <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
 
-          {productSelected && (
+          {values.product_id && (
             <div className="pt-5 px-5">
-              <Element value={productSelected.capacity} label="commons.capacity" />
-              <Element value={productSelected.units_per_box} label="commons.units-per-box" />
+              <Element value={values.capacity} label="commons.capacity" />
+              <Element value={values.units_per_box} label="commons.units-per-box" />
+              <Element value={values.green_point_amount} label="commons.green-point" />
 
               {/*    <p className="text-secondary-dark text-right my-4">{`${t('commons.capacity')} ${productSelected.capacity}`}</p> */}
             </div>

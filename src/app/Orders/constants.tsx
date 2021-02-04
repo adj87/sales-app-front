@@ -103,6 +103,7 @@ export const defaultOrderLineValues = {
   price: null,
   cost: null,
   quantity: null,
+  capacity:null,
   taxes_rate: 21,
   surcharge_amount: 0,
   green_point_amount: 0.01,
