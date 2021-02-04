@@ -103,7 +103,7 @@ export const defaultOrderLineValues = {
   price: null,
   cost: null,
   quantity: null,
-  capacity:null,
+  capacity: null,
   taxes_rate: 21,
   surcharge_amount: 0,
   green_point_amount: 0.01,
@@ -135,7 +135,7 @@ export const calculateTotals = (values: IOrder, products: IProduct[]) => {
         const amountOfBottles = oL.quantity * oL.units_per_box;
 
         // @ts-ignore
-        const green_point = is_green_point ? amountOfBottles * oL.green_point_amount * oL.price : 0;
+        const green_point = is_green_point ? amountOfBottles * oL.green_point_amount : 0;
         acc.total_green_point += green_point;
 
         // @ts-ignore
