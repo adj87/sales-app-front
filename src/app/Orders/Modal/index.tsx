@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
+import dayjs from 'dayjs';
+
+const dateFormat = process.env.REACT_APP_FORMAT_DATE;
 
 import Modal from '../../../components/Modal/Modal';
 import { roundToTwoDec } from '../../../utils';
@@ -83,7 +86,10 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         />
 
         <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
-        <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
+        <div>
+          <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
+          <DeliveryDaysRemaining date={values.delivery_date ?? undefined} />
+        </div>
       </div>
 
       <div className="flex items-end mb-5 justify-between">
@@ -188,6 +194,17 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
   newValues = { ...newValues, total_net, total, total_taxes, total_surcharge };
   setValues(newValues);
+};
+
+const DeliveryDaysRemaining = ({ date }: { date: string | undefined }) => {
+  const today = dayjs();
+  const naturalDays = today.to(dayjs(date, dateFormat));
+
+  return (
+    <div className="-mt-3">
+      <p className="text-primary-light text-right">{naturalDays}</p>
+    </div>
+  );
 };
 
 const mapState = (state: AppStoreInterface) => ({
