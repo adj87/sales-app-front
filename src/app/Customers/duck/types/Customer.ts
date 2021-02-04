@@ -8,8 +8,8 @@ export interface ICustomer {
   zip_code: string;
   email: string;
   phone: string;
-  green_point: number;
-  surcharge: number;
+  is_green_point: boolean;
+  is_surcharge: boolean;
   created_at: string;
   updated_at: string;
 }
