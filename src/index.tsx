@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import es from 'dayjs/locale/es';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
-
-import dayjs from 'dayjs';
-import es from 'dayjs/locale/es'; // load on demand
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(customParseFormat);
 dayjs.locale('es', es);

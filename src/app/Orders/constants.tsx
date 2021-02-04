@@ -1,12 +1,17 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import * as Yup from 'yup';
+import dayjsBusinessDays from 'dayjs-business-days';
 
 import i18n from '../../i18n';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 import { IOrder, IOrderLine } from './duck/types/Order';
 import { IProduct } from '../Products/duck/types/Product';
-import { TAXES_RATE, RECHARGE_RATE } from '../../constants';
+import { TAXES_RATE, RECHARGE_RATE, WORKING_DAYS_OF_DELIVERY } from '../../constants';
+
+dayjs.extend(dayjsBusinessDays);
+
+const dateFormat = process.env.REACT_APP_FORMAT_DATE;
 
 export const columns = [
   {
@@ -78,7 +83,8 @@ export const defaultValues = {
   zip_code: null,
   date: null,
   shipping_place: null,
-  delivery_date: null,
+  //@ts-ignore
+  delivery_date: dayjs().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormat),
   total_net: 0,
   total_taxes: 0,
   total_surcharge: 0,

@@ -67,8 +67,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
     setValues({ ...values, total_net, total, total_taxes, total_surcharge });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
-  console.log('los errores', errors);
-
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title="orders.form.title">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
