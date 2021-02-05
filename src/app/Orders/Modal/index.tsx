@@ -51,7 +51,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
       if (!order.id) return createOrder(order);
       return editOrder(order);
     },
-
     validationSchema: validationSchemaOrder,
   });
   const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
@@ -113,7 +112,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
         <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
       </div>
-      <div className="w-full pt-2">
+      <div className="w-full pt-2 mb-5">
         <OrderLinesTable
           values={values}
           onConfirmOrderLineModal={(orderLine: IOrderLine) => {
@@ -155,7 +154,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <LabelError error={submitCount > 0 && errors.order_lines} className="text-center" />
       </div>
       {values.order_lines.length > 0 && (
-        <div className="flex justify-end mt-20">
+        <div className="flex justify-end mt-5">
           <div className="w-2/6 flex flex-col mt-6">
             <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
             <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
@@ -165,13 +164,15 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           </div>
         </div>
       )}
-      <MoreInfo
-        // @ts-ignore
-        customerId={values.customer_id}
-        onFareModalConfirm={(fare: IFare) => {
-          createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
-        }}
-      />
+      {values?.customer_id && (
+        <MoreInfo
+          // @ts-ignore
+          customerId={values.customer_id}
+          onFareModalConfirm={(fare: IFare) => {
+            createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
+          }}
+        />
+      )}
     </Modal>
   );
 };
