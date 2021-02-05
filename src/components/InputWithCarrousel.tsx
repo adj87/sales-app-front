@@ -29,7 +29,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
               {'X'}
             </button>
             {data.map((el: any) => {
-              const normalClass = 'h-36 w-40 m-4 transform hover:rotate-3  cursor-pointer transition duration-100 bg-white rounded-lg ';
+              const normalClass = 'h-36 w-40 m-4 transform hover:scale-125  cursor-pointer transition duration-100 bg-white rounded-lg ';
               const selectedClass =
                 'h-36 w-40 m-4 transform scale-125 rotate-3  cursor-pointer transition  bg-white rounded-lg border-8 border-primary-dark z-50';
               return (
