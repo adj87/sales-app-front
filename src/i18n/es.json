@@ -27,7 +27,9 @@
       "must_be_a_reasonable_price": "Debe ser un número razonable",
       "elements-repeated": "Hay elementos repetidos. Elimine los repetidos"
     },
-    "delete-row": "¿Desea eliminar el registro?"
+    "delete-row": "¿Desea eliminar el registro?",
+    "days": "días",
+    "business-days": "días laborables"
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {

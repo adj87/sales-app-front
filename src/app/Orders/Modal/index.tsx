@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
-import dayjs from 'dayjs';
 
 const dateFormat = process.env.REACT_APP_FORMAT_DATE;
 
@@ -24,6 +23,8 @@ import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
 import { validationSchemaOrder, calculateTotals } from '../constants';
 import LabelError from '../../../components/LabelError';
+import dayjs from '../../../dayjsConfig';
+import { useTranslation } from 'react-i18next';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -90,10 +91,10 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
         <div>
           <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
-          <DeliveryDaysRemaining date={values.delivery_date ?? undefined} />
+          <DeliveryDaysRemaining stringDate={values.delivery_date ?? undefined} />
         </div>
       </div>
-      <div className="flex items-end mb-5 justify-between">
+      <div className="flex items-end mb-5 justify-between mt-3">
         <InputRadioWithFV
           label="orders.form.label-type"
           name="type"
@@ -196,13 +197,19 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
   setValues(newValues);
 };
 
-const DeliveryDaysRemaining = ({ date }: { date: string | undefined }) => {
+const DeliveryDaysRemaining = ({ stringDate }: { stringDate: string | undefined }) => {
+  const { t } = useTranslation();
   const today = dayjs();
-  const naturalDays = today.to(dayjs(date, dateFormat));
+  const date = dayjs(stringDate, dateFormat);
+  const naturalDays = date.diff(today, 'day') + 1;
+  // @ts-ignore
+  let businnesDays = date.businessDiff(today);
+  businnesDays = businnesDays > 0 ? businnesDays : '';
 
   return (
-    <div className="-mt-3">
-      <p className="text-primary-light text-right">{naturalDays}</p>
+    <div className="-mt-3 flex justify-end">
+      <span className="text-primary-light text-right">{`${naturalDays} ${t('commons.days')}`}</span>
+      <span className="text-grey-400 text-right ml-2">{` / ${businnesDays} ${t('commons.business-days')}`}</span>
     </div>
   );
 };

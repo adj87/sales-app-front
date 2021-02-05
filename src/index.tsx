@@ -1,17 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import es from 'dayjs/locale/es';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
 
-dayjs.extend(customParseFormat);
-dayjs.extend(relativeTime);
-dayjs.locale('es', es);
 
 ReactDOM.render(
   <React.StrictMode>
