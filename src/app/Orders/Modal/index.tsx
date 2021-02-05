@@ -200,7 +200,7 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 const DeliveryDaysRemaining = ({ stringDate }: { stringDate: string | undefined }) => {
   const { t } = useTranslation();
   const today = dayjs();
-  const date = dayjs(stringDate, dateFormat);
+  const date = dayjs(stringDate);
   const naturalDays = date.diff(today, 'day') + 1;
   // @ts-ignore
   let businnesDays = date.businessDiff(today);

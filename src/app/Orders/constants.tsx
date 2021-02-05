@@ -2,15 +2,11 @@ import React from 'react';
 import dayjs from '../../dayjsConfig';
 import * as Yup from 'yup';
 
-
-
 import i18n from '../../i18n';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 import { IOrder, IOrderLine } from './duck/types/Order';
 import { IProduct } from '../Products/duck/types/Product';
 import { TAXES_RATE, RECHARGE_RATE, WORKING_DAYS_OF_DELIVERY } from '../../constants';
-
-
 
 const dateFormat = process.env.REACT_APP_FORMAT_DATE;
 
