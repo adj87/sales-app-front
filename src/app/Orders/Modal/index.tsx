@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 
-const dateFormat = process.env.REACT_APP_FORMAT_DATE;
-
 import Modal from '../../../components/Modal/Modal';
 import { roundToTwoDec } from '../../../utils';
 import SelectComponent from '../../../components/Select';
@@ -23,8 +21,7 @@ import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
 import { validationSchemaOrder, calculateTotals } from '../constants';
 import LabelError from '../../../components/LabelError';
-import { dayjsCustom } from '../../../dayjsConfig';
-import { useTranslation } from 'react-i18next';
+import { DeliveryDaysRemaining } from './DeliveryDaysRemaining';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -48,8 +45,13 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (order: IOrder) => {
-      if (!order.id) return createOrder(order);
-      return editOrder(order);
+      if (!order.id) {
+        createOrder(order);
+      } else {
+        editOrder(order);
+      }
+      // @ts-ignore
+      return onCancel();
     },
     validationSchema: validationSchemaOrder,
   });
@@ -196,23 +198,6 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
   newValues = { ...newValues, total_net, total, total_taxes, total_surcharge };
   setValues(newValues);
-};
-
-const DeliveryDaysRemaining = ({ stringDate }: { stringDate: string | undefined }) => {
-  const { t } = useTranslation();
-  const today = dayjsCustom();
-  const date = dayjsCustom(stringDate);
-  const naturalDays = date.diff(today, 'day') + 1;
-  // @ts-ignore
-  let businnesDays = date.businessDiff(today);
-  businnesDays = businnesDays > 0 ? businnesDays : '';
-
-  return (
-    <div className="-mt-3 flex justify-end">
-      <span className="text-primary-light text-right">{`${naturalDays} ${t('commons.days')}`}</span>
-      <span className="text-grey-400 text-right ml-2">{` / ${businnesDays} ${t('commons.business-days')}`}</span>
-    </div>
-  );
 };
 
 const mapState = (state: AppStoreInterface) => ({

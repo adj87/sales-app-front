@@ -75,8 +75,16 @@ const createFare = (fare: IFare, cb: Function) =>
     },
   );
 
-const createOrder = (order: IOrder) => generalCreateOrEditOperation(() => apiOrders.createOrder(order));
-const editOrder = (order: IOrder) => generalCreateOrEditOperation(() => apiOrders.editOrder(order));
+const createOrder = (order: IOrder) =>
+  generalCreateOrEditOperation(
+    () => apiOrders.createOrder(order),
+    (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
+  );
+const editOrder = (order: IOrder) =>
+  generalCreateOrEditOperation(
+    () => apiOrders.editOrder(order),
+    (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
+  );
 
 export default {
   fetchOrdersAndProducts,
