@@ -76,6 +76,7 @@ const createFare = (fare: IFare, cb: Function) =>
   );
 
 const createOrder = (order: IOrder) => generalCreateOrEditOperation(() => apiOrders.createOrder(order));
+const editOrder = (order: IOrder) => generalCreateOrEditOperation(() => apiOrders.editOrder(order));
 
 export default {
   fetchOrdersAndProducts,
@@ -87,4 +88,5 @@ export default {
   createFare,
   fetchFare,
   createOrder,
+  editOrder,
 };

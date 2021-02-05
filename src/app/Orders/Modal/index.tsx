@@ -39,14 +39,16 @@ interface OrdersModalProps {
   createFare: Function;
   fetchFare: Function;
   createOrder: Function;
+  editOrder: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder, editOrder }: OrdersModalProps) => {
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
     onSubmit: (order: IOrder) => {
-      createOrder(order);
+      if (!order.id) return createOrder(order);
+      return editOrder(order);
     },
 
     validationSchema: validationSchemaOrder,
@@ -71,7 +73,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
   return (
-    <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title="orders.form.title">
+    <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={`${values.id ? 'orders.form.title-edit' : 'orders.form.title'}`}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponentWithFV
           name="customer_id"
@@ -91,7 +93,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           <DeliveryDaysRemaining date={values.delivery_date ?? undefined} />
         </div>
       </div>
-
       <div className="flex items-end mb-5 justify-between">
         <InputRadioWithFV
           label="orders.form.label-type"
@@ -163,7 +164,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           </div>
         </div>
       )}
-
       <MoreInfo
         // @ts-ignore
         customerId={values.customer_id}

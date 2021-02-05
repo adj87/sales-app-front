@@ -33,6 +33,7 @@
   "orders": {
     "form": {
       "title": "Añadir pedido",
+      "title-edit": "Editar pedido",
       "label-customer": "Cliente",
       "label-fare": "Tarifa",
       "label-orders-lines": "Lineas de pedido",

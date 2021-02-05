@@ -14,7 +14,13 @@ const createOrder = (order: IOrder) => {
   return axios.post(url, order);
 };
 
+const editOrder = (order: IOrder) => {
+  const url = `${API_ORDERS}/${order.id}`;
+  return axios.put(url, order);
+};
+
 export default {
   fetchOrders,
   createOrder,
+  editOrder,
 };
