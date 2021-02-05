@@ -1,5 +1,5 @@
 import React from 'react';
-import dayjs from '../../dayjsConfig';
+import { dayjsCustom } from '../../dayjsConfig';
 import * as Yup from 'yup';
 
 import i18n from '../../i18n';
@@ -21,12 +21,12 @@ export const columns = [
       {
         Header: 'date',
         accessor: 'date',
-        Cell: ({ row }: any) => dayjs(row.original.date).format('DD-MM-YYYY'),
+        Cell: ({ row }: any) => dayjsCustom(row.original.date).format('DD-MM-YYYY'),
       },
       {
         Header: 'delivery_date',
         accessor: 'delivery_date',
-        Cell: ({ row }: any) => dayjs(row.original.delivery_date).format('DD-MM-YYYY'),
+        Cell: ({ row }: any) => dayjsCustom(row.original.delivery_date).format('DD-MM-YYYY'),
       },
       { Header: 'zip_code', accessor: 'zip_code' },
       { Header: 'green_point', accessor: 'green_point' },
@@ -81,7 +81,7 @@ export const defaultValues = {
   date: null,
   shipping_place: null,
   //@ts-ignore
-  delivery_date: dayjs().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormat),
+  delivery_date: dayjsCustom().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormat),
   total_net: 0,
   total_taxes: 0,
   total_surcharge: 0,

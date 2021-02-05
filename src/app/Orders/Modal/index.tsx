@@ -23,7 +23,7 @@ import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
 import { validationSchemaOrder, calculateTotals } from '../constants';
 import LabelError from '../../../components/LabelError';
-import dayjs from '../../../dayjsConfig';
+import { dayjsCustom } from '../../../dayjsConfig';
 import { useTranslation } from 'react-i18next';
 
 const InputWithFV = withFormikValues(Input);
@@ -199,8 +199,8 @@ const setPricesToNewFareAndSetTotals = (values: IOrder, setValues: any, fare: IF
 
 const DeliveryDaysRemaining = ({ stringDate }: { stringDate: string | undefined }) => {
   const { t } = useTranslation();
-  const today = dayjs();
-  const date = dayjs(stringDate);
+  const today = dayjsCustom();
+  const date = dayjsCustom(stringDate);
   const naturalDays = date.diff(today, 'day') + 1;
   // @ts-ignore
   let businnesDays = date.businessDiff(today);
