@@ -44,11 +44,11 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
-    onSubmit: (order: IOrder) => {
-      if (!order.id) {
-        createOrder(order);
+    onSubmit: (ord: IOrder) => {
+      if (!ord.id) {
+        createOrder(ord);
       } else {
-        editOrder(order);
+        editOrder(ord, order.type);
       }
       // @ts-ignore
       return onCancel();
@@ -71,7 +71,8 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
   useDidUpdateEffect(() => {
     const { total, total_net, total_taxes, total_surcharge, total_green_point } = calculateTotals(values, products);
     setTotalGreenPoint(total_green_point);
-    setValues({ ...values, total_net, total, total_taxes, total_surcharge });
+    let order_lines = [...values.order_lines].map((el: IOrderLine) => ({ ...el, order_type: values.type }));
+    setValues({ ...values, total_net, total, total_taxes, total_surcharge, order_lines });
   }, [values?.type, values.is_surcharge, values.is_green_point]);
 
   return (

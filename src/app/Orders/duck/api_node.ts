@@ -14,8 +14,8 @@ const createOrder = (order: IOrder) => {
   return axios.post(url, order);
 };
 
-const editOrder = (order: IOrder) => {
-  const url = `${API_ORDERS}/${order.id}/type/${order.type}`;
+const editOrder = (order: IOrder, initialType: string) => {
+  const url = `${API_ORDERS}/${order.id}/type/${initialType}`;
   return axios.put(url, order);
 };
 

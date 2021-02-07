@@ -80,9 +80,9 @@ const createOrder = (order: IOrder) =>
     () => apiOrders.createOrder(order),
     (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
   );
-const editOrder = (order: IOrder) =>
+const editOrder = (order: IOrder, initialType: string) =>
   generalCreateOrEditOperation(
-    () => apiOrders.editOrder(order),
+    () => apiOrders.editOrder(order, initialType),
     (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
   );
 
