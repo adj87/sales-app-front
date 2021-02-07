@@ -5,6 +5,7 @@ import customersReducer from '../app/Customers/duck';
 import productsReducer from '../app/Products/duck';
 import loadingReducer from '../app/Loading/duck';
 import faresReducer from '../app/Fares/duck';
+import alertsReducer from '../app/Alerts/duck/reducers';
 
 const appReducer = combineReducers({
   orders: ordersReducer,
@@ -12,6 +13,7 @@ const appReducer = combineReducers({
   products: productsReducer,
   fares: faresReducer,
   loading: loadingReducer,
+  alerts: alertsReducer,
 });
 
 const middlewares = [thunk];

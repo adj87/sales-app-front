@@ -2,6 +2,7 @@ import { OrdersState } from '../app/Orders/duck/types';
 import { CustomersState } from '../app/Customers/duck/types';
 import { ProductsState } from '../app/Products/duck/types';
 import { FaresState } from '../app/Fares/duck/types';
+import { AlertsState } from '../app/Alerts/duck/types';
 
 export interface AppStoreInterface {
   orders: OrdersState;
@@ -9,4 +10,5 @@ export interface AppStoreInterface {
   customers: CustomersState;
   fares: FaresState;
   loading: boolean;
+  alerts: AlertsState;
 }

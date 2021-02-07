@@ -6,10 +6,12 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Provider } from 'react-redux';
 import store from './store';
 import Loading from './app/Loading';
+import Alerts from './app/Alerts';
 
 function App() {
   return (
     <Provider store={store}>
+      <Alerts />
       <Loading />
       <BrowserRouter>
         <Switch>
