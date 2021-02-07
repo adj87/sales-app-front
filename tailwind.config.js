@@ -52,6 +52,7 @@ module.exports = {
       },
       background: '#F6F6F6',
       danger: { dark: '#FF4545' },
+      success: { dark: '#5bca6b' },
     },
     variants: {},
     plugins: [],

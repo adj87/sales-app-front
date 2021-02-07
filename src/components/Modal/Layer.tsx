@@ -13,8 +13,10 @@ const LayerOutOfRoot = ({ children, className }: LayerOutOfRootProps) => {
     modal.className =
       className ??
       'modalclass overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
-    // @ts-ignore
-    document.body.appendChild(modal);
+
+    //make sure alerts div exits in index.html
+    const alertsContaniner = document.getElementById('alerts');
+    document.body.insertBefore(modal, alertsContaniner);
     document.body.style.overflow = 'hidden';
     setModal(modal);
     return () => {

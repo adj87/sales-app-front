@@ -1,8 +1,8 @@
 import { IAlert } from './types/IAlert';
-import { SetAlertAction, SET_ALERT, DeleteAlertAction, DELETE_ALERT } from './types';
+import { AddAlertAction, ADD_ALERT, DeleteAlertAction, DELETE_ALERT } from './types';
 
-const setAlert = (alert: IAlert): SetAlertAction => ({
-  type: SET_ALERT,
+const addAlert = (alert: IAlert): AddAlertAction => ({
+  type: ADD_ALERT,
   payload: alert,
 });
 
@@ -11,4 +11,4 @@ const deleteAlert = (id: string): DeleteAlertAction => ({
   payload: id,
 });
 
-export default { setAlert, deleteAlert };
+export default { addAlert, deleteAlert };

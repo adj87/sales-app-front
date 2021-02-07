@@ -1,8 +1,10 @@
 import actions from './actions';
 import { AnyAction } from 'redux';
+import { actions as alertActions } from '../../Alerts/duck';
 
 import { Dispatch } from 'react';
 import { AxiosError, AxiosResponse } from 'axios';
+import { IAlert } from '../../Alerts/duck/types/IAlert';
 
 const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess?: Function, noLoading?: boolean) => (dispatch: Dispatch<any>) => {
   if (!noLoading) dispatch(actions.setLoading(true));
@@ -41,24 +43,18 @@ const generalCreateOrEditOperation = (api: Function, cbOnSuccess?: Function) => 
   api()
     .then((res: AxiosResponse) => {
       dispatch(actions.setLoading(false));
-      if (res.data.success) {
-        /*     dispatch(); */
-        /*           alertsOperations.addSuccess({
-            statusError: '',
-            statusErrorText: res.data.info,
-          }), */
-      } else {
-        /* dispatch(); */
-        /*           alertsOperations.addError({
-            statusError: '',
-            statusErrorText: res.data.info,
-          }), */
-      }
+
+      const alert: IAlert = { type: 'success', id: Math.random().toString(), message: res.data.info };
+      dispatch(alertActions.addAlert(alert));
+
       if (cbOnSuccess) {
         cbOnSuccess(res.data.data, dispatch, res);
       }
     })
     .catch((err: AxiosError) => {
+      // @ts-ignore
+      const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: err?.response.data.info };
+      dispatch(alertActions.addAlert(alert));
       dispatch(actions.setLoading(false));
     });
 };
