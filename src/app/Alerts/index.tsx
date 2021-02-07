@@ -14,7 +14,7 @@ interface AlertsProps {
 
 const Alerts = ({ alerts, deleteAlert }: AlertsProps) => {
   const container = document.getElementById('alerts') || document.createElement('div');
-  container.className = 'fixed top-0 flex justify-end z-50 p-5 w-full flex-col items-end';
+  container.className = `fixed top-0 flex justify-end z-50 ${alerts.length > 0 ? 'p-5' : ''} w-full flex-col items-end`;
   return ReactDOM.createPortal(
     alerts.map((al: IAlert) => <Alert alert={al} onClickX={deleteAlert} />),
     container,
