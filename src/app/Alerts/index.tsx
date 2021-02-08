@@ -23,17 +23,13 @@ const Alerts = ({ alerts, deleteAlert }: AlertsProps) => {
 
 const Alert = ({ alert, onClickX }: { alert: IAlert; onClickX: Function }) => {
   return (
-    <div className={`px-5 py-3 md:w-64 w-full  rounded-md text-white shadow flex justify-between items-center my-2 bg-${alert.type}-dark`}>
-      {
-        <>
-          <span>{alert.message}</span>
-          <FontAwesomeIcon
-            icon={faTimesCircle}
-            className="text-white cursor-pointer transform hover:scale-125 transition duration-100"
-            onClick={() => onClickX(alert.id)}
-          />
-        </>
-      }
+    <div className={`px-5 py-3 md:w-64 w-full rounded-md text-white shadow flex justify-between items-center my-2 bg-${alert.type}-dark`}>
+      <span>{alert.message}</span>
+      <FontAwesomeIcon
+        icon={faTimesCircle}
+        className="text-white cursor-pointer transform hover:scale-125 transition duration-100"
+        onClick={() => onClickX(alert.id)}
+      />
     </div>
   );
 };

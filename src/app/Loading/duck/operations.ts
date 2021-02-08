@@ -28,13 +28,9 @@ const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess
     })
     .catch((err: AxiosError) => {
       if (!noLoading) dispatch(actions.setLoading(false));
-
-      /*                 dispatch(
-                    alertsOperations.addError({
-                        statusErrorText: getStatusErrorText(err),
-                        statusError: ''
-                    })
-                ); */
+      const messageInfo = err?.response?.data?.info || err.message;
+      const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: messageInfo };
+      dispatch(alertActions.addAlert(alert));
     });
 };
 
@@ -52,8 +48,8 @@ const generalCreateOrEditOperation = (api: Function, cbOnSuccess?: Function) => 
       }
     })
     .catch((err: AxiosError) => {
-      // @ts-ignore
-      const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: err?.response.data.info };
+      const messageInfo = err?.response?.data?.info || err.message;
+      const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: messageInfo };
       dispatch(alertActions.addAlert(alert));
       dispatch(actions.setLoading(false));
     });
