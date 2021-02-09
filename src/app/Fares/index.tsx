@@ -11,65 +11,47 @@ import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoute
 import FaresModal from './Modal';
 
 const FaresComponent = ({
-  fetchFareLines,
   fareLines,
   fares,
   setFareToCreateOrEdit,
   fareToForm,
   customers,
-  fetchFaresLinesFareCustomersAndProducts,
+  fetchFaresLinesCustomersAndProducts,
   products,
-  setFareToInheritFrom,
   fetchFareWithCb,
   fareToInheritFrom,
+  fetchFareToEdit,
 }: any) => {
-  const state = useOpenModalByRoutes();
-  // @ts-ignore
-
   useEffect(() => {
-    if (state?.actionModal)
-      switch (state?.actionModal.name) {
-        case 'new':
-          fetchFaresLinesFareCustomersAndProducts(true, null, true);
-          return setFareToCreateOrEdit(defaultValues);
-        case 'close':
-          return setFareToCreateOrEdit(null);
-        case 'edit':
-          return fetchFaresLinesFareCustomersAndProducts(true, state?.actionModal?.params, true);
-        case 'nothing':
-          return fetchFaresLinesFareCustomersAndProducts(true);
-      }
-  }, [state]);
+    return fetchFaresLinesCustomersAndProducts(true);
+  }, []);
   return (
     <MainLayout>
       <Table
         columns={columns}
         data={fareLines}
-        onAddButton={() => state && state.history.push('/fares/new')}
+        onAddButton={() => setFareToCreateOrEdit(defaultValues)}
         tableName={'fares'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const fare: IFare = datatableRowInfo.original;
-          state && state.history.push(`/fares/${fare.customer_id}`);
+          fetchFareToEdit(fare.customer_id);
         }}
       />
-{/*       {Boolean(fareToForm) && (
+      {Boolean(fareToForm) && (
         <FaresModal
           onConfirm={(fare: IFare) => console.log('la fare', fare)}
           fetchFareWithCb={fetchFareWithCb}
-          onCancel={() =>
-            state && state.history.push({ pathname: `/fares`, state: { closeModal: true } })
-          }
+          onCancel={() => setFareToCreateOrEdit(null)}
           customers={customers}
           fares={fares}
           fareLines={fareLines}
           products={products}
           fare={fareToForm}
-          setFareToInheritFrom={setFareToInheritFrom}
           fareToInheritFrom={fareToInheritFrom}
         />
-      )} */}
+      )}
     </MainLayout>
   );
 };

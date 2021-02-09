@@ -16,7 +16,7 @@ const setOrders = (orders: IOrder[]): SetOrdersAction => ({
   payload: orders,
 });
 
-const setFare = (fare: IFare): SetFareAction => ({
+const setFare = (fare: IFare | null): SetFareAction => ({
   type: SET_FARE,
   payload: fare,
 });

@@ -22,7 +22,7 @@ interface OrdersComponentProps {
   orderToForm: IOrder | null;
   fetchOrdersAndProducts: Function;
   fetchOrderAndCustomersAndFareAndProductsAndFares: Function;
-  setOrderToCreateOrEdit: Function;
+  onCancelOrderModal: Function;
 }
 
 const OrdersComponent = ({
@@ -30,7 +30,7 @@ const OrdersComponent = ({
   fetchOrderAndCustomersAndFareAndProductsAndFares,
   customers,
   orderToForm,
-  setOrderToCreateOrEdit,
+  onCancelOrderModal,
   products,
   fetchOrdersAndProducts,
   fareLines,
@@ -55,7 +55,7 @@ const OrdersComponent = ({
       />
       {Boolean(orderToForm) && (
         <OrderModal
-          onCancel={() => setOrderToCreateOrEdit(null)}
+          onCancel={() => onCancelOrderModal()}
           customers={customers}
           fares={fareLines}
           products={products}

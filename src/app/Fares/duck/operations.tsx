@@ -14,64 +14,29 @@ const { fetchOperationWithLoading } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setFareToCreateOrEdit(null));
+const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchFareLines = () => fetchOperationWithLoading(api.fetchFareLines, actions.setFareLines);
-
-const fetchFaresLinesFareCustomersAndProducts = (
-  withFlines: boolean,
-  idCustomerFare: number,
-  withCustomersAndProducts: boolean,
-) => {
-  const setOfRequests: any = {
-    fLines: () => api.fetchFareLines(),
-    fare: () => api.fetchFares(idCustomerFare),
-    customers: () => customersApi.fetchCustomers(),
-    products: () => productsApi.fetchProducts(),
-  };
-  const setOfActions: any = {
-    fLines: actions.setFareLines,
-    fare: actions.setFareToCreateOrEdit,
-    customers: customersAction.setCustomers,
-    products: productsAction.setProducts,
-  };
-  if (!idCustomerFare) {
-    delete setOfRequests.fare;
-    delete setOfActions.fare;
-  }
-  if (!withFlines) {
-    delete setOfRequests.fLines;
-    delete setOfActions.fLines;
-  }
-  if (!withCustomersAndProducts) {
-    delete setOfRequests.customers;
-    delete setOfRequests.products;
-    delete setOfActions.customers;
-    delete setOfActions.products;
-  }
+const fetchFaresLinesCustomersAndProducts = () => {
   return fetchOperationWithLoading(
-    () => Promise.all(Object.values(setOfRequests).map((req: any) => req())),
-    Object.values(setOfActions),
+    () => Promise.all([api.fetchFareLines(), customersApi.fetchCustomers(), productsApi.fetchProducts()]),
+    [actions.setFareLines, customersAction.setCustomers, productsAction.setProducts],
     (res: any, dispatch: any) => {
-      if (withFlines) {
-        const fares = fareLinesToFares(res[0].data);
-        dispatch(actions.setFares(fares));
-      }
+      const fares = fareLinesToFares(res[0].data);
+      dispatch(actions.setFares(fares));
     },
   );
 };
 
+const fetchFareToEdit = (customerId: number) => fetchOperationWithLoading(() => api.fetchFares(customerId), actions.setFareToCreateOrEdit);
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 const setFareToInheritFrom = actions.setFareToInheritFrom;
-const fetchFareWithCb = (idCustomerFare: number, cb: Function) =>
-  fetchOperationWithLoading(() => api.fetchFares(idCustomerFare), null, cb);
+const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => api.fetchFares(idCustomerFare), null, cb);
 
 export default {
   removeElementToCreateOrEdit,
-  fetchFareLines,
-  fetchFaresLinesFareCustomersAndProducts,
+  fetchFaresLinesCustomersAndProducts,
   setFareToCreateOrEdit,
   fetchFareWithCb,
   setFareToInheritFrom,
+  fetchFareToEdit,
 };

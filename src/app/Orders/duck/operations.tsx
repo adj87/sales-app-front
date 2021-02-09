@@ -61,7 +61,10 @@ const fetchOrderAndCustomersAndFareAndProductsAndFares = (orderIdAndType: string
 
 const setFareToInheritFrom = actions.setFareToInheritFrom;
 
-const setOrderToCreateOrEdit = actions.setOrderToCreateOrEdit;
+const onCancelOrderModal = () => (dispatch: Dispatch<any>) => {
+  dispatch(actions.setOrderToCreateOrEdit(null));
+  dispatch(actions.setFare(null));
+};
 
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
 const fetchFare = (idCustomerFare: number) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), actions.setFare);
@@ -99,7 +102,7 @@ export default {
   fetchOrdersAndProducts,
   removeElementToCreateOrEdit,
   fetchOrderAndCustomersAndFareAndProductsAndFares,
-  setOrderToCreateOrEdit,
+  onCancelOrderModal,
   setFareToInheritFrom,
   fetchFareWithCb,
   createFare,

@@ -24,7 +24,6 @@ interface FaresModalProps {
   fare: IFare;
   fareLines: IFareLine[];
   fares: IFare[];
-  setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   fareToInheritFrom: IFare;
   editingMode?: boolean;
@@ -37,7 +36,7 @@ const FaresModal = ({
   fare,
   fares,
   customers,
-  setFareToInheritFrom,
+
   fareToInheritFrom,
   fetchFareWithCb,
   products,
@@ -63,7 +62,7 @@ const FaresModal = ({
           };
         }),
       };
-      onConfirm(finalValues,fare.fare_lines.length===0);
+      onConfirm(finalValues, fare.fare_lines.length === 0);
     },
   });
   const { setFieldValue, submitForm, values, errors, submitCount } = formik;
@@ -88,15 +87,7 @@ const FaresModal = ({
 
   return (
     <>
-      <Modal
-        title={`${isEditingMode ? 'fares.form.title-edit' : 'fares.form.title'}`}
-        onConfirm={submitForm}
-        onCancel={() => {
-          setFareToInheritFrom(null);
-          onCancel();
-        }}
-        size="lg"
-      >
+      <Modal title={`${isEditingMode ? 'fares.form.title-edit' : 'fares.form.title'}`} onConfirm={submitForm} onCancel={() => onCancel()} size="lg">
         <div className="flex justify-center">
           <div className="w-1/2">
             <SelectWithFV
@@ -144,7 +135,6 @@ const FaresModal = ({
           onConfirm={(fare: IFare) => {
             setFieldValue('fare_lines', [...values.fare_lines, ...fare.fare_lines]);
             setInheritModal(false);
-            setFareToInheritFrom(fare);
           }}
           fares={fares.filter((el: IFare) => el.customer_id !== values.customer_id)}
           fetchFareWithCb={fetchFareWithCb}

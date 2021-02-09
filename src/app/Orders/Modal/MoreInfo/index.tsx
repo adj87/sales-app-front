@@ -84,7 +84,6 @@ const MoreInfo = ({
           // @ts-ignore
           fare={getFare(fare, customerId, customers)}
           fares={fares}
-          setFareToInheritFrom={setFareToInheritFrom}
           fareToInheritFrom={fareToInheritFrom}
           onCancel={() => setModalInfoToOpen(null)}
           fetchFareWithCb={fetchFareWithCb}

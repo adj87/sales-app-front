@@ -14,7 +14,7 @@ export interface SetOrdersAction {
 
 export interface SetFareAction {
   type: typeof SET_FARE;
-  payload: IFare;
+  payload: IFare | null;
 }
 
 export interface SetElementToCreateOrEditAction {
