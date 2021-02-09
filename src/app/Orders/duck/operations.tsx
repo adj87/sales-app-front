@@ -75,6 +75,15 @@ const createFare = (fare: IFare, cb: Function) =>
     },
   );
 
+const editFare = (fare: IFare, cb: Function) =>
+  generalCreateOrEditOperation(
+    () => faresApi.editFare(fare),
+    (fare: any, dispatch: any) => {
+      dispatch(actions.setFare(fare));
+      cb(fare);
+    },
+  );
+
 const createOrder = (order: IOrder) =>
   generalCreateOrEditOperation(
     () => apiOrders.createOrder(order),
@@ -96,5 +105,6 @@ export default {
   createFare,
   fetchFare,
   createOrder,
+  editFare,
   editOrder,
 };

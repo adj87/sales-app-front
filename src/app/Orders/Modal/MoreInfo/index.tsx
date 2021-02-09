@@ -54,20 +54,11 @@ const MoreInfo = ({
 
   return (
     <>
-      <p
-        className="text-primary-light cursor-pointer border-b mt-5"
-        onClick={() => setShowInfo(!showInfo)}
-      >
+      <p className="text-primary-light cursor-pointer border-b mt-5" onClick={() => setShowInfo(!showInfo)}>
         {t('commons.more-info')}
       </p>
       <div className={`border-b w-full border-primary-light p-5 ${className} flex justify-around`}>
-        <Button
-          color="primary"
-          outline
-          text={'orders.form.more-info.check-fare'}
-          onClick={() => setModalInfoToOpen('fare')}
-          size="sm"
-        />
+        <Button color="primary" outline text={'orders.form.more-info.check-fare'} onClick={() => setModalInfoToOpen('fare')} size="sm" />
         <Button
           className="ml-3"
           color="primary"
@@ -99,9 +90,9 @@ const MoreInfo = ({
           fetchFareWithCb={fetchFareWithCb}
           editingMode={hasOwnFare(fare)}
           selectDisabled
-          onConfirm={(fare: IFare) => {
+          onConfirm={(fare: IFare, isCreating: boolean) => {
             setModalInfoToOpen(null);
-            onFareModalConfirm(fare);
+            onFareModalConfirm(fare, isCreating);
           }}
         />
       )}

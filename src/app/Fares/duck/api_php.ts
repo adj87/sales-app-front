@@ -26,8 +26,14 @@ const createFare = (fare: IFare) => {
   });
 };
 
+const editFare = (fare: IFare) => {
+  const url = `${API_FARES}/customerId/${fare.customer_id}`;
+  return axios.put(url, fare);
+};
+
 export default {
   fetchFareLines,
   fetchFares,
   createFare,
+  editFare,
 };

@@ -54,7 +54,7 @@ const FaresComponent = ({
           state && state.history.push(`/fares/${fare.customer_id}`);
         }}
       />
-      {Boolean(fareToForm) && (
+{/*       {Boolean(fareToForm) && (
         <FaresModal
           onConfirm={(fare: IFare) => console.log('la fare', fare)}
           fetchFareWithCb={fetchFareWithCb}
@@ -69,7 +69,7 @@ const FaresComponent = ({
           setFareToInheritFrom={setFareToInheritFrom}
           fareToInheritFrom={fareToInheritFrom}
         />
-      )}
+      )} */}
     </MainLayout>
   );
 };

@@ -35,12 +35,13 @@ interface OrdersModalProps {
   order: IOrder;
   fare: IFare;
   createFare: Function;
+  editFare: Function;
   fetchFare: Function;
   createOrder: Function;
   editOrder: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder, editOrder }: OrdersModalProps) => {
+const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder, editOrder, editFare }: OrdersModalProps) => {
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
@@ -171,8 +172,12 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
         <MoreInfo
           // @ts-ignore
           customerId={values.customer_id}
-          onFareModalConfirm={(fare: IFare) => {
-            createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
+          onFareModalConfirm={(fare: IFare, isCreating: boolean) => {
+            if (isCreating) return createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
+            return editFare(fare, (newFare: IFare) => {
+              debugger;
+              setPricesToNewFareAndSetTotals(values, setValues, newFare, products);
+            });
           }}
         />
       )}

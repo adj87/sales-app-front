@@ -63,7 +63,7 @@ const FaresModal = ({
           };
         }),
       };
-      onConfirm(finalValues);
+      onConfirm(finalValues,fare.fare_lines.length===0);
     },
   });
   const { setFieldValue, submitForm, values, errors, submitCount } = formik;
