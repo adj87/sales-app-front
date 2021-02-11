@@ -7,7 +7,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { IAlert } from '../../Alerts/duck/types/IAlert';
 
 const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess?: Function, noLoading?: boolean) => (dispatch: Dispatch<any>) => {
-  if (!noLoading) dispatch(actions.setLoading(true));
+  if (!noLoading) dispatch(actions.addPendingRequest());
   api()
     .then((res: AxiosResponse) => {
       if (setterAction) {
@@ -24,10 +24,10 @@ const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess
       if (cbOnSuccess) {
         cbOnSuccess(res, dispatch);
       }
-      if (!noLoading) dispatch(actions.setLoading(false));
+      if (!noLoading) dispatch(actions.removePendingRequest());
     })
     .catch((err: AxiosError) => {
-      if (!noLoading) dispatch(actions.setLoading(false));
+      if (!noLoading) dispatch(actions.removePendingRequest());
       const messageInfo = err?.response?.data?.info || err.message;
       const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: messageInfo };
       dispatch(alertActions.addAlert(alert));
@@ -35,10 +35,10 @@ const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess
 };
 
 const generalCreateOrEditOperation = (api: Function, cbOnSuccess?: Function) => (dispatch: Dispatch<any>) => {
-  dispatch(actions.setLoading(true));
+  dispatch(actions.addPendingRequest());
   api()
     .then((res: AxiosResponse) => {
-      dispatch(actions.setLoading(false));
+      dispatch(actions.removePendingRequest());
 
       const alert: IAlert = { type: 'success', id: Math.random().toString(), message: res.data.info };
       dispatch(alertActions.addAlert(alert));
@@ -51,7 +51,7 @@ const generalCreateOrEditOperation = (api: Function, cbOnSuccess?: Function) => 
       const messageInfo = err?.response?.data?.info || err.message;
       const alert: IAlert = { type: 'danger', id: Math.random().toString(), message: messageInfo };
       dispatch(alertActions.addAlert(alert));
-      dispatch(actions.setLoading(false));
+      dispatch(actions.removePendingRequest());
     });
 };
 

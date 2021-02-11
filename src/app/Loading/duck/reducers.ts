@@ -1,15 +1,17 @@
-import { SET_LOADING } from './types';
+import { REMOVE_PENDING_REQUEST, ADD_PENDING_REQUEST } from './types';
 import { AnyAction } from 'redux';
 
-const initialState = false;
+const initialState = 0;
 
-const ordersReducer = (state = initialState, { type, payload }: AnyAction): boolean => {
+const loadingReducer = (state = initialState, { type }: AnyAction): number => {
   switch (type) {
-    case SET_LOADING:
-      return payload;
+    case ADD_PENDING_REQUEST:
+      return state + 1;
+    case REMOVE_PENDING_REQUEST:
+      return state - 1;
     default:
       return state;
   }
 };
 
-export default ordersReducer;
+export default loadingReducer;
