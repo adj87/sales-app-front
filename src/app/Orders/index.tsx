@@ -24,6 +24,7 @@ interface OrdersComponentProps {
   fetchOrder: Function;
   fetchProducts: Function;
   fetchFares: Function;
+  fetchFare: Function;
   fetchCustomers: Function;
   onCancelOrderModal: Function;
 }
@@ -37,6 +38,7 @@ const OrdersComponent = ({
   fetchOrders,
   fetchOrder,
   fetchFares,
+  fetchFare,
   fetchProducts,
   fareLines,
   fetchCustomers,
@@ -64,6 +66,7 @@ const OrdersComponent = ({
           const order: IOrder = datatableRowInfo.original;
           fetchOrder(`${order.type}-${order.id}`);
           fetchFares();
+          fetchFare(order.customer_id);
         }}
       />
       {Boolean(orderToForm) && (
