@@ -17,23 +17,12 @@ interface MoreInfoProps {
   products: IProduct[];
   fares: IFare[];
   fareToInheritFrom: IFare;
-  setFareToInheritFrom: Function;
   fetchFareWithCb: Function;
   customerId: number;
   onFareModalConfirm: Function;
 }
 
-const MoreInfo = ({
-  fare,
-  customers,
-  products,
-  fareToInheritFrom,
-  setFareToInheritFrom,
-  fetchFareWithCb,
-  fares,
-  customerId,
-  onFareModalConfirm,
-}: MoreInfoProps) => {
+const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithCb, fares, customerId, onFareModalConfirm }: MoreInfoProps) => {
   const { t } = useTranslation();
 
   const [modalInfoToOpen, setModalInfoToOpen] = useState<'fare' | null>(null);

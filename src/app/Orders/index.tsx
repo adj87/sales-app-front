@@ -20,23 +20,32 @@ interface OrdersComponentProps {
   products: IProduct[];
   fareLines: IFareLine[];
   orderToForm: IOrder | null;
-  fetchOrdersAndProducts: Function;
-  fetchOrderAndCustomersAndFareAndProductsAndFares: Function;
+  fetchOrders: Function;
+  fetchOrder: Function;
+  fetchProducts: Function;
+  fetchFares: Function;
+  fetchCustomers: Function;
   onCancelOrderModal: Function;
 }
 
 const OrdersComponent = ({
   orders,
-  fetchOrderAndCustomersAndFareAndProductsAndFares,
   customers,
   orderToForm,
   onCancelOrderModal,
   products,
-  fetchOrdersAndProducts,
+  fetchOrders,
+  fetchOrder,
+  fetchFares,
+  fetchProducts,
   fareLines,
+  fetchCustomers,
 }: OrdersComponentProps) => {
   useEffect(() => {
-    fetchOrdersAndProducts();
+    fetchOrders();
+    fetchProducts();
+    fetchFares();
+    fetchCustomers();
   }, []);
 
   return (
@@ -44,13 +53,17 @@ const OrdersComponent = ({
       <Table
         columns={columns}
         data={orders}
-        onAddButton={() => fetchOrderAndCustomersAndFareAndProductsAndFares('new')}
+        onAddButton={() => {
+          fetchFares();
+          fetchOrder();
+        }}
         tableName={'orders'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
-          fetchOrderAndCustomersAndFareAndProductsAndFares(`${order.type}-${order.id}`, order.customer_id);
+          fetchOrder(`${order.type}-${order.id}`);
+          fetchFares();
         }}
       />
       {Boolean(orderToForm) && (

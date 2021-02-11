@@ -175,7 +175,6 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
           onFareModalConfirm={(fare: IFare, isCreating: boolean) => {
             if (isCreating) return createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
             return editFare(fare, (newFare: IFare) => {
-              debugger;
               setPricesToNewFareAndSetTotals(values, setValues, newFare, products);
             });
           }}
