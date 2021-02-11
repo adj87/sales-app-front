@@ -21,6 +21,8 @@ const FaresComponent = ({
   fetchFareWithCb,
   fareToInheritFrom,
   fetchFareToEdit,
+  createFare,
+  editFare,
 }: any) => {
   useEffect(() => {
     return fetchFaresLinesCustomersAndProducts(true);
@@ -41,7 +43,6 @@ const FaresComponent = ({
       />
       {Boolean(fareToForm) && (
         <FaresModal
-          onConfirm={(fare: IFare) => console.log('la fare', fare)}
           fetchFareWithCb={fetchFareWithCb}
           onCancel={() => setFareToCreateOrEdit(null)}
           customers={customers}
@@ -50,6 +51,14 @@ const FaresComponent = ({
           products={products}
           fare={fareToForm}
           fareToInheritFrom={fareToInheritFrom}
+          onConfirm={(fare: IFare, isCreating: boolean) => {
+            if (isCreating) {
+              createFare(fare);
+            } else {
+              editFare(fare);
+            }
+            return setFareToCreateOrEdit(null);
+          }}
         />
       )}
     </MainLayout>

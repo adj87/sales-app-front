@@ -9,8 +9,9 @@ import { operations as loadingOperations } from '../../Loading/duck';
 import { actions as customersAction, api as customersApi } from '../../Customers/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { fareLinesToFares } from '../constants';
+import { IFare } from './types/Fare';
 
-const { fetchOperationWithLoading } = loadingOperations;
+const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
@@ -32,6 +33,22 @@ const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
 const setFareToInheritFrom = actions.setFareToInheritFrom;
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => api.fetchFares(idCustomerFare), null, cb);
 
+const createFare = (fare: IFare, cb: Function) =>
+  generalCreateOrEditOperation(
+    () => api.createFare(fare),
+    (fare: any, dispatch: any) => {
+      dispatch(fetchFaresLinesCustomersAndProducts());
+    },
+  );
+
+const editFare = (fare: IFare, cb: Function) =>
+  generalCreateOrEditOperation(
+    () => api.editFare(fare),
+    (fare: any, dispatch: any) => {
+      dispatch(fetchFaresLinesCustomersAndProducts());
+    },
+  );
+
 export default {
   removeElementToCreateOrEdit,
   fetchFaresLinesCustomersAndProducts,
@@ -39,4 +56,6 @@ export default {
   fetchFareWithCb,
   setFareToInheritFrom,
   fetchFareToEdit,
+  createFare,
+  editFare,
 };
