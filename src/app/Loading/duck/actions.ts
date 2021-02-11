@@ -1,10 +1,14 @@
-import { SET_LOADING, SetLoadingAction } from './types';
+import { ADD_PENDING_REQUEST, REMOVE_PENDING_REQUEST, AddPengingRequestAction, RemovePendingRequestAction } from './types';
 
-const setLoading = (loading: boolean): SetLoadingAction => ({
-  type: SET_LOADING,
-  payload: loading,
+const addPendingRequest = (): AddPengingRequestAction => ({
+  type: ADD_PENDING_REQUEST,
+});
+
+const removePendingRequest = (): RemovePendingRequestAction => ({
+  type: REMOVE_PENDING_REQUEST,
 });
 
 export default {
-  setLoading,
+  addPendingRequest,
+  removePendingRequest,
 };

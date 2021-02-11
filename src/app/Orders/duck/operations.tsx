@@ -5,7 +5,7 @@ import api_node from './api_node';
 import actions from './actions';
 import { SetElementToCreateOrEditAction } from './types';
 import { actions as customersAction, api as customersApi } from '../../Customers/duck';
-import { actions as faresAction, api as faresApi } from '../../Fares/duck';
+import { actions as faresAction, api as faresApi, operations as fareOperations } from '../../Fares/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
@@ -16,50 +16,19 @@ const apiOrders = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
-const fetchOrdersAndProducts = () =>
-  fetchOperationWithLoading(() => Promise.all([apiOrders.fetchOrders(), productsApi.fetchProducts()]), [
-    actions.setOrders,
-    productsAction.setProducts,
-  ]);
+const fetchOrders = () => fetchOperationWithLoading(apiOrders.fetchOrders, actions.setOrders);
+const fetchOrder = (orderIdAndType: string) => {
+  if (orderIdAndType) {
+    const [type, orderId] = orderIdAndType.split('-');
+    return fetchOperationWithLoading(() => apiOrders.fetchOrders(type, parseInt(orderId)), actions.setOrderToCreateOrEdit);
+  }
+  return (dispatch: Dispatch<any>) => dispatch(actions.setOrderToCreateOrEdit(defaultValues));
+};
+const fetchFares = () => fetchOperationWithLoading(faresApi.fetchFares, faresAction.setFares);
+const fetchProducts = () => fetchOperationWithLoading(productsApi.fetchProducts, productsAction.setProducts);
+const fetchCustomers = () => fetchOperationWithLoading(customersApi.fetchCustomers, customersAction.setCustomers);
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
-
-const fetchOrderAndCustomersAndFareAndProductsAndFares = (orderIdAndType: string, customerId?: number) => {
-  const [type, orderId] = orderIdAndType.split('-');
-
-  const setOfRequests: any = {
-    customers: () => customersApi.fetchCustomers(),
-    fare: () => faresApi.fetchFares(customerId),
-    order: () => apiOrders.fetchOrders(type, parseInt(orderId)),
-    fares: () => faresApi.fetchFares(),
-  };
-
-  const setOfActions: any = {
-    customers: customersAction.setCustomers,
-    fare: actions.setFare,
-    order: actions.setOrderToCreateOrEdit,
-    fares: faresAction.setFares,
-  };
-
-  if (orderIdAndType === 'new') {
-    delete setOfRequests.order;
-    delete setOfActions.order;
-    delete setOfRequests.fare;
-    delete setOfActions.fare;
-  }
-
-  return fetchOperationWithLoading(
-    () => Promise.all(Object.values(setOfRequests).map((req: any) => req())),
-    Object.values(setOfActions),
-    (res: any, dispatch: any) => {
-      if (orderIdAndType === 'new') {
-        dispatch(actions.setOrderToCreateOrEdit(defaultValues));
-      }
-    },
-  );
-};
-
-const setFareToInheritFrom = actions.setFareToInheritFrom;
 
 const onCancelOrderModal = () => (dispatch: Dispatch<any>) => {
   dispatch(actions.setOrderToCreateOrEdit(null));
@@ -90,20 +59,23 @@ const editFare = (fare: IFare, cb: Function) =>
 const createOrder = (order: IOrder) =>
   generalCreateOrEditOperation(
     () => apiOrders.createOrder(order),
-    (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
+    (res: any, dispatch: any) => dispatch(fetchOrders()),
   );
+
 const editOrder = (order: IOrder, initialType: string) =>
   generalCreateOrEditOperation(
     () => apiOrders.editOrder(order, initialType),
-    (res: any, dispatch: any) => dispatch(fetchOrdersAndProducts()),
+    (res: any, dispatch: any) => dispatch(fetchOrders()),
   );
 
 export default {
-  fetchOrdersAndProducts,
+  fetchOrder,
+  fetchOrders,
+  fetchProducts,
+  fetchFares,
+  fetchCustomers,
   removeElementToCreateOrEdit,
-  fetchOrderAndCustomersAndFareAndProductsAndFares,
   onCancelOrderModal,
-  setFareToInheritFrom,
   fetchFareWithCb,
   createFare,
   fetchFare,

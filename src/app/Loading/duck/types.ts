@@ -1,6 +1,11 @@
-export const SET_LOADING = 'SET_LOADING';
+const SECTION = 'LOADING_';
+export const ADD_PENDING_REQUEST = SECTION + 'ADD_PENDING_REQUEST';
+export const REMOVE_PENDING_REQUEST = SECTION + 'REMOVE_PENDING_REQUEST';
 
-export interface SetLoadingAction {
-  type: typeof SET_LOADING;
-  payload: boolean;
+export interface AddPengingRequestAction {
+  type: typeof ADD_PENDING_REQUEST;
+}
+
+export interface RemovePendingRequestAction {
+  type: typeof REMOVE_PENDING_REQUEST;
 }

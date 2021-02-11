@@ -12,7 +12,7 @@ const appReducer = combineReducers({
   customers: customersReducer,
   products: productsReducer,
   fares: faresReducer,
-  loading: loadingReducer,
+  pendingRequests: loadingReducer,
   alerts: alertsReducer,
 });
 
