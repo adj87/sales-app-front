@@ -9,6 +9,6 @@ export interface AppStoreInterface {
   products: ProductsState;
   customers: CustomersState;
   fares: FaresState;
-  loading: boolean;
+  pendingRequests: number;
   alerts: AlertsState;
 }

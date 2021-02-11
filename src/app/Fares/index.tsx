@@ -7,7 +7,6 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IFare } from './duck/types/Fare';
 import { columns, defaultValues } from './constants';
-import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
 import FaresModal from './Modal';
 
 const FaresComponent = ({
@@ -16,7 +15,9 @@ const FaresComponent = ({
   setFareToCreateOrEdit,
   fareToForm,
   customers,
-  fetchFaresLinesCustomersAndProducts,
+  fetchFareAndFareLines,
+  fetchCustomers,
+  fetchProducts,
   products,
   fetchFareWithCb,
   fareToInheritFrom,
@@ -25,7 +26,9 @@ const FaresComponent = ({
   editFare,
 }: any) => {
   useEffect(() => {
-    return fetchFaresLinesCustomersAndProducts(true);
+    fetchFareAndFareLines();
+    fetchCustomers();
+    fetchProducts();
   }, []);
   return (
     <MainLayout>

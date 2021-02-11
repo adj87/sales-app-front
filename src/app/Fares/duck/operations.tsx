@@ -17,16 +17,13 @@ const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setFareToCreateOrEdit(null));
 
-const fetchFaresLinesCustomersAndProducts = () => {
-  return fetchOperationWithLoading(
-    () => Promise.all([api.fetchFareLines(), customersApi.fetchCustomers(), productsApi.fetchProducts()]),
-    [actions.setFareLines, customersAction.setCustomers, productsAction.setProducts],
-    (res: any, dispatch: any) => {
-      const fares = fareLinesToFares(res[0].data);
-      dispatch(actions.setFares(fares));
-    },
-  );
-};
+const fetchFareAndFareLines = () =>
+  fetchOperationWithLoading(api.fetchFareLines, actions.setFareLines, (res: any, dispatch: any) => {
+    const fares = fareLinesToFares(res.data);
+    dispatch(actions.setFares(fares));
+  });
+const fetchCustomers = () => fetchOperationWithLoading(customersApi.fetchCustomers, customersAction.setCustomers);
+const fetchProducts = () => fetchOperationWithLoading(productsApi.fetchProducts, productsAction.setProducts);
 
 const fetchFareToEdit = (customerId: number) => fetchOperationWithLoading(() => api.fetchFares(customerId), actions.setFareToCreateOrEdit);
 const setFareToCreateOrEdit = actions.setFareToCreateOrEdit;
@@ -37,7 +34,7 @@ const createFare = (fare: IFare, cb: Function) =>
   generalCreateOrEditOperation(
     () => api.createFare(fare),
     (fare: any, dispatch: any) => {
-      dispatch(fetchFaresLinesCustomersAndProducts());
+      dispatch(fetchFareAndFareLines());
     },
   );
 
@@ -45,13 +42,15 @@ const editFare = (fare: IFare, cb: Function) =>
   generalCreateOrEditOperation(
     () => api.editFare(fare),
     (fare: any, dispatch: any) => {
-      dispatch(fetchFaresLinesCustomersAndProducts());
+      dispatch(fetchFareAndFareLines());
     },
   );
 
 export default {
   removeElementToCreateOrEdit,
-  fetchFaresLinesCustomersAndProducts,
+  fetchFareAndFareLines,
+  fetchCustomers,
+  fetchProducts,
   setFareToCreateOrEdit,
   fetchFareWithCb,
   setFareToInheritFrom,
