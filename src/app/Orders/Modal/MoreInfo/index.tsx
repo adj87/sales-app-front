@@ -9,7 +9,7 @@ import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
 import { ICustomer } from '../../../Customers/duck/types/Customer';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { defaultValues as defaultEmptyFare } from '../../../Fares/constants';
-import { hasOwnFare } from '../../../../utils';
+import { isDefaultFare } from '../../../../utils';
 
 interface MoreInfoProps {
   fare: null | IFare;
@@ -31,7 +31,7 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
   // @ts-ignore
 
   const getFare = (fare: IFare, customerId: number, customers: ICustomer[]) => {
-    if (!hasOwnFare(fare)) {
+    if (isDefaultFare(fare)) {
       const customer = customers.find((el: ICustomer) => el.id === customerId);
       let emptyFare: IFare = { ...defaultEmptyFare };
       emptyFare.customer_id = customer ? customer.id : null;
@@ -76,7 +76,7 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
           fareToInheritFrom={fareToInheritFrom}
           onCancel={() => setModalInfoToOpen(null)}
           fetchFareWithCb={fetchFareWithCb}
-          editingMode={hasOwnFare(fare)}
+          editingMode={!isDefaultFare(fare)}
           selectDisabled
           onConfirm={(fare: IFare, isCreating: boolean) => {
             setModalInfoToOpen(null);

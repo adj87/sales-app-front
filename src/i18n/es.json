@@ -33,7 +33,35 @@
   },
   "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
   "orders": {
+    "table": {
+      "type": "Serie",
+      "id": "Número",
+      "customer_name": "Cliente",
+      "address": "Dirección",
+      "date": "Fecha",
+      "delivery_date": "Fecha envío",
+      "zip_code": "Código postal",
+      "green_point": "P.Verde",
+      "customer_route_id": "Ruta",
+      "total": "Total",
+      "total_net": "Neto total",
+      "total_taxes": "Total impuestos"
+    },
     "form": {
+      "order-lines-table": {
+        "order_id": "Número",
+        "order_type": "Serie",
+        "line_number": "Número línea",
+        "product_id": "Código",
+        "product_name": "Nombre",
+        "units_per_box": "U/Caja",
+        "price": "Precio",
+        "cost": "Costo",
+        "quantity": "Cantidad",
+        "taxes_rate": "Impuestos",
+        "surcharge_amount": "Recargo",
+        "green_point_amount": "P.verde"
+      },
       "title": "Añadir pedido",
       "title-edit": "Editar pedido",
       "label-customer": "Cliente",

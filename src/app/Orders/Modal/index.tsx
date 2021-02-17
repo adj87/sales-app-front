@@ -19,7 +19,7 @@ import MoreInfo from './MoreInfo';
 import { operations } from '../duck';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
-import { validationSchemaOrder, calculateTotals } from '../constants';
+import { validationSchemaOrder, calculateTotals, transformLinesIfDefaultFare } from '../constants';
 import LabelError from '../../../components/LabelError';
 import { DeliveryDaysRemaining } from './DeliveryDaysRemaining';
 
@@ -132,13 +132,17 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
 
               //CREATING
             } else {
-              newOrderLines.push({
-                ...orderLine,
-                line_number: newOrderLines.length + 1,
-                order_id: values.id,
-                order_type: values.type,
+              const orderLines: IOrderLine[] = transformLinesIfDefaultFare([orderLine], fare);
+              orderLines.forEach((el: IOrderLine) => {
+                newOrderLines.push({
+                  ...el,
+                  line_number: newOrderLines.length + 1,
+                  order_id: values.id,
+                  order_type: values.type,
+                });
               });
             }
+
             let newValues = { ...values, order_lines: newOrderLines };
             const { total, total_net, total_taxes, total_surcharge, total_green_point } = calculateTotals(newValues, products);
             newValues = { ...newValues, total, total_net, total_taxes, total_surcharge };
