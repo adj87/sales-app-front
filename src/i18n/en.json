@@ -21,6 +21,11 @@
     "more-info": "Mostrar + info",
     "new": "nuevo",
     "edited": "editado",
+    "price-1": "Precio 1",
+    "price-2": "Precio 2",
+    "price-3": "Precio 3",
+    "price-4": "Precio 4",
+    "promo": "Promoción",
     "errors": {
       "field_required": "Field required",
       "must_be_positive_number": "Debe ser un número positivo",

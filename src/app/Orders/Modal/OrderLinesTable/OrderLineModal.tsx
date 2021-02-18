@@ -12,7 +12,7 @@ import { validationSchemaOrderLine } from '../../constants';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
 import SelectComponent from '../../../../components/Select';
 import { TAXES_RATE, RECHARGE_RATE } from '../../../../constants';
-import { roundToTwoDec } from '../../../../utils';
+import { roundToTwoDec, isDefaultFare } from '../../../../utils';
 import { useTranslation } from 'react-i18next';
 
 const InputWithFormikValues = withFormikValues(Input);
@@ -41,6 +41,11 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   const productsInFare = useMemo(() => products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id)), [
     products,
   ]);
+
+  const productSelected = useMemo(() => products.find((el: IProduct) => el.id === values.product_id), [values.product_id]);
+
+  const fareLineSelected = useMemo(() => fare?.fare_lines.find((el: IFareLine) => el.product_id === values.product_id), [values.product_id]);
+
   const onChangeProduct = (product: IProduct) => {
     const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity } = product;
     const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
@@ -116,10 +121,19 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
 
           {values.product_id && (
             <div className="pt-5 px-5">
+              {isDefaultFare(fare) && (
+                <Element
+                  /* 
+                // @ts-ignore */
+                  value={`${fareLineSelected?.to_charge} + ${fareLineSelected?.to_sell - fareLineSelected?.to_charge}`}
+                  label="commons.promo"
+                />
+              )}
+
+              <Element value={fareLineSelected?.price_1} label="commons.price-1" />
               <Element value={values.capacity} label="commons.capacity" />
               <Element value={values.units_per_box} label="commons.units-per-box" />
               <Element value={values.green_point_amount} label="commons.green-point" />
-
               {/*    <p className="text-secondary-dark text-right my-4">{`${t('commons.capacity')} ${productSelected.capacity}`}</p> */}
             </div>
           )}
@@ -129,7 +143,7 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   );
 };
 
-const Element = (props: { label: string; value: string | number }) => {
+const Element = (props: { label: string; value: string | number | undefined | null }) => {
   const { t } = useTranslation();
   return (
     <div className="flex justify-between my-2">

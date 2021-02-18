@@ -193,7 +193,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     // @ts-ignore
     const { price_1, price_2 } = productFare;
     // @ts-ignore
-    if (isDefaultFare(fare.customer_id)) {
+    if (isDefaultFare(fare)) {
       if (quantity && quantity <= 10) {
         // @ts-ignore
         const { to_charge, to_sell } = productFare;
