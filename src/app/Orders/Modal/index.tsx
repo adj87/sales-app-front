@@ -22,6 +22,7 @@ import useDidUpdateEffect from '../../../hooks/useDidUpdateEffect';
 import { validationSchemaOrder, calculateTotals, transformLinesIfDefaultFare } from '../constants';
 import LabelError from '../../../components/LabelError';
 import { DeliveryDaysRemaining } from './DeliveryDaysRemaining';
+import { useTranslation } from 'react-i18next';
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -31,6 +32,7 @@ const SelectComponentWithFV = withFormikValues(SelectComponent);
 interface OrdersModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   customers: ICustomer[];
+  customer: ICustomer;
   products: IProduct[];
   order: IOrder;
   fare: IFare;
@@ -54,6 +56,7 @@ const OrdersModal = ({
   editOrder,
   editFare,
   fetchCustomer,
+  customer,
 }: OrdersModalProps) => {
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
@@ -69,6 +72,7 @@ const OrdersModal = ({
     },
     validationSchema: validationSchemaOrder,
   });
+  const { t } = useTranslation();
   const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
 
   useEffect(() => {
@@ -178,6 +182,12 @@ const OrdersModal = ({
       </div>
       {values.order_lines.length > 0 && (
         <div className="flex justify-end mt-5">
+          <div className="w-4/6 p-3">
+            {customer && customer.is_green_point != values.is_green_point && <LabelError error={t('orders.form.something-wrong-with-gp')} />}
+            {customer && customer.is_surcharge != values.is_surcharge && (
+              <LabelError className="mt-5" error={t('orders.form.something-wrong-with-surcharge')} />
+            )}
+          </div>
           <div className="w-2/6 flex flex-col mt-6">
             <LabelAndAmount amount={roundToTwoDec(values.total_net)} label={'Base'} />
             <LabelAndAmount amount={roundToTwoDec(values.total_taxes)} label={'Iva'} isDisabled={values.type === 'B'} />
@@ -228,6 +238,7 @@ const mapState = (state: AppStoreInterface) => ({
   customers: state.customers.data,
   products: state.products.data,
   orders: state.orders.data,
+  customer: state.orders.customer,
   fare: state.orders.fare,
 });
 

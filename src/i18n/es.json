@@ -78,6 +78,8 @@
       "label-surcharge": "Recargo de equivalencia",
       "label-green-point": "P.Verde",
       "label-together": "Mostrar conjuntamente con otros pedidos",
+      "something-wrong-with-gp": "Parece que el punto verde no concuerda con lo establecido en la ficha del cliente",
+      "something-wrong-with-surcharge": "Parece que el recargo de equivalencia no concuerda con lo establecido en la ficha del cliente",
       "more-info": {
         "check-fare": "Ver tarifa",
         "check-customer-info": "Ver info cliente",
