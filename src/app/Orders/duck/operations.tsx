@@ -27,12 +27,14 @@ const fetchOrder = (orderIdAndType: string) => {
 const fetchFares = () => fetchOperationWithLoading(faresApi.fetchFares, faresAction.setFares);
 const fetchProducts = () => fetchOperationWithLoading(productsApi.fetchProducts, productsAction.setProducts);
 const fetchCustomers = () => fetchOperationWithLoading(customersApi.fetchCustomers, customersAction.setCustomers);
+const fetchCustomer = (id: number) => fetchOperationWithLoading(() => customersApi.fetchCustomers(id), actions.setCustomer);
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
 
 const onCancelOrderModal = () => (dispatch: Dispatch<any>) => {
   dispatch(actions.setOrderToCreateOrEdit(null));
   dispatch(actions.setFare(null));
+  dispatch(actions.setCustomer(null));
 };
 
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
@@ -73,6 +75,7 @@ export default {
   fetchOrders,
   fetchProducts,
   fetchFares,
+  fetchCustomer,
   fetchCustomers,
   removeElementToCreateOrEdit,
   onCancelOrderModal,

@@ -15,15 +15,12 @@ const fetchCustomers = () => (dispatch: Dispatch<SetCustomersAction>) => {
   });
 };
 
-const fetchCustomer = (orderId: Number) => (
-  dispatch: Dispatch<SetCustomerToCreateOrEditAction>,
-) => {
+const fetchCustomer = (orderId: number) => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => {
   api.fetchCustomers(orderId).then((response: AxiosResponse<ICustomer>) => {
     return dispatch(actions.setOrderToCreateOrEdit(response.data));
   });
 };
 
-const removeElementToCreateOrEdit = (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) =>
-  dispatch(actions.setOrderToCreateOrEdit(null));
+const removeElementToCreateOrEdit = (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
 
 export default { fetchCustomers, fetchCustomer, removeElementToCreateOrEdit };

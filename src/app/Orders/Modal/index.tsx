@@ -39,9 +39,22 @@ interface OrdersModalProps {
   fetchFare: Function;
   createOrder: Function;
   editOrder: Function;
+  fetchCustomer: Function;
 }
 
-const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFare, fare, createOrder, editOrder, editFare }: OrdersModalProps) => {
+const OrdersModal = ({
+  onCancel,
+  customers,
+  order,
+  products,
+  createFare,
+  fetchFare,
+  fare,
+  createOrder,
+  editOrder,
+  editFare,
+  fetchCustomer,
+}: OrdersModalProps) => {
   const [totalGreenPoint, setTotalGreenPoint] = useState<number>(0);
   const formik = useFormik<IOrder>({
     initialValues: order,
@@ -60,6 +73,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
 
   useEffect(() => {
     if (values.id) {
+      fetchCustomer(values.customer_id);
       const { total_green_point } = calculateTotals(values, products);
       setTotalGreenPoint(total_green_point);
     }
@@ -88,6 +102,7 @@ const OrdersModal = ({ onCancel, customers, order, products, createFare, fetchFa
             const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point } = customer;
             setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point });
             fetchFare(customer_id);
+            fetchCustomer(customer_id);
           }}
         />
 

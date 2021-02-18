@@ -7,9 +7,12 @@ import {
   SET_FARE,
   SetFareToInheritFromAction,
   SET_FARE_TO_INHERIT_FROM,
+  SetCustomerAction,
+  SET_CUSTOMER,
 } from './types';
 import { IOrder } from './types/Order';
 import { IFare } from '../../Fares/duck/types/Fare';
+import { ICustomer } from '../../Customers/duck/types/Customer';
 
 const setOrders = (orders: IOrder[]): SetOrdersAction => ({
   type: SET_ORDERS,
@@ -31,9 +34,15 @@ const setFareToInheritFrom = (fare: IFare | null): SetFareToInheritFromAction =>
   payload: fare,
 });
 
+const setCustomer = (customer: ICustomer | null): SetCustomerAction => ({
+  type: SET_CUSTOMER,
+  payload: customer,
+});
+
 export default {
   setFare,
   setOrders,
+  setCustomer,
   setOrderToCreateOrEdit,
   setFareToInheritFrom,
 };

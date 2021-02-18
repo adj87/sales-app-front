@@ -1,10 +1,4 @@
-import {
-  SET_ORDERS,
-  OrdersState,
-  SET_ORDER_TO_CREATE_OR_EDIT,
-  SET_FARE_TO_INHERIT_FROM,
-  SET_FARE,
-} from './types';
+import { SET_ORDERS, OrdersState, SET_ORDER_TO_CREATE_OR_EDIT, SET_FARE_TO_INHERIT_FROM, SET_FARE, SET_CUSTOMER } from './types';
 import { AnyAction } from 'redux';
 
 const initialState = {
@@ -12,6 +6,7 @@ const initialState = {
   elementToCreateOrEdit: null,
   fare: null,
   fareToInheritFrom: null,
+  customer: null,
 };
 
 const ordersReducer = (state = initialState, { type, payload }: AnyAction): OrdersState => {
@@ -24,6 +19,8 @@ const ordersReducer = (state = initialState, { type, payload }: AnyAction): Orde
       return { ...state, fare: payload };
     case SET_FARE_TO_INHERIT_FROM:
       return { ...state, fareToInheritFrom: payload };
+    case SET_CUSTOMER:
+      return { ...state, customer: payload };
     default:
       return state;
   }

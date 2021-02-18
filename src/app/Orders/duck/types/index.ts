@@ -1,9 +1,11 @@
 import { IOrder } from './Order';
 import { IFare } from '../../../Fares/duck/types/Fare';
+import { ICustomer } from '../../../Customers/duck/types/Customer';
 
 const SECTION_ORDERS = 'ORDERS_';
 export const SET_ORDERS = SECTION_ORDERS + 'SET_ORDERS';
 export const SET_FARE = SECTION_ORDERS + 'SET_FARE';
+export const SET_CUSTOMER = SECTION_ORDERS + 'SET_CUSTOMER';
 export const SET_ORDER_TO_CREATE_OR_EDIT = SECTION_ORDERS + 'SET_ORDER_TO_CREATE_OR_EDIT';
 export const SET_FARE_TO_INHERIT_FROM = SECTION_ORDERS + 'SET_FARE_TO_INHERIT_FROM';
 
@@ -27,11 +29,17 @@ export interface SetFareToInheritFromAction {
   payload: IFare | null;
 }
 
-export type OrdersActions = SetOrdersAction | SetElementToCreateOrEditAction;
+export interface SetCustomerAction {
+  type: typeof SET_CUSTOMER;
+  payload: ICustomer | null;
+}
+
+export type OrdersActions = SetOrdersAction | SetElementToCreateOrEditAction | SetCustomerAction;
 
 export interface OrdersState {
   data: IOrder[];
   elementToCreateOrEdit: IOrder | null;
   fare: IFare | null;
   fareToInheritFrom: IFare | null;
+  customer: ICustomer | null;
 }
