@@ -30,7 +30,7 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
   const className = `${showInfo ? 'block' : 'hidden'}`;
   // @ts-ignore
 
-  const getFare = (fare: IFare, customerId: number, customers: ICustomer[]) => {
+  const getFare = (fare: IFare, customerId: string, customers: ICustomer[]) => {
     if (isDefaultFare(fare)) {
       const customer = customers.find((el: ICustomer) => el.id === customerId);
       let emptyFare: IFare = { ...defaultEmptyFare };

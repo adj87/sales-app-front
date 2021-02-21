@@ -182,7 +182,7 @@ const OrdersModal = ({
       </div>
       {values.order_lines.length > 0 && (
         <div className="flex justify-end mt-5">
-          <div className="w-4/6 p-3">
+          <div className="w-4/6 p-8">
             {customer && customer.is_green_point != values.is_green_point && <LabelError error={t('orders.form.something-wrong-with-gp')} />}
             {customer && customer.is_surcharge != values.is_surcharge && (
               <LabelError className="mt-5" error={t('orders.form.something-wrong-with-surcharge')} />

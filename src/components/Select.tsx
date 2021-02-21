@@ -9,7 +9,7 @@ interface SelectComponentProps {
   optionLabel?: getOptionLabel;
   optionValue?: getOptionValue;
   onChange: Function;
-  value: number | null;
+  value: string | number | null;
   name?: string;
   isDisabled?: boolean;
   isOptionDisabled?: ((option: any) => boolean) | undefined;

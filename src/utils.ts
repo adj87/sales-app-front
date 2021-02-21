@@ -51,7 +51,4 @@ export const numberOfElementsInArrValidation = (min: number = 0) =>
 export const positiveNumberValidation = numberValidation.moreThan(0, ' must be positive');
 export const reasonablePriceValidation = positiveNumberValidation.lessThan(5, 'must be reasonable');
 
-export const isDefaultFare = (fare: IFare | null) => {
-  // @ts-ignore
-  return fare && fare?.customer_id === parseInt(DEFAULT_FARE);
-};
+export const isDefaultFare = (fare: IFare | null) =>  fare && fare?.customer_id === DEFAULT_FARE;

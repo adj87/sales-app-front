@@ -9,7 +9,7 @@ const withFormikValues = (WrappedComponent) => (props) => {
   return (
     <div>
       <WrappedComponent name={name} value={values[name.toString()]} {...others} />
-      <LabelError error={submitCount > 0 && errors[name]} />
+      <LabelError className="-mt-3 mb-8" error={submitCount > 0 && errors[name]} />
     </div>
   );
 };

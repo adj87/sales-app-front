@@ -169,7 +169,6 @@ export const calculateTotals = (values: IOrder, products: IProduct[]) => {
 };
 
 export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFare): IOrderLine[] => {
-  debugger;
   const orderLinesGroupedByProductId = orderLines.reduce((oLinesByIdProduct: any, el: IOrderLine) => {
     // @ts-ignore
     if (!oLinesByIdProduct[el.product_id]) {

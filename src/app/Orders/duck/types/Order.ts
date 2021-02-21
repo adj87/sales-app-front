@@ -12,7 +12,7 @@ export interface IOrder {
   total_taxes: number | null;
   total_surcharge: number | null; //ntotreq
   total: number | null;
-  customer_id: number | null;
+  customer_id: string | null;
   customer_name: string | null;
   customer_route_id: number | null;
   type: string;
@@ -24,7 +24,7 @@ export interface IOrderLine {
   order_id: number | null;
   order_type: string | null;
   line_number: number | null;
-  product_id: number | null;
+  product_id: string | null;
   product_name: string | null;
   units_per_box: number | null;
   price: number | null;
