@@ -9,7 +9,7 @@ import { operations as loadingOperations } from '../../Loading/duck';
 import { actions as customersAction, api as customersApi } from '../../Customers/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { fareLinesToFares } from '../constants';
-import { IFare } from './types/Fare';
+import { IFare, IFareLine } from './types/Fare';
 
 const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
@@ -46,6 +46,13 @@ const editFare = (fare: IFare, cb: Function) =>
     },
   );
 
+const deleteFare = (customerId: string) =>
+  generalCreateOrEditOperation(
+    // @ts-ignore
+    () => api.deleteFare(customerId),
+    (res: any, dispatch: any) => dispatch(fetchFareAndFareLines()),
+  );
+
 export default {
   removeElementToCreateOrEdit,
   fetchFareAndFareLines,
@@ -57,4 +64,5 @@ export default {
   fetchFareToEdit,
   createFare,
   editFare,
+  deleteFare,
 };

@@ -5,7 +5,7 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import { IFare } from './duck/types/Fare';
+import { IFare, IFareLine } from './duck/types/Fare';
 import { columns, defaultValues } from './constants';
 import FaresModal from './Modal';
 
@@ -24,6 +24,7 @@ const FaresComponent = ({
   fetchFareToEdit,
   createFare,
   editFare,
+  deleteFare,
 }: any) => {
   useEffect(() => {
     fetchFareAndFareLines();
@@ -43,6 +44,11 @@ const FaresComponent = ({
           const fare: IFare = datatableRowInfo.original;
           fetchFareToEdit(fare.customer_id);
         }}
+        deleteOnRowPress={(datatableRowInfo: any) => {
+          const fare: IFareLine = datatableRowInfo.original;
+          deleteFare(fare.customer_id);
+        }}
+        messageOnDelete={(fl: IFareLine) => `${fl.customer_id} - ${fl.customer_name}`}
       />
       {Boolean(fareToForm) && (
         <FaresModal

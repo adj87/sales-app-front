@@ -31,9 +31,15 @@ const editFare = (fare: IFare) => {
   return axios.put(url, fare);
 };
 
+const deleteFare = (customerId: string) => {
+  const url = `${API_FARES}/${customerId}`;
+  return axios.delete(url);
+};
+
 export default {
   fetchFareLines,
   fetchFares,
   createFare,
   editFare,
+  deleteFare,
 };
