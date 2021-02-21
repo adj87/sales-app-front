@@ -18,7 +18,18 @@ import { useTranslation } from 'react-i18next';
 import InputCheckBox from '../Inputs/InputCheckbox';
 import Modal from '../Modal/Modal';
 
-function Table({ columns, data, onAddButton, tableName, withSearching, withPagination, onRowClick, onRowLongPress, deleteOnRowPress }: any) {
+function Table({
+  columns,
+  data,
+  onAddButton,
+  tableName,
+  withSearching,
+  withPagination,
+  onRowClick,
+  onRowLongPress,
+  deleteOnRowPress,
+  messageOnDelete,
+}: any) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -72,6 +83,7 @@ function Table({ columns, data, onAddButton, tableName, withSearching, withPagin
           onRowClick={onRowClick}
           onRowLongPress={onRowLongPress}
           deleteOnRowPress={deleteOnRowPress}
+          messageOnDelete={messageOnDelete}
         />
       </table>
 
@@ -132,7 +144,7 @@ const THead = ({ headerGroups }) => (
   </thead>
 );
 
-const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress, deleteOnRowPress }) => {
+const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress, deleteOnRowPress, messageOnDelete }) => {
   const [rowToDelete, setRowToDelete] = useState(false);
   return (
     <tbody {...getTableBodyProps()}>
@@ -178,7 +190,7 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
           title={'commons.delete-row'}
           centered
         >
-          <p>{rowToDelete.original.name || rowToDelete.original.product_name}</p>
+          <p>{messageOnDelete ? messageOnDelete(rowToDelete.original) : rowToDelete.original.name || rowToDelete.original.product_name}</p>
         </Modal>
       )}
     </tbody>

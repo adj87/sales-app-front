@@ -70,6 +70,12 @@ const editOrder = (order: IOrder, initialType: string) =>
     (res: any, dispatch: any) => dispatch(fetchOrders()),
   );
 
+const deleteOrder = (order: IOrder) =>
+  generalCreateOrEditOperation(
+    () => apiOrders.deleteOrder(order),
+    (res: any, dispatch: any) => dispatch(fetchOrders()),
+  );
+
 export default {
   fetchOrder,
   fetchOrders,
@@ -85,4 +91,5 @@ export default {
   createOrder,
   editFare,
   editOrder,
+  deleteOrder,
 };

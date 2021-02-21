@@ -14,13 +14,19 @@ const createOrder = (order: IOrder) => {
   return axios.post(url, order);
 };
 
-const editOrder = (order: IOrder, initialType: string) => {
-  const url = `${API_ORDERS}/${order.id}/type/${initialType}`;
+const editOrder = (order: IOrder, type: string) => {
+  const url = `${API_ORDERS}/${order.id}/type/${type}`;
   return axios.put(url, order);
+};
+
+const deleteOrder = (order: IOrder) => {
+  const url = `${API_ORDERS}/${order.id}/type/${order.type}`;
+  return axios.delete(url);
 };
 
 export default {
   fetchOrders,
   createOrder,
   editOrder,
+  deleteOrder,
 };

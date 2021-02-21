@@ -27,6 +27,7 @@ interface OrdersComponentProps {
   fetchFare: Function;
   fetchCustomers: Function;
   onCancelOrderModal: Function;
+  deleteOrder: Function;
 }
 
 const OrdersComponent = ({
@@ -42,6 +43,7 @@ const OrdersComponent = ({
   fetchProducts,
   fareLines,
   fetchCustomers,
+  deleteOrder,
 }: OrdersComponentProps) => {
   useEffect(() => {
     fetchOrders();
@@ -68,6 +70,11 @@ const OrdersComponent = ({
           fetchFares();
           fetchFare(order.customer_id);
         }}
+        deleteOnRowPress={(row: any) => {
+          const order: IOrder = row.original;
+          deleteOrder(order);
+        }}
+        messageOnDelete={(order: IOrder) => `${order.type}/${order.id}   ${order.customer_name}   ${order.total}`}
       />
       {Boolean(orderToForm) && (
         <OrderModal
