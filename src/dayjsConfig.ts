@@ -4,7 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjsBusinessDays from 'dayjs-business-days';
 import es from 'dayjs/locale/es';
 
-const dateFormat = process.env.REACT_APP_FORMAT_DATE || '';
+const dateFormat = process.env.REACT_APP_FORMAT_DATE_BACK || '';
 
 dayjsOriginal.extend(dayjsBusinessDays);
 dayjsOriginal.extend(customParseFormat);

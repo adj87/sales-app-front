@@ -10,7 +10,8 @@ import { IProduct } from '../Products/duck/types/Product';
 import { TAXES_RATE, RECHARGE_RATE, WORKING_DAYS_OF_DELIVERY } from '../../constants';
 import { IFare, IFareLine } from '../Fares/duck/types/Fare';
 
-const dateFormat = process.env.REACT_APP_FORMAT_DATE;
+const dateFormatBack = process.env.REACT_APP_FORMAT_DATE_BACK;
+const dateFormatFront = process.env.REACT_APP_FORMAT_DATE_FRONT;
 
 export const columns = [
   {
@@ -23,12 +24,12 @@ export const columns = [
       {
         Header: i18n.t('orders.table.date'),
         accessor: 'date',
-        Cell: ({ row }: any) => dayjsCustom(row.original.date).format('DD-MM-YYYY'),
+        Cell: ({ row }: any) => dayjsCustom(row.original.date).format(dateFormatFront),
       },
       {
         Header: i18n.t('orders.table.delivery_date'),
         accessor: 'delivery_date',
-        Cell: ({ row }: any) => dayjsCustom(row.original.delivery_date).format('DD-MM-YYYY'),
+        Cell: ({ row }: any) => dayjsCustom(row.original.delivery_date).format(dateFormatFront),
       },
       { Header: i18n.t('orders.table.zip_code'), accessor: 'zip_code' },
       { Header: i18n.t('orders.table.customer_route_id'), accessor: 'customer_route_id' },
@@ -79,10 +80,10 @@ export const defaultValues = {
   address: null,
   fiscal_id: null,
   zip_code: null,
-  date: null,
+  date: dayjsCustom().format(dateFormatBack),
   shipping_place: null,
   //@ts-ignore
-  delivery_date: dayjsCustom().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormat),
+  delivery_date: dayjsCustom().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormatBack),
   total_net: 0,
   total_taxes: 0,
   total_surcharge: 0,

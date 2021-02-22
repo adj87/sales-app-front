@@ -12,7 +12,7 @@ interface InputTextProps {
   step?: string;
 }
 
-const dateFormat = process.env.REACT_APP_FORMAT_DATE;
+const dateFormat = process.env.REACT_APP_FORMAT_DATE_BACK;
 
 const InputText = ({ label, name, value, onChange, onClick, type, step }: InputTextProps) => {
   const { t } = useTranslation();

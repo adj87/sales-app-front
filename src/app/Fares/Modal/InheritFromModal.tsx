@@ -16,13 +16,7 @@ interface InheritFromModalProps {
   fares: IFare[];
 }
 
-const InheritFromModal = ({
-  onCancel,
-  onConfirm,
-  fareToInheritFrom,
-  fares,
-  fetchFareWithCb,
-}: InheritFromModalProps) => {
+const InheritFromModal = ({ onCancel, onConfirm, fareToInheritFrom, fares, fetchFareWithCb }: InheritFromModalProps) => {
   const { submitForm, setValues, values, errors } = useFormik<IFare>({
     onSubmit: (values: IFare) => {
       // @ts-ignore
@@ -69,7 +63,7 @@ const InheritFromModal = ({
                 // @ts-ignore
                 const newFareLines = values.fare_lines.map((fLine: IFareLineWithCheck) => {
                   // @ts-ignore
-                  if (fLine.product_id === parseInt(id)) {
+                  if (fLine.product_id === id) {
                     return { ...fLine, checked };
                   } else {
                     return { ...fLine };

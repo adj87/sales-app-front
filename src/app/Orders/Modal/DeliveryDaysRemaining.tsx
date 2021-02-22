@@ -2,13 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { dayjsCustom } from '../../../dayjsConfig';
 
-export const DeliveryDaysRemaining = ({ stringDate }: { stringDate: string | undefined }) => {
+export const DeliveryDaysRemaining = ({ date, deliveryDate }: { date: string | undefined;deliveryDate: string | undefined }) => {
   const { t } = useTranslation();
-  const today = dayjsCustom();
-  const date = dayjsCustom(stringDate);
-  const naturalDays = date.diff(today, 'day') + 1;
+  const dateDayjs = dayjsCustom(date);
+  const deliveryDateDayjs = dayjsCustom(deliveryDate);
+  const naturalDays = deliveryDateDayjs.diff(dateDayjs, 'day') + 1;
   // @ts-ignore
-  let businnesDays = date.businessDiff(today);
+  let businnesDays = deliveryDateDayjs.businessDiff(dateDayjs);
   businnesDays = businnesDays > 0 ? businnesDays : '';
 
   return (

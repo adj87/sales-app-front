@@ -23,6 +23,9 @@ import { validationSchemaOrder, calculateTotals, transformLinesIfDefaultFare } f
 import LabelError from '../../../components/LabelError';
 import { DeliveryDaysRemaining } from './DeliveryDaysRemaining';
 import { useTranslation } from 'react-i18next';
+import { dayjsCustom } from '../../../dayjsConfig';
+
+const dateFormatFront = process.env.REACT_APP_FORMAT_DATE_FRONT;
 
 const InputWithFV = withFormikValues(Input);
 const InputRadioWithFV = withFormikValues(InputRadio);
@@ -96,6 +99,7 @@ const OrdersModal = ({
 
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={`${values.id ? 'orders.form.title-edit' : 'orders.form.title'}`}>
+      <div className="w-full flex justify-start mb-10"><span className="text-primary-dark">Fecha</span><span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span></div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <SelectComponentWithFV
           name="customer_id"
@@ -113,7 +117,7 @@ const OrdersModal = ({
         <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
         <div>
           <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
-          <DeliveryDaysRemaining stringDate={values.delivery_date ?? undefined} />
+          <DeliveryDaysRemaining deliveryDate={values.delivery_date ?? undefined} date={values.date ?? undefined}  />
         </div>
       </div>
       <div className="flex items-end mb-5 justify-between mt-3">
