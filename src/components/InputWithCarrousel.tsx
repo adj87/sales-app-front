@@ -6,6 +6,7 @@ import { IProduct } from '../app/Products/duck/types/Product';
 import Button from './Button';
 import { DEFAULT_IMAGE_URL } from '../constants';
 import LayerOutOfRoot from './Modal/Layer';
+import { getPhpBackHostUrl } from '../utils';
 
 interface InputWithCarrouselProps {
   data: any[];
@@ -13,7 +14,9 @@ interface InputWithCarrouselProps {
   value?: any;
 }
 
-const back_host = process.env.REACT_APP_BACK_HOST;
+const backHost = process.env.REACT_APP_BACK_HOST;
+const backEnd = process.env.REACT_APP_BACK_END;
+const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
 const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) => {
   const [openCarrousel, setOpenCarrousel] = useState(false);
@@ -44,7 +47,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
                       onClick={() => setShowInMiddle(el)}
                     />
                     <img
-                      src={`${back_host}/images/${el.id}.png`}
+                      src={`${imgUrl(el.id)}`}
                       className="rounded-lg shadow-lg"
                       width="auto"
                       onClick={() => {
@@ -61,7 +64,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
       )}
 
       <div className="flex  items-center flex-col mt-10 w-3/5 m-auto cursor-pointer">
-        <img src={`${value ? `${back_host}/images/${value}.png` : `${DEFAULT_IMAGE_URL}`} `} width="70%" onClick={() => setOpenCarrousel(true)} />
+        <img src={`${value ? `${imgUrl(value)}` : `${DEFAULT_IMAGE_URL}`} `} width="70%" onClick={() => setOpenCarrousel(true)} />
 
         <div className="w-full"></div>
       </div>
@@ -100,7 +103,7 @@ const ProductDetail = ({ product, onClose, onAdd }: ProductDetailProps) => {
     <LayerOutOfRoot className="modalclass fixed w-full h-full z-50 top-0 left-0 bg-white">
       <div className="flex w-full lg:w-2/3 justify-center items-center m-auto" style={{ height: '90%' }}>
         <div className="flex-1 flex justify-center">
-          <img className="w-full lg:w-2/3 mt-10" src={`${back_host}/images/${product?.id}.png`} />
+          <img className="w-full lg:w-2/3 mt-10" src={`${imgUrl(product.id)}`} />
         </div>
         <div className="flex-1 flex flex-col p-5">
           <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">{product.name}</p>

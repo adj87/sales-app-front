@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { getPhpBackHostUrl } from '../../../utils';
 import { fareLinesToFares } from '../constants';
 import { IFare } from './types/Fare';
 
-const BACK_HOST = process.env.REACT_APP_BACK_HOST;
+const BACK_HOST = getPhpBackHostUrl();
 const API_FARES = `${BACK_HOST}/tarifa`;
 
 const fetchFareLines = (fareId?: Number) => {

@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { getPhpBackHostUrl } from '../../../utils';
 import { IOrder } from './types/Order';
 
-const API_END_POINT = process.env.REACT_APP_BACK_HOST;
+const API_END_POINT = getPhpBackHostUrl();
 const API_ORDERS = `${API_END_POINT}/pedido`;
 
 const fetchOrders = (type?: string, orderId?: Number) => {

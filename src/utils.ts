@@ -51,4 +51,16 @@ export const numberOfElementsInArrValidation = (min: number = 0) =>
 export const positiveNumberValidation = numberValidation.moreThan(0, ' must be positive');
 export const reasonablePriceValidation = positiveNumberValidation.lessThan(5, 'must be reasonable');
 
-export const isDefaultFare = (fare: IFare | null) =>  fare && fare?.customer_id === DEFAULT_FARE;
+export const isDefaultFare = (fare: IFare | null) => fare && fare?.customer_id === DEFAULT_FARE;
+
+export const getPhpBackHostUrl = () => {
+  const BACK_HOST = process.env.REACT_APP_BACK_HOST;
+
+  // @ts-ignore
+  const BACK_HOSTS = JSON.parse(BACK_HOST);
+  if (window.location.host.includes('localhost') || window.location.host.includes('172.26.0')) {
+    return BACK_HOSTS[0];
+  } else {
+    return BACK_HOSTS[1];
+  }
+};
