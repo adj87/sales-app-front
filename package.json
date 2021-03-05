@@ -46,7 +46,7 @@
     "start": "env-cmd -f ./.envs/.env.node react-scripts start",
     "start-php": "env-cmd -f ./.envs/.env.phplang react-scripts start",
     "build-css": "npx tailwindcss build ./src/css/src/index.scss -o ./src/css/dist/index.css",
-    "build": "react-scripts build",
+    "build": "env-cmd -f ./.envs/.env.phplang react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
