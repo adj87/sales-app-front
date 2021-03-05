@@ -11,8 +11,10 @@ const fetchOrders = (type?: string, orderId?: Number) => {
 };
 
 const createOrder = (order: IOrder) => {
-  const url = API_ORDERS;
-  return axios.post(url, order);
+  const url = `${API_ORDERS}/insertaPedido`;
+  let data = new FormData();
+  data.append('pedido', JSON.stringify(order));
+  return axios.post(url, data);
 };
 
 const editOrder = (order: IOrder) => {
