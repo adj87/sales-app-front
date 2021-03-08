@@ -1,17 +1,20 @@
 import axios from 'axios';
+import { getPhpBackHostUrl } from '../../../utils';
 import { IOrder } from './types/Order';
 
-const API_END_POINT = process.env.REACT_APP_API_END_POINT;
-const API_ORDERS = `${API_END_POINT}clientes`;
+const API_END_POINT = getPhpBackHostUrl();
+const API_ORDERS = `${API_END_POINT}/pedido`;
 
 const fetchOrders = (type?: string, orderId?: Number) => {
-  const url = orderId ? `${API_ORDERS}/?id=${orderId}` : API_ORDERS;
+  const url = orderId ? `${API_ORDERS}/?id=${orderId}&serie=${type}` : API_ORDERS;
   return axios.get(url);
 };
 
 const createOrder = (order: IOrder) => {
-  const url = API_ORDERS;
-  return axios.post(url, order);
+  const url = `${API_ORDERS}/insertaPedido`;
+  let data = new FormData();
+  data.append('pedido', JSON.stringify(order));
+  return axios.post(url, data);
 };
 
 const editOrder = (order: IOrder) => {

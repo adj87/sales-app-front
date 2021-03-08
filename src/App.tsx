@@ -13,7 +13,7 @@ function App() {
     <Provider store={store}>
       <Alerts />
       <Loading />
-      <BrowserRouter>
+      <BrowserRouter basename="indogosaventas">
         <Switch>
           {routes.map(({ component, path, exact, authIsRequired }: RouteInterface) => {
             if (authIsRequired) {

@@ -3,15 +3,19 @@ import { dayjsCustom } from '../../dayjsConfig';
 import * as Yup from 'yup';
 
 import i18n from '../../i18n';
-import { isDefaultFare } from '../../utils';
+import { getPhpBackHostUrl, isDefaultFare } from '../../utils';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 import { IOrder, IOrderLine } from './duck/types/Order';
 import { IProduct } from '../Products/duck/types/Product';
 import { TAXES_RATE, RECHARGE_RATE, WORKING_DAYS_OF_DELIVERY } from '../../constants';
 import { IFare, IFareLine } from '../Fares/duck/types/Fare';
 
+const backEnd = process.env.REACT_APP_BACK;
+const backHost = process.env.REACT_APP_BACK_HOST;
 const dateFormatBack = process.env.REACT_APP_FORMAT_DATE_BACK;
 const dateFormatFront = process.env.REACT_APP_FORMAT_DATE_FRONT;
+
+const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
 export const columns = [
   {
@@ -56,7 +60,7 @@ export const columnsOrderLineTable = [
             <div className="flex items-center justify-center">
               {
                 <>
-                  <img src={`http://localhost:3001/images/${row.original.product_id}.png`} width="20" className="inline mr-2"></img>
+                  <img src={`${imgUrl(row.original.product_id)}`} width="20" className="inline mr-2"></img>
                   <span>{row.original.product_name}</span>
                 </>
               }
