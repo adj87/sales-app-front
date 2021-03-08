@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal/Modal';
@@ -67,23 +67,14 @@ const FaresModal = ({
   });
   const { setFieldValue, submitForm, values, errors, submitCount } = formik;
   const { t } = useTranslation();
-  const [idCustomersAlreadyWithFares, setIdCustomersAlreadyWithFares] = useState<number[] | null>(null);
-  const [idProductsAlreadyInFareLines, setIdProductsAlreadyInFareLines] = useState<number[] | null>(null);
   const [inheritModal, setInheritModal] = useState<boolean>(false);
   const [fareLineToForm, setFareLineToForm] = useState<IFareLine | null>(null);
   const isEditingMode = editingMode !== undefined ? editingMode : Boolean(fare.customer_id);
 
-  useEffect(() => {
-    // @ts-ignore
-    const idProductsAlreadyInFareLines = values.fare_lines.map((fareLine: IFareLine) => fareLine.product_id);
-    setIdProductsAlreadyInFareLines(idProductsAlreadyInFareLines);
-  }, [values.fare_lines]);
+  // @ts-ignore
+  const idProductsAlreadyInFareLines = useMemo(() => values.fare_lines.map((fareLine: IFareLine) => fareLine.product_id), [values.fare_lines.length]);
 
-  useEffect(() => {
-    const idCustomersAlreadyWithFares = fares.map((fare: IFare) => fare.customer_id);
-    // @ts-ignore
-    setIdCustomersAlreadyWithFares(idCustomersAlreadyWithFares);
-  }, [fares.length]);
+  const idCustomersAlreadyWithFares = useMemo(() => fares.map((fare: IFare) => fare.customer_id), [fares.length]);
 
   return (
     <>
@@ -100,10 +91,7 @@ const FaresModal = ({
               }}
               options={customers}
               isDisabled={selectDisabled ?? isEditingMode}
-              isOptionDisabled={(customer: ICustomer) =>
-                // @ts-ignore
-                idCustomersAlreadyWithFares.includes(customer.id)
-              }
+              isOptionDisabled={(customer: ICustomer) => idCustomersAlreadyWithFares.includes(customer.id)}
             />
           </div>
         </div>
@@ -168,10 +156,7 @@ const FaresModal = ({
           }}
           // @ts-ignore
           fareLine={fareLineToForm}
-          isProductAlreadyInFare={(product: IProduct) =>
-            // @ts-ignore
-            idProductsAlreadyInFareLines.includes(product.id)
-          }
+          isProductAlreadyInFare={(product: IProduct) => idProductsAlreadyInFareLines.includes(product.id)}
           products={products}
         />
       )}
