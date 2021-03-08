@@ -54,13 +54,18 @@ export const reasonablePriceValidation = positiveNumberValidation.lessThan(5, 'm
 export const isDefaultFare = (fare: IFare | null) => fare && fare?.customer_id === DEFAULT_FARE;
 
 export const getPhpBackHostUrl = () => {
+  const BACK = process.env.REACT_APP_BACK;
   const BACK_HOST = process.env.REACT_APP_BACK_HOST;
 
-  // @ts-ignore
-  const BACK_HOSTS = JSON.parse(BACK_HOST);
-  if (window.location.host.includes('localhost') || window.location.host.includes('172.26.0')) {
-    return BACK_HOSTS[0];
+  if (BACK === 'PHP') {
+    // @ts-ignore
+    const BACK_HOSTS = JSON.parse(BACK_HOST);
+    if (window.location.host.includes('localhost') || window.location.host.includes('172.26.0')) {
+      return BACK_HOSTS[0];
+    } else {
+      return BACK_HOSTS[1];
+    }
   } else {
-    return BACK_HOSTS[1];
+    return BACK_HOST;
   }
 };

@@ -2,6 +2,7 @@ export interface IOrder {
   id: number | null;
   address: string | null;
   fiscal_id: string | null;
+  route_id: string | null;
   zip_code: string | null;
   shipping_place: string | null;
   date: string | null;
@@ -14,7 +15,6 @@ export interface IOrder {
   total: number | null;
   customer_id: string | null;
   customer_name: string | null;
-  customer_route_id: number | null;
   type: string;
   show_together_with_others: boolean;
   order_lines: IOrderLine[];

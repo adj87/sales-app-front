@@ -14,9 +14,9 @@ interface InputWithCarrouselProps {
   value?: any;
 }
 
+const backEnd = process.env.REACT_APP_BACK;
 const backHost = process.env.REACT_APP_BACK_HOST;
-const backEnd = process.env.REACT_APP_BACK_END;
-const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}` : `${getPhpBackHostUrl()}/images?id=${id}`);
+const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}.png` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
 const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) => {
   const [openCarrousel, setOpenCarrousel] = useState(false);
