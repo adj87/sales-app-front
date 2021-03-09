@@ -12,11 +12,11 @@ const LayerOutOfRoot = ({ children, className }: LayerOutOfRootProps) => {
     const modal = document.createElement('div');
     modal.className =
       className ??
-      'modalclass overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
+      'modalclass overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none bg-blur-lg bg-primary-opacity transition duration-500';
 
-    //make sure alerts div exits in index.html
-    const alertsContaniner = document.getElementById('alerts');
-    document.body.insertBefore(modal, alertsContaniner);
+    //make sure loading div exits in index.html
+    const loadingContainer = document.getElementById('loading');
+    document.body.insertBefore(modal, loadingContainer);
     document.body.style.overflow = 'hidden';
     setModal(modal);
     return () => {
