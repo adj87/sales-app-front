@@ -71,7 +71,7 @@ const OrdersModal = ({
         editOrder(ord, order.type);
       }
       // @ts-ignore
-      // return onCancel();
+      return onCancel();
     },
     validationSchema: validationSchemaOrder,
   });
