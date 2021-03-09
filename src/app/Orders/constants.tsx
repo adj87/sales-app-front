@@ -196,12 +196,10 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
     // @ts-ignore
-    const { price_1, price_2 } = productFare;
+    const { price_1, price_2, to_charge, to_sell } = productFare;
     // @ts-ignore
-    if (isDefaultFare(fare)) {
+    if (isDefaultFare(fare) && (to_charge > 1 || to_sell > 1)) {
       if (quantity && quantity <= 10) {
-        // @ts-ignore
-        const { to_charge, to_sell } = productFare;
         // @ts-ignore
         let toCharge = Math.floor(quantity / to_charge) * to_charge;
         // @ts-ignore

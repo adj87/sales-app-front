@@ -44,7 +44,7 @@ const fetchProductCost = (productId: string, cb: Function) =>
   fetchOperationWithLoading(
     () => productsApi.fetchProductCost(productId),
     null,
-    (cost: number) => cb(cost),
+    (res: any) => cb(res.data.data),
   );
 
 const createFare = (fare: IFare, cb: Function) =>
