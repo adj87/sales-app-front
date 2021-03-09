@@ -126,6 +126,7 @@ export const validationSchemaOrder = Yup.object().shape({
 export const validationSchemaOrderLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
+  cost: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
 });
 

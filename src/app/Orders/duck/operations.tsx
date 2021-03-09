@@ -40,6 +40,13 @@ const onCancelOrderModal = () => (dispatch: Dispatch<any>) => {
 const fetchFareWithCb = (idCustomerFare: number, cb: Function) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), null, cb);
 const fetchFare = (idCustomerFare: number) => fetchOperationWithLoading(() => faresApi.fetchFares(idCustomerFare), actions.setFare);
 
+const fetchProductCost = (productId: string, cb: Function) =>
+  fetchOperationWithLoading(
+    () => productsApi.fetchProductCost(productId),
+    null,
+    (cost: number) => cb(cost),
+  );
+
 const createFare = (fare: IFare, cb: Function) =>
   generalCreateOrEditOperation(
     () => faresApi.createFare(fare),
@@ -92,4 +99,5 @@ export default {
   editFare,
   editOrder,
   deleteOrder,
+  fetchProductCost,
 };
