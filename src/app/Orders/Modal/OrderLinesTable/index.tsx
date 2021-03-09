@@ -16,9 +16,10 @@ interface OrderLinesTableProps {
   onConfirmOrderLineModal: Function;
   deleteOnRowPress: Function;
   values: IOrder;
+  fetchProductCost: Function;
 }
 
-const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, deleteOnRowPress }: OrderLinesTableProps) => {
+const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, deleteOnRowPress, fetchProductCost }: OrderLinesTableProps) => {
   const [orderLineToEdit, setOrderLineToEdit] = useState<IOrderLine | null>(null);
   return (
     <div className="mt-3">
@@ -50,6 +51,7 @@ const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, dele
           isSurcharge={values.is_surcharge}
           isTypeA={values.type === 'A'}
           fare={fare}
+          fetchProductCost={fetchProductCost}
         />
       )}
     </div>

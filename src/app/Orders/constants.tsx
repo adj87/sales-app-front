@@ -15,7 +15,7 @@ const backHost = process.env.REACT_APP_BACK_HOST;
 const dateFormatBack = process.env.REACT_APP_FORMAT_DATE_BACK;
 const dateFormatFront = process.env.REACT_APP_FORMAT_DATE_FRONT;
 
-const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}` : `${getPhpBackHostUrl()}/images?id=${id}`);
+const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}.png` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
 export const columns = [
   {
@@ -86,6 +86,7 @@ export const defaultValues = {
   zip_code: null,
   date: dayjsCustom().format(dateFormatBack),
   shipping_place: null,
+  route_id: null,
   //@ts-ignore
   delivery_date: dayjsCustom().businessDaysAdd(WORKING_DAYS_OF_DELIVERY).format(dateFormatBack),
   total_net: 0,
@@ -96,7 +97,6 @@ export const defaultValues = {
   total: 0,
   customer_id: null,
   customer_name: null,
-  customer_route_id: null,
   type: 'A',
   show_together_with_others: true,
   order_lines: [],
@@ -126,6 +126,7 @@ export const validationSchemaOrder = Yup.object().shape({
 export const validationSchemaOrderLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
+  cost: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
 });
 
@@ -195,12 +196,10 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
     // @ts-ignore
-    const { price_1, price_2 } = productFare;
+    const { price_1, price_2, to_charge, to_sell } = productFare;
     // @ts-ignore
-    if (isDefaultFare(fare)) {
+    if (isDefaultFare(fare) && (to_charge > 1 || to_sell > 1)) {
       if (quantity && quantity <= 10) {
-        // @ts-ignore
-        const { to_charge, to_sell } = productFare;
         // @ts-ignore
         let toCharge = Math.floor(quantity / to_charge) * to_charge;
         // @ts-ignore

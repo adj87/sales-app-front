@@ -5,6 +5,7 @@ export interface ICustomer {
   name: string;
   address: string;
   fiscal_id: string;
+  route_id: string;
   zip_code: string;
   email: string;
   phone: string;

@@ -9,6 +9,12 @@ const fetchProducts = (productId?: Number) => {
   return axios.get(url);
 };
 
+const fetchProductCost = (productId: string) => {
+  const url = `${API_PRODUCTS}/costo/?codigo=${productId}`;
+  return axios.get(url);
+};
+
 export default {
   fetchProducts,
+  fetchProductCost,
 };

@@ -14,9 +14,11 @@ import SelectComponent from '../../../../components/Select';
 import { TAXES_RATE, RECHARGE_RATE } from '../../../../constants';
 import { roundToTwoDec, isDefaultFare } from '../../../../utils';
 import { useTranslation } from 'react-i18next';
+import LabelError from '../../../../components/LabelError';
 
 const InputWithFormikValues = withFormikValues(Input);
 const SelectWithFV = withFormikValues(SelectComponent);
+const backEnd = process.env.REACT_APP_BACK;
 
 interface OrderLineModalProps extends ModalProps {
   children?: undefined;
@@ -27,16 +29,27 @@ interface OrderLineModalProps extends ModalProps {
   isGreenPoint: boolean;
   isSurcharge: boolean;
   isTypeA: boolean;
+  fetchProductCost: Function;
 }
 
-const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isTypeA, isGreenPoint, isSurcharge }: OrderLineModalProps) => {
+const OrderLineModal = ({
+  onCancel,
+  onConfirm,
+  products,
+  orderLine,
+  fare,
+  isTypeA,
+  isGreenPoint,
+  isSurcharge,
+  fetchProductCost,
+}: OrderLineModalProps) => {
   const formik = useFormik<IOrderLine | any>({
     validationSchema: validationSchemaOrderLine,
     initialValues: orderLine,
     onSubmit: onConfirm,
   });
 
-  const { values, setFieldValue, submitForm, setValues } = formik;
+  const { values, setFieldValue, submitForm, setValues, errors } = formik;
   // @ts-ignore
   const productsInFare = useMemo(() => products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id)), [
     products,
@@ -47,9 +60,15 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
   const fareLineSelected = useMemo(() => fare?.fare_lines.find((el: IFareLine) => el.product_id === values.product_id), [values.product_id]);
 
   const onChangeProduct = (product: IProduct) => {
-    const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity } = product;
+    const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity, cost } = product;
     const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
-    setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity });
+    if (backEnd === 'PHP') {
+      fetchProductCost(product.id, (cost: number) => {
+        setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost });
+      });
+    } else {
+      setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost });
+    }
   };
 
   const calculateAmounts = (values: IOrderLine, isGreenPoint: boolean, isSurcharge: boolean, isTypeA: boolean, products: IProduct[]) => {
@@ -108,6 +127,7 @@ const OrderLineModal = ({ onCancel, onConfirm, products, orderLine, fare, isType
             type="number"
             onChange={setFieldValue}
           />
+          {errors.cost && <LabelError error={`Cost ${errors.cost}`} />}
           <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
             <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
             <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
