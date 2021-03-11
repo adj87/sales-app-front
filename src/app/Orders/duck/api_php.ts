@@ -23,8 +23,8 @@ const editOrder = (order: IOrder) => {
 };
 
 const deleteOrder = (order: IOrder) => {
-  const url = `${API_ORDERS}/${order.id}/type/${order.type}`;
-  return axios.delete(url);
+  const url = `${API_ORDERS}/eliminaPedido/?numero=${order.id}&serie=${order.type}`;
+  return axios.post(url);
 };
 
 export default {

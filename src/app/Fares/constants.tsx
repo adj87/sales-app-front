@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import i18n from '../../i18n';
 
 import { IFareLine, IFare, IFareLineWithCheck } from './duck/types/Fare';
-import { reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
+import { positiveNumberValidation, numberOfElementsInArrValidation, numberValidation } from '../../utils';
 
 export const columns = [
   {
@@ -34,11 +34,11 @@ export const defaultValuesFareLine = {
   customer_id: null,
   customer_name: null,
   price_1: null,
-  price_2: null,
-  price_3: null,
-  price_4: null,
-  to_sell: null,
-  to_charge: null,
+  price_2: 0,
+  price_3: 0,
+  price_4: 0,
+  to_sell: 1,
+  to_charge: 1,
 };
 
 export const fareLinesToFares = (fareLines: IFareLine[]): IFare[] => {
@@ -75,8 +75,8 @@ export const countInArray = (array, value) => array.reduce((n, x) => n + (x === 
 
 export const validationSchemaFareLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  price_1: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
-  price_2: reasonablePriceValidation,
+  price_1: positiveNumberValidation.nullable().required(i18n.t('commons.errors.field_required')),
+  price_2: numberValidation.nullable().required(i18n.t('commons.errors.field_required')),
 });
 
 export const validationSchemaInheritFrom = Yup.object().shape({
