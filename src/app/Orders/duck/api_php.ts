@@ -17,9 +17,11 @@ const createOrder = (order: IOrder) => {
   return axios.post(url, data);
 };
 
-const editOrder = (order: IOrder) => {
-  const url = `${API_ORDERS}/${order.id}`;
-  return axios.put(url, order);
+const editOrder = (order: IOrder, type: string) => {
+  const url = `${API_ORDERS}/editaPedido/?numero=${order.id}&serie=${type}`;
+  let data = new FormData();
+  data.append('pedido', JSON.stringify(order));
+  return axios.post(url, data);
 };
 
 const deleteOrder = (order: IOrder) => {
