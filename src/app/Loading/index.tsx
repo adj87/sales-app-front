@@ -11,7 +11,7 @@ interface LoadingProps {
 
 const Loading = ({ loading }: LoadingProps) => {
   const container = document.getElementById('loading') || document.createElement('div');
-  container.className = `modalclass overflow-x-hidden overflow-y-auto fixed inset-0 ${loading ? 'block bg-blur-lg bg-primary-opacity' : 'hidden'}`;
+  container.className = `overflow-x-hidden overflow-y-auto fixed inset-0 ${loading ? 'block bg-blur-lg bg-primary-opacity' : 'hidden'}`;
   return (
     <>
       {loading &&

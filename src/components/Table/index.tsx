@@ -209,13 +209,8 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
   return (
     <div className="flex justify-end relative">
       <div className={'flex-column justify-end mb-1'}>
-        <div className="text-right">
-          <FontAwesomeIcon
-            icon={faEllipsisV}
-            className="text-secondary-dark cursor-pointer"
-            size="lg"
-            onClick={() => setShowColumnsOptions(!showColumnsOptions)}
-          />
+        <div className="text-right py-2 pl-5 cursor-pointer" onClick={() => setShowColumnsOptions(!showColumnsOptions)}>
+          <FontAwesomeIcon icon={faEllipsisV} className="text-secondary-dark cursor-pointer" size="2x" />
         </div>
         <div className={className}>
           {allColumns.map((column) => {

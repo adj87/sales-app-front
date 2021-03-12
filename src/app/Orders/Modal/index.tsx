@@ -99,7 +99,7 @@ const OrdersModal = ({
 
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={`${values.id ? 'orders.form.title-edit' : 'orders.form.title'}`}>
-      <div className="w-full flex justify-start mb-10">
+      <div className="w-full flex justify-start mb-2">
         <span className="text-primary-dark">Fecha</span>
         <span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span>
       </div>
