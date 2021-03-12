@@ -24,6 +24,7 @@ export const links: LinksInterface = {
     },
     { to: '/customers', i18nLabel: 'main-layout.customers' },
     { to: '/fares', i18nLabel: 'main-layout.fares' },
+    { to: '/config', i18nLabel: 'main-layout.config' },
   ],
 };
 
@@ -44,6 +45,12 @@ export const routes: Array<RouteInterface> = [
   {
     path: ['/', '/fares', '/fares/:id', '/fares/new'],
     component: Fares,
+    exact: true,
+    authIsRequired: true,
+  },
+  {
+    path: '/config',
+    component: () => <div>Config</div>,
     exact: true,
     authIsRequired: true,
   },
