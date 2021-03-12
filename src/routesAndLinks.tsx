@@ -3,6 +3,7 @@ import { Orders } from './app/Orders';
 import { LinkProps, RouteProps } from 'react-router-dom';
 import { Customers } from './app/Customers';
 import { Fares } from './app/Fares';
+import { Config } from './app/Config';
 
 export interface RouteInterface extends RouteProps {
   authIsRequired?: boolean;
@@ -50,7 +51,7 @@ export const routes: Array<RouteInterface> = [
   },
   {
     path: '/config',
-    component: () => <div>Config</div>,
+    component: Config,
     exact: true,
     authIsRequired: true,
   },
