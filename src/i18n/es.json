@@ -125,5 +125,8 @@
       "label-price-4": "Precio 4",
       "label-price-5": "Precio 5"
     }
+  },
+  "config": {
+    "year": "Selecciona año"
   }
 }

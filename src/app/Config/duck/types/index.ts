@@ -1,6 +1,6 @@
 import { IConfig } from './IConfig';
 
-const SECTION_CONFIG = 'CONFIG';
+const SECTION_CONFIG = 'CONFIG_';
 export const SET_YEAR = SECTION_CONFIG + 'SET_YEAR';
 
 export interface SetYearAction {
