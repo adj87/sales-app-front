@@ -36,7 +36,7 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración" },
   "orders": {
     "table": {
       "type": "Serie",
@@ -95,6 +95,18 @@
     }
   },
   "fares": {
+    "table": {
+      "customer_id": "id",
+      "customer_name": "Nombre",
+      "product_name": "Producto",
+      "price_1": "Precio 1",
+      "price_2": "Precio 2",
+      "price_3": "Precio 3",
+      "price_4": "Precio 4",
+      "product_id": "Código producto",
+      "to_charge": "A cobrar",
+      "to_sell": "A vender"
+    },
     "form": {
       "title": "Añadir tarifa",
       "title-edit": "Editar tarifa",
@@ -113,5 +125,8 @@
       "label-price-4": "Precio 4",
       "label-price-5": "Precio 5"
     }
+  },
+  "config": {
+    "year": "Selecciona año"
   }
 }
