@@ -36,7 +36,7 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración" },
   "orders": {
     "table": {
       "type": "Serie",
@@ -125,5 +125,8 @@
       "label-price-4": "Precio 4",
       "label-price-5": "Precio 5"
     }
+  },
+  "config": {
+    "year": "Selecciona año"
   }
 }
