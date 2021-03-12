@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Loading from './app/Loading';
 import Alerts from './app/Alerts';
+import './interceptors';
 
 function App() {
   return (
