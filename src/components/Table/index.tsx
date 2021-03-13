@@ -149,24 +149,17 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
   return (
     <tbody {...getTableBodyProps()}>
       {page.map((row, i) => {
-        let clickHoldTimer = null;
-        let functionExecuted = false;
         prepareRow(row);
         return (
           <tr
             {...row.getRowProps()}
             className={onRowClick ? 'cursor-pointer' : ''}
-            onPointerDown={() => {
-              clickHoldTimer = setTimeout(() => {
-                functionExecuted = true;
-                onRowLongPress && onRowLongPress(row);
-                deleteOnRowPress && setRowToDelete(row);
-              }, 500);
-            }}
-            onMouseUp={() => {
-              !functionExecuted && onRowClick && onRowClick(row);
-              functionExecuted = false;
-              clearInterval(clickHoldTimer);
+            onClick={() => onRowClick && onRowClick(row)}
+            onContextMenu={(ev) => {
+              ev.preventDefault();
+              onRowLongPress && onRowLongPress(row);
+              deleteOnRowPress && setRowToDelete(row);
+              return false;
             }}
           >
             {row.cells.map((cell) => {
