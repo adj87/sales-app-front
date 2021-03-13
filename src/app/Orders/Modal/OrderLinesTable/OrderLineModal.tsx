@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Modal from '../../../../components/Modal/Modal';
 import { ModalProps } from '../../../../components/Modal/Modal';
 import InputWithCarrousel from '../../../../components/InputWithCarrousel';
@@ -15,6 +15,8 @@ import { TAXES_RATE, RECHARGE_RATE } from '../../../../constants';
 import { roundToTwoDec, isDefaultFare } from '../../../../utils';
 import { useTranslation } from 'react-i18next';
 import LabelError from '../../../../components/LabelError';
+import Button from '../../../../components/Button';
+import { LogisticSheet } from '../../../../components/LogisticSheet';
 
 const InputWithFormikValues = withFormikValues(Input);
 const SelectWithFV = withFormikValues(SelectComponent);
@@ -55,9 +57,10 @@ const OrderLineModal = ({
     products,
   ]);
 
-  const productSelected = useMemo(() => products.find((el: IProduct) => el.id === values.product_id), [values.product_id]);
-
   const fareLineSelected = useMemo(() => fare?.fare_lines.find((el: IFareLine) => el.product_id === values.product_id), [values.product_id]);
+
+  const productSelected = useMemo(() => products.find((el: IProduct) => el.id === values.product_id) ?? null, [values.product_id]);
+  const [productInLS, setProductInLS] = useState<null | IProduct>(null);
 
   const onChangeProduct = (product: IProduct) => {
     const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity, cost } = product;
@@ -100,66 +103,67 @@ const OrderLineModal = ({
 
   const { net, greenPoint, tax, surcharge, total } = calculateAmounts(values, isGreenPoint, isSurcharge, isTypeA, products);
 
-  console.log('esto son los values', values);
-
   return (
-    <Modal
-      title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'}
-      size="lg"
-      centered
-      onConfirm={submitForm}
-      onCancel={onCancel}
-    >
-      <div className="grid grid-cols-1 md:grid-cols-2">
-        <div className="flex flex-col w-4/5 m-auto">
-          <SelectWithFV
-            options={productsInFare}
-            onChange={(name: string, product: IProduct) => onChangeProduct(product)}
-            labelText="orders.form.products-form.label-product"
-            formikObject={formik}
-            name={'product_id'}
-          />
-          <InputWithFormikValues formikObject={formik} type="number" label="Precio" name="price" onChange={setFieldValue} step="0.01" />
-          <InputWithFormikValues
-            formikObject={formik}
-            label="orders.form.products-form.label-quantity"
-            name="quantity"
-            type="number"
-            onChange={setFieldValue}
-          />
-          {errors.cost && <LabelError error={`Cost ${errors.cost}`} />}
-          <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
-            <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
-            <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
-            <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
-            <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
-            <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
+    <>
+      <Modal
+        title={Boolean(values.line_number) ? 'orders.form.products-form.title-edit' : 'orders.form.products-form.title'}
+        size="lg"
+        centered
+        onConfirm={submitForm}
+        onCancel={onCancel}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="flex flex-col w-4/5 m-auto">
+            <SelectWithFV
+              options={productsInFare}
+              onChange={(name: string, product: IProduct) => onChangeProduct(product)}
+              labelText="orders.form.products-form.label-product"
+              formikObject={formik}
+              name={'product_id'}
+            />
+            <InputWithFormikValues formikObject={formik} type="number" label="Precio" name="price" onChange={setFieldValue} step="0.01" />
+            <InputWithFormikValues
+              formikObject={formik}
+              label="orders.form.products-form.label-quantity"
+              name="quantity"
+              type="number"
+              onChange={setFieldValue}
+            />
+            {errors.cost && <LabelError error={`Cost ${errors.cost}`} />}
+            <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
+              <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />
+              <LabelAndAmount amount={roundToTwoDec(tax)} label={'Iva'} isDisabled={!isTypeA} />
+              <LabelAndAmount amount={roundToTwoDec(greenPoint)} label={'P. Verde'} isDisabled={!isGreenPoint} />
+              <LabelAndAmount amount={roundToTwoDec(surcharge)} label={'Recargo'} isDisabled={!isSurcharge} />
+              <LabelAndAmount amount={roundToTwoDec(total)} label={'Total'} isTotal />
+            </div>
+          </div>
+          <div className="w-4/5 m-auto">
+            <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
+
+            {values.product_id && (
+              <div className="pt-5 px-5">
+                <Button text={'FL'} onClick={() => setProductInLS(productSelected)} color="primary" size="block" className="py-0" outline />
+                {isDefaultFare(fare) && (
+                  <Element
+                    /* 
+                // @ts-ignore */
+                    value={`${fareLineSelected?.to_charge} + ${fareLineSelected?.to_sell - fareLineSelected?.to_charge}`}
+                    label="commons.promo"
+                  />
+                )}
+                <Element value={fareLineSelected?.price_1} label="commons.price-1" />
+                <Element value={values.capacity} label="commons.capacity" />
+                <Element value={values.units_per_box} label="commons.units-per-box" />
+                <Element value={values.green_point_amount} label="commons.green-point" />
+                {/*    <p className="text-secondary-dark text-right my-4">{`${t('commons.capacity')} ${productSelected.capacity}`}</p> */}
+              </div>
+            )}
           </div>
         </div>
-        <div className="w-4/5 m-auto">
-          <InputWithCarrousel onChange={onChangeProduct} data={productsInFare} value={values.product_id} />
-
-          {values.product_id && (
-            <div className="pt-5 px-5">
-              {isDefaultFare(fare) && (
-                <Element
-                  /* 
-                // @ts-ignore */
-                  value={`${fareLineSelected?.to_charge} + ${fareLineSelected?.to_sell - fareLineSelected?.to_charge}`}
-                  label="commons.promo"
-                />
-              )}
-
-              <Element value={fareLineSelected?.price_1} label="commons.price-1" />
-              <Element value={values.capacity} label="commons.capacity" />
-              <Element value={values.units_per_box} label="commons.units-per-box" />
-              <Element value={values.green_point_amount} label="commons.green-point" />
-              {/*    <p className="text-secondary-dark text-right my-4">{`${t('commons.capacity')} ${productSelected.capacity}`}</p> */}
-            </div>
-          )}
-        </div>
-      </div>
-    </Modal>
+      </Modal>
+      {productInLS && <LogisticSheet product={productInLS} onClose={() => setProductInLS(null)} onAdd={() => setProductInLS(null)} />}
+    </>
   );
 };
 

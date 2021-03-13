@@ -149,29 +149,22 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
   return (
     <tbody {...getTableBodyProps()}>
       {page.map((row, i) => {
-        let clickHoldTimer = null;
-        let functionExecuted = false;
         prepareRow(row);
         return (
           <tr
             {...row.getRowProps()}
-            className={onRowClick ? 'cursor-pointer' : ''}
-            onPointerDown={() => {
-              clickHoldTimer = setTimeout(() => {
-                functionExecuted = true;
-                onRowLongPress && onRowLongPress(row);
-                deleteOnRowPress && setRowToDelete(row);
-              }, 500);
-            }}
-            onMouseUp={() => {
-              !functionExecuted && onRowClick && onRowClick(row);
-              functionExecuted = false;
-              clearInterval(clickHoldTimer);
+            className={`${onRowClick ? 'cursor-pointer bg-white' : ''} hover:bg-grey-100`}
+            onClick={() => onRowClick && onRowClick(row)}
+            onContextMenu={(ev) => {
+              ev.preventDefault();
+              onRowLongPress && onRowLongPress(row);
+              deleteOnRowPress && setRowToDelete(row);
+              return false;
             }}
           >
             {row.cells.map((cell) => {
               return (
-                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white">
+                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 ">
                   {cell.render('Cell')}
                 </td>
               );
@@ -209,13 +202,8 @@ const ColumnsChecks = ({ allColumns, showColumnsOptions, setShowColumnsOptions, 
   return (
     <div className="flex justify-end relative">
       <div className={'flex-column justify-end mb-1'}>
-        <div className="text-right">
-          <FontAwesomeIcon
-            icon={faEllipsisV}
-            className="text-secondary-dark cursor-pointer"
-            size="lg"
-            onClick={() => setShowColumnsOptions(!showColumnsOptions)}
-          />
+        <div className="text-right py-2 pl-5 cursor-pointer" onClick={() => setShowColumnsOptions(!showColumnsOptions)}>
+          <FontAwesomeIcon icon={faEllipsisV} className="text-secondary-dark cursor-pointer" size="2x" />
         </div>
         <div className={className}>
           {allColumns.map((column) => {

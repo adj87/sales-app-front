@@ -50,6 +50,7 @@ const SelectComponent = ({
         value={optionSelected}
         isDisabled={isDisabled}
         isOptionDisabled={isOptionDisabled}
+        menuPortalTarget={document.body}
       />
     </div>
   );

@@ -27,15 +27,13 @@ const Button = ({ text, onClick, color, className, style, size, outline }: Butto
 };
 
 const getCssColor = (color: String | undefined, outline: boolean | undefined) => {
-  return outline
-    ? `bg-white border-${color}-dark  text-${color}-dark border`
-    : `bg-${color}-dark hover:bg-${color}-main text-white font-bold`;
+  return outline ? `bg-white border-${color}-dark  text-${color}-dark border` : `bg-${color}-dark hover:bg-${color}-main text-white font-bold`;
 };
 
 const getCssSize = (size: String | undefined) => {
   switch (size) {
     case 'sm':
-      return 'py-0 px-6';
+      return 'py-2 px-6';
     case 'block':
       return 'w-full p-1';
     //md
