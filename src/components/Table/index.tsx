@@ -153,7 +153,7 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
         return (
           <tr
             {...row.getRowProps()}
-            className={onRowClick ? 'cursor-pointer' : ''}
+            className={`${onRowClick ? 'cursor-pointer bg-white' : ''} hover:bg-grey-100`}
             onClick={() => onRowClick && onRowClick(row)}
             onContextMenu={(ev) => {
               ev.preventDefault();
@@ -164,7 +164,7 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
           >
             {row.cells.map((cell) => {
               return (
-                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 bg-white">
+                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 ">
                   {cell.render('Cell')}
                 </td>
               );

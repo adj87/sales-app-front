@@ -13,14 +13,7 @@ export interface ModalProps {
   centered?: boolean;
 }
 
-export default function Modal({
-  size,
-  onCancel,
-  onConfirm,
-  children,
-  title,
-  centered,
-}: ModalProps) {
+export default function Modal({ size, onCancel, onConfirm, children, title, centered }: ModalProps) {
   const modalSize = (size: string = 'md') => {
     switch (size) {
       case 'lg':
@@ -35,24 +28,20 @@ export default function Modal({
 
   return (
     <LayerOutOfRoot>
-      <div
-        className={`${
-          centered && 'h-full justify-center items-center flex '
-        }relative w-auto py-6 mx-auto ${modalSize(size)} px-3`}
-      >
+      <div className={`${centered && 'h-full justify-center items-center flex '}relative w-auto py-6 mx-auto ${modalSize(size)} px-3`}>
         {/*content*/}
-        <div className="border-0 rounded-xl shadow-2xl relative flex flex-col w-full bg-white outline-none focus:outline-none ">
+        <div className="border-0 rounded-xl shadow-2xl relative flex-col w-full bg-white outline-none focus:outline-none ">
           {/*header*/}
           {title && (
             <div className="p-5  rounded-t">
-              <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">
-                {t(title)}
-              </h2>
+              <h2 className="text-2xl text-primary-dark text-center font-semibold uppercase font-bold">{t(title)}</h2>
               <button className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 text-3xl leading-none font-semibold outline-none focus:outline-none absolute right-0"></button>
             </div>
           )}
           {/*body*/}
-          <div className="relative p-6 flex-auto">{children}</div>
+          <div className="relative p-6 overflow-auto" style={centered ? { maxHeight: 'calc(100vh - 200px)' } : {}}>
+            {children}
+          </div>
           {/*footer*/}
           {onConfirm && (
             <div className="flex items-center justify-between p-6 border-t border-solid border-grey-300 rounded-b">
