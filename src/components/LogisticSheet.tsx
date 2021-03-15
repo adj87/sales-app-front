@@ -41,16 +41,16 @@ export const LogisticSheet = ({ product, onClose, onAdd }: ProductDetailProps) =
             <Line label="commons.weight" title={product.capacity.toString()} />
             <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.box-details')}</p>
             <Line label="commons.units-per-box" title={product.units_per_box.toString()} />
-            <Line label="commons.capacity" title={product.capacity.toString()} />
-            <Line label="commons.width" title={product.capacity.toString()} />
-            <Line label="commons.length" title={product.capacity.toString()} />
-            <Line label="commons.height" title={product.capacity.toString()} />
+            <Line label="commons.capacity" title={product.box_capacity.toString()} />
+            <Line label="commons.width" title={product.box_width.toString()} />
+            <Line label="commons.length" title={product.box_length.toString()} />
+            <Line label="commons.height" title={product.box_height.toString()} />
             <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.pallet-details')}</p>
-            <Line label="commons.units-per-pallet" title={product.capacity.toString()} />
-            <Line label="commons.base" title={product.capacity.toString()} />
-            <Line label="commons.capacity" title={product.capacity.toString()} />
-            <Line label="commons.height" title={product.capacity.toString()} />
-            <Line label="commons.weight" title={product.capacity.toString()} />
+            <Line label="commons.units-per-pallet" title={product.pallet_boxes.toString()} />
+            <Line label="commons.base" title={product.pallet_base.toString()} />
+            <Line label="commons.capacity" title={product.pallet_capacity.toString()} />
+            <Line label="commons.height" title={product.pallet_height.toString()} />
+            <Line label="commons.weight" title={product.pallet_weight.toString()} />
           </div>
         </div>
       </div>
