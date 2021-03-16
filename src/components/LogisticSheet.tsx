@@ -16,7 +16,7 @@ interface ProductDetailProps {
 
 export const LogisticSheet = ({ product, onClose, onAdd }: ProductDetailProps) => {
   const { t } = useTranslation();
-  const Line = ({ label, title }: { label: string; title: string }) => {
+  const Line = ({ label, title }: { label: string; title: string | number }) => {
     return (
       <div className="flex flex-row justify-between py-2">
         <span className="text-grey-900  ">{t(label)}</span>
@@ -36,21 +36,22 @@ export const LogisticSheet = ({ product, onClose, onAdd }: ProductDetailProps) =
           <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">{product.name}</p>
           <div className="px-10 xl:px-20">
             <p className="text-center text-primary-main uppercase font-bold">{t('commons.bottle-details')}</p>
-            <Line label="commons.bar-code" title={'848958965841'} />
-            <Line label="commons.capacity" title={product.capacity.toString()} />
-            <Line label="commons.weight" title={product.capacity.toString()} />
+            <Line label="commons.bar-code" title={product.code_bar} />
+            <Line label="commons.capacity" title={product.capacity} />
+            <Line label="commons.weight" title={product.weight} />
             <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.box-details')}</p>
-            <Line label="commons.units-per-box" title={product.units_per_box.toString()} />
-            <Line label="commons.capacity" title={product.box_capacity.toString()} />
-            <Line label="commons.width" title={product.box_width.toString()} />
-            <Line label="commons.length" title={product.box_length.toString()} />
-            <Line label="commons.height" title={product.box_height.toString()} />
+            <Line label="commons.units-per-box" title={product.units_per_box} />
+            <Line label="commons.capacity" title={product.box_capacity} />
+            <Line label="commons.weight" title={product.box_weight} />
+            <Line label="commons.length" title={product.box_length} />
+            <Line label="commons.width" title={product.box_width} />
+            <Line label="commons.height" title={product.box_height} />
             <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.pallet-details')}</p>
-            <Line label="commons.units-per-pallet" title={product.pallet_boxes.toString()} />
-            <Line label="commons.base" title={product.pallet_base.toString()} />
-            <Line label="commons.capacity" title={product.pallet_capacity.toString()} />
-            <Line label="commons.height" title={product.pallet_height.toString()} />
-            <Line label="commons.weight" title={product.pallet_weight.toString()} />
+            <Line label="commons.units-per-pallet" title={product.pallet_boxes} />
+            <Line label="commons.base" title={product.pallet_base} />
+            <Line label="commons.capacity" title={product.pallet_capacity} />
+            <Line label="commons.height" title={product.pallet_height} />
+            <Line label="commons.weight" title={product.pallet_weight} />
           </div>
         </div>
       </div>

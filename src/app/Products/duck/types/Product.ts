@@ -1,6 +1,7 @@
 export interface IProduct {
   // product
   id: string;
+  code_bar: string;
   name: string;
   cost: number;
   green_point_amount: number;

@@ -53,6 +53,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
                         onChange(el);
                         setOpenCarrousel(false);
                       }}
+                      title={el.name}
                     />
                   </div>
                 </div>
