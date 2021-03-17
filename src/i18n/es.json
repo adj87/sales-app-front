@@ -65,7 +65,8 @@
         "quantity": "Cantidad",
         "taxes_rate": "Impuestos",
         "surcharge_amount": "Recargo",
-        "green_point_amount": "P.verde"
+        "green_point_amount": "P.verde",
+        "total": "Total"
       },
       "title": "Añadir pedido",
       "title-edit": "Editar pedido",

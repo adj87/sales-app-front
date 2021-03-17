@@ -3,7 +3,7 @@ import { dayjsCustom } from '../../dayjsConfig';
 import * as Yup from 'yup';
 
 import i18n from '../../i18n';
-import { getPhpBackHostUrl, isDefaultFare, numberValidation } from '../../utils';
+import { getPhpBackHostUrl, isDefaultFare, numberValidation, roundToTwoDec } from '../../utils';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 import { IOrder, IOrderLine } from './duck/types/Order';
 import { IProduct } from '../Products/duck/types/Product';
@@ -75,6 +75,18 @@ export const columnsOrderLineTable = [
       { Header: i18n.t('orders.form.order-lines-table.taxes_rate'), accessor: 'taxes_rate' },
       { Header: i18n.t('orders.form.order-lines-table.surcharge_amount'), accessor: 'surcharge_amount' },
       { Header: i18n.t('orders.form.order-lines-table.green_point_amount'), accessor: 'green_point_amount' },
+      {
+        Header: i18n.t('orders.form.order-lines-table.total'),
+        Cell: ({ row }: any) => {
+          const { quantity, price, units_per_box }: IOrderLine = row.original;
+          if (quantity !== null && price !== null && units_per_box !== null) {
+            // @ts-ignore
+            return <span>{roundToTwoDec(quantity * price * units_per_box)}</span>;
+          } else {
+            return <span></span>;
+          }
+        },
+      },
     ],
   },
 ];
