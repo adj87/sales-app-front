@@ -3,7 +3,7 @@ import { dayjsCustom } from '../../dayjsConfig';
 import * as Yup from 'yup';
 
 import i18n from '../../i18n';
-import { getPhpBackHostUrl, isDefaultFare } from '../../utils';
+import { getPhpBackHostUrl, isDefaultFare, numberValidation } from '../../utils';
 import { positiveNumberValidation, reasonablePriceValidation, numberOfElementsInArrValidation } from '../../utils';
 import { IOrder, IOrderLine } from './duck/types/Order';
 import { IProduct } from '../Products/duck/types/Product';
@@ -127,7 +127,7 @@ export const validationSchemaOrderLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
   cost: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  price: reasonablePriceValidation.required(i18n.t('commons.errors.field_required')),
+  price: numberValidation.required(i18n.t('commons.errors.field_required')),
 });
 
 /**
