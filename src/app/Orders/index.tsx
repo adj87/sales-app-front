@@ -84,7 +84,9 @@ const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
   orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
-  isOpenModal: Boolean(state.orders.fare?.customer_id) && Boolean(state.orders.elementToCreateOrEdit),
+  isOpenModal:
+    (Boolean(state.orders.fare?.customer_id) && Boolean(state.orders.elementToCreateOrEdit)) ||
+    Boolean(state.orders.elementToCreateOrEdit?.customer_id === null),
 });
 
 const mapDispatch = {
