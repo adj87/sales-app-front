@@ -8,17 +8,10 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IOrder } from './duck/types/Order';
 import OrderModal from './Modal';
-import { columns, defaultValues } from './constants';
-import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
-import { ICustomer } from '../Customers/duck/types/Customer';
-import { IProduct } from '../Products/duck/types/Product';
-import { IFareLine } from '../Fares/duck/types/Fare';
+import { columns } from './constants';
 
 interface OrdersComponentProps {
   orders: IOrder[];
-  customers: ICustomer[];
-  products: IProduct[];
-  fareLines: IFareLine[];
   orderToForm: IOrder | null;
   fetchOrders: Function;
   fetchOrder: Function;
@@ -28,22 +21,21 @@ interface OrdersComponentProps {
   fetchCustomers: Function;
   onCancelOrderModal: Function;
   deleteOrder: Function;
+  isOpenModal: boolean;
 }
 
 const OrdersComponent = ({
   orders,
-  customers,
   orderToForm,
   onCancelOrderModal,
-  products,
   fetchOrders,
   fetchOrder,
   fetchFares,
   fetchFare,
   fetchProducts,
-  fareLines,
   fetchCustomers,
   deleteOrder,
+  isOpenModal,
 }: OrdersComponentProps) => {
   useEffect(() => {
     fetchOrders();
@@ -76,12 +68,9 @@ const OrdersComponent = ({
         }}
         messageOnDelete={(order: IOrder) => `${order.type}/${order.id}   ${order.customer_name}   ${order.total}`}
       />
-      {Boolean(orderToForm) && (
+      {isOpenModal && (
         <OrderModal
           onCancel={() => onCancelOrderModal()}
-          customers={customers}
-          fares={fareLines}
-          products={products}
           // @ts-ignore
           order={orderToForm}
         />
@@ -95,7 +84,7 @@ const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
   orderToForm: state.orders.elementToCreateOrEdit,
   customers: state.customers.data,
-  fareLines: state.fares.data.fareLines,
+  isOpenModal: Boolean(state.orders.fare?.customer_id) && Boolean(state.orders.elementToCreateOrEdit),
 });
 
 const mapDispatch = {
