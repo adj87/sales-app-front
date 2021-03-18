@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import operations from './duck/operations';
 import { IFare, IFareLine } from '../Fares/duck/types/Fare';
 import { IProduct } from '../Products/duck/types/Product';
+import { DragAndDropList } from './DragAndDrop';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -58,6 +59,7 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
           />
         </div>
       </div>
+      <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
     </MainLayout>
   );
 };
