@@ -8,6 +8,7 @@ import operations from './duck/operations';
 import { IFare, IFareLine } from '../Fares/duck/types/Fare';
 import { IProduct } from '../Products/duck/types/Product';
 import { DragAndDropList } from './DragAndDrop';
+import Label from '../../components/Label';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -29,8 +30,8 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
 
   return (
     <MainLayout>
-      <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-24">
+        <div className="lg:col-span-3">
           <Select
             options={fares}
             onChange={(f: IFare) => {
@@ -46,8 +47,6 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
             optionLabel={(opt: IFare) => opt.customer_name ?? ''}
             optionValue={(opt: IFare) => opt.customer_id ?? ''}
           />
-        </div>
-        <div className="lg:col-span-4">
           <Select
             options={products}
             onChange={(elements: any) => setProducts(elements ? elements : [])}
@@ -58,8 +57,11 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
             isMulti
           />
         </div>
+        <div className="lg:col-span-3 lg:mt-5">
+          <Label>{t('Ordena los productos')}</Label>
+          <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
+        </div>
       </div>
-      <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
     </MainLayout>
   );
 };
