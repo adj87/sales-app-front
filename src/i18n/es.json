@@ -36,7 +36,7 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración", "catalogues":"Catálogos" },
   "orders": {
     "table": {
       "type": "Serie",
