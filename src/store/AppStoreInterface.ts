@@ -4,6 +4,7 @@ import { ProductsState } from '../app/Products/duck/types';
 import { FaresState } from '../app/Fares/duck/types';
 import { AlertsState } from '../app/Alerts/duck/types';
 import { ConfigState } from '../app/Config/duck/types';
+import { CataloguesState } from '../app/Catalogues/duck/types';
 
 export interface AppStoreInterface {
   orders: OrdersState;
@@ -13,4 +14,5 @@ export interface AppStoreInterface {
   pendingRequests: number;
   alerts: AlertsState;
   config: ConfigState;
+  catalogues: CataloguesState;
 }

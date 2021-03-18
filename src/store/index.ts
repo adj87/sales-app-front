@@ -7,6 +7,7 @@ import loadingReducer from '../app/Loading/duck';
 import faresReducer from '../app/Fares/duck';
 import alertsReducer from '../app/Alerts/duck/reducers';
 import configReducer from '../app/Config/duck/reducers';
+import CataloguesReducer from '../app/Catalogues/duck/reducers';
 
 const appReducer = combineReducers({
   orders: ordersReducer,
@@ -16,6 +17,7 @@ const appReducer = combineReducers({
   pendingRequests: loadingReducer,
   alerts: alertsReducer,
   config: configReducer,
+  catalogues: CataloguesReducer,
 });
 
 const middlewares = [thunk];

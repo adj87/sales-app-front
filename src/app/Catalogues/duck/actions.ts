@@ -1,14 +1,18 @@
 import { IFare } from '../../Fares/duck/types/Fare';
-import { SetFare, SET_FARE, SetProducts } from './types';
+import { SetProducts, SET_PRODUCTS, SetFare, SET_FARE } from './types';
 import { IProduct } from '../../Products/duck/types/Product';
-import { SET_PRODUCTS } from '../../Products/duck/types';
 
-export const setFare = (fare: IFare): SetFare => ({
+const setFare = (fare: IFare): SetFare => ({
   payload: fare,
   type: SET_FARE,
 });
 
-export const setProducts = (products: IProduct[]): SetProducts => ({
+const setProducts = (products: IProduct[]): SetProducts => ({
   payload: products,
   type: SET_PRODUCTS,
 });
+
+export default {
+  setFare,
+  setProducts,
+};

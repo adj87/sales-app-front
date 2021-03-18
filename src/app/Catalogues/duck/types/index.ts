@@ -1,7 +1,7 @@
 import { IFare } from '../../../Fares/duck/types/Fare';
 import { IProduct } from '../../../Products/duck/types/Product';
 
-const SECTION_CATALOGUES = 'CATALOGUES';
+const SECTION_CATALOGUES = 'CATALOGUES_';
 export const SET_FARE = SECTION_CATALOGUES + 'SET_FARE';
 export const SET_PRODUCTS = SECTION_CATALOGUES + 'SET_PRODUCTS';
 
@@ -13,4 +13,9 @@ export interface SetFare {
 export interface SetProducts {
   type: typeof SET_PRODUCTS;
   payload: IProduct[];
+}
+
+export interface CataloguesState {
+  fare: IFare | null;
+  products: IProduct[];
 }
