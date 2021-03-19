@@ -64,7 +64,11 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
           <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
         </div>
       </div>
-      <PDFDownloadLink document={<CatalogueTemplate products={productsInCatalogue} />} fileName="somename.pdf">
+      <PDFDownloadLink
+        className="bg-secondary-dark text-white"
+        document={<CatalogueTemplate products={productsInCatalogue} />}
+        fileName="somename.pdf"
+      >
         {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
       </PDFDownloadLink>
     </MainLayout>

@@ -15,17 +15,35 @@ const styles = StyleSheet.create({
   },
   section: {
     flexGrow: 1,
+    width: '100%',
     // margin: 20,
   },
   wrapper: {
     display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+
+  logo: {
+    width: '50%',
+    textAlign: 'center',
+    marginHorizontal: 140,
+    marginTop: 15,
+  },
+  title: {
+    textAlign: 'center',
+    width: '100%',
+    color: 'grey',
+    marginTop: 20,
+  },
+  photoAndInfoWrapper: {
     flexDirection: 'row',
   },
-  left: {
+  photo: {
     width: '50%',
     marginTop: 100,
   },
-  right: {
+  info: {
     width: '50%',
   },
 });
@@ -35,10 +53,14 @@ export const CatalogueTemplate = ({ products }: { products: IProduct[] }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        {products.map((el: IProduct) => (
-          <View style={styles.wrapper}>
-            <Image src={imgUrl(el.id)} style={styles.left} />
-            <Text style={styles.right}>{el.name}</Text>
+        {products.map((el: IProduct, i: number) => (
+          <View style={styles.wrapper} break={i < 0}>
+            <Image src={imgUrl('logo')} style={styles.logo} />
+            <Text style={styles.title}>{el.name}</Text>
+            <View style={styles.photoAndInfoWrapper}>
+              <Image src={imgUrl(el.id)} style={styles.photo} />
+              {/* <Text style={styles.info}>{el.name}</Text> */}
+            </View>
           </View>
         ))}
       </View>
