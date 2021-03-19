@@ -9,6 +9,8 @@ import { IFare, IFareLine } from '../Fares/duck/types/Fare';
 import { IProduct } from '../Products/duck/types/Product';
 import { DragAndDropList } from './DragAndDrop';
 import Label from '../../components/Label';
+import { CatalogueTemplate } from './CatalogueTemplate';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -62,6 +64,9 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
           <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
         </div>
       </div>
+      <PDFDownloadLink document={<CatalogueTemplate products={productsInCatalogue} />} fileName="somename.pdf">
+        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+      </PDFDownloadLink>
     </MainLayout>
   );
 };
