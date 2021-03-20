@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { saveAs } from 'file-saver';
 import MainLayout from '../../layouts/Main';
 import Select from '../../components/Select';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
@@ -10,7 +11,8 @@ import { IProduct } from '../Products/duck/types/Product';
 import { DragAndDropList } from './DragAndDrop';
 import Label from '../../components/Label';
 import { CatalogueTemplate } from './CatalogueTemplate';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
+import Button from '../../components/Button';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -64,13 +66,18 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
           <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
         </div>
       </div>
-      <PDFDownloadLink
-        className="bg-secondary-dark text-white"
-        document={<CatalogueTemplate products={productsInCatalogue} />}
-        fileName="somename.pdf"
-      >
-        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-      </PDFDownloadLink>
+      <Button
+        onClick={async () => {
+          const doc = <CatalogueTemplate products={productsInCatalogue} />;
+          // @ts-ignore
+          const asPdf = pdf([]);
+          asPdf.updateContainer(doc);
+          const blob = await asPdf.toBlob();
+          saveAs(blob, 'somename.pdf');
+        }}
+        text="Download"
+        color="secondary"
+      />
     </MainLayout>
   );
 };

@@ -39,12 +39,18 @@ const styles = StyleSheet.create({
   },
   photoAndInfoWrapper: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   infoWrapper: {
     flexDirection: 'column',
-    width: '50%',
+    width: '40%',
     marginTop: 30,
     padding: 15,
+    borderWidth: 1,
+    borderColor: '#f6f6f6',
+    // borderLeftColor: 'black',
+
+    borderRadius: 5,
   },
   infoDetail: {
     flexDirection: 'row',
@@ -55,6 +61,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 15,
     marginTop: 15,
+    marginBottom: 15,
   },
   infoDetailLabel: {
     fontSize: 10,
