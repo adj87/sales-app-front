@@ -13,7 +13,7 @@
     "base": "Base",
     "weight": "Peso",
     "length": "Largo",
-    "bar-code": "Código de barras",
+    "code-bar": "Código de barras",
     "bottle-details": "Detalles de artículo",
     "box-details": "Detalles de caja",
     "green-point": "P.Verde",
@@ -36,7 +36,7 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración", "catalogues":"Catálogos" },
+  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración", "catalogues": "Catálogos" },
   "orders": {
     "table": {
       "type": "Serie",

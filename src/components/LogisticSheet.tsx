@@ -36,7 +36,7 @@ export const LogisticSheet = ({ product, onClose, onAdd }: ProductDetailProps) =
           <p className="text-bold text-primary-dark text-center p-5 uppercase font-bold text-xl">{product.name}</p>
           <div className="px-10 xl:px-20">
             <p className="text-center text-primary-main uppercase font-bold">{t('commons.bottle-details')}</p>
-            <Line label="commons.bar-code" title={product.code_bar} />
+            <Line label="commons.code-bar" title={product.code_bar} />
             <Line label="commons.capacity" title={product.capacity} />
             <Line label="commons.weight" title={product.weight} />
             <p className="text-center text-primary-main pt-5 uppercase font-bold">{t('commons.box-details')}</p>
