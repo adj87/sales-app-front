@@ -10,7 +10,7 @@ const backHost = process.env.REACT_APP_BACK_HOST;
 const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}.png` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
 // Create Document Component
-export const CatalogueTemplate = ({ products }: { products: (IProduct | IProductWithFareLine)[] }) => (
+export const CatalogueTemplate = ({ products, showFare }: { products: (IProduct | IProductWithFareLine)[]; showFare: boolean }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -20,7 +20,7 @@ export const CatalogueTemplate = ({ products }: { products: (IProduct | IProduct
             <Text style={styles.title}>{el.name}</Text>
             <View style={styles.photoAndInfoWrapper}>
               <Image src={imgUrl(el.id)} style={styles.photo} />
-              <InfoDetails product={el} />
+              <InfoDetails product={el} showFare={showFare} />
             </View>
           </View>
         ))}
@@ -41,18 +41,18 @@ const Fare = ({ product }: { product: IProductWithFareLine }) => {
       {product.fareLine?.price_2 && (
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.price-2')}</Text>
-          <Text style={styles.infoDetailValue}>{product.fareLine?.price_1}</Text>
+          <Text style={styles.infoDetailValue}>{product.fareLine?.price_2}</Text>
         </View>
       )}
     </View>
   ) : null;
 };
 
-const InfoDetails = ({ product }: { product: IProduct | IProductWithFareLine }) => {
+const InfoDetails = ({ product, showFare }: { product: IProduct | IProductWithFareLine; showFare: boolean }) => {
   const { t } = useTranslation();
   return (
     <View style={styles.infoWrapper}>
-      <Fare product={product} />
+      {showFare && <Fare product={product} />}
       <View style={styles.logisticInfoWrapper}>
         <Text style={styles.sectionTitle}>{'Detalle de sección'}</Text>
         <View style={styles.infoDetail}>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
   infoDetailValue: {
-    fontSize: 12,
+    fontSize: 10,
   },
   photo: {
     width: '50%',

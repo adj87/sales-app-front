@@ -16,6 +16,7 @@ import Button from '../../components/Button';
 import InputText from '../../components/Inputs/InputText';
 import dayjs from 'dayjs';
 import { IProductWithFareLine } from './duck/types/IProductWithFare';
+import InputCheckBox from '../../components/Inputs/InputCheckbox';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -28,6 +29,11 @@ interface CataloguesProps {
   productsInCatalogue: IProduct[];
   setLoadingOn: Function;
   setLoadingOff: Function;
+}
+
+interface configState {
+  showFare: boolean;
+  name: string;
 }
 
 const CataloguesComponent = ({
@@ -43,7 +49,7 @@ const CataloguesComponent = ({
   setLoadingOff,
 }: CataloguesProps) => {
   const { t } = useTranslation();
-  const [name, setName] = useState<string>('Documento');
+  const [config, setConfig] = useState<configState>({ name: 'Documento', showFare: true });
   useEffect(() => {
     fetchFares();
     fetchProducts();
@@ -57,7 +63,6 @@ const CataloguesComponent = ({
             options={fares}
             onChange={(f: IFare) => {
               setFare(f);
-              debugger;
               // @ts-ignore
               const idsInFare: string[] = f.fare_lines.map((el: IFareLine) => el.product_id);
               const productsInCatalogue: IProduct[] = products.filter((el: IProduct) => idsInFare.includes(el.id));
@@ -82,20 +87,34 @@ const CataloguesComponent = ({
             optionValue={(opt: IProduct) => opt.id ?? ''}
             isMulti
           />
-          <InputText value={name} label={t('catalogues.name')} name={'name'} onChange={(name: string, val: string) => setName(val)} />
+          <div className="mt-16">
+            <InputText
+              value={config.name}
+              label={t('catalogues.name')}
+              name={'name'}
+              onChange={(name: string, val: string) => setConfig((oldState) => ({ ...oldState, [name]: val }))}
+            />
+            <InputCheckBox
+              label={'catalogues.showFare'}
+              value={config.showFare}
+              name={'showFare'}
+              onChange={(name: string, val: string) => setConfig((oldState) => ({ ...oldState, [name]: val }))}
+            />
+          </div>
           <Button
             onClick={async () => {
               setLoadingOn();
-              const doc = <CatalogueTemplate products={productsInCatalogue} />;
+              const doc = <CatalogueTemplate products={productsInCatalogue} showFare={config.showFare} />;
               // @ts-ignore
               const asPdf = pdf([]);
               asPdf.updateContainer(doc);
               const blob = await asPdf.toBlob();
-              const fileName = `${name} ${dayjs().format('DD_MM_YYYY')}`;
+              const fileName = `${config.name} ${dayjs().format('DD_MM_YYYY')}`;
               saveAs(blob, fileName);
               setLoadingOff();
             }}
-            text="Download"
+            className="mt-4"
+            text={t('commons.download')}
             color="secondary"
             size="block"
           />

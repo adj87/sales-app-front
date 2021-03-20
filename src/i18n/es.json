@@ -3,6 +3,7 @@
     "add": "Añadir",
     "cancel": "Cancelar",
     "close": "Cerrar",
+    "download": "Descargar",
     "ok": "Aceptar",
     "already-in-fare": "Ya en tarifa",
     "units-per-box": "Unidades/Caja",
@@ -134,6 +135,7 @@
     "fare": "Selecciona tarifa",
     "products": "Selecciona productos",
     "name": "Pon nombre a tu archivo",
-    "sort": "Ordena los productos como quieras"
+    "sort": "Ordena los productos como quieras",
+    "showFare": "Mostrar precios de la tarifa"
   }
 }
