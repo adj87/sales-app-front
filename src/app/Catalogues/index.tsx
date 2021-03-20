@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { pdf } from '@react-pdf/renderer';
 import { saveAs } from 'file-saver';
 import MainLayout from '../../layouts/Main';
 import Select from '../../components/Select';
@@ -11,8 +12,9 @@ import { IProduct } from '../Products/duck/types/Product';
 import { DragAndDropList } from './DragAndDrop';
 import Label from '../../components/Label';
 import { CatalogueTemplate } from './CatalogueTemplate';
-import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import Button from '../../components/Button';
+import InputText from '../../components/Inputs/InputText';
+import dayjs from 'dayjs';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -23,10 +25,24 @@ interface CataloguesProps {
   setFare: Function;
   setProducts: Function;
   productsInCatalogue: IProduct[];
+  setLoadingOn: Function;
+  setLoadingOff: Function;
 }
 
-const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFare, fare, setProducts, productsInCatalogue }: CataloguesProps) => {
+const CataloguesComponent = ({
+  fetchFares,
+  fetchProducts,
+  products,
+  fares,
+  setFare,
+  fare,
+  setProducts,
+  productsInCatalogue,
+  setLoadingOn,
+  setLoadingOff,
+}: CataloguesProps) => {
   const { t } = useTranslation();
+  const [name, setName] = useState<string>('Documento');
   useEffect(() => {
     fetchFares();
     fetchProducts();
@@ -47,7 +63,7 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
             }}
             // @ts-ignore
             value={fare?.customer_id}
-            labelText={t('Catalogo')}
+            labelText={t('catalogues.fare')}
             optionLabel={(opt: IFare) => opt.customer_name ?? ''}
             optionValue={(opt: IFare) => opt.customer_id ?? ''}
           />
@@ -55,29 +71,34 @@ const CataloguesComponent = ({ fetchFares, fetchProducts, products, fares, setFa
             options={products}
             onChange={(elements: any) => setProducts(elements ? elements : [])}
             value={productsInCatalogue}
-            labelText={t('Catalogo')}
+            labelText={t('catalogues.products')}
             optionLabel={(opt: IProduct) => opt.name ?? ''}
             optionValue={(opt: IProduct) => opt.id ?? ''}
             isMulti
           />
+          <InputText value={name} label={t('catalogues.name')} name={'name'} onChange={(name: string, val: string) => setName(val)} />
+          <Button
+            onClick={async () => {
+              setLoadingOn();
+              const doc = <CatalogueTemplate products={productsInCatalogue} />;
+              // @ts-ignore
+              const asPdf = pdf([]);
+              asPdf.updateContainer(doc);
+              const blob = await asPdf.toBlob();
+              const fileName = `${name} ${dayjs().format('DD_MM_YYYY')}`;
+              saveAs(blob, fileName);
+              setLoadingOff();
+            }}
+            text="Download"
+            color="secondary"
+            size="block"
+          />
         </div>
         <div className="lg:col-span-3 lg:mt-5">
-          <Label>{t('Ordena los productos')}</Label>
+          <Label>{t('catalogues.sort')}</Label>
           <DragAndDropList items={productsInCatalogue} setItems={setProducts} />
         </div>
       </div>
-      <Button
-        onClick={async () => {
-          const doc = <CatalogueTemplate products={productsInCatalogue} />;
-          // @ts-ignore
-          const asPdf = pdf([]);
-          asPdf.updateContainer(doc);
-          const blob = await asPdf.toBlob();
-          saveAs(blob, 'somename.pdf');
-        }}
-        text="Download"
-        color="secondary"
-      />
     </MainLayout>
   );
 };

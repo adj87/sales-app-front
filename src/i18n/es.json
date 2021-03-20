@@ -129,5 +129,11 @@
   },
   "config": {
     "year": "Selecciona año"
+  },
+  "catalogues": {
+    "fare": "Selecciona tarifa",
+    "products": "Selecciona productos",
+    "name": "Pon nombre a tu archivo",
+    "sort": "Ordena los productos como quieras"
   }
 }

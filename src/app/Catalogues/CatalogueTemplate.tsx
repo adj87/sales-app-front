@@ -8,77 +8,6 @@ const backEnd = process.env.REACT_APP_BACK;
 const backHost = process.env.REACT_APP_BACK_HOST;
 const imgUrl = (id: string) => (backEnd == 'NODE' ? `${backHost}/images/${id}.png` : `${getPhpBackHostUrl()}/images?id=${id}`);
 
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: 'white',
-  },
-  section: {
-    flexGrow: 1,
-    width: '100%',
-    // margin: 20,
-  },
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
-
-  logo: {
-    width: '50%',
-    textAlign: 'center',
-    marginHorizontal: 140,
-    marginTop: 15,
-  },
-  title: {
-    textAlign: 'center',
-    width: '100%',
-    color: 'grey',
-    marginTop: 20,
-  },
-  photoAndInfoWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  infoWrapper: {
-    flexDirection: 'column',
-    width: '40%',
-    marginTop: 30,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: '#f6f6f6',
-    // borderLeftColor: 'black',
-
-    borderRadius: 5,
-  },
-  infoDetail: {
-    flexDirection: 'row',
-    width: '100%',
-    marginTop: 15,
-    justifyContent: 'space-between',
-  },
-  sectionTitle: {
-    fontSize: 15,
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  infoDetailLabel: {
-    fontSize: 10,
-    color: 'grey',
-  },
-  infoDetailValue: {
-    fontSize: 12,
-  },
-  photo: {
-    width: '50%',
-    marginTop: 100,
-  },
-  info: {
-    width: '50%',
-  },
-});
-
 // Create Document Component
 export const CatalogueTemplate = ({ products }: { products: IProduct[] }) => (
   <Document>
@@ -175,3 +104,74 @@ const InfoDetails = ({ product, style }: { product: IProduct; style: ReactPDF.St
     </View>
   );
 };
+
+// Create styles
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+    backgroundColor: 'white',
+  },
+  section: {
+    flexGrow: 1,
+    width: '100%',
+    // margin: 20,
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+  },
+
+  logo: {
+    width: '50%',
+    textAlign: 'center',
+    marginHorizontal: 140,
+    marginTop: 15,
+  },
+  title: {
+    textAlign: 'center',
+    width: '100%',
+    color: 'grey',
+    marginTop: 20,
+  },
+  photoAndInfoWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  infoWrapper: {
+    flexDirection: 'column',
+    width: '40%',
+    marginTop: 30,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#f6f6f6',
+    // borderLeftColor: 'black',
+
+    borderRadius: 5,
+  },
+  infoDetail: {
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: 15,
+    justifyContent: 'space-between',
+  },
+  sectionTitle: {
+    fontSize: 15,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  infoDetailLabel: {
+    fontSize: 10,
+    color: 'grey',
+  },
+  infoDetailValue: {
+    fontSize: 12,
+  },
+  photo: {
+    width: '50%',
+    marginTop: 100,
+  },
+  info: {
+    width: '50%',
+  },
+});
