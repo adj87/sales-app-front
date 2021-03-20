@@ -53,6 +53,10 @@ const CataloguesComponent = ({
   useEffect(() => {
     fetchFares();
     fetchProducts();
+    return () => {
+      setFare(null);
+      setProducts([]);
+    };
   }, []);
 
   return (
