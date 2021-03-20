@@ -33,15 +33,21 @@ const Fare = ({ product }: { product: IProductWithFareLine }) => {
   const { t } = useTranslation();
   return product.fareLine?.price_1 ? (
     <View style={styles.fareWrapper}>
-      <Text style={styles.fareSectionTitle}>Tarifa</Text>
+      <Text style={styles.fareSectionTitle}>{t('catalogues.pdf.fare')}</Text>
       <View style={styles.infoDetail}>
         <Text style={styles.infoDetailLabel}>{t('commons.price-1')}</Text>
-        <Text style={styles.infoDetailValue}>{product.fareLine?.price_1}</Text>
+        <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_1} € / ud`}</Text>
       </View>
       {product.fareLine?.price_2 && (
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.price-2')}</Text>
-          <Text style={styles.infoDetailValue}>{product.fareLine?.price_2}</Text>
+          <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_2} € / ud`}</Text>
+        </View>
+      )}
+      {product.fareLine?.price_3 && (
+        <View style={styles.infoDetail}>
+          <Text style={styles.infoDetailLabel}>{t('commons.price-3')}</Text>
+          <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_3} € / ud`}</Text>
         </View>
       )}
     </View>
@@ -54,7 +60,7 @@ const InfoDetails = ({ product, showFare }: { product: IProduct | IProductWithFa
     <View style={styles.infoWrapper}>
       {showFare && <Fare product={product} />}
       <View style={styles.logisticInfoWrapper}>
-        <Text style={styles.sectionTitle}>{'Detalle de sección'}</Text>
+        <Text style={styles.sectionTitle}>{t('commons.bottle-details')}</Text>
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.code-bar')}</Text>
           <Text style={styles.infoDetailValue}>{product.code_bar}</Text>
@@ -67,50 +73,56 @@ const InfoDetails = ({ product, showFare }: { product: IProduct | IProductWithFa
           <Text style={styles.infoDetailLabel}>{t('commons.weight')}</Text>
           <Text style={styles.infoDetailValue}>{product.weight}</Text>
         </View>
-        <Text style={styles.sectionTitle}>{'Detalle de caja'}</Text>
+
+        {/* BOX DETAILS */}
+        <View style={styles.space} />
+        <Text style={styles.sectionTitle}>{t('commons.box-details')}</Text>
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.units-per-box')}</Text>
           <Text style={styles.infoDetailValue}>{product.units_per_box}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.box-capacity')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.capacity')}</Text>
           <Text style={styles.infoDetailValue}>{product.box_capacity}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.box-weight')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.weight')}</Text>
           <Text style={styles.infoDetailValue}>{product.box_weight}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.box-length')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.length')}</Text>
           <Text style={styles.infoDetailValue}>{product.box_length}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.box-width')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.width')}</Text>
           <Text style={styles.infoDetailValue}>{product.box_width}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.box-height')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.height')}</Text>
           <Text style={styles.infoDetailValue}>{product.box_height}</Text>
         </View>
-        <Text style={styles.sectionTitle}>{'Detalle de pallet'}</Text>
+
+        {/* PALET DETAILS */}
+        <View style={styles.space} />
+        <Text style={styles.sectionTitle}>{t('commons.pallet-details')}</Text>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.pallet-boxes')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.units-per-pallet')}</Text>
           <Text style={styles.infoDetailValue}>{product.pallet_boxes}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.pallet-base')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.base')}</Text>
           <Text style={styles.infoDetailValue}>{product.pallet_base}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.pallet-capacity')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.capacity')}</Text>
           <Text style={styles.infoDetailValue}>{product.pallet_capacity}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.pallet-height')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.height')}</Text>
           <Text style={styles.infoDetailValue}>{product.pallet_height}</Text>
         </View>
         <View style={styles.infoDetail}>
-          <Text style={styles.infoDetailLabel}>{t('commons.pallet-weight')}</Text>
+          <Text style={styles.infoDetailLabel}>{t('commons.weight')}</Text>
           <Text style={styles.infoDetailValue}>{product.pallet_weight}</Text>
         </View>
       </View>
@@ -146,6 +158,7 @@ const styles = StyleSheet.create({
     width: '100%',
     color: 'grey',
     marginTop: 20,
+    fontSize: 20,
   },
   photoAndInfoWrapper: {
     flexDirection: 'row',
@@ -155,15 +168,20 @@ const styles = StyleSheet.create({
     width: '40%',
     marginTop: 20,
     flexDirection: 'column',
+    justifyContent: 'space-around',
   },
   logisticInfoWrapper: {
     flexDirection: 'column',
     width: '100%',
     marginTop: 15,
-    padding: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderWidth: 1,
     borderColor: '#f6f6f6',
-    // borderLeftColor: 'black',
+    borderLeftColor: 'black',
+    borderLeft: 3,
 
     borderRadius: 5,
   },
@@ -175,13 +193,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 15,
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 0,
+    marginBottom: 0,
   },
   fareSectionTitle: {
     fontSize: 15,
-    marginTop: 2,
-    marginBottom: 5,
+    marginTop: 10,
     fontWeight: 'black',
   },
   infoDetailLabel: {
@@ -204,9 +221,14 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderWidth: 1,
     borderColor: '#f6f6f6',
-    flexDirection: 'column',
-    // borderLeftColor: 'black',
+    borderLeftColor: 'black',
+    borderLeft: 3,
 
     borderRadius: 5,
+  },
+  space: {
+    width: '100%',
+    height: 2,
+    marginTop: 40,
   },
 });
