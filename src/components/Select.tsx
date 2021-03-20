@@ -31,7 +31,6 @@ const SelectComponent = ({
   const { t } = useTranslation();
   optionLabel = optionLabel ?? ((option): any => option.name);
   optionValue = optionValue ?? ((option): any => option.id);
-  console.log(value);
 
   // @ts-ignore
   const optionSelected = useMemo(() => options.find((opt: any) => optionValue(opt) === value), [options.length, value]);
