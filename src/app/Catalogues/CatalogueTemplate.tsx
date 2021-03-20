@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import ReactPDF, { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { IProduct } from '../Products/duck/types/Product';
 import { getPhpBackHostUrl } from '../../utils';
 
@@ -39,6 +39,13 @@ const styles = StyleSheet.create({
   photoAndInfoWrapper: {
     flexDirection: 'row',
   },
+  infoWrapper: {
+    flexDirection: 'column',
+  },
+  infoDetail: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   photo: {
     width: '50%',
     marginTop: 100,
@@ -59,7 +66,7 @@ export const CatalogueTemplate = ({ products }: { products: IProduct[] }) => (
             <Text style={styles.title}>{el.name}</Text>
             <View style={styles.photoAndInfoWrapper}>
               <Image src={imgUrl(el.id)} style={styles.photo} />
-              {/* <Text style={styles.info}>{el.name}</Text> */}
+              <InfoDetails product={el} style={styles} />
             </View>
           </View>
         ))}
@@ -77,3 +84,15 @@ export const CatalogueTemplate = ({ products }: { products: IProduct[] }) => (
     })} */}
   </Document>
 );
+
+const InfoDetails = ({ product, style }: { product: IProduct; style: ReactPDF.Styles }) => {
+  return (
+    <View style={styles.infoWrapper}>
+      <View style={styles.infoDetail}>
+        <Text>{'capacidad'}</Text>
+        <Text>{product.box_capacity}</Text>
+        <Text></Text>
+      </View>
+    </View>
+  );
+};
