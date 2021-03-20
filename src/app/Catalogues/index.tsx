@@ -15,6 +15,7 @@ import { CatalogueTemplate } from './CatalogueTemplate';
 import Button from '../../components/Button';
 import InputText from '../../components/Inputs/InputText';
 import dayjs from 'dayjs';
+import { IProductWithFareLine } from './duck/types/IProductWithFare';
 
 interface CataloguesProps {
   fares: IFare[];
@@ -56,10 +57,15 @@ const CataloguesComponent = ({
             options={fares}
             onChange={(f: IFare) => {
               setFare(f);
+              debugger;
               // @ts-ignore
               const idsInFare: string[] = f.fare_lines.map((el: IFareLine) => el.product_id);
               const productsInCatalogue: IProduct[] = products.filter((el: IProduct) => idsInFare.includes(el.id));
-              setProducts(productsInCatalogue);
+              const productsInCatalogueWithFares: IProductWithFareLine[] = productsInCatalogue.map((pr: IProduct) => {
+                const productFare = f.fare_lines.find((fl: IFareLine) => fl.product_id == pr.id);
+                return { ...pr, fareLine: productFare };
+              });
+              setProducts(productsInCatalogueWithFares);
             }}
             // @ts-ignore
             value={fare?.customer_id}
