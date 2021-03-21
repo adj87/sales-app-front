@@ -10,7 +10,7 @@ import { IProduct } from './duck/types/Product';
 import { columns } from './constants';
 import ProductModal from './Modal';
 
-const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit, productToEdit }: any) => {
+const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit, productToEdit, editProduct }: any) => {
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -27,9 +27,7 @@ const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal,
           fetchProduct(product.id);
         }}
       />
-      {isOpenModal && (
-        <ProductModal onCancel={() => removeElementToCreateOrEdit()} product={productToEdit} editProduct={() => console.log('object')} />
-      )}
+      {isOpenModal && <ProductModal onCancel={() => removeElementToCreateOrEdit()} product={productToEdit} editProduct={editProduct} />}
     </MainLayout>
   );
 };

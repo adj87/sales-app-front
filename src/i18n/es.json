@@ -155,26 +155,25 @@
       "name": "Nombre",
       "green-point-amount": "P.Verde",
       "units-per-box": "U/Caja",
-      "capacity": "Capacidad",
-      "weight": "Peso",
+      "capacity": "Capacidad (lt)",
+      "weight": "Peso (kg)",
       "is-deprecated": "Obsoleto",
 
-      "box-width": "Ancho caja",
-      "box-height": "Altura caja",
-      "box-length": "Largo caja",
-      "box-weight": "Peso caja",
-      "box-capacity": "Volumen caja",
+      "box-width": "Ancho caja (mm)",
+      "box-height": "Altura caja (mm)",
+      "box-length": "Largo caja (mm)",
+      "box-weight": "Peso caja (kg)",
+      "box-capacity": "Volumen caja (lt)",
 
-      "pallet-boxes": "Cajas Pallet",
-      "pallet-base": "Base Pallet",
-      "pallet-weight": "Peso Pallet",
-      "pallet-capacity": "Litros Pallet",
-      "pallet-height": "Altura Pallet"
+      "pallet-boxes": "Cajas Palet",
+      "pallet-base": "Base Palet",
+      "pallet-weight": "Peso Palet (kg)",
+      "pallet-capacity": "Volumen Palet (lt)",
+      "pallet-height": "Altura Palet (mm)"
     },
     "form": {
       "title": "Añadir producto",
-      "title-edit": "Editar producto",
-      "label-name": "Nombre"
+      "title-edit": "Editar producto"
     }
   }
 }

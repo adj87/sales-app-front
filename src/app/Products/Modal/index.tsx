@@ -24,14 +24,12 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
   const formik = useFormik<IProduct>({
     initialValues: product,
     onSubmit: (ord: IProduct) => {
-      editProduct(ord);
-
-      // @ts-ignore
-      return onCancel();
+      editProduct(ord, onCancel);
     },
     validationSchema: validationSchema,
   });
   const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
+  console.log('errors', errors);
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={'products.form.title-edit'}>
       <h1 className="text-2xl text-secondary-light mb-2 mt-5">{t('commons.bottle-details')}</h1>
@@ -51,7 +49,7 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="box_width" formikObject={formik} label="products.table.box-width" onChange={setFieldValue} type="number" />
-        <InputWithFV name="box_height" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} type="number" />
+        <InputWithFV name="box_height" formikObject={formik} label="products.table.box-height" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_length" formikObject={formik} label="products.table.box-length" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_weight" formikObject={formik} label="products.table.box-weight" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_capacity" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} type="number" />
