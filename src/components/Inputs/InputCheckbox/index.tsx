@@ -7,13 +7,14 @@ interface InputCheckBoxProps {
   value: boolean;
   name: string;
   onChange: Function;
+  style?: React.CSSProperties;
 }
 
-const InputCheckBox = ({ label, value, name, onChange }: InputCheckBoxProps) => {
+const InputCheckBox = ({ label, value, name, onChange, style }: InputCheckBoxProps) => {
   const { t } = useTranslation();
 
   return (
-    <label className="label-container text-primary-dark">
+    <label className={`label-container text-primary-dark`} style={style ? style : {}}>
       {t(label)}
       <input
         type="checkbox"

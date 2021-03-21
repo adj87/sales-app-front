@@ -157,6 +157,7 @@
       "units-per-box": "U/Caja",
       "capacity": "Capacidad",
       "weight": "Peso",
+      "is-deprecated": "Obsoleto",
 
       "box-width": "Ancho caja",
       "box-height": "Altura caja",
@@ -173,10 +174,7 @@
     "form": {
       "title": "Añadir producto",
       "title-edit": "Editar producto",
-      "label-customer": "Cliente",
-      "inherit-from-another-customer-button": "Heredar de otro cliente",
-      "inheriting-from-customer-button": "Heredando de",
-      "inherit-from-another-customer-label": "Heredar de"
+      "label-name": "Nombre"
     }
   }
 }
