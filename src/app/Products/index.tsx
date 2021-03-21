@@ -10,7 +10,7 @@ import { IProduct } from './duck/types/Product';
 import { columns } from './constants';
 import ProductModal from './Modal';
 
-const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit }: any) => {
+const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit, productToEdit }: any) => {
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -27,13 +27,16 @@ const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal,
           fetchProduct(product.id);
         }}
       />
-      {isOpenModal && <ProductModal onCancel={() => removeElementToCreateOrEdit()} />}
+      {isOpenModal && (
+        <ProductModal onCancel={() => removeElementToCreateOrEdit()} product={productToEdit} editProduct={() => console.log('object')} />
+      )}
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
+  productToEdit: state.products.elementToCreateOrEdit,
   isOpenModal: Boolean(state.products.elementToCreateOrEdit),
 });
 
