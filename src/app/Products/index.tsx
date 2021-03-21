@@ -8,8 +8,9 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IProduct } from './duck/types/Product';
 import { columns } from './constants';
+import ProductModal from './Modal';
 
-const ProductsComponent = ({ products, fetchProducts }: any) => {
+const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit }: any) => {
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -18,24 +19,22 @@ const ProductsComponent = ({ products, fetchProducts }: any) => {
       <Table
         columns={columns}
         data={products}
-        onAddButton={() => console.log('as')}
         tableName={'products'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const product: IProduct = datatableRowInfo.original;
-          console.log(product);
+          fetchProduct(product.id);
         }}
       />
-      {/*       {openModal && (
-        <OrderModal onCancel={() => history.push(`/products`)} fetchOrder={fetchOrder} fetchCustomers={fetchCustomers} customers={customers} />
-      )} */}
+      {isOpenModal && <ProductModal onCancel={() => removeElementToCreateOrEdit()} />}
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
+  isOpenModal: Boolean(state.products.elementToCreateOrEdit),
 });
 
 const mapDispatch = {

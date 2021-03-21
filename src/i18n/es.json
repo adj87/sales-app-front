@@ -169,6 +169,14 @@
       "pallet-weight": "Peso Pallet",
       "pallet-capacity": "Litros Pallet",
       "pallet-height": "Altura Pallet"
+    },
+    "form": {
+      "title": "Añadir producto",
+      "title-edit": "Editar producto",
+      "label-customer": "Cliente",
+      "inherit-from-another-customer-button": "Heredar de otro cliente",
+      "inheriting-from-customer-button": "Heredando de",
+      "inherit-from-another-customer-label": "Heredar de"
     }
   }
 }
