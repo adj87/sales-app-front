@@ -21,13 +21,7 @@ interface FareLineModalProps {
   isProductAlreadyInFare: (option: any) => boolean;
 }
 
-const FareLineModal = ({
-  onCancel,
-  onConfirm,
-  products,
-  fareLine,
-  isProductAlreadyInFare,
-}: FareLineModalProps) => {
+const FareLineModal = ({ onCancel, onConfirm, products, fareLine, isProductAlreadyInFare }: FareLineModalProps) => {
   const isNewFareLine = !fareLine.product_id;
   const formik = useFormik<IFareLine>({
     initialValues: fareLine,
@@ -80,7 +74,6 @@ const FareLineModal = ({
           step="0.01"
         />
       </div>
-      <button onClick={() => i18n.changeLanguage('en')}>Hola</button>
     </Modal>
   );
 };

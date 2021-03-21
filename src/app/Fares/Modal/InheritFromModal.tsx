@@ -28,7 +28,7 @@ const InheritFromModal = ({ onCancel, onConfirm, fareToInheritFrom, fares, fetch
   });
 
   return (
-    <Modal size="xs" centered onCancel={onCancel} onConfirm={submitForm}>
+    <Modal centered onCancel={onCancel} onConfirm={submitForm}>
       <SelectComponent
         onChange={(name: string, fare: IFare) =>
           fetchFareWithCb(fare.customer_id, (res: any) => {
