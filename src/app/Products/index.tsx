@@ -7,46 +7,29 @@ import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IProduct } from './duck/types/Product';
-import OrderModal from './Modal';
 import { columns } from './constants';
-import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
 
-const OrdersComponent = ({
-  orders,
-  fetchOrders,
-  fetchOrder,
-  history,
-  fetchCustomers,
-  customers,
-}: any) => {
+const ProductsComponent = ({ products, fetchProducts }: any) => {
   useEffect(() => {
-    fetchOrders();
+    fetchProducts();
   }, []);
-
-  const openModal = useOpenModalByRoutes();
-
   return (
     <MainLayout>
       <Table
         columns={columns}
-        data={orders}
-        onAddButton={() => history.push('/orders/new')}
-        tableName={'orders'}
+        data={products}
+        onAddButton={() => console.log('as')}
+        tableName={'products'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const product: IProduct = datatableRowInfo.original;
-          history.push(`/products/${product.id}`);
+          console.log(product);
         }}
       />
-      {openModal && (
-        <OrderModal
-          onCancel={() => history.push(`/products`)}
-          fetchOrder={fetchOrder}
-          fetchCustomers={fetchCustomers}
-          customers={customers}
-        />
-      )}
+      {/*       {openModal && (
+        <OrderModal onCancel={() => history.push(`/products`)} fetchOrder={fetchOrder} fetchCustomers={fetchCustomers} customers={customers} />
+      )} */}
     </MainLayout>
   );
 };
@@ -59,6 +42,6 @@ const mapDispatch = {
   ...operations,
 };
 
-const OrdersComponentWithHistory = withRouter(OrdersComponent);
+const ProductsComponentWithHistory = withRouter(ProductsComponent);
 
-export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);
+export const Products = connect(mapState, mapDispatch)(ProductsComponentWithHistory);

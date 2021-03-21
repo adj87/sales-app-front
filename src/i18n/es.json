@@ -37,7 +37,14 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración", "catalogues": "Catálogos" },
+  "main-layout": {
+    "customers": "Clientes",
+    "orders": "Pedidos",
+    "fares": "Tarifas",
+    "config": "Configuración",
+    "catalogues": "Catálogos",
+    "products": "Productos"
+  },
   "orders": {
     "table": {
       "type": "Serie",
@@ -139,6 +146,29 @@
     "showFare": "Mostrar precios de la tarifa",
     "pdf": {
       "fare": "Tarifa"
+    }
+  },
+  "products": {
+    "table": {
+      "id": "Código",
+      "code-bar": "Código de barras",
+      "name": "Nombre",
+      "green-point-amount": "P.Verde",
+      "units-per-box": "U/Caja",
+      "capacity": "Capacidad",
+      "weight": "Peso",
+
+      "box-width": "Ancho caja",
+      "box-height": "Altura caja",
+      "box-length": "Largo caja",
+      "box-weight": "Peso caja",
+      "box-capacity": "Volumen caja",
+
+      "pallet-boxes": "Cajas Pallet",
+      "pallet-base": "Base Pallet",
+      "pallet-weight": "Peso Pallet",
+      "pallet-capacity": "Litros Pallet",
+      "pallet-height": "Altura Pallet"
     }
   }
 }
