@@ -15,7 +15,7 @@ export const CatalogueTemplate = ({ products, showFare }: { products: (IProduct 
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         {products.map((el: IProduct, i: number) => (
-          <View style={styles.wrapper} break={i < 0}>
+          <View style={styles.wrapper} break={i > 0}>
             <Image src={imgUrl('logo')} style={styles.logo} />
             <Text style={styles.title}>{el.name}</Text>
             <View style={styles.photoAndInfoWrapper}>
@@ -31,20 +31,20 @@ export const CatalogueTemplate = ({ products, showFare }: { products: (IProduct 
 
 const Fare = ({ product }: { product: IProductWithFareLine }) => {
   const { t } = useTranslation();
-  return product.fareLine?.price_1 ? (
+  return Boolean(product.fareLine?.price_1) ? (
     <View style={styles.fareWrapper}>
       <Text style={styles.fareSectionTitle}>{t('catalogues.pdf.fare')}</Text>
       <View style={styles.infoDetail}>
         <Text style={styles.infoDetailLabel}>{t('commons.price-1')}</Text>
         <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_1} € / ud`}</Text>
       </View>
-      {product.fareLine?.price_2 && (
+      {Boolean(product.fareLine?.price_2) && (
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.price-2')}</Text>
           <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_2} € / ud`}</Text>
         </View>
       )}
-      {product.fareLine?.price_3 && (
+      {Boolean(product.fareLine?.price_3) && (
         <View style={styles.infoDetail}>
           <Text style={styles.infoDetailLabel}>{t('commons.price-3')}</Text>
           <Text style={styles.infoDetailValue}>{`${product.fareLine?.price_3} € / ud`}</Text>

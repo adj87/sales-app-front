@@ -35,7 +35,7 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
       <h1 className="text-2xl text-secondary-light mb-2 mt-5">{t('commons.bottle-details')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputWithFV name="name" formikObject={formik} label="products.table.name" onChange={setFieldValue} />
-        <InputWithFV name="code_bar" formikObject={formik} label="products.table.code-bar" onChange={setFieldValue} disabled />
+        <InputWithFV name="code_bar" formikObject={formik} label="products.table.code-bar" onChange={setFieldValue} />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="green_point_amount" formikObject={formik} label="products.table.green-point-amount" onChange={setFieldValue} />
@@ -47,12 +47,15 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
       </div>
       <h1 className="text-2xl text-secondary-light mb-2 mt-10">{t('commons.box-details')}</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="box_width" formikObject={formik} label="products.table.box-width" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_height" formikObject={formik} label="products.table.box-height" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_length" formikObject={formik} label="products.table.box-length" onChange={setFieldValue} type="number" />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="box_weight" formikObject={formik} label="products.table.box-weight" onChange={setFieldValue} type="number" />
         <InputWithFV name="box_capacity" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} type="number" />
+        <InputWithFV name="units_per_box" formikObject={formik} label="products.table.units-per-box" onChange={setFieldValue} type="number" />
       </div>
       <h1 className="text-2xl text-secondary-light mb-2 mt-10">{t('commons.pallet-details')}</h1>
 
