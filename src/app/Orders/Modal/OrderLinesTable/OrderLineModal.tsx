@@ -143,7 +143,7 @@ const OrderLineModal = ({
 
             {values.product_id && (
               <div className="pt-5 px-5">
-                <Button text={'FL'} onClick={() => setProductInLS(productSelected)} color="primary" size="block" className="py-0" outline />
+                <Button text={'FL'} onClick={() => setProductInLS(productSelected)} color="primary" size="block" outline />
                 {isDefaultFare(fare) && (
                   <Element
                     /* 
