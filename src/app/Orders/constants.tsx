@@ -208,19 +208,15 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
     // @ts-ignore
-    const { price_1, price_2, to_charge, to_sell } = productFare;
+    const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
     // @ts-ignore
     if (isDefaultFare(fare) && (to_charge > 1 || to_sell > 1)) {
-      if (quantity && quantity <= 10) {
+      if (quantity && quantity <= 14) {
         // @ts-ignore
-        let toCharge = Math.floor(quantity / to_charge) * to_charge;
+        const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
         // @ts-ignore
-        const toGift = Math.floor(quantity / to_charge) * to_sell - to_charge;
+        let toCharge = quantity - toGift;
         if (quantity > to_charge) {
-          const difference = quantity - toCharge - toGift;
-          if (difference > 0) {
-            toCharge += difference;
-          }
           acc.push({ ...el, quantity: toCharge, price: price_1 });
           acc.push({ ...el, quantity: toGift, price: 0 });
         } else {
@@ -228,8 +224,16 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
         }
       }
       // @ts-ignore
-      if (quantity > 10 && quantity <= 20) {
+      if (quantity > 14 && quantity <= 29) {
         acc.push({ ...el, quantity, price: price_2 });
+      }
+      // @ts-ignore
+      if (quantity > 29 && quantity <= 48) {
+        acc.push({ ...el, quantity, price: price_3 });
+      }
+      // @ts-ignore
+      if (quantity > 48) {
+        acc.push({ ...el, quantity, price: price_4 });
       }
     } else {
       acc.push(el);
