@@ -11,10 +11,10 @@ export const columns = [
       { Header: i18n.t('products.table.id'), accessor: 'id' },
       { Header: i18n.t('products.table.code-bar'), accessor: 'code_bar' },
       { Header: i18n.t('products.table.name'), accessor: 'name' },
-      { Header: i18n.t('products.table.green-point-amount'), accessor: 'green_point_amount' },
-      { Header: i18n.t('products.table.units-per-box'), accessor: 'units_per_box' },
-      { Header: i18n.t('products.table.capacity'), accessor: 'capacity' },
-      { Header: i18n.t('products.table.weight'), accessor: 'weight' },
+      { Header: i18n.t('products.table.green-point-amount'), accessor: 'green_point_amount', alignment: 'right' },
+      { Header: i18n.t('products.table.units-per-box'), accessor: 'units_per_box', alignment: 'right' },
+      { Header: i18n.t('products.table.capacity'), accessor: 'capacity', alignment: 'right' },
+      { Header: i18n.t('products.table.weight'), accessor: 'weight', alignment: 'right' },
       /*       {
         Header: i18n.t('products.table.is-deprecated'),
         accessor: 'is_deprecated',
@@ -25,18 +25,18 @@ export const columns = [
         },
       }, */
       // box
-      { Header: i18n.t('products.table.box-width'), accessor: 'box_width' },
-      { Header: i18n.t('products.table.box-height'), accessor: 'box_height' },
-      { Header: i18n.t('products.table.box-length'), accessor: 'box_length' },
-      { Header: i18n.t('products.table.box-weight'), accessor: 'box_weight' },
-      { Header: i18n.t('products.table.box-capacity'), accessor: 'box_capacity' },
+      { Header: i18n.t('products.table.box-width'), accessor: 'box_width', alignment: 'right' },
+      { Header: i18n.t('products.table.box-height'), accessor: 'box_height', alignment: 'right' },
+      { Header: i18n.t('products.table.box-length'), accessor: 'box_length', alignment: 'right' },
+      { Header: i18n.t('products.table.box-weight'), accessor: 'box_weight', alignment: 'right' },
+      { Header: i18n.t('products.table.box-capacity'), accessor: 'box_capacity', alignment: 'right' },
 
       // pallet
-      { Header: i18n.t('products.table.pallet-boxes'), accessor: 'pallet_boxes' },
-      { Header: i18n.t('products.table.pallet-base'), accessor: 'pallet_base' },
-      { Header: i18n.t('products.table.pallet-weight'), accessor: 'pallet_weight' },
-      { Header: i18n.t('products.table.pallet-capacity'), accessor: 'pallet_capacity' },
-      { Header: i18n.t('products.table.pallet-height'), accessor: 'pallet_height' },
+      { Header: i18n.t('products.table.pallet-boxes'), accessor: 'pallet_boxes', alignment: 'right' },
+      { Header: i18n.t('products.table.pallet-base'), accessor: 'pallet_base', alignment: 'right' },
+      { Header: i18n.t('products.table.pallet-weight'), accessor: 'pallet_weight', alignment: 'right' },
+      { Header: i18n.t('products.table.pallet-capacity'), accessor: 'pallet_capacity', alignment: 'right' },
+      { Header: i18n.t('products.table.pallet-height'), accessor: 'pallet_height', alignment: 'right' },
     ],
   },
 ];
