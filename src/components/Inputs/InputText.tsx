@@ -24,7 +24,7 @@ const InputText = ({ label, name, value, onChange, onClick, type, step, disabled
         {t(label)}
       </label>
       <input
-        className="appearance-none border rounded w-full py-2 px-3 text-grey-400 border-primary-light leading-tight focus:outline-none focus:shadow-outline"
+        className="appearance-none border rounded w-full py-2 px-3 text-primary-dark border-primary-light leading-tight focus:outline-none focus:shadow-outline"
         type={type ? type : 'text'}
         value={type === 'date' ? dayjsCustom(value).format('YYYY-MM-DD') : value}
         name={name}

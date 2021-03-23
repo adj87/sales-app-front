@@ -172,7 +172,7 @@ const Element = (props: { label: string; value: string | number | undefined | nu
   return (
     <div className="flex justify-between my-2">
       <span className="text-primary-main">{t(props.label)}</span>
-      <span className="text-grey-400">{props.value}</span>
+      <span className="text-primary-dark font-bold">{props.value}</span>
     </div>
   );
 };

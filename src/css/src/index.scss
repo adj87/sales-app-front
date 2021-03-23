@@ -36,6 +36,10 @@
   padding: 0px 8px !important;
 }
 
+.react-select__single-value {
+  @apply text-primary-dark !important;
+}
+
 .react-select__dropdown-indicator {
   padding: 6px !important;
 }

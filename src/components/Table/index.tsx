@@ -116,7 +116,7 @@ const THead = ({ headerGroups }) => (
           .filter((el) => el.columns === undefined)
           .map((column) => {
             // @ts-ignore
-            const color = column.isSorted ? 'text-white font-bold' : 'text-primary-light font-thin';
+            const color = column.isSorted ? 'text-white font-bold text-md' : 'text-primary-light';
             // @ts-ignore
             const icon = column.isSorted ? (
               // @ts-ignore
@@ -164,7 +164,7 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
           >
             {row.cells.map((cell) => {
               return (
-                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-sm text-grey-500 ">
+                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-md text-primary-dark ">
                   {cell.render('Cell')}
                 </td>
               );
