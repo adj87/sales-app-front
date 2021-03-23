@@ -10,11 +10,12 @@ interface InputTextProps {
   value: string | number | undefined;
   type?: 'text' | 'number' | 'password' | 'date';
   step?: string;
+  disabled?: boolean;
 }
 
 const dateFormat = process.env.REACT_APP_FORMAT_DATE_BACK;
 
-const InputText = ({ label, name, value, onChange, onClick, type, step }: InputTextProps) => {
+const InputText = ({ label, name, value, onChange, onClick, type, step, disabled }: InputTextProps) => {
   const { t } = useTranslation();
   const htmlFor = `input-${name}`;
   return (
@@ -29,6 +30,7 @@ const InputText = ({ label, name, value, onChange, onClick, type, step }: InputT
         name={name}
         id={htmlFor}
         onClick={onClick}
+        disabled={disabled === undefined ? false : disabled}
         onChange={(e) => {
           const getValue = (type: any, value: string) => {
             switch (type) {

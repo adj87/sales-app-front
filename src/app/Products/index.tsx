@@ -7,58 +7,41 @@ import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { IProduct } from './duck/types/Product';
-import OrderModal from './Modal';
 import { columns } from './constants';
-import { useOpenModalByRoutes } from '../../components/Table/useOpenModalByRoutes';
+import ProductModal from './Modal';
 
-const OrdersComponent = ({
-  orders,
-  fetchOrders,
-  fetchOrder,
-  history,
-  fetchCustomers,
-  customers,
-}: any) => {
+const ProductsComponent = ({ products, fetchProducts, fetchProduct, isOpenModal, removeElementToCreateOrEdit, productToEdit, editProduct }: any) => {
   useEffect(() => {
-    fetchOrders();
+    fetchProducts();
   }, []);
-
-  const openModal = useOpenModalByRoutes();
-
   return (
     <MainLayout>
       <Table
         columns={columns}
-        data={orders}
-        onAddButton={() => history.push('/orders/new')}
-        tableName={'orders'}
+        data={products}
+        tableName={'products'}
         withSearching
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const product: IProduct = datatableRowInfo.original;
-          history.push(`/products/${product.id}`);
+          fetchProduct(product.id);
         }}
       />
-      {openModal && (
-        <OrderModal
-          onCancel={() => history.push(`/products`)}
-          fetchOrder={fetchOrder}
-          fetchCustomers={fetchCustomers}
-          customers={customers}
-        />
-      )}
+      {isOpenModal && <ProductModal onCancel={() => removeElementToCreateOrEdit()} product={productToEdit} editProduct={editProduct} />}
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
+  productToEdit: state.products.elementToCreateOrEdit,
+  isOpenModal: Boolean(state.products.elementToCreateOrEdit),
 });
 
 const mapDispatch = {
   ...operations,
 };
 
-const OrdersComponentWithHistory = withRouter(OrdersComponent);
+const ProductsComponentWithHistory = withRouter(ProductsComponent);
 
-export const Orders = connect(mapState, mapDispatch)(OrdersComponentWithHistory);
+export const Products = connect(mapState, mapDispatch)(ProductsComponentWithHistory);

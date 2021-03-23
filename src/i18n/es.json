@@ -3,17 +3,18 @@
     "add": "Añadir",
     "cancel": "Cancelar",
     "close": "Cerrar",
+    "download": "Descargar",
     "ok": "Aceptar",
     "already-in-fare": "Ya en tarifa",
+    "code-bar": "Código de barras",
+    "capacity": "Volumen",
+    "weight": "Peso",
     "units-per-box": "Unidades/Caja",
     "units-per-pallet": "Unidades/Palet",
-    "capacity": "Volumen",
     "height": "Altura",
     "width": "Ancho",
     "base": "Base",
-    "weight": "Peso",
     "length": "Largo",
-    "bar-code": "Código de barras",
     "bottle-details": "Detalles de artículo",
     "box-details": "Detalles de caja",
     "green-point": "P.Verde",
@@ -36,7 +37,14 @@
     "days": "días",
     "business-days": "días laborables"
   },
-  "main-layout": { "customers": "Clientes", "orders": "Pedidos", "fares": "Tarifas", "config": "Configuración" },
+  "main-layout": {
+    "customers": "Clientes",
+    "orders": "Pedidos",
+    "fares": "Tarifas",
+    "config": "Configuración",
+    "catalogues": "Catálogos",
+    "products": "Productos"
+  },
   "orders": {
     "table": {
       "type": "Serie",
@@ -129,5 +137,43 @@
   },
   "config": {
     "year": "Selecciona año"
+  },
+  "catalogues": {
+    "fare": "Selecciona tarifa",
+    "products": "Selecciona productos",
+    "name": "Pon nombre a tu archivo",
+    "sort": "Ordena los productos como quieras",
+    "showFare": "Mostrar precios de la tarifa",
+    "pdf": {
+      "fare": "Tarifa"
+    }
+  },
+  "products": {
+    "table": {
+      "id": "Código",
+      "code-bar": "Código de barras",
+      "name": "Nombre",
+      "green-point-amount": "P.Verde",
+      "units-per-box": "U/Caja",
+      "capacity": "Capacidad (lt)",
+      "weight": "Peso (kg)",
+      "is-deprecated": "Obsoleto",
+
+      "box-width": "Ancho caja (mm)",
+      "box-height": "Altura caja (mm)",
+      "box-length": "Largo caja (mm)",
+      "box-weight": "Peso caja (kg)",
+      "box-capacity": "Volumen caja (lt)",
+
+      "pallet-boxes": "Cajas Palet",
+      "pallet-base": "Base Palet",
+      "pallet-weight": "Peso Palet (kg)",
+      "pallet-capacity": "Volumen Palet (lt)",
+      "pallet-height": "Altura Palet (mm)"
+    },
+    "form": {
+      "title": "Añadir producto",
+      "title-edit": "Editar producto"
+    }
   }
 }

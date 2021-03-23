@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Select from 'react-select';
 import { useTranslation } from 'react-i18next';
 import { getOptionLabel, getOptionValue } from 'react-select/src/builtins';
@@ -9,10 +9,11 @@ interface SelectComponentProps {
   optionLabel?: getOptionLabel;
   optionValue?: getOptionValue;
   onChange: Function;
-  value: string | number | null;
+  value: string | number | null | any[];
   name?: string;
   isDisabled?: boolean;
   isOptionDisabled?: ((option: any) => boolean) | undefined;
+  isMulti?: boolean;
 }
 
 const SelectComponent = ({
@@ -25,16 +26,14 @@ const SelectComponent = ({
   name,
   isDisabled,
   isOptionDisabled,
+  isMulti,
 }: SelectComponentProps) => {
   const { t } = useTranslation();
-  const [optionSelected, setOptionSelected] = useState<any>(null);
   optionLabel = optionLabel ?? ((option): any => option.name);
   optionValue = optionValue ?? ((option): any => option.id);
-  useEffect(() => {
-    // @ts-ignore
-    const optionFound = options.find((opt: any) => optionValue(opt) === value);
-    setOptionSelected(optionFound || null);
-  }, [options.length, value]);
+
+  // @ts-ignore
+  const optionSelected = useMemo(() => options.find((opt: any) => optionValue(opt) === value), [options.length, value]);
 
   return (
     <div className="w-full mb-4">
@@ -47,7 +46,8 @@ const SelectComponent = ({
         onChange={(option: any) => {
           name ? onChange(name, option) : onChange(option);
         }}
-        value={optionSelected}
+        isMulti={isMulti ?? false}
+        value={value?.constructor === Array ? value : optionSelected}
         isDisabled={isDisabled}
         isOptionDisabled={isOptionDisabled}
         menuPortalTarget={document.body}

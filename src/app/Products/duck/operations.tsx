@@ -1,33 +1,31 @@
-import { Dispatch } from 'react';
-import { AxiosResponse } from 'axios';
-
+import actions from './actions';
 import api_php from './api_php';
 import api_node from './api_node';
-import actions from './actions';
-import { SetProductsAction, SetElementToCreateOrEditAction } from './types';
-import { operations as customersOperations } from '../../Customers/duck';
-
+import { operations as loadingOperations } from '../../Loading/duck';
+import { SetElementToCreateOrEditAction } from './types';
+import { Dispatch } from 'react';
 import { IProduct } from './types/Product';
+const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const fetchProducts = () => (dispatch: Dispatch<SetProductsAction>) => {
-  api.fetchProducts().then((response: AxiosResponse<IProduct[]>) => {
-    return dispatch(actions.setProducts(response.data));
-  });
+const fetchProducts = () => fetchOperationWithLoading(api.fetchProducts, actions.setProducts);
+
+const fetchProduct = (productId: string) => {
+  if (productId) {
+    return fetchOperationWithLoading(() => api.fetchProducts(productId), actions.setProductToCreateOrEdit);
+  }
 };
 
-const fetchOrder = (type: string, orderId: Number) => (
-  dispatch: Dispatch<SetElementToCreateOrEditAction>,
-) => {
-  api.fetchProducts(orderId).then((response: AxiosResponse<IProduct>) => {
-    return dispatch(actions.setProductToCreateOrEdit(response.data));
-  });
-};
+const editProduct = (pr: IProduct, cb: Function) =>
+  generalCreateOrEditOperation(
+    () => api.editProduct(pr.id, pr),
+    (res: any, dispatch: any) => {
+      dispatch(fetchProducts());
+      cb(); // this cb is for closing the modal
+    },
+  );
 
-const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) =>
-  dispatch(actions.setProductToCreateOrEdit(null));
+const removeElementToCreateOrEdit = () => (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setProductToCreateOrEdit(null));
 
-const fetchCustomers = customersOperations.fetchCustomers;
-
-export default { fetchProducts, fetchOrder, removeElementToCreateOrEdit, fetchCustomers };
+export default { fetchProducts, fetchProduct, removeElementToCreateOrEdit, editProduct };

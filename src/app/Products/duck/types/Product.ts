@@ -8,6 +8,7 @@ export interface IProduct {
   units_per_box: number;
   capacity: number;
   weight: number;
+  is_deprecated: boolean;
 
   // box
   box_width: number;
