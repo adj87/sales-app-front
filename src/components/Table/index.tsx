@@ -115,6 +115,8 @@ const THead = ({ headerGroups }) => (
         {headerGroup.headers
           .filter((el) => el.columns === undefined)
           .map((column) => {
+            const alignment = column?.alignment ? `text-${column.alignment}` : `text-left`;
+
             // @ts-ignore
             const color = column.isSorted ? 'text-white font-bold text-md' : 'text-primary-light';
             // @ts-ignore
@@ -132,7 +134,7 @@ const THead = ({ headerGroups }) => (
               <th
                 // @ts-ignore
                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                className={`text-center py-2 bg-primary-dark text-sm ${color}`}
+                className={`${alignment} py-2 bg-primary-dark text-sm ${color}`}
               >
                 {icon}
                 {` ${column.render('Header')}`}
@@ -163,8 +165,10 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
             }}
           >
             {row.cells.map((cell) => {
+              debugger;
+              const alignment = cell?.column?.alignment ? `text-${cell.column.alignment}` : `text-left`;
               return (
-                <td {...cell.getCellProps()} className="text-center py-2 border-b border-primary-light text-md text-primary-dark ">
+                <td {...cell.getCellProps()} className={`${alignment} py-2 border-b border-primary-light text-md text-primary-dark`}>
                   {cell.render('Cell')}
                 </td>
               );
