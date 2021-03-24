@@ -63,14 +63,14 @@ const OrderLineModal = ({
   const [productInLS, setProductInLS] = useState<null | IProduct>(null);
 
   const onChangeProduct = (product: IProduct) => {
-    const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity, cost } = product;
+    const { name: product_name, id: product_id, units_per_box, green_point_amount, capacity, cost, pallet_boxes } = product;
     const price = fare?.fare_lines.find((el: IFareLine) => el.product_id === product_id)?.price_1 ?? 0;
     if (backEnd === 'PHP') {
       fetchProductCost(product.id, (cost: number) => {
-        setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost });
+        setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost, pallet_boxes });
       });
     } else {
-      setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost });
+      setValues({ ...values, product_name, product_id, price, units_per_box, green_point_amount, capacity, cost, pallet_boxes });
     }
   };
 

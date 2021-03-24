@@ -34,4 +34,5 @@ export interface IOrderLine {
   surcharge_amount: number | null;
   green_point_amount: number | null;
   capacity: number | null;
+  pallet_boxes: number | null;
 }

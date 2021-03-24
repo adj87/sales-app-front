@@ -131,6 +131,7 @@ export const defaultOrderLineValues = {
   taxes_rate: 21,
   surcharge_amount: 0,
   green_point_amount: 0.01,
+  pallet_boxes: null,
 };
 
 export const validationSchemaOrder = Yup.object().shape({
@@ -206,14 +207,15 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
   // @ts-ignore
   const newOrderLines: IOrderLine[] = Object.values(orderLinesGroupedByProductId).reduce((acc: any, el: IOrderLine) => {
     // @ts-ignore
-    const { quantity, product_id } = el;
+    const { quantity, product_id, pallet_boxes } = el;
 
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
     // @ts-ignore
     const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
+    const thisProductHasPromotion = to_charge > 1 || to_sell > 1;
     // @ts-ignore
-    if (isDefaultFare(fare) && (to_charge > 1 || to_sell > 1)) {
+    if (isDefaultFare(fare) && thisProductHasPromotion) {
       if (quantity && quantity <= 14) {
         // @ts-ignore
         const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
@@ -230,12 +232,13 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
       if (quantity > 14 && quantity <= 29) {
         acc.push({ ...el, quantity, price: price_2 });
       }
+      const fourtyEightOrPallerBoxes = pallet_boxes !== 0 ? pallet_boxes : 48;
       // @ts-ignore
-      if (quantity > 29 && quantity <= 48) {
+      if (quantity > 29 && quantity < fourtyEightOrPallerBoxes) {
         acc.push({ ...el, quantity, price: price_3 });
       }
       // @ts-ignore
-      if (quantity > 48) {
+      if (quantity >= fourtyEightOrPallerBoxes) {
         acc.push({ ...el, quantity, price: price_4 });
       }
     } else {
