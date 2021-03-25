@@ -22,7 +22,7 @@ const InputCheckBox = ({ label, value, name, onChange, options }: InputCheckBoxP
   return (
     <div className="flex flex-col">
       <Label>{label}</Label>
-      <div className="mt-2 flex">
+      <div className="mt-4 flex">
         {options.map((option: Option) => {
           return (
             <label className="radio-container text-primary-dark mr-5">

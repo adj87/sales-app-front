@@ -99,50 +99,66 @@ const OrdersModal = ({
 
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={`${values.id ? 'orders.form.title-edit' : 'orders.form.title'}`}>
-      <div className="w-full flex justify-start mb-2">
-        <span className="text-primary-dark">Fecha</span>
-        <span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span>
+      <div className="w-full flex justify-between border-grey-400 border-b pb-4 -mt-5">
+        <div>
+          <span className="text-primary-dark">{t('orders.form.label-date')}</span>
+          <span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span>
+        </div>
+        {values.id && (
+          <div>
+            <span className="text-primary-dark">{t('orders.form.label-number')}</span>
+            <span className="text-grey-500 ml-4">{`${values.type}/${values.id}`}</span>
+          </div>
+        )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <SelectComponentWithFV
-          name="customer_id"
-          formikObject={formik}
-          options={customers}
-          labelText="orders.form.label-customer"
-          onChange={(input_name: string, customer: ICustomer) => {
-            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id } = customer;
-            // prettier-ignore
-            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id });
-            fetchFare(customer_id);
-            fetchCustomer(customer_id);
-          }}
-        />
-
-        <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-grey-100 border-b py-4">
+        <div className="col-span-2">
+          <SelectComponentWithFV
+            name="customer_id"
+            formikObject={formik}
+            options={customers}
+            labelText="orders.form.label-customer"
+            onChange={(input_name: string, customer: ICustomer) => {
+              const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id } = customer;
+              // prettier-ignore
+              setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id });
+              fetchFare(customer_id);
+              fetchCustomer(customer_id);
+            }}
+          />
+        </div>
         <div>
           <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
           <DeliveryDaysRemaining deliveryDate={values.delivery_date ?? undefined} date={values.date ?? undefined} />
         </div>
       </div>
-      <div className="flex items-end mb-5 justify-between mt-3">
-        <InputRadioWithFV
-          label="orders.form.label-type"
-          name="type"
-          onChange={(field: string, value: string) => {
-            const is_surcharge = value === 'B' ? false : values.is_surcharge;
-            const newValues = { ...values, [field]: value, is_surcharge };
-            setValues(newValues);
-          }}
-          formikObject={formik}
-          options={[
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-          ]}
-        />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="is_surcharge" onChange={setFieldValue} />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
+      <div className="grid grid-cols-6 gap-4 py-2">
+        <div className="col-span-2">
+          <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
+        </div>
+        <div className="col-span-1">
+          <InputRadioWithFV
+            label="orders.form.label-type"
+            name="type"
+            onChange={(field: string, value: string) => {
+              const is_surcharge = value === 'B' ? false : values.is_surcharge;
+              const newValues = { ...values, [field]: value, is_surcharge };
+              setValues(newValues);
+            }}
+            formikObject={formik}
+            options={[
+              { value: 'A', label: 'A' },
+              { value: 'B', label: 'B' },
+            ]}
+          />
+        </div>
+        <div className="col-span-3 flex flex-row items-end mb-5 justify-between mt-10">
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="is_surcharge" onChange={setFieldValue} />
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
+        </div>
       </div>
+
       <div className="w-full pt-2 mb-5">
         <OrderLinesTable
           values={values}
