@@ -25,6 +25,7 @@ const ProductsComponent = ({ customers, fetchCustomers }: any) => {
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const c: ICustomer = datatableRowInfo.original;
+          return false;
           fetchCustomers(c.id);
         }}
       />

@@ -175,5 +175,25 @@
       "title": "Añadir producto",
       "title-edit": "Editar producto"
     }
+  },
+  "customers": {
+    "table": {
+      "id": "Código",
+      "name": "Nombre",
+      "address": "Dirección",
+      "fiscal-id": "CIF",
+      "route-id": "Ruta",
+      "zip-code": "Código postal",
+      "email": "email",
+      "phone": "Teléfono",
+      "is-green-point": "P.Verde",
+      "is-surcharge": "Recargo",
+      "created-at": "Fecha creación",
+      "updated-at": "Fecha modificación",
+      "is-deprecated": "Obsoleto",
+      "town": "Población",
+      "province": "Provincia",
+      "method-of-payment": "Método de pago"
+    }
   }
 }

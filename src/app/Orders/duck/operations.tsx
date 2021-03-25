@@ -27,7 +27,7 @@ const fetchOrder = (orderIdAndType: string) => {
 const fetchFares = () => fetchOperationWithLoading(faresApi.fetchFares, faresAction.setFares);
 const fetchProducts = () => fetchOperationWithLoading(productsApi.fetchProducts, productsAction.setProducts);
 const fetchCustomers = () => fetchOperationWithLoading(customersApi.fetchCustomers, customersAction.setCustomers);
-const fetchCustomer = (id: number) => fetchOperationWithLoading(() => customersApi.fetchCustomers(id), actions.setCustomer);
+const fetchCustomer = (id: string) => fetchOperationWithLoading(() => customersApi.fetchCustomers(id), actions.setCustomer);
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetElementToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
 

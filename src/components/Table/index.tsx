@@ -134,7 +134,7 @@ const THead = ({ headerGroups }) => (
               <th
                 // @ts-ignore
                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                className={`${alignment} py-2 bg-primary-dark text-sm ${color}`}
+                className={`${alignment} py-2 px-2 bg-primary-dark text-sm ${color}`}
               >
                 {icon}
                 {` ${column.render('Header')}`}
@@ -168,7 +168,7 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
               debugger;
               const alignment = cell?.column?.alignment ? `text-${cell.column.alignment}` : `text-left`;
               return (
-                <td {...cell.getCellProps()} className={`${alignment} py-2 border-b border-primary-light text-md text-primary-dark`}>
+                <td {...cell.getCellProps()} className={`${alignment} py-2 px-2 border-b border-primary-light text-md text-primary-dark`}>
                   {cell.render('Cell')}
                 </td>
               );
