@@ -1,10 +1,5 @@
-import {
-  SET_CUSTOMERS,
-  SetCustomerToCreateOrEditAction,
-  SET_CUSTOMER_TO_CREATE_OR_EDIT,
-  SetCustomersAction,
-} from './types';
-import { ICustomer } from './types/Customer';
+import { SET_CUSTOMERS, SetCustomerToCreateOrEditAction, SET_CUSTOMER_TO_CREATE_OR_EDIT, SetCustomersAction } from './types';
+import { ICustomer } from './types/ICustomer';
 
 const setCustomers = (orders: ICustomer[]): SetCustomersAction => ({
   type: SET_CUSTOMERS,

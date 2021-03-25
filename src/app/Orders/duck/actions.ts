@@ -12,7 +12,7 @@ import {
 } from './types';
 import { IOrder } from './types/Order';
 import { IFare } from '../../Fares/duck/types/Fare';
-import { ICustomer } from '../../Customers/duck/types/Customer';
+import { ICustomer } from '../../Customers/duck/types/ICustomer';
 
 const setOrders = (orders: IOrder[]): SetOrdersAction => ({
   type: SET_ORDERS,

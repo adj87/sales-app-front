@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '../../../components/Modal/Modal';
 import { roundToTwoDec } from '../../../utils';
 import SelectComponent from '../../../components/Select';
-import { ICustomer } from '../../Customers/duck/types/Customer';
+import { ICustomer } from '../../Customers/duck/types/ICustomer';
 import Input from '../../../components/Inputs/InputText';
 import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import InputRadio from '../../../components/Inputs/InputRadio';

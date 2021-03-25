@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 
 import Modal from '../../../components/Modal/Modal';
 import SelectComponent from '../../../components/Select';
-import { ICustomer } from '../../Customers/duck/types/Customer';
+import { ICustomer } from '../../Customers/duck/types/ICustomer';
 import { IProduct } from '../../Products/duck/types/Product';
 import { IFare, IFareLine, IFareLineWithCheck } from '../duck/types/Fare';
 import Table from '../../../components/Table';

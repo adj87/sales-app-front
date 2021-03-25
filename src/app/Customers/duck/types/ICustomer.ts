@@ -13,4 +13,8 @@ export interface ICustomer {
   is_surcharge: boolean;
   created_at: string;
   updated_at: string;
+  is_deprecated: string;
+  town: string; // población
+  province: string;
+  method_of_payment: string;
 }

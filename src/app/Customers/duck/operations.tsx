@@ -5,22 +5,14 @@ import actions from './actions';
 import { Dispatch } from 'react';
 import { SetCustomersAction, SetCustomerToCreateOrEditAction } from './types';
 import { AxiosResponse } from 'axios';
-import { ICustomer } from './types/Customer';
+import { ICustomer } from './types/ICustomer';
+import { operations as loadingOperations } from '../../Loading/duck';
+const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const fetchCustomers = () => (dispatch: Dispatch<SetCustomersAction>) => {
-  api.fetchCustomers().then((response: AxiosResponse<ICustomer[]>) => {
-    return dispatch(actions.setCustomers(response.data));
-  });
-};
-
-const fetchCustomer = (orderId: number) => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => {
-  api.fetchCustomers(orderId).then((response: AxiosResponse<ICustomer>) => {
-    return dispatch(actions.setOrderToCreateOrEdit(response.data));
-  });
-};
+const fetchCustomers = (customerId?: string) => fetchOperationWithLoading(() => api.fetchCustomers(customerId), actions.setCustomers);
 
 const removeElementToCreateOrEdit = (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
 
-export default { fetchCustomers, fetchCustomer, removeElementToCreateOrEdit };
+export default { fetchCustomers, removeElementToCreateOrEdit };

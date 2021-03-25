@@ -1,4 +1,4 @@
-import { ICustomer } from './Customer';
+import { ICustomer } from './ICustomer';
 
 const SECTION_CUSTOMERS = 'CUSTOMERS_';
 export const SET_CUSTOMERS = SECTION_CUSTOMERS + 'SET_CUSTOMERS';

@@ -6,7 +6,7 @@ import FaresModal from '../../../Fares/Modal';
 import { AppStoreInterface } from '../../../../store/AppStoreInterface';
 import { operations } from '../../duck';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
-import { ICustomer } from '../../../Customers/duck/types/Customer';
+import { ICustomer } from '../../../Customers/duck/types/ICustomer';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { defaultValues as defaultEmptyFare } from '../../../Fares/constants';
 import { isDefaultFare } from '../../../../utils';

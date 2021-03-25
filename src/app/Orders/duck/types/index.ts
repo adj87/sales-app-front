@@ -1,6 +1,6 @@
 import { IOrder } from './Order';
 import { IFare } from '../../../Fares/duck/types/Fare';
-import { ICustomer } from '../../../Customers/duck/types/Customer';
+import { ICustomer } from '../../../Customers/duck/types/ICustomer';
 
 const SECTION_ORDERS = 'ORDERS_';
 export const SET_ORDERS = SECTION_ORDERS + 'SET_ORDERS';
