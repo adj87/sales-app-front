@@ -165,7 +165,6 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
             }}
           >
             {row.cells.map((cell) => {
-              debugger;
               const alignment = cell?.column?.alignment ? `text-${cell.column.alignment}` : `text-left`;
               return (
                 <td {...cell.getCellProps()} className={`${alignment} py-2 px-2 border-b border-primary-light text-md text-primary-dark`}>

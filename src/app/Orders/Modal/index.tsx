@@ -206,7 +206,13 @@ const OrdersModal = ({
       </div>
       {values.order_lines.length > 0 && (
         <div className="flex justify-end mt-5">
-          <div className="w-4/6 p-8">
+          <div className="w-4/6 px-2">
+            <div className="flex flex-row justify-start items-end mb-4">
+              <label className="text-primary-dark text-lg font-bold">{t('orders.form.label-total-boxes')}</label>
+              <label className="text-secondary-dark font-bold ml-4 text-lg">
+                {values.order_lines.reduce((acc: any, el: IOrderLine) => (acc += el.quantity), 0)}
+              </label>
+            </div>
             {customer && customer.is_green_point != values.is_green_point && <LabelError error={t('orders.form.something-wrong-with-gp')} />}
             {customer && customer.is_surcharge != values.is_surcharge && (
               <LabelError className="mt-5" error={t('orders.form.something-wrong-with-surcharge')} />

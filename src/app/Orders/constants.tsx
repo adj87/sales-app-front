@@ -38,7 +38,7 @@ export const columns = [
         Cell: ({ row }: any) => dayjsCustom(row.original.delivery_date).format(dateFormatFront),
       },
       { Header: i18n.t('orders.table.zip_code'), accessor: 'zip_code', alignment: 'right' },
-      { Header: i18n.t('orders.table.customer_route_id'), accessor: 'route_id' },
+      { Header: i18n.t('orders.table.customer_route_id'), accessor: 'route_id', alignment: 'right' },
       { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right' },
       { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right' },
       { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right' },

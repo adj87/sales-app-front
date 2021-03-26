@@ -25,7 +25,7 @@ const Item = ({ item, index }: any) => {
     <Draggable draggableId={item.id} index={index}>
       {(provided: any) => (
         <div
-          className="bg-primary-light text-center text-white rounded-md mt-2 shadow-2xl"
+          className="bg-primary-dark text-left pl-2 mx-8 text-white rounded-md mt-3 shadow-2xl"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
