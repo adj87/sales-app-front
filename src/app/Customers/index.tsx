@@ -8,10 +8,16 @@ import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
 import { ICustomer } from './duck/types/ICustomer';
 import { columns } from './constants';
+import CustomerModal from './Modal';
 
-//import ProductModal from './Modal';
+interface ProductsComponentProps {
+  customers: ICustomer[];
+  fetchCustomers: Function;
+  fetchCustomer: Function;
+  isOpenModal: boolean;
+}
 
-const ProductsComponent = ({ customers, fetchCustomers }: any) => {
+const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal }: ProductsComponentProps) => {
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -25,19 +31,19 @@ const ProductsComponent = ({ customers, fetchCustomers }: any) => {
         withPagination
         onRowClick={(datatableRowInfo: any) => {
           const c: ICustomer = datatableRowInfo.original;
-          return false;
-          fetchCustomers(c.id);
+          fetchCustomer(c.id);
         }}
       />
-      {/*       {isOpenModal && <ProductModal onCancel={() => removeElementToCreateOrEdit()} product={productToEdit} editProduct={editProduct} />}
-       */}{' '}
+      {
+        // @ts-ignore
+      }
+      {isOpenModal && <CustomerModal />}
     </MainLayout>
   );
 };
 
 const mapState = (state: AppStoreInterface) => ({
   customers: state.customers.data,
-  productToEdit: state.customers.elementToCreateOrEdit,
   isOpenModal: Boolean(state.customers.elementToCreateOrEdit),
 });
 
@@ -45,6 +51,4 @@ const mapDispatch = {
   ...operations,
 };
 
-const ProductsComponentWithHistory = withRouter(ProductsComponent);
-
-export const Customers = connect(mapState, mapDispatch)(ProductsComponentWithHistory);
+export const Customers = connect(mapState, mapDispatch)(CustomersComponent);

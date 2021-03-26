@@ -6,12 +6,12 @@ const setCustomers = (orders: ICustomer[]): SetCustomersAction => ({
   payload: orders,
 });
 
-const setOrderToCreateOrEdit = (order: ICustomer | null): SetCustomerToCreateOrEditAction => ({
+const setCustomerToCreateOrEdit = (order: ICustomer | null): SetCustomerToCreateOrEditAction => ({
   type: SET_CUSTOMER_TO_CREATE_OR_EDIT,
   payload: order,
 });
 
 export default {
   setCustomers,
-  setOrderToCreateOrEdit,
+  setCustomerToCreateOrEdit,
 };

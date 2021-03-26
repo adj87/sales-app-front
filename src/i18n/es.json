@@ -186,17 +186,17 @@
       "address": "Dirección",
       "fiscal-id": "CIF",
       "route-id": "Ruta",
-      "zip-code": "Código postal",
-      "email": "email",
+      "zip-code": "C.Postal",
+      "email": "Email",
       "phone": "Teléfono",
       "is-green-point": "P.Verde",
       "is-surcharge": "Recargo",
-      "created-at": "Fecha creación",
-      "updated-at": "Fecha modificación",
+      "created-at": "F. creación",
+      "updated-at": "F. modificación",
       "is-deprecated": "Obsoleto",
       "town": "Población",
       "province": "Provincia",
-      "method-of-payment": "Método de pago"
+      "method-of-payment": "M. de pago"
     }
   }
 }

@@ -11,8 +11,12 @@ const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOpera
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
 
-const fetchCustomers = (customerId?: string) => fetchOperationWithLoading(() => api.fetchCustomers(customerId), actions.setCustomers);
+const fetchCustomers = () => fetchOperationWithLoading(() => api.fetchCustomers(), actions.setCustomers);
+const fetchCustomer = (customerId: string) => fetchOperationWithLoading(() => api.fetchCustomers(customerId), actions.setCustomerToCreateOrEdit);
+const editCustomer = () => () => {
+  console.log('hola');
+};
 
-const removeElementToCreateOrEdit = (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setOrderToCreateOrEdit(null));
+const removeElementToCreateOrEdit = () => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setCustomerToCreateOrEdit(null));
 
-export default { fetchCustomers, removeElementToCreateOrEdit };
+export default { fetchCustomers, fetchCustomer, removeElementToCreateOrEdit, editCustomer };
