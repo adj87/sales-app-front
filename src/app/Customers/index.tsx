@@ -34,9 +34,6 @@ const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenMo
           fetchCustomer(c.id);
         }}
       />
-      {
-        // @ts-ignore
-      }
       {isOpenModal && <CustomerModal />}
     </MainLayout>
   );

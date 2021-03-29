@@ -197,6 +197,15 @@
       "town": "Población",
       "province": "Provincia",
       "method-of-payment": "M. de pago"
+    },
+    "form": {
+      "title": "Añadir cliente",
+      "title-edit": "Editar cliente",
+      "separators": {
+        "general": "Generales",
+        "location": "Localización",
+        "contact": "Contacto"
+      }
     }
   }
 }
