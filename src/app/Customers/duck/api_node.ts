@@ -1,4 +1,6 @@
 import axios from 'axios/index';
+import { IProduct } from '../../Products/duck/types/Product';
+import { ICustomer } from './types/ICustomer';
 
 const BACK_HOST = process.env.REACT_APP_BACK_HOST;
 const API_CUSTOMERS = `${BACK_HOST}/customers`;
@@ -18,8 +20,20 @@ const fetchPaymentsMethods = () => {
   return axios.get(url);
 };
 
+const createCustomer = (c: ICustomer) => {
+  const url = API_CUSTOMERS;
+  return axios.post(url, c);
+};
+
+const editCustomer = (c: ICustomer) => {
+  const url = `${API_CUSTOMERS}/${c.id}`;
+  return axios.put(url, c);
+};
+
 export default {
   fetchCustomers,
   fetchRoutes,
   fetchPaymentsMethods,
+  createCustomer,
+  editCustomer,
 };

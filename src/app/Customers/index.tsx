@@ -37,6 +37,7 @@ const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenMo
           const c: ICustomer = datatableRowInfo.original;
           fetchCustomer(c.id);
         }}
+        onAddButton={() => fetchCustomer()}
       />
       {isOpenModal && <CustomerModal />}
     </MainLayout>

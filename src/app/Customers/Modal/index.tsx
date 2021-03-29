@@ -13,6 +13,7 @@ import operations from '../duck/operations';
 import { connect } from 'react-redux';
 import { TitleSeparator } from '../../../components/TitleSeparator';
 import SelectComponent from '../../../components/Select';
+import { validationSchema } from '../constants';
 
 const InputWithFV = withFormikValues(Input);
 const InputCheckboxWithFV = withFormikValues(InputCheckBox);
@@ -22,23 +23,34 @@ interface ProductModalProps {
   removeElementToCreateOrEdit: Function;
   customer: ICustomer | null;
   editCustomer: Function;
+  createCustomer: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
 }
 
-const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, paymentMethods, routes }: ProductModalProps) => {
+const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, createCustomer, paymentMethods, routes }: ProductModalProps) => {
   const { t } = useTranslation();
   const formik = useFormik<ICustomer>({
     // @ts-ignore
     initialValues: customer,
     onSubmit: (c: ICustomer) => {
-      editCustomer(c, removeElementToCreateOrEdit);
+      debugger;
+      if (c.id) {
+        editCustomer(c, removeElementToCreateOrEdit);
+      } else {
+        createCustomer(c, removeElementToCreateOrEdit);
+      }
     },
-    // validationSchema: validationSchema,
+    validationSchema: validationSchema,
   });
   const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
   return (
-    <Modal onCancel={() => removeElementToCreateOrEdit()} onConfirm={submitForm} size="lg" title={'products.form.title-edit'}>
+    <Modal
+      onCancel={() => removeElementToCreateOrEdit()}
+      onConfirm={submitForm}
+      size="lg"
+      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title-create'}
+    >
       <TitleSeparator title="customers.form.separators.general" />
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} type="number" disabled />
@@ -106,6 +118,7 @@ const mapState = (state: AppStoreInterface) => ({
 
 const mapDispatch = {
   editCustomer: operations.editCustomer,
+  createCustomer: operations.createCustomer,
   removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
 };
 

@@ -47,3 +47,36 @@ export const columns = [
     ],
   },
 ];
+
+export const defaultValues = {
+  id: null,
+  name: null,
+  address: null,
+  fiscal_id: null,
+  route_id: null,
+  zip_code: null,
+  email: null,
+  phone: null,
+  is_green_point: false,
+  is_surcharge: false,
+  created_at: null,
+  updated_at: null,
+  is_deprecated: false,
+  town: null,
+  province: null,
+  method_of_payment: null,
+};
+
+export const validationSchema = Yup.object().shape({
+  id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  name: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  address: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  fiscal_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  route_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  zip_code: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  email: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  phone: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  town: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  province: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  method_of_payment: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+});
