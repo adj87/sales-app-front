@@ -9,6 +9,7 @@ import { IProduct } from '../duck/types/Product';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
 import { useTranslation } from 'react-i18next';
 import { validationSchema } from '../constants';
+import { TitleSeparator } from '../../../components/TitleSeparator';
 
 const InputWithFV = withFormikValues(Input);
 const InputCheckboxWithFV = withFormikValues(InputCheckBox);
@@ -32,7 +33,7 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
   console.log('errors', errors);
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={'products.form.title-edit'}>
-      <h1 className="text-2xl text-secondary-light mb-2 mt-5">{t('commons.bottle-details')}</h1>
+      <TitleSeparator title={t('commons.bottle-details')} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputWithFV name="name" formikObject={formik} label="products.table.name" onChange={setFieldValue} />
         <InputWithFV name="code_bar" formikObject={formik} label="products.table.code-bar" onChange={setFieldValue} />
@@ -45,7 +46,7 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
       <div className="flex justify-end">
         <InputCheckboxWithFV name="is_deprecated" formikObject={formik} label={t('products.table.is-deprecated')} onChange={setFieldValue} />
       </div>
-      <h1 className="text-2xl text-secondary-light mb-2 mt-10">{t('commons.box-details')}</h1>
+      <TitleSeparator title={t('commons.box-details')} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="box_width" formikObject={formik} label="products.table.box-width" onChange={setFieldValue} type="number" />
@@ -57,7 +58,7 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
         <InputWithFV name="box_capacity" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} type="number" />
         <InputWithFV name="units_per_box" formikObject={formik} label="products.table.units-per-box" onChange={setFieldValue} type="number" />
       </div>
-      <h1 className="text-2xl text-secondary-light mb-2 mt-10">{t('commons.pallet-details')}</h1>
+      <TitleSeparator title={t('commons.pallet-details')} />
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="pallet_boxes" formikObject={formik} label="products.table.pallet-boxes" onChange={setFieldValue} type="number" />
