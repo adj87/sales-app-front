@@ -49,21 +49,21 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
       onCancel={() => removeElementToCreateOrEdit()}
       onConfirm={submitForm}
       size="lg"
-      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title-create'}
+      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}
     >
       <TitleSeparator title="customers.form.separators.general" />
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} type="number" disabled />
+        <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} disabled />
         <div className="col-span-3">
           <InputWithFV name="name" formikObject={formik} label="customers.table.name" onChange={setFieldValue} />
         </div>
-        <InputWithFV name="fiscal_id" formikObject={formik} label="customers.table.fiscal-id" onChange={setFieldValue} type="number" disabled />
+        <InputWithFV name="fiscal_id" formikObject={formik} label="customers.table.fiscal-id" onChange={setFieldValue} />
         <div className="col-span-2">
           <SelectComponentWithFV
             name="method_of_payment"
             formikObject={formik}
             labelText="customers.table.method-of-payment"
-            onChange={setFieldValue}
+            onChange={(name: string, value: IPaymentMethod) => setFieldValue(name, value.id)}
             options={paymentMethods}
           />
         </div>
@@ -98,7 +98,13 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
         <InputWithFV name="town" formikObject={formik} label="customers.table.town" onChange={setFieldValue} />
         <InputWithFV name="province" formikObject={formik} label="customers.table.province" onChange={setFieldValue} />
         <InputWithFV name="zip_code" formikObject={formik} label="customers.table.zip-code" onChange={setFieldValue} />
-        <SelectComponentWithFV name="route_id" formikObject={formik} labelText="customers.table.route-id" onChange={setFieldValue} options={routes} />
+        <SelectComponentWithFV
+          name="route_id"
+          formikObject={formik}
+          labelText="customers.table.route-id"
+          onChange={(name: string, value: IRoute) => setFieldValue(name, value.id)}
+          options={routes}
+        />
       </div>
       <TitleSeparator title="customers.form.separators.contact" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
