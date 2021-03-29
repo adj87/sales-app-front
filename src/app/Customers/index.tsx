@@ -10,7 +10,7 @@ import { ICustomer } from './duck/types/ICustomer';
 import { columns } from './constants';
 import CustomerModal from './Modal';
 
-interface ProductsComponentProps {
+interface CustomersComponentProps {
   customers: ICustomer[];
   fetchCustomers: Function;
   fetchCustomer: Function;
@@ -19,7 +19,7 @@ interface ProductsComponentProps {
   isOpenModal: boolean;
 }
 
-const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal, fetchPaymentMethods, fetchRoutes }: ProductsComponentProps) => {
+const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal, fetchPaymentMethods, fetchRoutes }: CustomersComponentProps) => {
   useEffect(() => {
     fetchPaymentMethods();
     fetchCustomers();
@@ -50,7 +50,10 @@ const mapState = (state: AppStoreInterface) => ({
 });
 
 const mapDispatch = {
-  ...operations,
+  fetchCustomers: operations.fetchCustomers,
+  fetchCustomer: operations.fetchCustomer,
+  fetchPaymentMethods: operations.fetchPaymentMethods,
+  fetchRoutes: operations.fetchRoutes,
 };
 
 export const Customers = connect(mapState, mapDispatch)(CustomersComponent);
