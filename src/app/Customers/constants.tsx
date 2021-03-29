@@ -40,7 +40,7 @@ export const columns = [
         Cell: ({ row }: any) => dayjsCustom(row.original.date).format(dateFormatFront),
       }, */
       //{ Header: i18n.t('customers.table.updated-at'), accessor: 'updated_at' },
-      { Header: i18n.t('customers.table.is-deprecated'), accessor: 'is_deprecated' },
+      //  { Header: i18n.t('customers.table.is-deprecated'), accessor: 'is_deprecated' },
       { Header: i18n.t('customers.table.town'), accessor: 'town' },
       { Header: i18n.t('customers.table.province'), accessor: 'province' },
       { Header: i18n.t('customers.table.method-of-payment'), accessor: 'method_of_payment' },
@@ -68,7 +68,7 @@ export const defaultValues = {
 };
 
 export const validationSchema = Yup.object().shape({
-  id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   name: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   address: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   fiscal_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
