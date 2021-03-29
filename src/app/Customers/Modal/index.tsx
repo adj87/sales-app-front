@@ -1,12 +1,11 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import Modal from '../../../components/Modal/Modal';
-
 import Input from '../../../components/Inputs/InputText';
 import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
-import { useTranslation } from 'react-i18next';
 import { ICustomer, IPaymentMethod, IRoute } from '../duck/types/ICustomer';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import operations from '../duck/operations';
@@ -43,7 +42,7 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
     },
     validationSchema: validationSchema,
   });
-  const { values, setFieldValue, setValues, errors, submitForm, submitCount } = formik;
+  const { values, setFieldValue, submitForm } = formik;
   return (
     <Modal
       onCancel={() => removeElementToCreateOrEdit()}
