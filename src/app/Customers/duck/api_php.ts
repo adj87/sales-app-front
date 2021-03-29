@@ -9,6 +9,18 @@ const fetchCustomers = (orderId?: string) => {
   return axios.get(url);
 };
 
+const fetchRoutes = () => {
+  const url = `${API_CUSTOMERS}/routes`;
+  return axios.get(url);
+};
+
+const fetchPaymentsMethods = () => {
+  const url = `${API_CUSTOMERS}/payments-methods`;
+  return axios.get(url);
+};
+
 export default {
   fetchCustomers,
+  fetchRoutes,
+  fetchPaymentsMethods,
 };

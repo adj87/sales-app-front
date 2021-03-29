@@ -18,3 +18,13 @@ export interface ICustomer {
   province: string;
   method_of_payment: string;
 }
+
+export interface IPaymentMethod {
+  id: string;
+  name: string;
+}
+
+export interface IRoute {
+  id: string;
+  name: string;
+}

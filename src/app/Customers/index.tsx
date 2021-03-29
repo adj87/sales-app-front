@@ -14,12 +14,16 @@ interface ProductsComponentProps {
   customers: ICustomer[];
   fetchCustomers: Function;
   fetchCustomer: Function;
+  fetchPaymentMethods: Function;
+  fetchRoutes: Function;
   isOpenModal: boolean;
 }
 
-const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal }: ProductsComponentProps) => {
+const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal, fetchPaymentMethods, fetchRoutes }: ProductsComponentProps) => {
   useEffect(() => {
+    fetchPaymentMethods();
     fetchCustomers();
+    fetchRoutes();
   }, []);
   return (
     <MainLayout>
