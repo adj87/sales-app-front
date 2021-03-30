@@ -25,6 +25,8 @@ export const columns = [
       { Header: i18n.t('orders.table.id'), accessor: 'id' },
       { Header: i18n.t('orders.table.customer_name'), accessor: 'customer_name' },
       { Header: i18n.t('orders.table.address'), accessor: 'address' },
+      { Header: i18n.t('orders.table.town'), accessor: 'town' },
+      { Header: i18n.t('orders.table.province'), accessor: 'province' },
       {
         Header: i18n.t('orders.table.date'),
         accessor: 'date',
@@ -115,6 +117,8 @@ export const defaultValues = {
   type: 'A',
   show_together_with_others: true,
   order_lines: [],
+  province: null,
+  town: null,
 };
 
 export const defaultOrderLineValues = {

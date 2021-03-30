@@ -56,6 +56,8 @@
       "zip_code": "Código postal",
       "green_point": "P.Verde",
       "customer_route_id": "Ruta",
+      "town": "Población",
+      "province": "Provincia",
       "total": "Total",
       "total_net": "Neto total",
       "total_taxes": "Total impuestos"
