@@ -6,6 +6,7 @@ export interface ICustomer {
   address: string | null;
   fiscal_id: string | null;
   route_id: string | null;
+  agent_id: string | null;
   zip_code: string | null;
   email: string | null;
   phone: string | null;

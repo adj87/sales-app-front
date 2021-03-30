@@ -54,6 +54,7 @@ export const defaultValues = {
   address: null,
   fiscal_id: null,
   route_id: null,
+  agent_id: null,
   zip_code: null,
   email: null,
   phone: null,

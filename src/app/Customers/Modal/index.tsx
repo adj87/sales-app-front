@@ -33,7 +33,6 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
     // @ts-ignore
     initialValues: customer,
     onSubmit: (c: ICustomer) => {
-      debugger;
       if (c.id) {
         editCustomer(c, removeElementToCreateOrEdit);
       } else {
@@ -88,6 +87,9 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
           style={{ marginTop: '40px' }}
           onChange={setFieldValue}
         />
+        <div className="col-span-2">
+          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} />
+        </div>
       </div>
       <TitleSeparator title="customers.form.separators.location" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
