@@ -11,23 +11,27 @@ const fetchCustomers = (orderId?: string) => {
 };
 
 const fetchRoutes = () => {
-  const url = `${API_CUSTOMERS}/routes`;
+  const url = `${API_CUSTOMERS}/getRutas`;
   return axios.get(url);
 };
 
 const fetchPaymentsMethods = () => {
-  const url = `${API_CUSTOMERS}/payments-methods`;
+  const url = `${API_CUSTOMERS}/getMetodosPago`;
   return axios.get(url);
 };
 
 const createCustomer = (c: ICustomer) => {
-  const url = API_CUSTOMERS;
-  return axios.post(url, c);
+  const url = `${API_CUSTOMERS}/insertaCliente`;
+  let data = new FormData();
+  data.append('cliente', JSON.stringify(c));
+  return axios.post(url, data);
 };
 
 const editCustomer = (c: ICustomer) => {
-  const url = `${API_CUSTOMERS}/${c.id}`;
-  return axios.put(url, c);
+  const url = `${API_CUSTOMERS}/editaPedido?codigo=${c.id}`;
+  let data = new FormData();
+  data.append('cliente', JSON.stringify(c));
+  return axios.post(url, data);
 };
 
 export default {
