@@ -28,7 +28,7 @@ const createCustomer = (c: ICustomer) => {
 };
 
 const editCustomer = (c: ICustomer) => {
-  const url = `${API_CUSTOMERS}/editaPedido?codigo=${c.id}`;
+  const url = `${API_CUSTOMERS}/editaCliente?codigo=${c.id}`;
   let data = new FormData();
   data.append('cliente', JSON.stringify(c));
   return axios.post(url, data);
