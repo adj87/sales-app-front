@@ -34,10 +34,16 @@ const editCustomer = (c: ICustomer) => {
   return axios.post(url, data);
 };
 
+const deleteCustomer = (id: string) => {
+  const url = `${API_CUSTOMERS}/eliminaCliente/?codigo=${id}`;
+  return axios.post(url);
+};
+
 export default {
   fetchCustomers,
   fetchRoutes,
   fetchPaymentsMethods,
   createCustomer,
   editCustomer,
+  deleteCustomer,
 };

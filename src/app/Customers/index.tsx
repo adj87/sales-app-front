@@ -15,11 +15,20 @@ interface CustomersComponentProps {
   fetchCustomers: Function;
   fetchCustomer: Function;
   fetchPaymentMethods: Function;
+  deleteCustomer: Function;
   fetchRoutes: Function;
   isOpenModal: boolean;
 }
 
-const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenModal, fetchPaymentMethods, fetchRoutes }: CustomersComponentProps) => {
+const CustomersComponent = ({
+  customers,
+  fetchCustomers,
+  fetchCustomer,
+  isOpenModal,
+  fetchPaymentMethods,
+  fetchRoutes,
+  deleteCustomer,
+}: CustomersComponentProps) => {
   useEffect(() => {
     fetchPaymentMethods();
     fetchCustomers();
@@ -38,6 +47,10 @@ const CustomersComponent = ({ customers, fetchCustomers, fetchCustomer, isOpenMo
           fetchCustomer(c.id);
         }}
         onAddButton={() => fetchCustomer()}
+        deleteOnRowPress={(row: any) => {
+          const c: ICustomer = row.original;
+          deleteCustomer(c);
+        }}
       />
       {isOpenModal && <CustomerModal />}
     </MainLayout>
@@ -54,6 +67,7 @@ const mapDispatch = {
   fetchCustomer: operations.fetchCustomer,
   fetchPaymentMethods: operations.fetchPaymentMethods,
   fetchRoutes: operations.fetchRoutes,
+  deleteCustomer: operations.deleteCustomer,
 };
 
 export const Customers = connect(mapState, mapDispatch)(CustomersComponent);

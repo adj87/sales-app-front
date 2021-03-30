@@ -45,6 +45,22 @@ const editCustomer = (c: ICustomer, cb: Function) =>
     },
   );
 
+const deleteCustomer = (c: ICustomer) =>
+  generalCreateOrEditOperation(
+    // @ts-ignore
+    () => api.deleteCustomer(c.id),
+    (res: any, dispatch: any) => dispatch(fetchCustomers()),
+  );
+
 const removeElementToCreateOrEdit = () => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setCustomerToCreateOrEdit(null));
 
-export default { fetchCustomers, fetchCustomer, removeElementToCreateOrEdit, editCustomer, createCustomer, fetchPaymentMethods, fetchRoutes };
+export default {
+  fetchCustomers,
+  fetchCustomer,
+  removeElementToCreateOrEdit,
+  editCustomer,
+  deleteCustomer,
+  createCustomer,
+  fetchPaymentMethods,
+  fetchRoutes,
+};

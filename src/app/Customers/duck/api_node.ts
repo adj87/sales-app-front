@@ -30,10 +30,16 @@ const editCustomer = (c: ICustomer) => {
   return axios.put(url, c);
 };
 
+const deleteCustomer = (c: ICustomer) => {
+  const url = `${API_CUSTOMERS}/${c.id}`;
+  return axios.delete(url);
+};
+
 export default {
   fetchCustomers,
   fetchRoutes,
   fetchPaymentsMethods,
   createCustomer,
   editCustomer,
+  deleteCustomer,
 };
