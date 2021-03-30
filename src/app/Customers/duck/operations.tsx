@@ -19,7 +19,11 @@ const fetchCustomer = (customerId?: string) => {
   if (customerId) {
     return fetchOperationWithLoading(() => api.fetchCustomers(customerId), actions.setCustomerToCreateOrEdit);
   } else {
-    return (dispatch: Dispatch<any>) => dispatch(actions.setCustomerToCreateOrEdit(defaultValues));
+    return (dispatch: Dispatch<any>, getState: any) => {
+      const agentId = getState().config.agent.id;
+
+      dispatch(actions.setCustomerToCreateOrEdit(defaultValues(agentId)));
+    };
   }
 };
 

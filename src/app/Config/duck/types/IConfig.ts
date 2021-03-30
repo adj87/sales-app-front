@@ -2,4 +2,10 @@
 
 export interface IConfig {
   year: number;
+  agent: IAgent;
+}
+
+interface IAgent {
+  id: string;
+  name: string;
 }

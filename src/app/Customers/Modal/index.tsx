@@ -88,7 +88,7 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
           onChange={setFieldValue}
         />
         <div className="col-span-2">
-          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} />
+          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} disabled />
         </div>
       </div>
       <TitleSeparator title="customers.form.separators.location" />

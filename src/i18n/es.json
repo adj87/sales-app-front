@@ -193,6 +193,7 @@
       "phone": "Teléfono",
       "is-green-point": "P.Verde",
       "is-surcharge": "Recargo",
+      "agent-id": "Agente id",
       "created-at": "F. creación",
       "updated-at": "F. modificación",
       "is-deprecated": "Obsoleto",

@@ -3,6 +3,7 @@ import i18n from '../../i18n';
 import * as Yup from 'yup';
 import InputCheckBox from '../../components/Inputs/InputCheckbox';
 import { dayjsCustom } from '../../dayjsConfig';
+import store from '../../store';
 
 const dateFormatFront = process.env.REACT_APP_FORMAT_DATE_FRONT;
 
@@ -17,6 +18,7 @@ export const columns = [
       { Header: i18n.t('customers.table.route-id'), accessor: 'route_id' },
       { Header: i18n.t('customers.table.zip-code'), accessor: 'zip_code' },
       { Header: i18n.t('customers.table.email'), accessor: 'email' },
+      { Header: i18n.t('customers.table.agent-id'), accessor: 'agent_id' },
       { Header: i18n.t('customers.table.phone'), accessor: 'phone' },
       {
         Header: i18n.t('customers.table.is-green-point'),
@@ -48,24 +50,26 @@ export const columns = [
   },
 ];
 
-export const defaultValues = {
-  id: null,
-  name: null,
-  address: null,
-  fiscal_id: null,
-  route_id: null,
-  agent_id: null,
-  zip_code: null,
-  email: null,
-  phone: null,
-  is_green_point: false,
-  is_surcharge: false,
-  created_at: null,
-  updated_at: null,
-  is_deprecated: false,
-  town: null,
-  province: null,
-  method_of_payment: null,
+export const defaultValues = (agent_id: string) => {
+  return {
+    id: null,
+    name: null,
+    address: null,
+    fiscal_id: null,
+    route_id: null,
+    agent_id,
+    zip_code: null,
+    email: null,
+    phone: null,
+    is_green_point: false,
+    is_surcharge: false,
+    created_at: null,
+    updated_at: null,
+    is_deprecated: false,
+    town: null,
+    province: null,
+    method_of_payment: null,
+  };
 };
 
 export const validationSchema = Yup.object().shape({
@@ -76,6 +80,7 @@ export const validationSchema = Yup.object().shape({
   route_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   zip_code: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   email: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  agent_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   phone: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   town: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   province: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
