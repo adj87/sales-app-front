@@ -22,7 +22,7 @@ interface ProductModalProps {
   removeElementToCreateOrEdit: Function;
   customer: ICustomer | null;
   editCustomer: Function;
-  createCustomer: Function;
+  createCustomer?: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
 }
@@ -36,7 +36,7 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
       if (c.id) {
         editCustomer(c, removeElementToCreateOrEdit);
       } else {
-        createCustomer(c, removeElementToCreateOrEdit);
+        createCustomer && createCustomer(c, removeElementToCreateOrEdit);
       }
     },
     validationSchema: validationSchema,
@@ -117,16 +117,5 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
     </Modal>
   );
 };
-const mapState = (state: AppStoreInterface) => ({
-  customer: state.customers.elementToCreateOrEdit,
-  routes: state.customers.routes,
-  paymentMethods: state.customers.paymentMethods,
-});
 
-const mapDispatch = {
-  editCustomer: operations.editCustomer,
-  createCustomer: operations.createCustomer,
-  removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
-};
-
-export default connect(mapState, mapDispatch)(CustomerModal);
+export default CustomerModal;

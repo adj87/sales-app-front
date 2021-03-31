@@ -6,7 +6,7 @@ import MainLayout from '../../layouts/Main';
 import Table from '../../components/Table';
 import { AppStoreInterface } from '../../store/AppStoreInterface';
 import { operations } from './duck';
-import { ICustomer } from './duck/types/ICustomer';
+import { ICustomer, IRoute, IPaymentMethod } from './duck/types/ICustomer';
 import { columns } from './constants';
 import CustomerModal from './Modal';
 
@@ -18,6 +18,12 @@ interface CustomersComponentProps {
   deleteCustomer: Function;
   fetchRoutes: Function;
   isOpenModal: boolean;
+  removeElementToCreateOrEdit: Function;
+  customer: ICustomer | null;
+  editCustomer: Function;
+  createCustomer: Function;
+  paymentMethods: IPaymentMethod[];
+  routes: IRoute[];
 }
 
 const CustomersComponent = ({
@@ -28,6 +34,12 @@ const CustomersComponent = ({
   fetchPaymentMethods,
   fetchRoutes,
   deleteCustomer,
+  customer,
+  routes,
+  paymentMethods,
+  editCustomer,
+  createCustomer,
+  removeElementToCreateOrEdit,
 }: CustomersComponentProps) => {
   useEffect(() => {
     fetchPaymentMethods();
@@ -52,7 +64,16 @@ const CustomersComponent = ({
           deleteCustomer(c);
         }}
       />
-      {isOpenModal && <CustomerModal />}
+      {isOpenModal && (
+        <CustomerModal
+          customer={customer}
+          routes={routes}
+          paymentMethods={paymentMethods}
+          editCustomer={editCustomer}
+          createCustomer={createCustomer}
+          removeElementToCreateOrEdit={removeElementToCreateOrEdit}
+        />
+      )}
     </MainLayout>
   );
 };
@@ -60,6 +81,9 @@ const CustomersComponent = ({
 const mapState = (state: AppStoreInterface) => ({
   customers: state.customers.data,
   isOpenModal: Boolean(state.customers.elementToCreateOrEdit),
+  customer: state.customers.elementToCreateOrEdit,
+  routes: state.customers.routes,
+  paymentMethods: state.customers.paymentMethods,
 });
 
 const mapDispatch = {
@@ -68,6 +92,9 @@ const mapDispatch = {
   fetchPaymentMethods: operations.fetchPaymentMethods,
   fetchRoutes: operations.fetchRoutes,
   deleteCustomer: operations.deleteCustomer,
+  editCustomer: operations.editCustomer,
+  createCustomer: operations.createCustomer,
+  removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
 };
 
 export const Customers = connect(mapState, mapDispatch)(CustomersComponent);
