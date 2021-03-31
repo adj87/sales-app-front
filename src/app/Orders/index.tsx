@@ -22,6 +22,8 @@ interface OrdersComponentProps {
   onCancelOrderModal: Function;
   deleteOrder: Function;
   isOpenModal: boolean;
+  fetchPaymentMethods: Function;
+  fetchRoutes: Function;
 }
 
 const OrdersComponent = ({
@@ -36,12 +38,16 @@ const OrdersComponent = ({
   fetchCustomers,
   deleteOrder,
   isOpenModal,
+  fetchPaymentMethods,
+  fetchRoutes,
 }: OrdersComponentProps) => {
   useEffect(() => {
     fetchOrders();
     fetchProducts();
     fetchFares();
     fetchCustomers();
+    fetchPaymentMethods();
+    fetchRoutes();
   }, []);
 
   return (

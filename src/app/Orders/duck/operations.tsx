@@ -4,7 +4,7 @@ import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
 import { SetElementToCreateOrEditAction } from './types';
-import { actions as customersAction, api as customersApi } from '../../Customers/duck';
+import { actions as customersAction, api as customersApi, operations as customersOperation } from '../../Customers/duck';
 import { actions as faresAction, api as faresApi, operations as fareOperations } from '../../Fares/duck';
 import { actions as productsAction, api as productsApi } from '../../Products/duck';
 import { operations as loadingOperations } from '../../Loading/duck';
@@ -83,6 +83,8 @@ const deleteOrder = (order: IOrder) =>
     (res: any, dispatch: any) => dispatch(fetchOrders()),
   );
 
+const { fetchPaymentMethods, fetchRoutes } = customersOperation;
+
 export default {
   fetchOrder,
   fetchOrders,
@@ -100,4 +102,6 @@ export default {
   editOrder,
   deleteOrder,
   fetchProductCost,
+  fetchPaymentMethods,
+  fetchRoutes,
 };
