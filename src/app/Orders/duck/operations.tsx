@@ -83,7 +83,7 @@ const deleteOrder = (order: IOrder) =>
     (res: any, dispatch: any) => dispatch(fetchOrders()),
   );
 
-const { fetchPaymentMethods, fetchRoutes } = customersOperation;
+const { fetchPaymentMethods, fetchRoutes, editCustomer } = customersOperation;
 
 export default {
   fetchOrder,
@@ -104,4 +104,5 @@ export default {
   fetchProductCost,
   fetchPaymentMethods,
   fetchRoutes,
+  editCustomer,
 };

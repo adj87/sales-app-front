@@ -69,9 +69,14 @@ const CustomersComponent = ({
           customer={customer}
           routes={routes}
           paymentMethods={paymentMethods}
-          editCustomer={editCustomer}
-          createCustomer={createCustomer}
-          removeElementToCreateOrEdit={removeElementToCreateOrEdit}
+          onSubmit={(c: ICustomer) => {
+            if (c.id) {
+              editCustomer(c, removeElementToCreateOrEdit);
+            } else {
+              createCustomer && createCustomer(c, removeElementToCreateOrEdit);
+            }
+          }}
+          onCancel={removeElementToCreateOrEdit}
         />
       )}
     </MainLayout>

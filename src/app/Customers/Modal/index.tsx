@@ -19,36 +19,26 @@ const InputCheckboxWithFV = withFormikValues(InputCheckBox);
 const SelectComponentWithFV = withFormikValues(SelectComponent);
 
 interface ProductModalProps {
-  removeElementToCreateOrEdit: Function;
+  onCancel: Function;
   customer: ICustomer | null;
-  editCustomer: Function;
-  createCustomer?: Function;
+  onSubmit: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
 }
 
-const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, createCustomer, paymentMethods, routes }: ProductModalProps) => {
+const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }: ProductModalProps) => {
   const { t } = useTranslation();
   const formik = useFormik<ICustomer>({
     // @ts-ignore
     initialValues: customer,
     onSubmit: (c: ICustomer) => {
-      if (c.id) {
-        editCustomer(c, removeElementToCreateOrEdit);
-      } else {
-        createCustomer && createCustomer(c, removeElementToCreateOrEdit);
-      }
+      onSubmit(c);
     },
     validationSchema: validationSchema,
   });
   const { values, setFieldValue, submitForm } = formik;
   return (
-    <Modal
-      onCancel={() => removeElementToCreateOrEdit()}
-      onConfirm={submitForm}
-      size="lg"
-      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}
-    >
+    <Modal onCancel={() => onCancel()} onConfirm={submitForm} size="lg" title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}>
       <TitleSeparator title="customers.form.separators.general" />
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} disabled />

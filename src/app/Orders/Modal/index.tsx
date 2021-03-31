@@ -230,13 +230,20 @@ const OrdersModal = ({
       )}
       {values?.customer_id && (
         <MoreInfo
-          // @ts-ignore
-          customerId={values.customer_id}
+          customer={customer}
           onFareModalConfirm={(fare: IFare, isCreating: boolean) => {
             if (isCreating) return createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
             return editFare(fare, (newFare: IFare) => {
               setPricesToNewFareAndSetTotals(values, setValues, newFare, products);
             });
+          }}
+          onCustomerModalConfirm={(c: ICustomer) => {
+            debugger;
+            fetchCustomer(c.id);
+            // prettier-ignore
+            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id, province, town } = c;
+            // prettier-ignore
+            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id, province, town });
           }}
         />
       )}
