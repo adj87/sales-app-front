@@ -30,8 +30,8 @@ const editCustomer = (c: ICustomer) => {
   return axios.put(url, c);
 };
 
-const deleteCustomer = (c: ICustomer) => {
-  const url = `${API_CUSTOMERS}/${c.id}`;
+const deleteCustomer = (id: string) => {
+  const url = `${API_CUSTOMERS}/${id}`;
   return axios.delete(url);
 };
 
