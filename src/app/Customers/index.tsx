@@ -66,6 +66,7 @@ const CustomersComponent = ({
       />
       {isOpenModal && (
         <CustomerModal
+          //@ts-ignore
           customer={customer}
           routes={routes}
           paymentMethods={paymentMethods}

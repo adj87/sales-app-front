@@ -104,6 +104,7 @@ const MoreInfo = ({
 
       {modalInfoToOpen === 'customer' && Boolean(customer) && (
         <CustomerModal
+          // @ts-ignore
           customer={customer}
           routes={routes}
           paymentMethods={paymentMethods}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
@@ -13,32 +13,45 @@ import { connect } from 'react-redux';
 import { TitleSeparator } from '../../../components/TitleSeparator';
 import SelectComponent from '../../../components/Select';
 import { validationSchema } from '../constants';
+import Button from '../../../components/Button';
+import { ChartModal } from './ChartModal';
 
 const InputWithFV = withFormikValues(Input);
 const InputCheckboxWithFV = withFormikValues(InputCheckBox);
 const SelectComponentWithFV = withFormikValues(SelectComponent);
 
 interface ProductModalProps {
-  onCancel: Function;
+  removeElementToCreateOrEdit: Function;
   customer: ICustomer | null;
-  onSubmit: Function;
+  editCustomer: Function;
+  createCustomer: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
 }
 
-const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }: ProductModalProps) => {
+const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, createCustomer, paymentMethods, routes }: ProductModalProps) => {
   const { t } = useTranslation();
+  const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
   const formik = useFormik<ICustomer>({
     // @ts-ignore
     initialValues: customer,
     onSubmit: (c: ICustomer) => {
-      onSubmit(c);
+      if (c.id) {
+        editCustomer(c, removeElementToCreateOrEdit);
+      } else {
+        createCustomer(c, removeElementToCreateOrEdit);
+      }
     },
     validationSchema: validationSchema,
   });
   const { values, setFieldValue, submitForm } = formik;
   return (
-    <Modal onCancel={() => onCancel()} onConfirm={submitForm} size="lg" title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}>
+    <Modal
+      onCancel={() => removeElementToCreateOrEdit()}
+      onConfirm={submitForm}
+      size="lg"
+      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}
+    >
       <TitleSeparator title="customers.form.separators.general" />
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} disabled />
@@ -104,8 +117,21 @@ const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }:
           <InputWithFV name="email" formikObject={formik} label="customers.table.email" onChange={setFieldValue} />
         </div>
       </div>
+      <Button color="secondary" onClick={() => setChartModalOpen(true)} text="Abrir" />
+      {chartModalOpen && <ChartModal onCancel={() => setChartModalOpen(false)} />}
     </Modal>
   );
 };
+const mapState = (state: AppStoreInterface) => ({
+  customer: state.customers.elementToCreateOrEdit,
+  routes: state.customers.routes,
+  paymentMethods: state.customers.paymentMethods,
+});
 
-export default CustomerModal;
+const mapDispatch = {
+  editCustomer: operations.editCustomer,
+  createCustomer: operations.createCustomer,
+  removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
+};
+
+export default connect(mapState, mapDispatch)(CustomerModal);
