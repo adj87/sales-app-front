@@ -6,7 +6,7 @@ import Modal from '../../../components/Modal/Modal';
 import Input from '../../../components/Inputs/InputText';
 import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
-import { ICustomer, IPaymentMethod, IRoute } from '../duck/types/ICustomer';
+import { IChartUnitsByMonthProductAndCustomer, ICustomer, IPaymentMethod, IRoute } from '../duck/types/ICustomer';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import operations from '../duck/operations';
 import { connect } from 'react-redux';
@@ -20,16 +20,27 @@ const InputWithFV = withFormikValues(Input);
 const InputCheckboxWithFV = withFormikValues(InputCheckBox);
 const SelectComponentWithFV = withFormikValues(SelectComponent);
 
-interface ProductModalProps {
+interface CustomerModalProps {
   removeElementToCreateOrEdit: Function;
+  fetchChartUnitsByProductMonthAndCustomer: Function;
   customer: ICustomer | null;
   editCustomer: Function;
   createCustomer: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
+  chartUnitsByMonthProductAndCustomer: IChartUnitsByMonthProductAndCustomer;
 }
 
-const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, createCustomer, paymentMethods, routes }: ProductModalProps) => {
+const CustomerModal = ({
+  removeElementToCreateOrEdit,
+  customer,
+  editCustomer,
+  createCustomer,
+  paymentMethods,
+  routes,
+  fetchChartUnitsByProductMonthAndCustomer,
+  chartUnitsByMonthProductAndCustomer,
+}: CustomerModalProps) => {
   const { t } = useTranslation();
   const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
   const formik = useFormik<ICustomer>({
@@ -118,7 +129,15 @@ const CustomerModal = ({ removeElementToCreateOrEdit, customer, editCustomer, cr
         </div>
       </div>
       <Button color="secondary" onClick={() => setChartModalOpen(true)} text="Abrir" />
-      {chartModalOpen && <ChartModal onCancel={() => setChartModalOpen(false)} />}
+      {chartModalOpen && (
+        <ChartModal
+          // @ts-ignore
+          customer={customer}
+          chartUnitsByMonthProductAndCustomer={chartUnitsByMonthProductAndCustomer}
+          onCancel={() => setChartModalOpen(false)}
+          fetchChartUnitsByProductMonthAndCustomer={fetchChartUnitsByProductMonthAndCustomer}
+        />
+      )}
     </Modal>
   );
 };
@@ -126,12 +145,14 @@ const mapState = (state: AppStoreInterface) => ({
   customer: state.customers.elementToCreateOrEdit,
   routes: state.customers.routes,
   paymentMethods: state.customers.paymentMethods,
+  chartUnitsByMonthProductAndCustomer: state.customers.chartUnitsByMonthProductAndCustomer,
 });
 
 const mapDispatch = {
   editCustomer: operations.editCustomer,
   createCustomer: operations.createCustomer,
   removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
+  fetchChartUnitsByProductMonthAndCustomer: operations.fetchChartUnitsByProductMonthAndCustomer,
 };
 
 export default connect(mapState, mapDispatch)(CustomerModal);

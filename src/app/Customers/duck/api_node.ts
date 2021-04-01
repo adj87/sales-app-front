@@ -35,6 +35,11 @@ const deleteCustomer = (id: string) => {
   return axios.delete(url);
 };
 
+const fetchChartUnitsByProductMonthAndCustomer = (id: string) => {
+  const url = `${API_CUSTOMERS}/getUnidadesPorProductoMesCliente/?codigo=${id}`;
+  return axios.get(url);
+};
+
 export default {
   fetchCustomers,
   fetchRoutes,
@@ -42,4 +47,5 @@ export default {
   createCustomer,
   editCustomer,
   deleteCustomer,
+  fetchChartUnitsByProductMonthAndCustomer,
 };

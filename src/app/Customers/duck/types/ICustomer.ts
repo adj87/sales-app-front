@@ -29,3 +29,8 @@ export interface IRoute {
   id: string;
   name: string;
 }
+
+export interface IChartUnitsByMonthProductAndCustomer {
+  data: { [key: string]: any }[];
+  products: string[];
+}

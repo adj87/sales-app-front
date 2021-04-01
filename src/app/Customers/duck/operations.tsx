@@ -53,6 +53,8 @@ const deleteCustomer = (c: ICustomer) =>
   );
 
 const removeElementToCreateOrEdit = () => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setCustomerToCreateOrEdit(null));
+const fetchChartUnitsByProductMonthAndCustomer = (id: string) =>
+  fetchOperationWithLoading(() => api.fetchChartUnitsByProductMonthAndCustomer(id), actions.setChartUnitsByMonthProductAndCustomer);
 
 export default {
   fetchCustomers,
@@ -63,4 +65,5 @@ export default {
   createCustomer,
   fetchPaymentMethods,
   fetchRoutes,
+  fetchChartUnitsByProductMonthAndCustomer,
 };

@@ -1,4 +1,11 @@
-import { SET_CUSTOMERS, CustomersState, SET_CUSTOMER_TO_CREATE_OR_EDIT, SET_ROUTES, SET_PAYMENT_METHODS } from './types';
+import {
+  SET_CUSTOMERS,
+  CustomersState,
+  SET_CUSTOMER_TO_CREATE_OR_EDIT,
+  SET_ROUTES,
+  SET_PAYMENT_METHODS,
+  SET_CHART_UNITS_BY_MONTH_PRODUCT_AND_CUSTOMER,
+} from './types';
 import { AnyAction } from 'redux';
 
 const initialState = {
@@ -6,6 +13,7 @@ const initialState = {
   elementToCreateOrEdit: null,
   paymentMethods: [],
   routes: [],
+  chartUnitsByMonthProductAndCustomer: { data: [], products: [] },
 };
 
 const ordersReducer = (state = initialState, { type, payload }: AnyAction): CustomersState => {
@@ -18,6 +26,8 @@ const ordersReducer = (state = initialState, { type, payload }: AnyAction): Cust
       return { ...state, routes: payload };
     case SET_PAYMENT_METHODS:
       return { ...state, paymentMethods: payload };
+    case SET_CHART_UNITS_BY_MONTH_PRODUCT_AND_CUSTOMER:
+      return { ...state, chartUnitsByMonthProductAndCustomer: payload };
     default:
       return state;
   }
