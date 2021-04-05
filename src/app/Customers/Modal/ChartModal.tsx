@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Modal from '../../../components/Modal/Modal';
 import { IChartUnitsByMonthProductAndCustomer, ICustomer } from '../duck/types/ICustomer';
@@ -20,11 +20,12 @@ export const ChartModal = ({
     fetchChartUnitsByProductMonthAndCustomer(customer.id);
   }, []);
 
-  console.log(chartUnitsByMonthProductAndCustomer.data);
+  const [hiddens, setHiddens] = useState<string[]>([]);
+
   return (
     <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'customers.form.title-edit'}>
       {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
-        <div className="w-full" style={{ height: '400px' }}>
+        <div className="w-full" style={{ height: '800px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={chartUnitsByMonthProductAndCustomer.data}
@@ -39,9 +40,23 @@ export const ChartModal = ({
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Legend />
+
+              <Legend
+                // @ts-ignore
+                onClick={(a: any) => {
+                  const product = a.value;
+                  const isAlreadyHidden = Boolean(hiddens.find((el: string) => el === product));
+                  let newHiddens = [...hiddens];
+                  if (isAlreadyHidden) {
+                    newHiddens = hiddens.filter((el) => el !== product);
+                  } else {
+                    newHiddens.push(product);
+                  }
+                  setHiddens(newHiddens);
+                }}
+              />
               {chartUnitsByMonthProductAndCustomer.products.map((el: string) => (
-                <Line type="monotone" dataKey={el} onClick={() => console.log('object')} />
+                <Line type="monotone" dataKey={el} hide={Boolean(hiddens.find((act: string) => act === el))} />
               ))}
             </LineChart>
           </ResponsiveContainer>
