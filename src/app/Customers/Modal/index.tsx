@@ -21,21 +21,19 @@ const InputCheckboxWithFV = withFormikValues(InputCheckBox);
 const SelectComponentWithFV = withFormikValues(SelectComponent);
 
 interface CustomerModalProps {
-  removeElementToCreateOrEdit: Function;
+  onCancel: Function;
   fetchChartUnitsByProductMonthAndCustomer: Function;
   customer: ICustomer | null;
-  editCustomer: Function;
-  createCustomer: Function;
+  onSubmit: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
   chartUnitsByMonthProductAndCustomer: IChartUnitsByMonthProductAndCustomer;
 }
 
 const CustomerModal = ({
-  removeElementToCreateOrEdit,
+  onCancel,
   customer,
-  editCustomer,
-  createCustomer,
+  onSubmit,
   paymentMethods,
   routes,
   fetchChartUnitsByProductMonthAndCustomer,
@@ -47,22 +45,13 @@ const CustomerModal = ({
     // @ts-ignore
     initialValues: customer,
     onSubmit: (c: ICustomer) => {
-      if (c.id) {
-        editCustomer(c, removeElementToCreateOrEdit);
-      } else {
-        createCustomer(c, removeElementToCreateOrEdit);
-      }
+      onSubmit(c);
     },
     validationSchema: validationSchema,
   });
   const { values, setFieldValue, submitForm } = formik;
   return (
-    <Modal
-      onCancel={() => removeElementToCreateOrEdit()}
-      onConfirm={submitForm}
-      size="lg"
-      title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}
-    >
+    <Modal onCancel={() => onCancel()} onConfirm={submitForm} size="lg" title={values?.id ? 'customers.form.title-edit' : 'customers.form.title'}>
       <TitleSeparator title="customers.form.separators.general" />
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <InputWithFV name="id" formikObject={formik} label="customers.table.id" onChange={setFieldValue} disabled />
@@ -102,7 +91,7 @@ const CustomerModal = ({
           onChange={setFieldValue}
         />
         <div className="col-span-2">
-          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} disabled />
+          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} />
         </div>
       </div>
       <TitleSeparator title="customers.form.separators.location" />
@@ -142,16 +131,10 @@ const CustomerModal = ({
   );
 };
 const mapState = (state: AppStoreInterface) => ({
-  customer: state.customers.elementToCreateOrEdit,
-  routes: state.customers.routes,
-  paymentMethods: state.customers.paymentMethods,
   chartUnitsByMonthProductAndCustomer: state.customers.chartUnitsByMonthProductAndCustomer,
 });
 
 const mapDispatch = {
-  editCustomer: operations.editCustomer,
-  createCustomer: operations.createCustomer,
-  removeElementToCreateOrEdit: operations.removeElementToCreateOrEdit,
   fetchChartUnitsByProductMonthAndCustomer: operations.fetchChartUnitsByProductMonthAndCustomer,
 };
 
