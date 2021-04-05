@@ -41,9 +41,9 @@ export const columns = [
       },
       { Header: i18n.t('orders.table.zip_code'), accessor: 'zip_code', alignment: 'right' },
       { Header: i18n.t('orders.table.customer_route_id'), accessor: 'route_id', alignment: 'right' },
-      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right' },
-      { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right' },
-      { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right' },
+      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right', rounded: true },
+      { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right', rounded: true },
+      { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right', rounded: true },
     ],
   },
 ];
@@ -145,7 +145,7 @@ export const validationSchemaOrder = Yup.object().shape({
 
 export const validationSchemaOrderLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
+  quantity: Yup.number().required(i18n.t('commons.errors.field_required')),
   cost: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   price: numberValidation.required(i18n.t('commons.errors.field_required')),
 });
@@ -219,7 +219,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
     const thisProductHasPromotion = to_charge > 1 || to_sell > 1;
     // @ts-ignore
-    if (isDefaultFare(fare) && thisProductHasPromotion) {
+    if (isDefaultFare(fare) && thisProductHasPromotion && quantity > 0) {
       if (quantity && quantity <= 14) {
         // @ts-ignore
         const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
