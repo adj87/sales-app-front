@@ -44,7 +44,7 @@ const OrdersComponent = ({
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-    fetchFares();
+    //fetchFares();
     fetchCustomers();
     fetchPaymentMethods();
     fetchRoutes();
@@ -56,7 +56,6 @@ const OrdersComponent = ({
         columns={columns}
         data={orders}
         onAddButton={() => {
-          fetchFares();
           fetchOrder();
         }}
         tableName={'orders'}
@@ -65,7 +64,6 @@ const OrdersComponent = ({
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
           fetchOrder(`${order.type}-${order.id}`);
-          fetchFares();
           fetchFare(order.customer_id);
         }}
         deleteOnRowPress={(row: any) => {
