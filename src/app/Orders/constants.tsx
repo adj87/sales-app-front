@@ -211,7 +211,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
   // @ts-ignore
   const newOrderLines: IOrderLine[] = Object.values(orderLinesGroupedByProductId).reduce((acc: any, el: IOrderLine) => {
     // @ts-ignore
-    const { quantity, product_id, pallet_boxes } = el;
+    const { quantity, product_id, pallet_boxes, price } = el;
 
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
@@ -219,7 +219,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
     const thisProductHasPromotion = to_charge > 1 || to_sell > 1;
     // @ts-ignore
-    if (isDefaultFare(fare) && thisProductHasPromotion && quantity > 0) {
+    if (isDefaultFare(fare) && thisProductHasPromotion && price > 0) {
       if (quantity && quantity <= 14) {
         // @ts-ignore
         const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
