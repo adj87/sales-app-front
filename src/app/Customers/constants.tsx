@@ -20,6 +20,8 @@ export const columns = [
       { Header: i18n.t('customers.table.email'), accessor: 'email' },
       { Header: i18n.t('customers.table.agent-id'), accessor: 'agent_id' },
       { Header: i18n.t('customers.table.phone'), accessor: 'phone' },
+      { Header: i18n.t('customers.table.phone-2'), accessor: 'phone_2' },
+      { Header: i18n.t('customers.table.phone-mobile'), accessor: 'phone_mobile' },
       {
         Header: i18n.t('customers.table.is-green-point'),
         accessor: 'is_green_point',
@@ -61,6 +63,8 @@ export const defaultValues = (agent_id: string) => {
     zip_code: '',
     email: '',
     phone: '',
+    phone_2: '',
+    phone_mobile: '',
     is_green_point: false,
     is_surcharge: false,
     created_at: null,

@@ -192,6 +192,8 @@
       "zip-code": "C.Postal",
       "email": "Email",
       "phone": "Teléfono",
+      "phone-2": "Teléfono 2",
+      "phone-mobile": "Móvil",
       "is-green-point": "P.Verde",
       "is-surcharge": "Recargo",
       "agent-id": "Agente id",

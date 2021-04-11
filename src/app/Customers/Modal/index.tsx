@@ -113,6 +113,8 @@ const CustomerModal = ({
       <TitleSeparator title="customers.form.separators.contact" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="phone" formikObject={formik} label="customers.table.phone" onChange={setFieldValue} />
+        <InputWithFV name="phone_2" formikObject={formik} label="customers.table.phone-2" onChange={setFieldValue} />
+        <InputWithFV name="phone_mobile" formikObject={formik} label="customers.table.phone-mobile" onChange={setFieldValue} />
         <div className="col-span-2">
           <InputWithFV name="email" formikObject={formik} label="customers.table.email" onChange={setFieldValue} />
         </div>

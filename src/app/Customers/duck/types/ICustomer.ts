@@ -10,6 +10,8 @@ export interface ICustomer {
   zip_code: string | null;
   email: string | null;
   phone: string | null;
+  phone_2: string | null;
+  phone_mobile: string | null;
   is_green_point: boolean;
   is_surcharge: boolean;
   created_at: string | null;
