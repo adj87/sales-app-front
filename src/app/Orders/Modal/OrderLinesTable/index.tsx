@@ -39,9 +39,9 @@ const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, dele
       {Boolean(orderLineToEdit) && (
         <OrderLineModal
           onCancel={() => setOrderLineToEdit(null)}
-          onConfirm={(values: IOrderLine) => {
+          onConfirm={(values: IOrderLine, isDefaultPrice: boolean) => {
             setOrderLineToEdit(null);
-            onConfirmOrderLineModal(values);
+            onConfirmOrderLineModal(values, isDefaultPrice);
           }}
           size="md"
           // @ts-ignore

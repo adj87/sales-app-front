@@ -163,7 +163,7 @@ const OrdersModal = ({
       <div className="w-full pt-2 mb-5">
         <OrderLinesTable
           values={values}
-          onConfirmOrderLineModal={(orderLine: IOrderLine) => {
+          onConfirmOrderLineModal={(orderLine: IOrderLine, isDefaultPrice: boolean) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
             let newOrderLines = [...order_lines];
@@ -176,7 +176,7 @@ const OrdersModal = ({
 
               //CREATING
             } else {
-              const orderLines: IOrderLine[] = transformLinesIfDefaultFare([orderLine], fare);
+              const orderLines: IOrderLine[] = transformLinesIfDefaultFare([orderLine], fare, isDefaultPrice);
               orderLines.forEach((el: IOrderLine) => {
                 newOrderLines.push({
                   ...el,

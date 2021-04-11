@@ -194,7 +194,7 @@ export const calculateTotals = (values: IOrder, products: IProduct[]) => {
   return null;
 };
 
-export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFare): IOrderLine[] => {
+export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFare, isDefaultPrice: boolean): IOrderLine[] => {
   const orderLinesGroupedByProductId = orderLines.reduce((oLinesByIdProduct: any, el: IOrderLine) => {
     // @ts-ignore
     if (!oLinesByIdProduct[el.product_id]) {
@@ -219,7 +219,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
     const thisProductHasPromotion = to_charge > 1 || to_sell > 1;
     // @ts-ignore
-    if (isDefaultFare(fare) && thisProductHasPromotion && price > 0) {
+    if (isDefaultFare(fare) && thisProductHasPromotion && isDefaultPrice) {
       if (quantity && quantity <= 14) {
         // @ts-ignore
         const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
