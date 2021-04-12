@@ -13,7 +13,7 @@ const initialState = {
   elementToCreateOrEdit: null,
   paymentMethods: [],
   routes: [],
-  chartUnitsByMonthProductAndCustomer: { data: [], products: [] },
+  chartUnitsByMonthProductAndCustomer: { data: [], products: [], last_data: [] },
 };
 
 const ordersReducer = (state = initialState, { type, payload }: AnyAction): CustomersState => {

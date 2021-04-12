@@ -90,3 +90,20 @@ export const validationSchema = Yup.object().shape({
   //province: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   method_of_payment: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
 });
+
+export const columnsLastDataChart = [
+  {
+    Header: 'Name',
+    columns: [
+      {
+        Header: i18n.t('customers.form.charts.last-data.date'),
+        accessor: 'date',
+        Cell: ({ row }: any) => dayjsCustom(row.original.date).format(dateFormatFront),
+      },
+      { Header: i18n.t('customers.form.charts.last-data.invoice'), accessor: 'invoice' },
+      { Header: i18n.t('customers.form.charts.last-data.id'), accessor: 'id' },
+      { Header: i18n.t('customers.form.charts.last-data.name'), accessor: 'name' },
+      { Header: i18n.t('customers.form.charts.last-data.quantity'), accessor: 'quantity', alignment: 'right' },
+    ],
+  },
+];

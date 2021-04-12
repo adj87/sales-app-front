@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import Modal from '../../../components/Modal/Modal';
+import Table from '../../../components/Table';
+import { columnsLastDataChart } from '../constants';
+import { TitleSeparator } from '../../../components/TitleSeparator';
 import { IChartUnitsByMonthProductAndCustomer, ICustomer } from '../duck/types/ICustomer';
 
 interface ChartModalProps {
@@ -22,11 +25,16 @@ export const ChartModal = ({
 
   const [hiddens, setHiddens] = useState<string[]>([]);
 
+  useEffect(() => {
+    setHiddens(chartUnitsByMonthProductAndCustomer.products);
+  }, [chartUnitsByMonthProductAndCustomer.products.length]);
+
   return (
-    <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'customers.form.title-edit'}>
+    <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'Informes'}>
       {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
         <div className="w-full" style={{ height: '800px' }}>
-          <ResponsiveContainer width="100%" height="100%">
+          <TitleSeparator title="Evolución cantidades por producto" />
+          <ResponsiveContainer width="100%" height="80%">
             <LineChart
               data={chartUnitsByMonthProductAndCustomer.data}
               margin={{
@@ -60,6 +68,8 @@ export const ChartModal = ({
               ))}
             </LineChart>
           </ResponsiveContainer>
+          <TitleSeparator title="Última compra de cada producto incluidos en tarifa" />
+          <Table data={chartUnitsByMonthProductAndCustomer.last_data} tableName="chart-last-data" columns={columnsLastDataChart} withSearching />
         </div>
       )}
     </Modal>

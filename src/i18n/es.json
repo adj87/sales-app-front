@@ -211,6 +211,9 @@
         "general": "Generales",
         "location": "Localización",
         "contact": "Contacto"
+      },
+      "charts": {
+        "last-data": { "quantity": "Cantidad", "date": "Fecha", "id": "Código", "name": "Nombre", "invoice": "Factura" }
       }
     }
   }
