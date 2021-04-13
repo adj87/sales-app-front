@@ -3,7 +3,7 @@ import api_node from './api_node';
 import actions from './actions';
 
 import { Dispatch } from 'react';
-import { SetCustomerToCreateOrEditAction } from './types';
+import { SetChartUnitsByMonthProductAndCustomer, SetCustomerToCreateOrEditAction } from './types';
 
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
@@ -53,6 +53,9 @@ const deleteCustomer = (c: ICustomer) =>
   );
 
 const removeElementToCreateOrEdit = () => (dispatch: Dispatch<SetCustomerToCreateOrEditAction>) => dispatch(actions.setCustomerToCreateOrEdit(null));
+const resetCharts = () => (dispatch: Dispatch<SetChartUnitsByMonthProductAndCustomer>) =>
+  // @ts-ignore
+  dispatch(actions.setChartUnitsByMonthProductAndCustomer({ data: [], last_data: [], products: [] }));
 const fetchChartUnitsByProductMonthAndCustomer = (id: string) =>
   fetchOperationWithLoading(() => api.fetchChartUnitsByProductMonthAndCustomer(id), actions.setChartUnitsByMonthProductAndCustomer);
 
@@ -66,4 +69,5 @@ export default {
   fetchPaymentMethods,
   fetchRoutes,
   fetchChartUnitsByProductMonthAndCustomer,
+  resetCharts,
 };

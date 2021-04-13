@@ -28,6 +28,7 @@ interface CustomerModalProps {
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
   chartUnitsByMonthProductAndCustomer: IChartUnitsByMonthProductAndCustomer;
+  resetCharts: Function;
 }
 
 const CustomerModal = ({
@@ -38,6 +39,7 @@ const CustomerModal = ({
   routes,
   fetchChartUnitsByProductMonthAndCustomer,
   chartUnitsByMonthProductAndCustomer,
+  resetCharts,
 }: CustomerModalProps) => {
   const { t } = useTranslation();
   const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
@@ -125,7 +127,10 @@ const CustomerModal = ({
           // @ts-ignore
           customer={customer}
           chartUnitsByMonthProductAndCustomer={chartUnitsByMonthProductAndCustomer}
-          onCancel={() => setChartModalOpen(false)}
+          onCancel={() => {
+            resetCharts();
+            setChartModalOpen(false);
+          }}
           fetchChartUnitsByProductMonthAndCustomer={fetchChartUnitsByProductMonthAndCustomer}
         />
       )}
@@ -137,6 +142,7 @@ const mapState = (state: AppStoreInterface) => ({
 });
 
 const mapDispatch = {
+  resetCharts: operations.resetCharts,
   fetchChartUnitsByProductMonthAndCustomer: operations.fetchChartUnitsByProductMonthAndCustomer,
 };
 
