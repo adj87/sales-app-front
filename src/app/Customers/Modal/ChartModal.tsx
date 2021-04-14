@@ -32,9 +32,9 @@ export const ChartModal = ({
   return (
     <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'Informes'}>
       {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
-        <div className="w-full" style={{ height: '800px' }}>
+        <div className="w-full" style={{ height: '1200px' }}>
           <TitleSeparator title="Evolución cantidades por producto" />
-          <ResponsiveContainer width="100%" height="80%">
+          <ResponsiveContainer width="100%" height="50%">
             <LineChart
               data={chartUnitsByMonthProductAndCustomer.data}
               margin={{
@@ -50,6 +50,25 @@ export const ChartModal = ({
               <Tooltip />
 
               <Legend
+                align="left"
+                content={(props: any) => {
+                  const { payload, onClick } = props;
+
+                  return (
+                    <ul className="mt-4 flex flex-col flex-wrap w-full" style={{ height: '300px' }}>
+                      {payload.map((entry: any, index: any) => (
+                        <li
+                          className={entry.inactive ? 'text-grey-500 py-2' : 'text-primary-dark py-2'}
+                          key={`item-${index}`}
+                          style={{ width: '30%' }}
+                          onClick={() => onClick(entry)}
+                        >
+                          {entry.value}
+                        </li>
+                      ))}
+                    </ul>
+                  );
+                }}
                 // @ts-ignore
                 onClick={(a: any) => {
                   const product = a.value;
