@@ -32,65 +32,56 @@ export const ChartModal = ({
   return (
     <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'Informes'}>
       {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
-        <div className="w-full" style={{ height: '1200px' }}>
+        <>
           <TitleSeparator title="Evolución cantidades por producto" />
-          <ResponsiveContainer width="100%" height="50%">
-            <LineChart
-              data={chartUnitsByMonthProductAndCustomer.data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
+          <div className="w-full" style={{ height: '350px' }}>
+            <ResponsiveContainer>
+              <LineChart data={chartUnitsByMonthProductAndCustomer.data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
 
-              <Legend
-                align="left"
-                content={(props: any) => {
-                  const { payload, onClick } = props;
-
-                  return (
-                    <ul className="mt-4 flex flex-col flex-wrap w-full" style={{ height: '300px' }}>
-                      {payload.map((entry: any, index: any) => (
-                        <li
-                          className={entry.inactive ? 'text-grey-500 py-2' : 'text-primary-dark py-2'}
-                          key={`item-${index}`}
-                          style={{ width: '30%' }}
-                          onClick={() => onClick(entry)}
-                        >
-                          {entry.value}
-                        </li>
-                      ))}
-                    </ul>
-                  );
-                }}
-                // @ts-ignore
-                onClick={(a: any) => {
-                  const product = a.value;
-                  const isAlreadyHidden = Boolean(hiddens.find((el: string) => el === product));
-                  let newHiddens = [...hiddens];
-                  if (isAlreadyHidden) {
-                    newHiddens = hiddens.filter((el) => el !== product);
-                  } else {
-                    newHiddens.push(product);
-                  }
-                  setHiddens(newHiddens);
-                }}
-              />
-              {chartUnitsByMonthProductAndCustomer.products.map((el: string) => (
-                <Line type="monotone" dataKey={el} hide={Boolean(hiddens.find((act: string) => act === el))} />
-              ))}
-            </LineChart>
-          </ResponsiveContainer>
+                {chartUnitsByMonthProductAndCustomer.products.map((el: string) => (
+                  <Line type="monotone" dataKey={el} hide={Boolean(hiddens.find((act: string) => act === el))} />
+                ))}
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+          <CustomLegend products={chartUnitsByMonthProductAndCustomer.products} hiddens={hiddens} setHiddens={setHiddens} />
           <TitleSeparator title="Última compra de cada producto incluidos en tarifa" />
           <Table data={chartUnitsByMonthProductAndCustomer.last_data} tableName="chart-last-data" columns={columnsLastDataChart} withSearching />
-        </div>
+        </>
       )}
     </Modal>
+  );
+};
+
+const CustomLegend = ({ products, hiddens, setHiddens }: { products: string[]; hiddens: string[]; setHiddens: Function }) => {
+  const height = products.length > 12 ? '450px' : '300px';
+  return (
+    <div className="flex flex-col flex-wrap w-full pl-8 overflow-x-auto" style={{ height }}>
+      {products.map((product: any, index: any) => (
+        <div
+          className={`${
+            Boolean(hiddens.find((el: string) => el === product)) ? 'text-grey-500 py-2' : 'text-primary-dark py-2'
+          } cursor-pointer hover:text-primary-light`}
+          key={`item-${index}`}
+          style={{ width: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          onClick={() => {
+            const isAlreadyHidden = Boolean(hiddens.find((el: string) => el === product));
+            let newHiddens = [...hiddens];
+            if (isAlreadyHidden) {
+              newHiddens = hiddens.filter((el) => el !== product);
+            } else {
+              newHiddens.push(product);
+            }
+            setHiddens(newHiddens);
+          }}
+        >
+          {`${index + 1}-${product}`}
+        </div>
+      ))}
+    </div>
   );
 };
