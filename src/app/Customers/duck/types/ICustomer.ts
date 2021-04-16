@@ -32,8 +32,13 @@ export interface IRoute {
   name: string;
 }
 
+export interface IProductAndItsColor {
+  name: string;
+  color: string;
+}
+
 export interface IChartUnitsByMonthProductAndCustomer {
   data: { [key: string]: any }[];
   last_data: { quantity: number; id: string; name: string; invoice: string; date: string; type: string }[];
-  products: string[];
+  products: IProductAndItsColor[];
 }

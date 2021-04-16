@@ -4,7 +4,7 @@ import Modal from '../../../components/Modal/Modal';
 import Table from '../../../components/Table';
 import { columnsLastDataChart } from '../constants';
 import { TitleSeparator } from '../../../components/TitleSeparator';
-import { IChartUnitsByMonthProductAndCustomer, ICustomer } from '../duck/types/ICustomer';
+import { IChartUnitsByMonthProductAndCustomer, ICustomer, IProductAndItsColor } from '../duck/types/ICustomer';
 
 interface ChartModalProps {
   onCancel: Function;
@@ -26,7 +26,7 @@ export const ChartModal = ({
   const [hiddens, setHiddens] = useState<string[]>([]);
 
   useEffect(() => {
-    setHiddens(chartUnitsByMonthProductAndCustomer.products);
+    setHiddens(chartUnitsByMonthProductAndCustomer.products.map((pr: IProductAndItsColor) => pr.name));
   }, [chartUnitsByMonthProductAndCustomer.products.length]);
 
   return (
@@ -42,8 +42,8 @@ export const ChartModal = ({
                 <YAxis />
                 <Tooltip />
 
-                {chartUnitsByMonthProductAndCustomer.products.map((el: string) => (
-                  <Line type="monotone" dataKey={el} hide={Boolean(hiddens.find((act: string) => act === el))} />
+                {chartUnitsByMonthProductAndCustomer.products.map((p: IProductAndItsColor) => (
+                  <Line type="monotone" stroke={p.color} dataKey={p.name} hide={Boolean(hiddens.find((act: string) => act === p.name))} />
                 ))}
               </LineChart>
             </ResponsiveContainer>
@@ -57,31 +57,32 @@ export const ChartModal = ({
   );
 };
 
-const CustomLegend = ({ products, hiddens, setHiddens }: { products: string[]; hiddens: string[]; setHiddens: Function }) => {
+const CustomLegend = ({ products, hiddens, setHiddens }: { products: IProductAndItsColor[]; hiddens: string[]; setHiddens: Function }) => {
   const height = products.length > 12 ? '450px' : '300px';
   return (
     <div className="flex flex-col flex-wrap w-full pl-8 overflow-x-auto" style={{ height }}>
-      {products.map((product: any, index: any) => (
-        <div
-          className={`${
-            Boolean(hiddens.find((el: string) => el === product)) ? 'text-grey-500 py-2' : 'text-primary-dark py-2'
-          } cursor-pointer hover:text-primary-light`}
-          key={`item-${index}`}
-          style={{ width: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-          onClick={() => {
-            const isAlreadyHidden = Boolean(hiddens.find((el: string) => el === product));
-            let newHiddens = [...hiddens];
-            if (isAlreadyHidden) {
-              newHiddens = hiddens.filter((el) => el !== product);
-            } else {
-              newHiddens.push(product);
-            }
-            setHiddens(newHiddens);
-          }}
-        >
-          {`${index + 1}-${product}`}
-        </div>
-      ))}
+      {products.map((product: IProductAndItsColor, index: any) => {
+        const isHidden = Boolean(hiddens.find((el: string) => el === product.name));
+        return (
+          <div
+            className={`cursor-pointer hover:text-primary-light py-2`}
+            key={`item-${index}`}
+            style={{ width: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: isHidden ? 'grey' : product.color }}
+            onClick={() => {
+              const isAlreadyHidden = Boolean(hiddens.find((el: string) => el === product.name));
+              let newHiddens = [...hiddens];
+              if (isAlreadyHidden) {
+                newHiddens = hiddens.filter((el) => el !== product.name);
+              } else {
+                newHiddens.push(product.name);
+              }
+              setHiddens(newHiddens);
+            }}
+          >
+            {`${index + 1}-${product.name}`}
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -1,13 +1,14 @@
 import api_php from './api_php';
 import api_node from './api_node';
 import actions from './actions';
+import { randomColor } from 'randomcolor';
 
 import { Dispatch } from 'react';
 import { SetChartUnitsByMonthProductAndCustomer, SetCustomerToCreateOrEditAction } from './types';
 
 import { operations as loadingOperations } from '../../Loading/duck';
 import { defaultValues } from '../constants';
-import { ICustomer } from './types/ICustomer';
+import { ICustomer, IProductAndItsColor } from './types/ICustomer';
 const { fetchOperationWithLoading, generalCreateOrEditOperation } = loadingOperations;
 
 const api = process.env.REACT_APP_BACK === 'NODE' ? api_node : api_php;
@@ -57,7 +58,15 @@ const resetCharts = () => (dispatch: Dispatch<SetChartUnitsByMonthProductAndCust
   // @ts-ignore
   dispatch(actions.setChartUnitsByMonthProductAndCustomer({ data: [], last_data: [], products: [] }));
 const fetchChartUnitsByProductMonthAndCustomer = (id: string) =>
-  fetchOperationWithLoading(() => api.fetchChartUnitsByProductMonthAndCustomer(id), actions.setChartUnitsByMonthProductAndCustomer);
+  fetchOperationWithLoading(
+    () => api.fetchChartUnitsByProductMonthAndCustomer(id),
+    null,
+    ({ data }: any, dis: any) => {
+      const { products, ...res } = data;
+      const newProducts: IProductAndItsColor[] = products.map((name: string) => ({ name, color: randomColor() }));
+      dis(actions.setChartUnitsByMonthProductAndCustomer({ ...res, products: newProducts }));
+    },
+  );
 
 export default {
   fetchCustomers,
