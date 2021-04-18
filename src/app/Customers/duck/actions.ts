@@ -7,8 +7,10 @@ import {
   SetPaymentMethodsAction,
   SET_PAYMENT_METHODS,
   SET_ROUTES,
+  SetChartUnitsByMonthProductAndCustomer,
+  SET_CHART_UNITS_BY_MONTH_PRODUCT_AND_CUSTOMER,
 } from './types';
-import { ICustomer, IRoute, IPaymentMethod } from './types/ICustomer';
+import { ICustomer, IRoute, IPaymentMethod, IChartUnitsByMonthProductAndCustomer } from './types/ICustomer';
 
 const setCustomers = (orders: ICustomer[]): SetCustomersAction => ({
   type: SET_CUSTOMERS,
@@ -30,9 +32,15 @@ const setPaymentMethods = (payments: IPaymentMethod[]): SetPaymentMethodsAction 
   payload: payments,
 });
 
+const setChartUnitsByMonthProductAndCustomer = (charts: IChartUnitsByMonthProductAndCustomer[]): SetChartUnitsByMonthProductAndCustomer => ({
+  type: SET_CHART_UNITS_BY_MONTH_PRODUCT_AND_CUSTOMER,
+  payload: charts,
+});
+
 export default {
   setCustomers,
   setCustomerToCreateOrEdit,
   setRoutes,
   setPaymentMethods,
+  setChartUnitsByMonthProductAndCustomer,
 };

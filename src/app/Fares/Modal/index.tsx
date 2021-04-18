@@ -25,10 +25,10 @@ interface FaresModalProps {
   fareLines: IFareLine[];
   fares: IFare[];
   fetchFareWithCb: Function;
-  fareToInheritFrom: IFare;
   editingMode?: boolean;
   selectDisabled?: boolean;
   onConfirm: Function;
+  fetchFares: Function;
 }
 
 const FaresModal = ({
@@ -37,7 +37,7 @@ const FaresModal = ({
   fares,
   customers,
 
-  fareToInheritFrom,
+  fetchFares,
   fetchFareWithCb,
   products,
   editingMode,
@@ -126,7 +126,7 @@ const FaresModal = ({
           }}
           fares={fares.filter((el: IFare) => el.customer_id !== values.customer_id)}
           fetchFareWithCb={fetchFareWithCb}
-          fareToInheritFrom={fareToInheritFrom}
+          fetchFares={fetchFares}
         />
       )}
       {Boolean(fareLineToForm) && (

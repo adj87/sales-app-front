@@ -25,13 +25,14 @@ interface MoreInfoProps {
   routes: IRoute[];
   editCustomer: Function;
   onCustomerModalConfirm: Function;
+  fetchFares: Function;
 }
 
 const MoreInfo = ({
   fare,
   customers,
   products,
-  fareToInheritFrom,
+  fetchFares,
   fetchFareWithCb,
   fares,
   customer,
@@ -90,7 +91,6 @@ const MoreInfo = ({
           // @ts-ignore
           fare={getFare(fare, customer, customers)}
           fares={fares}
-          fareToInheritFrom={fareToInheritFrom}
           onCancel={() => setModalInfoToOpen(null)}
           fetchFareWithCb={fetchFareWithCb}
           editingMode={!isDefaultFare(fare)}
@@ -99,11 +99,13 @@ const MoreInfo = ({
             setModalInfoToOpen(null);
             onFareModalConfirm(fare, isCreating);
           }}
+          fetchFares={fetchFares}
         />
       )}
 
       {modalInfoToOpen === 'customer' && Boolean(customer) && (
         <CustomerModal
+          // @ts-ignore
           customer={customer}
           routes={routes}
           paymentMethods={paymentMethods}

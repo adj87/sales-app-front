@@ -3,6 +3,7 @@ import React from 'react';
 import i18n from '../../i18n';
 import * as Yup from 'yup';
 import InputCheckBox from '../../components/Inputs/InputCheckbox';
+import { numberValidation } from '../../utils';
 
 export const columns = [
   {
@@ -51,8 +52,8 @@ export const validationSchema = Yup.object().shape({
   box_width: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   box_height: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   box_length: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  box_weight: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  //box_capacity: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
+  box_weight: numberValidation.nullable().required(i18n.t('commons.errors.field_required')),
+  box_capacity: numberValidation.nullable().required(i18n.t('commons.errors.field_required')),
   pallet_boxes: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   pallet_base: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
   //pallet_weight: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),

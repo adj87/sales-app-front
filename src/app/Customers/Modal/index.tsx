@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 
@@ -6,28 +6,43 @@ import Modal from '../../../components/Modal/Modal';
 import Input from '../../../components/Inputs/InputText';
 import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import withFormikValues from '../../../components/Inputs/withFormikValues';
-import { ICustomer, IPaymentMethod, IRoute } from '../duck/types/ICustomer';
+import { IChartUnitsByMonthProductAndCustomer, ICustomer, IPaymentMethod, IRoute } from '../duck/types/ICustomer';
 import { AppStoreInterface } from '../../../store/AppStoreInterface';
 import operations from '../duck/operations';
 import { connect } from 'react-redux';
 import { TitleSeparator } from '../../../components/TitleSeparator';
 import SelectComponent from '../../../components/Select';
 import { validationSchema } from '../constants';
+import Button from '../../../components/Button';
+import { ChartModal } from './ChartModal';
 
 const InputWithFV = withFormikValues(Input);
 const InputCheckboxWithFV = withFormikValues(InputCheckBox);
 const SelectComponentWithFV = withFormikValues(SelectComponent);
 
-interface ProductModalProps {
+interface CustomerModalProps {
   onCancel: Function;
+  fetchChartUnitsByProductMonthAndCustomer: Function;
   customer: ICustomer | null;
   onSubmit: Function;
   paymentMethods: IPaymentMethod[];
   routes: IRoute[];
+  chartUnitsByMonthProductAndCustomer: IChartUnitsByMonthProductAndCustomer;
+  resetCharts: Function;
 }
 
-const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }: ProductModalProps) => {
+const CustomerModal = ({
+  onCancel,
+  customer,
+  onSubmit,
+  paymentMethods,
+  routes,
+  fetchChartUnitsByProductMonthAndCustomer,
+  chartUnitsByMonthProductAndCustomer,
+  resetCharts,
+}: CustomerModalProps) => {
   const { t } = useTranslation();
+  const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
   const formik = useFormik<ICustomer>({
     // @ts-ignore
     initialValues: customer,
@@ -78,7 +93,7 @@ const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }:
           onChange={setFieldValue}
         />
         <div className="col-span-2">
-          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} disabled />
+          <InputWithFV name="agent_id" formikObject={formik} label="customers.table.agent-id" onChange={setFieldValue} />
         </div>
       </div>
       <TitleSeparator title="customers.form.separators.location" />
@@ -100,12 +115,36 @@ const CustomerModal = ({ onCancel, customer, onSubmit, paymentMethods, routes }:
       <TitleSeparator title="customers.form.separators.contact" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InputWithFV name="phone" formikObject={formik} label="customers.table.phone" onChange={setFieldValue} />
+        <InputWithFV name="phone_2" formikObject={formik} label="customers.table.phone-2" onChange={setFieldValue} />
+        <InputWithFV name="phone_mobile" formikObject={formik} label="customers.table.phone-mobile" onChange={setFieldValue} />
         <div className="col-span-2">
           <InputWithFV name="email" formikObject={formik} label="customers.table.email" onChange={setFieldValue} />
         </div>
       </div>
+      <TitleSeparator title="customers.form.separators.reports" />
+      <Button color="secondary" onClick={() => setChartModalOpen(true)} text={t('customers.form.reports-button.first')} />
+      {chartModalOpen && (
+        <ChartModal
+          // @ts-ignore
+          customer={customer}
+          chartUnitsByMonthProductAndCustomer={chartUnitsByMonthProductAndCustomer}
+          onCancel={() => {
+            resetCharts();
+            setChartModalOpen(false);
+          }}
+          fetchChartUnitsByProductMonthAndCustomer={fetchChartUnitsByProductMonthAndCustomer}
+        />
+      )}
     </Modal>
   );
 };
+const mapState = (state: AppStoreInterface) => ({
+  chartUnitsByMonthProductAndCustomer: state.customers.chartUnitsByMonthProductAndCustomer,
+});
 
-export default CustomerModal;
+const mapDispatch = {
+  resetCharts: operations.resetCharts,
+  fetchChartUnitsByProductMonthAndCustomer: operations.fetchChartUnitsByProductMonthAndCustomer,
+};
+
+export default connect(mapState, mapDispatch)(CustomerModal);

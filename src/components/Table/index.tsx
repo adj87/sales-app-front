@@ -17,6 +17,7 @@ import { getColumnsHiddenInTable, setColumnToHiddenOrShownInTable } from '../../
 import { useTranslation } from 'react-i18next';
 import InputCheckBox from '../Inputs/InputCheckbox';
 import Modal from '../Modal/Modal';
+import { roundToTwoDec } from '../../utils';
 
 function Table({
   columns,
@@ -165,6 +166,11 @@ const TBody = ({ getTableBodyProps, page, prepareRow, onRowClick, onRowLongPress
             }}
           >
             {row.cells.map((cell) => {
+              if (cell.column.rounded) {
+                cell.column.Cell = ({ row }) => {
+                  return roundToTwoDec(row.original[cell.column.id]);
+                };
+              }
               const alignment = cell?.column?.alignment ? `text-${cell.column.alignment}` : `text-left`;
               return (
                 <td {...cell.getCellProps()} className={`${alignment} py-2 px-2 border-b border-primary-light text-md text-primary-dark`}>

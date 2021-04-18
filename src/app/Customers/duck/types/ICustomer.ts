@@ -10,6 +10,8 @@ export interface ICustomer {
   zip_code: string | null;
   email: string | null;
   phone: string | null;
+  phone_2: string | null;
+  phone_mobile: string | null;
   is_green_point: boolean;
   is_surcharge: boolean;
   created_at: string | null;
@@ -28,4 +30,15 @@ export interface IPaymentMethod {
 export interface IRoute {
   id: string;
   name: string;
+}
+
+export interface IProductAndItsColor {
+  name: string;
+  color: string;
+}
+
+export interface IChartUnitsByMonthProductAndCustomer {
+  data: { [key: string]: any }[];
+  last_data: { quantity: number; id: string; name: string; invoice: string; date: string; type: string }[];
+  products: IProductAndItsColor[];
 }

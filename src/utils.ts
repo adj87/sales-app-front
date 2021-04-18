@@ -34,7 +34,17 @@ export const setColumnToHiddenOrShownInTable = (tableName: String, columnToShowO
   return localStorage.setItem('columnsTableConfig', JSON.stringify(newColumnsTableConfig));
 };
 
-export const roundToTwoDec = (number: number | null) => number && Math.round(number * 100) / 100;
+export const roundToTwoDec = (number: number | null | string, digits: number = 2): string => {
+  if (number) {
+    if (typeof number === 'string') {
+      return parseFloat(number).toFixed(digits);
+    } else {
+      return number.toFixed(digits);
+    }
+  } else {
+    return '0.00';
+  }
+};
 
 export const numberValidation = Yup.number()
   .nullable()

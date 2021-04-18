@@ -54,8 +54,8 @@ const ProductModal = ({ onCancel, product, editProduct }: ProductModalProps) => 
         <InputWithFV name="box_length" formikObject={formik} label="products.table.box-length" onChange={setFieldValue} type="number" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <InputWithFV name="box_weight" formikObject={formik} label="products.table.box-weight" onChange={setFieldValue} type="number" />
-        <InputWithFV name="box_capacity" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} type="number" />
+        <InputWithFV name="box_weight" formikObject={formik} label="products.table.box-weight" onChange={setFieldValue} />
+        <InputWithFV name="box_capacity" formikObject={formik} label="products.table.box-capacity" onChange={setFieldValue} />
         <InputWithFV name="units_per_box" formikObject={formik} label="products.table.units-per-box" onChange={setFieldValue} type="number" />
       </div>
       <TitleSeparator title={t('commons.pallet-details')} />

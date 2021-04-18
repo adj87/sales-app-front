@@ -2,7 +2,7 @@ import React from 'react';
 
 interface LabelAndAmountProps {
   label: string;
-  amount: number | null;
+  amount: string;
   isTotal?: boolean;
   size?: 'md' | 'lg';
   isDisabled?: boolean;

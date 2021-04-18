@@ -20,6 +20,8 @@ export const columns = [
       { Header: i18n.t('customers.table.email'), accessor: 'email' },
       { Header: i18n.t('customers.table.agent-id'), accessor: 'agent_id' },
       { Header: i18n.t('customers.table.phone'), accessor: 'phone' },
+      { Header: i18n.t('customers.table.phone-2'), accessor: 'phone_2' },
+      { Header: i18n.t('customers.table.phone-mobile'), accessor: 'phone_mobile' },
       {
         Header: i18n.t('customers.table.is-green-point'),
         accessor: 'is_green_point',
@@ -58,16 +60,18 @@ export const defaultValues = (agent_id: string) => {
     fiscal_id: null,
     route_id: null,
     agent_id,
-    zip_code: null,
-    email: null,
-    phone: null,
+    zip_code: '',
+    email: '',
+    phone: '',
+    phone_2: '',
+    phone_mobile: '',
     is_green_point: false,
     is_surcharge: false,
     created_at: null,
     updated_at: null,
     is_deprecated: false,
-    town: null,
-    province: null,
+    town: '',
+    province: '',
     method_of_payment: null,
   };
 };
@@ -79,10 +83,28 @@ export const validationSchema = Yup.object().shape({
   fiscal_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   route_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   zip_code: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  email: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  agent_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  phone: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  town: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
-  province: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //email: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //agent_id: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //phone: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //town: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
+  //province: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   method_of_payment: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
 });
+
+export const columnsLastDataChart = [
+  {
+    Header: 'Name',
+    columns: [
+      {
+        Header: i18n.t('customers.form.charts-first.last-data.date'),
+        accessor: 'date',
+        width: 200,
+        Cell: ({ row }: any) => (row.original?.date ? dayjsCustom(row.original.date).format(dateFormatFront) : ''),
+      },
+      { Header: i18n.t('customers.form.charts-first.last-data.invoice'), accessor: 'invoice' },
+      { Header: i18n.t('customers.form.charts-first.last-data.id'), accessor: 'id' },
+      { Header: i18n.t('customers.form.charts-first.last-data.name'), accessor: 'name' },
+      { Header: i18n.t('customers.form.charts-first.last-data.quantity'), accessor: 'quantity', alignment: 'right' },
+    ],
+  },
+];
