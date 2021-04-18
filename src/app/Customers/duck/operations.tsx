@@ -63,7 +63,8 @@ const fetchChartUnitsByProductMonthAndCustomer = (id: string) =>
     null,
     ({ data }: any, dis: any) => {
       const { products, ...res } = data;
-      const newProducts: IProductAndItsColor[] = products.map((name: string) => ({ name, color: randomColor() }));
+      const arrayColors = randomColor({ luminosity: 'dark', count: products.length });
+      const newProducts: IProductAndItsColor[] = products.map((name: string, i: number) => ({ name, color: arrayColors[i] }));
       dis(actions.setChartUnitsByMonthProductAndCustomer({ ...res, products: newProducts }));
     },
   );

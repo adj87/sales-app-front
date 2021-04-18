@@ -210,9 +210,13 @@
       "separators": {
         "general": "Generales",
         "location": "Localización",
-        "contact": "Contacto"
+        "contact": "Contacto",
+        "reports": "Informes"
       },
-      "charts": {
+      "reports-button": { "first": "Informe anual evolución de cantidades/producto" },
+      "charts-first": {
+        "separator-1": "Evolución de cantidades por producto",
+        "separator-2": "Última compra de cada producto incluidos en tarifa",
         "last-data": { "quantity": "Cantidad", "date": "Fecha", "id": "Código", "name": "Nombre", "invoice": "Factura" }
       }
     }

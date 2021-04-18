@@ -121,7 +121,8 @@ const CustomerModal = ({
           <InputWithFV name="email" formikObject={formik} label="customers.table.email" onChange={setFieldValue} />
         </div>
       </div>
-      <Button color="secondary" onClick={() => setChartModalOpen(true)} text="Abrir" />
+      <TitleSeparator title="customers.form.separators.reports" />
+      <Button color="secondary" onClick={() => setChartModalOpen(true)} text={t('customers.form.reports-button.first')} />
       {chartModalOpen && (
         <ChartModal
           // @ts-ignore

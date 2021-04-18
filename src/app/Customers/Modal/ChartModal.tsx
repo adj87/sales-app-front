@@ -33,7 +33,7 @@ export const ChartModal = ({
     <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={'Informes'}>
       {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
         <>
-          <TitleSeparator title="Evolución cantidades por producto" />
+          <TitleSeparator title="customers.form.charts-first.separator-1" />
           <div className="w-full" style={{ height: '350px' }}>
             <ResponsiveContainer>
               <LineChart data={chartUnitsByMonthProductAndCustomer.data}>
@@ -49,7 +49,7 @@ export const ChartModal = ({
             </ResponsiveContainer>
           </div>
           <CustomLegend products={chartUnitsByMonthProductAndCustomer.products} hiddens={hiddens} setHiddens={setHiddens} />
-          <TitleSeparator title="Última compra de cada producto incluidos en tarifa" />
+          <TitleSeparator title={'customers.form.charts-first.separator-2'} />
           <Table data={chartUnitsByMonthProductAndCustomer.last_data} tableName="chart-last-data" columns={columnsLastDataChart} withSearching />
         </>
       )}

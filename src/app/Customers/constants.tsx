@@ -96,14 +96,14 @@ export const columnsLastDataChart = [
     Header: 'Name',
     columns: [
       {
-        Header: i18n.t('customers.form.charts.last-data.date'),
+        Header: i18n.t('customers.form.charts-first.last-data.date'),
         accessor: 'date',
         Cell: ({ row }: any) => (row.original?.date ? dayjsCustom(row.original.date).format(dateFormatFront) : ''),
       },
-      { Header: i18n.t('customers.form.charts.last-data.invoice'), accessor: 'invoice' },
-      { Header: i18n.t('customers.form.charts.last-data.id'), accessor: 'id' },
-      { Header: i18n.t('customers.form.charts.last-data.name'), accessor: 'name' },
-      { Header: i18n.t('customers.form.charts.last-data.quantity'), accessor: 'quantity', alignment: 'right' },
+      { Header: i18n.t('customers.form.charts-first.last-data.invoice'), accessor: 'invoice' },
+      { Header: i18n.t('customers.form.charts-first.last-data.id'), accessor: 'id' },
+      { Header: i18n.t('customers.form.charts-first.last-data.name'), accessor: 'name' },
+      { Header: i18n.t('customers.form.charts-first.last-data.quantity'), accessor: 'quantity', alignment: 'right' },
     ],
   },
 ];
