@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Modal from '../../../components/Modal/Modal';
@@ -11,12 +11,12 @@ import LabelError from '../../../components/LabelError';
 interface InheritFromModalProps {
   onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onConfirm: Function;
-  fareToInheritFrom: IFare;
+  fetchFares: Function;
   fetchFareWithCb: Function;
   fares: IFare[];
 }
 
-const InheritFromModal = ({ onCancel, onConfirm, fareToInheritFrom, fares, fetchFareWithCb }: InheritFromModalProps) => {
+const InheritFromModal = ({ onCancel, onConfirm, fares, fetchFareWithCb, fetchFares }: InheritFromModalProps) => {
   const [inheritPrices, setInheritPrices] = useState({
     price_1: true,
     price_2: false,
@@ -43,6 +43,8 @@ const InheritFromModal = ({ onCancel, onConfirm, fareToInheritFrom, fares, fetch
     initialValues: defaultValues,
     validationSchema: validationSchemaInheritFrom,
   });
+
+  useEffect(() => fetchFares(), []);
 
   const onChangeInheritPrice = (name: string, checked: boolean) => setInheritPrices((oldState) => ({ ...oldState, [name]: checked }));
 

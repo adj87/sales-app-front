@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { dayjsCustom } from '../../../dayjsConfig';
 
-export const DeliveryDaysRemaining = ({ date, deliveryDate }: { date: string | undefined;deliveryDate: string | undefined }) => {
+export const DeliveryDaysRemaining = ({ date, deliveryDate }: { date: string | undefined; deliveryDate: string | undefined }) => {
   const { t } = useTranslation();
   const dateDayjs = dayjsCustom(date);
   const deliveryDateDayjs = dayjsCustom(deliveryDate);
@@ -12,7 +12,7 @@ export const DeliveryDaysRemaining = ({ date, deliveryDate }: { date: string | u
   businnesDays = businnesDays > 0 ? businnesDays : '';
 
   return (
-    <div className="-mt-3 flex justify-end">
+    <div className="-mt-8 flex justify-end">
       <span className="text-primary-light text-right">{`${naturalDays} ${t('commons.days')}`}</span>
       <span className="text-grey-400 text-right ml-2">{` / ${businnesDays} ${t('commons.business-days')}`}</span>
     </div>

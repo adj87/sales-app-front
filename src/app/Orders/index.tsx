@@ -22,6 +22,8 @@ interface OrdersComponentProps {
   onCancelOrderModal: Function;
   deleteOrder: Function;
   isOpenModal: boolean;
+  fetchPaymentMethods: Function;
+  fetchRoutes: Function;
 }
 
 const OrdersComponent = ({
@@ -36,12 +38,16 @@ const OrdersComponent = ({
   fetchCustomers,
   deleteOrder,
   isOpenModal,
+  fetchPaymentMethods,
+  fetchRoutes,
 }: OrdersComponentProps) => {
   useEffect(() => {
     fetchOrders();
     fetchProducts();
-    fetchFares();
+    //fetchFares();
     fetchCustomers();
+    fetchPaymentMethods();
+    fetchRoutes();
   }, []);
 
   return (
@@ -50,7 +56,6 @@ const OrdersComponent = ({
         columns={columns}
         data={orders}
         onAddButton={() => {
-          fetchFares();
           fetchOrder();
         }}
         tableName={'orders'}
@@ -59,7 +64,6 @@ const OrdersComponent = ({
         onRowClick={(datatableRowInfo: any) => {
           const order: IOrder = datatableRowInfo.original;
           fetchOrder(`${order.type}-${order.id}`);
-          fetchFares();
           fetchFare(order.customer_id);
         }}
         deleteOnRowPress={(row: any) => {

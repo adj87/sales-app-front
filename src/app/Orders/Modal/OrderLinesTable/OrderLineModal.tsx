@@ -48,9 +48,12 @@ const OrderLineModal = ({
   const formik = useFormik<IOrderLine | any>({
     validationSchema: validationSchemaOrderLine,
     initialValues: orderLine,
-    onSubmit: onConfirm,
+    onSubmit: (ol: IOrderLine) => {
+      onConfirm(ol, isDefaultPrice);
+    },
   });
 
+  const [isDefaultPrice, setIsDefaultPrice] = useState<boolean>(true);
   const { values, setFieldValue, submitForm, setValues, errors } = formik;
   // @ts-ignore
   const productsInFare = useMemo(() => products.filter((pr: IProduct) => fare?.fare_lines.map((fl: IFareLine) => fl.product_id).includes(pr.id)), [
@@ -121,7 +124,16 @@ const OrderLineModal = ({
               formikObject={formik}
               name={'product_id'}
             />
-            <InputWithFormikValues formikObject={formik} type="number" label="Precio" name="price" onChange={setFieldValue} step="0.01" />
+            <InputWithFormikValues
+              formikObject={formik}
+              label="orders.form.products-form.label-price"
+              name="price"
+              onChange={(name: string, value: any) => {
+                setFieldValue(name, value);
+                setIsDefaultPrice(false);
+              }}
+              step="0.01"
+            />
             <InputWithFormikValues
               formikObject={formik}
               label="orders.form.products-form.label-quantity"

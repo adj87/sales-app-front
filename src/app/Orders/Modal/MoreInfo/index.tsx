@@ -6,10 +6,11 @@ import FaresModal from '../../../Fares/Modal';
 import { AppStoreInterface } from '../../../../store/AppStoreInterface';
 import { operations } from '../../duck';
 import { IFare, IFareLine } from '../../../Fares/duck/types/Fare';
-import { ICustomer } from '../../../Customers/duck/types/Customer';
+import { ICustomer, IPaymentMethod, IRoute } from '../../../Customers/duck/types/ICustomer';
 import { IProduct } from '../../../Products/duck/types/Product';
 import { defaultValues as defaultEmptyFare } from '../../../Fares/constants';
 import { isDefaultFare } from '../../../../utils';
+import CustomerModal from '../../../Customers/Modal';
 
 interface MoreInfoProps {
   fare: null | IFare;
@@ -18,21 +19,38 @@ interface MoreInfoProps {
   fares: IFare[];
   fareToInheritFrom: IFare;
   fetchFareWithCb: Function;
-  customerId: number;
+  customer: ICustomer;
   onFareModalConfirm: Function;
+  paymentMethods: IPaymentMethod[];
+  routes: IRoute[];
+  editCustomer: Function;
+  onCustomerModalConfirm: Function;
+  fetchFares: Function;
 }
 
-const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithCb, fares, customerId, onFareModalConfirm }: MoreInfoProps) => {
+const MoreInfo = ({
+  fare,
+  customers,
+  products,
+  fetchFares,
+  fetchFareWithCb,
+  fares,
+  customer,
+  onFareModalConfirm,
+  routes,
+  paymentMethods,
+  editCustomer,
+  onCustomerModalConfirm,
+}: MoreInfoProps) => {
   const { t } = useTranslation();
 
-  const [modalInfoToOpen, setModalInfoToOpen] = useState<'fare' | null>(null);
+  const [modalInfoToOpen, setModalInfoToOpen] = useState<'fare' | 'customer' | null>(null);
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const className = `${showInfo ? 'block' : 'hidden'}`;
   // @ts-ignore
 
-  const getFare = (fare: IFare, customerId: string, customers: ICustomer[]) => {
+  const getFare = (fare: IFare, customer: ICustomer, customers: ICustomer[]) => {
     if (isDefaultFare(fare)) {
-      const customer = customers.find((el: ICustomer) => el.id === customerId);
       let emptyFare: IFare = { ...defaultEmptyFare };
       emptyFare.customer_id = customer ? customer.id : null;
       emptyFare.customer_name = customer ? customer.name : null;
@@ -53,7 +71,7 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
           color="primary"
           outline
           text={'orders.form.more-info.check-customer-info'}
-          onClick={() => console.log('object')}
+          onClick={() => setModalInfoToOpen('customer')}
           size="sm"
         />
         <Button
@@ -71,9 +89,8 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
           customers={customers}
           products={products}
           // @ts-ignore
-          fare={getFare(fare, customerId, customers)}
+          fare={getFare(fare, customer, customers)}
           fares={fares}
-          fareToInheritFrom={fareToInheritFrom}
           onCancel={() => setModalInfoToOpen(null)}
           fetchFareWithCb={fetchFareWithCb}
           editingMode={!isDefaultFare(fare)}
@@ -82,6 +99,23 @@ const MoreInfo = ({ fare, customers, products, fareToInheritFrom, fetchFareWithC
             setModalInfoToOpen(null);
             onFareModalConfirm(fare, isCreating);
           }}
+          fetchFares={fetchFares}
+        />
+      )}
+
+      {modalInfoToOpen === 'customer' && Boolean(customer) && (
+        <CustomerModal
+          // @ts-ignore
+          customer={customer}
+          routes={routes}
+          paymentMethods={paymentMethods}
+          onSubmit={(c: ICustomer) => {
+            editCustomer(c, () => {
+              onCustomerModalConfirm(c);
+              setModalInfoToOpen(null);
+            });
+          }}
+          onCancel={() => setModalInfoToOpen(null)}
         />
       )}
     </>
@@ -95,6 +129,8 @@ const mapState = (state: AppStoreInterface) => ({
   products: state.products.data,
   customers: state.customers.data,
   fares: state.fares.data.fares,
+  routes: state.customers.routes,
+  paymentMethods: state.customers.paymentMethods,
 });
 
 const mapDispatch = {

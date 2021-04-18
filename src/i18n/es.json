@@ -35,7 +35,9 @@
     },
     "delete-row": "¿Desea eliminar el registro?",
     "days": "días",
-    "business-days": "días laborables"
+    "business-days": "días laborables",
+    "activate-all": "Activar todos",
+    "deactivate-all": "Desactivar todos"
   },
   "main-layout": {
     "customers": "Clientes",
@@ -56,6 +58,8 @@
       "zip_code": "Código postal",
       "green_point": "P.Verde",
       "customer_route_id": "Ruta",
+      "town": "Población",
+      "province": "Provincia",
       "total": "Total",
       "total_net": "Neto total",
       "total_taxes": "Total impuestos"
@@ -64,7 +68,7 @@
       "order-lines-table": {
         "order_id": "Número",
         "order_type": "Serie",
-        "line_number": "Número línea",
+        "line_number": "Nº línea",
         "product_id": "Código",
         "product_name": "Nombre",
         "units_per_box": "U/Caja",
@@ -78,15 +82,18 @@
       },
       "title": "Añadir pedido",
       "title-edit": "Editar pedido",
+      "label-date": "Fecha",
+      "label-number": "Número",
       "label-customer": "Cliente",
       "label-fare": "Tarifa",
       "label-orders-lines": "Lineas de pedido",
       "label-shipping-place": "Lugar de envío",
       "label-delivery-date": "Fecha de servicio",
+      "label-total-boxes": "Total cajas",
       "label-type": "Serie",
-      "label-surcharge": "Recargo de equivalencia",
-      "label-green-point": "P.Verde",
-      "label-together": "Mostrar con otros pedidos",
+      "label-surcharge": "Recargo",
+      "label-green-point": "P.V",
+      "label-together": "Mostrar con otros",
       "something-wrong-with-gp": "Parece que el punto verde no concuerda con lo establecido en la ficha del cliente",
       "something-wrong-with-surcharge": "Parece que el recargo de equivalencia no concuerda con lo establecido en la ficha del cliente",
       "more-info": {
@@ -98,6 +105,7 @@
         "title": "Añadir producto",
         "title-edit": "Editar producto",
         "label-product": "Producto",
+        "label-price": "Precio",
         "label-quantity": "Cantidad",
         "label-promotion": "Promoción"
       }
@@ -174,6 +182,46 @@
     "form": {
       "title": "Añadir producto",
       "title-edit": "Editar producto"
+    }
+  },
+  "customers": {
+    "table": {
+      "id": "Código",
+      "name": "Nombre",
+      "address": "Dirección",
+      "fiscal-id": "CIF",
+      "route-id": "Ruta",
+      "zip-code": "C.Postal",
+      "email": "Email",
+      "phone": "Teléfono",
+      "phone-2": "Teléfono 2",
+      "phone-mobile": "Móvil",
+      "is-green-point": "P.Verde",
+      "is-surcharge": "Recargo",
+      "agent-id": "Agente id",
+      "created-at": "F. creación",
+      "updated-at": "F. modificación",
+      "is-deprecated": "Obsoleto",
+      "town": "Población",
+      "province": "Provincia",
+      "method-of-payment": "M. de pago"
+    },
+    "form": {
+      "title": "Añadir cliente",
+      "title-edit": "Editar cliente",
+      "separators": {
+        "general": "Generales",
+        "location": "Localización",
+        "contact": "Contacto",
+        "reports": "Informes"
+      },
+      "reports-button": { "first": "Informe anual evolución de cantidades/producto" },
+      "charts-first": {
+        "title": "Informe anual evolución de cantidades/producto",
+        "separator-1": "Evolución de cantidades por producto",
+        "separator-2": "Última compra de cada producto incluidos en tarifa",
+        "last-data": { "quantity": "Cantidad", "date": "Fecha", "id": "Código", "name": "Nombre", "invoice": "Factura" }
+      }
     }
   }
 }

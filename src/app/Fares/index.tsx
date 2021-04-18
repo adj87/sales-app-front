@@ -20,11 +20,11 @@ const FaresComponent = ({
   fetchProducts,
   products,
   fetchFareWithCb,
-  fareToInheritFrom,
   fetchFareToEdit,
   createFare,
   editFare,
   deleteFare,
+  fetchFares,
 }: any) => {
   useEffect(() => {
     fetchFareAndFareLines();
@@ -59,7 +59,7 @@ const FaresComponent = ({
           fareLines={fareLines}
           products={products}
           fare={fareToForm}
-          fareToInheritFrom={fareToInheritFrom}
+          fetchFares={fetchFareAndFareLines}
           onConfirm={(fare: IFare, isCreating: boolean) => {
             if (isCreating) {
               createFare(fare);

@@ -11,15 +11,8 @@ const fetchOperationWithLoading = (api: Function, setterAction: any, cbOnSuccess
   api()
     .then((res: AxiosResponse) => {
       if (setterAction) {
-        if (setterAction.constructor !== Array) {
-          // @ts-ignore
-          dispatch(setterAction(res.data));
-        } else {
-          setterAction.forEach((setter: AnyAction, index: number) => {
-            // @ts-ignore
-            dispatch(setter(res[index].data));
-          });
-        }
+        // @ts-ignore
+        dispatch(setterAction(res.data));
       }
       if (cbOnSuccess) {
         cbOnSuccess(res, dispatch);

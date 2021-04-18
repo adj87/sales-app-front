@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Modal from '../../../components/Modal/Modal';
 import { roundToTwoDec } from '../../../utils';
 import SelectComponent from '../../../components/Select';
-import { ICustomer } from '../../Customers/duck/types/Customer';
+import { ICustomer } from '../../Customers/duck/types/ICustomer';
 import Input from '../../../components/Inputs/InputText';
 import InputCheckBox from '../../../components/Inputs/InputCheckbox';
 import InputRadio from '../../../components/Inputs/InputRadio';
@@ -99,54 +99,71 @@ const OrdersModal = ({
 
   return (
     <Modal onCancel={onCancel} onConfirm={submitForm} size="lg" title={`${values.id ? 'orders.form.title-edit' : 'orders.form.title'}`}>
-      <div className="w-full flex justify-start mb-2">
-        <span className="text-primary-dark">Fecha</span>
-        <span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span>
+      <div className="w-full flex justify-between border-grey-400 border-b pb-4 -mt-5">
+        <div>
+          <span className="text-primary-dark">{t('orders.form.label-date')}</span>
+          <span className="text-grey-500 ml-4">{dayjsCustom(values.date).format(dateFormatFront)}</span>
+        </div>
+        {values.id && (
+          <div>
+            <span className="text-primary-dark">{t('orders.form.label-number')}</span>
+            <span className="text-grey-500 ml-4">{`${values.type}/${values.id}`}</span>
+          </div>
+        )}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <SelectComponentWithFV
-          name="customer_id"
-          formikObject={formik}
-          options={customers}
-          labelText="orders.form.label-customer"
-          onChange={(input_name: string, customer: ICustomer) => {
-            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id } = customer;
-            // prettier-ignore
-            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id });
-            fetchFare(customer_id);
-            fetchCustomer(customer_id);
-          }}
-        />
-
-        <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-grey-100 border-b py-4">
+        <div className="col-span-2">
+          <SelectComponentWithFV
+            name="customer_id"
+            formikObject={formik}
+            options={customers}
+            labelText="orders.form.label-customer"
+            onChange={(input_name: string, customer: ICustomer) => {
+              // prettier-ignore
+              const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id, province, town } = customer;
+              // prettier-ignore
+              setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id, province, town });
+              fetchFare(customer_id);
+              fetchCustomer(customer_id);
+            }}
+          />
+        </div>
         <div>
           <InputWithFV label="orders.form.label-delivery-date" name="delivery_date" onChange={setFieldValue} formikObject={formik} type="date" />
           <DeliveryDaysRemaining deliveryDate={values.delivery_date ?? undefined} date={values.date ?? undefined} />
         </div>
       </div>
-      <div className="flex items-end mb-5 justify-between mt-3">
-        <InputRadioWithFV
-          label="orders.form.label-type"
-          name="type"
-          onChange={(field: string, value: string) => {
-            const is_surcharge = value === 'B' ? false : values.is_surcharge;
-            const newValues = { ...values, [field]: value, is_surcharge };
-            setValues(newValues);
-          }}
-          formikObject={formik}
-          options={[
-            { value: 'A', label: 'A' },
-            { value: 'B', label: 'B' },
-          ]}
-        />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="is_surcharge" onChange={setFieldValue} />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
-        <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
+      <div className="grid grid-cols-6 gap-4 py-2">
+        <div className="col-span-2">
+          <InputWithFV label="orders.form.label-shipping-place" name="shipping_place" onChange={setFieldValue} formikObject={formik} />
+        </div>
+        <div className="col-span-1">
+          <InputRadioWithFV
+            label="orders.form.label-type"
+            name="type"
+            onChange={(field: string, value: string) => {
+              const is_surcharge = value === 'B' ? false : values.is_surcharge;
+              const newValues = { ...values, [field]: value, is_surcharge };
+              setValues(newValues);
+            }}
+            formikObject={formik}
+            options={[
+              { value: 'A', label: 'A' },
+              { value: 'B', label: 'B' },
+            ]}
+          />
+        </div>
+        <div className="col-span-3 flex flex-row items-end mb-5 justify-between mt-10">
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-green-point'} name="is_green_point" onChange={setFieldValue} />
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-surcharge'} name="is_surcharge" onChange={setFieldValue} />
+          <InputCheckBoxWithFV formikObject={formik} label={'orders.form.label-together'} name="show_together_with_others" onChange={setFieldValue} />
+        </div>
       </div>
+
       <div className="w-full pt-2 mb-5">
         <OrderLinesTable
           values={values}
-          onConfirmOrderLineModal={(orderLine: IOrderLine) => {
+          onConfirmOrderLineModal={(orderLine: IOrderLine, isDefaultPrice: boolean) => {
             const { order_lines } = values;
             const orderLineToEdit = order_lines.find((el: IOrderLine) => el.line_number === orderLine.line_number);
             let newOrderLines = [...order_lines];
@@ -159,7 +176,7 @@ const OrdersModal = ({
 
               //CREATING
             } else {
-              const orderLines: IOrderLine[] = transformLinesIfDefaultFare([orderLine], fare);
+              const orderLines: IOrderLine[] = transformLinesIfDefaultFare([orderLine], fare, isDefaultPrice);
               orderLines.forEach((el: IOrderLine) => {
                 newOrderLines.push({
                   ...el,
@@ -190,7 +207,13 @@ const OrdersModal = ({
       </div>
       {values.order_lines.length > 0 && (
         <div className="flex justify-end mt-5">
-          <div className="w-4/6 p-8">
+          <div className="w-4/6 px-2">
+            <div className="flex flex-row justify-start items-end mb-4">
+              <label className="text-primary-dark text-lg font-bold">{t('orders.form.label-total-boxes')}</label>
+              <label className="text-secondary-dark font-bold ml-4 text-lg">
+                {values.order_lines.reduce((acc: any, el: IOrderLine) => (acc += el.quantity), 0)}
+              </label>
+            </div>
             {customer && customer.is_green_point != values.is_green_point && <LabelError error={t('orders.form.something-wrong-with-gp')} />}
             {customer && customer.is_surcharge != values.is_surcharge && (
               <LabelError className="mt-5" error={t('orders.form.something-wrong-with-surcharge')} />
@@ -207,13 +230,20 @@ const OrdersModal = ({
       )}
       {values?.customer_id && (
         <MoreInfo
-          // @ts-ignore
-          customerId={values.customer_id}
+          customer={customer}
           onFareModalConfirm={(fare: IFare, isCreating: boolean) => {
             if (isCreating) return createFare(fare, (newFare: IFare) => setPricesToNewFareAndSetTotals(values, setValues, newFare, products));
             return editFare(fare, (newFare: IFare) => {
               setPricesToNewFareAndSetTotals(values, setValues, newFare, products);
             });
+          }}
+          onCustomerModalConfirm={(c: ICustomer) => {
+            debugger;
+            fetchCustomer(c.id);
+            // prettier-ignore
+            const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id, province, town } = c;
+            // prettier-ignore
+            setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id, province, town });
           }}
         />
       )}

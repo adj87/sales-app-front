@@ -18,6 +18,8 @@ export interface IOrder {
   type: string;
   show_together_with_others: boolean;
   order_lines: IOrderLine[];
+  town: string | null;
+  province: string | null;
 }
 
 export interface IOrderLine {

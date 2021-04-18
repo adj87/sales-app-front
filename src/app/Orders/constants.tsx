@@ -25,6 +25,8 @@ export const columns = [
       { Header: i18n.t('orders.table.id'), accessor: 'id' },
       { Header: i18n.t('orders.table.customer_name'), accessor: 'customer_name' },
       { Header: i18n.t('orders.table.address'), accessor: 'address' },
+      { Header: i18n.t('orders.table.town'), accessor: 'town' },
+      { Header: i18n.t('orders.table.province'), accessor: 'province' },
       {
         Header: i18n.t('orders.table.date'),
         accessor: 'date',
@@ -38,10 +40,10 @@ export const columns = [
         Cell: ({ row }: any) => dayjsCustom(row.original.delivery_date).format(dateFormatFront),
       },
       { Header: i18n.t('orders.table.zip_code'), accessor: 'zip_code', alignment: 'right' },
-      { Header: i18n.t('orders.table.customer_route_id'), accessor: 'customer_route_id' },
-      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right' },
-      { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right' },
-      { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right' },
+      { Header: i18n.t('orders.table.customer_route_id'), accessor: 'route_id', alignment: 'right' },
+      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right', rounded: true },
+      { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right', rounded: true },
+      { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right', rounded: true },
     ],
   },
 ];
@@ -70,10 +72,10 @@ export const columnsOrderLineTable = [
           );
         },
       },
+      { Header: i18n.t('orders.form.order-lines-table.quantity'), accessor: 'quantity', alignment: 'right' },
       { Header: i18n.t('orders.form.order-lines-table.units_per_box'), accessor: 'units_per_box', alignment: 'right' },
       { Header: i18n.t('orders.form.order-lines-table.price'), accessor: 'price', alignment: 'right' },
       { Header: i18n.t('orders.form.order-lines-table.cost'), accessor: 'cost', alignment: 'right' },
-      { Header: i18n.t('orders.form.order-lines-table.quantity'), accessor: 'quantity', alignment: 'right' },
       { Header: i18n.t('orders.form.order-lines-table.taxes_rate'), accessor: 'taxes_rate' },
       { Header: i18n.t('orders.form.order-lines-table.surcharge_amount'), accessor: 'surcharge_amount' },
       { Header: i18n.t('orders.form.order-lines-table.green_point_amount'), accessor: 'green_point_amount' },
@@ -115,6 +117,8 @@ export const defaultValues = {
   type: 'A',
   show_together_with_others: true,
   order_lines: [],
+  province: null,
+  town: null,
 };
 
 export const defaultOrderLineValues = {
@@ -141,7 +145,7 @@ export const validationSchemaOrder = Yup.object().shape({
 
 export const validationSchemaOrderLine = Yup.object().shape({
   product_id: Yup.number().nullable().required(i18n.t('commons.errors.field_required')),
-  quantity: positiveNumberValidation.required(i18n.t('commons.errors.field_required')),
+  quantity: Yup.number().required(i18n.t('commons.errors.field_required')),
   cost: Yup.string().nullable().required(i18n.t('commons.errors.field_required')),
   price: numberValidation.required(i18n.t('commons.errors.field_required')),
 });
@@ -190,7 +194,7 @@ export const calculateTotals = (values: IOrder, products: IProduct[]) => {
   return null;
 };
 
-export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFare): IOrderLine[] => {
+export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFare, isDefaultPrice: boolean): IOrderLine[] => {
   const orderLinesGroupedByProductId = orderLines.reduce((oLinesByIdProduct: any, el: IOrderLine) => {
     // @ts-ignore
     if (!oLinesByIdProduct[el.product_id]) {
@@ -207,7 +211,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
   // @ts-ignore
   const newOrderLines: IOrderLine[] = Object.values(orderLinesGroupedByProductId).reduce((acc: any, el: IOrderLine) => {
     // @ts-ignore
-    const { quantity, product_id, pallet_boxes } = el;
+    const { quantity, product_id, pallet_boxes, price } = el;
 
     const productFare = fare.fare_lines.find((fLine: IFareLine) => fLine.product_id == product_id);
 
@@ -215,7 +219,7 @@ export const transformLinesIfDefaultFare = (orderLines: IOrderLine[], fare: IFar
     const { price_1, price_2, price_3, price_4, to_charge, to_sell } = productFare;
     const thisProductHasPromotion = to_charge > 1 || to_sell > 1;
     // @ts-ignore
-    if (isDefaultFare(fare) && thisProductHasPromotion) {
+    if (isDefaultFare(fare) && thisProductHasPromotion && isDefaultPrice) {
       if (quantity && quantity <= 14) {
         // @ts-ignore
         const toGift = Math.floor(quantity / to_sell) * (to_sell - to_charge);
