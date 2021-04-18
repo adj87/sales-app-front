@@ -98,6 +98,7 @@ export const columnsLastDataChart = [
       {
         Header: i18n.t('customers.form.charts-first.last-data.date'),
         accessor: 'date',
+        width: 200,
         Cell: ({ row }: any) => (row.original?.date ? dayjsCustom(row.original.date).format(dateFormatFront) : ''),
       },
       { Header: i18n.t('customers.form.charts-first.last-data.invoice'), accessor: 'invoice' },

@@ -35,7 +35,9 @@
     },
     "delete-row": "¿Desea eliminar el registro?",
     "days": "días",
-    "business-days": "días laborables"
+    "business-days": "días laborables",
+    "activate-all": "Activar todos",
+    "deactivate-all": "Desactivar todos"
   },
   "main-layout": {
     "customers": "Clientes",
@@ -215,6 +217,7 @@
       },
       "reports-button": { "first": "Informe anual evolución de cantidades/producto" },
       "charts-first": {
+        "title": "Informe anual evolución de cantidades/producto",
         "separator-1": "Evolución de cantidades por producto",
         "separator-2": "Última compra de cada producto incluidos en tarifa",
         "last-data": { "quantity": "Cantidad", "date": "Fecha", "id": "Código", "name": "Nombre", "invoice": "Factura" }
