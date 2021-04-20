@@ -134,13 +134,7 @@ const OrderLineModal = ({
               }}
               step="0.01"
             />
-            <InputWithFormikValues
-              formikObject={formik}
-              label="orders.form.products-form.label-quantity"
-              name="quantity"
-              type="number"
-              onChange={setFieldValue}
-            />
+            <InputWithFormikValues formikObject={formik} label="orders.form.products-form.label-quantity" name="quantity" onChange={setFieldValue} />
             {errors.cost && <LabelError error={`Cost ${errors.cost}`} />}
             <div className=" flex justify-end flex-col items-end w-4/5 m-auto">
               <LabelAndAmount amount={roundToTwoDec(net)} label={'Base'} />

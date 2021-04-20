@@ -211,7 +211,8 @@ const OrdersModal = ({
             <div className="flex flex-row justify-start items-end mb-4">
               <label className="text-primary-dark text-lg font-bold">{t('orders.form.label-total-boxes')}</label>
               <label className="text-secondary-dark font-bold ml-4 text-lg">
-                {values.order_lines.reduce((acc: any, el: IOrderLine) => (acc += el.quantity), 0)}
+                {/* @ts-ignore */}
+                {values.order_lines.reduce((acc: any, el: IOrderLine) => (acc += parseInt(el.quantity)), 0)}
               </label>
             </div>
             {customer && customer.is_green_point != values.is_green_point && <LabelError error={t('orders.form.something-wrong-with-gp')} />}
