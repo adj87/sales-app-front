@@ -34,29 +34,35 @@ export const ChartModal = ({
 
   return (
     <Modal onCancel={() => onCancel()} onConfirm={() => onCancel()} size="lg" title={t('customers.form.charts-first.title')}>
-      {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
-        <>
-          <p className="text-grey-500 text-bold text-2x1 text-center mb-12">{customer.name}</p>
-          <TitleSeparator title="customers.form.charts-first.separator-1" />
-          <div className="w-full" style={{ height: '350px' }}>
-            <ResponsiveContainer>
-              <LineChart data={chartUnitsByMonthProductAndCustomer.data}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
+      <>
+        {chartUnitsByMonthProductAndCustomer.data.length > 0 && (
+          <>
+            <p className="text-grey-500 text-bold text-2x1 text-center mb-12">{customer.name}</p>
+            <TitleSeparator title="customers.form.charts-first.separator-1" />
+            <div className="w-full" style={{ height: '350px' }}>
+              <ResponsiveContainer>
+                <LineChart data={chartUnitsByMonthProductAndCustomer.data}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
 
-                {chartUnitsByMonthProductAndCustomer.products.map((p: IProductAndItsColor) => (
-                  <Line type="monotone" stroke={p.color} dataKey={p.name} hide={Boolean(hiddens.find((act: string) => act === p.name))} />
-                ))}
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <CustomLegend products={chartUnitsByMonthProductAndCustomer.products} hiddens={hiddens} setHiddens={setHiddens} />
-          <TitleSeparator title={'customers.form.charts-first.separator-2'} />
-          <Table data={chartUnitsByMonthProductAndCustomer.last_data} tableName="chart-last-data" columns={columnsLastDataChart} withSearching />
-        </>
-      )}
+                  {chartUnitsByMonthProductAndCustomer.products.map((p: IProductAndItsColor) => (
+                    <Line type="monotone" stroke={p.color} dataKey={p.name} hide={Boolean(hiddens.find((act: string) => act === p.name))} />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+            <CustomLegend products={chartUnitsByMonthProductAndCustomer.products} hiddens={hiddens} setHiddens={setHiddens} />
+          </>
+        )}
+        {chartUnitsByMonthProductAndCustomer.last_data.length > 0 && (
+          <>
+            <TitleSeparator title={'customers.form.charts-first.separator-2'} />
+            <Table data={chartUnitsByMonthProductAndCustomer.last_data} tableName="chart-last-data" columns={columnsLastDataChart} withSearching />
+          </>
+        )}
+      </>
     </Modal>
   );
 };
