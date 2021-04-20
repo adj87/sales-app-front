@@ -61,8 +61,8 @@
       "town": "Población",
       "province": "Provincia",
       "total": "Total",
-      "total_net": "Neto total",
-      "total_taxes": "Total impuestos"
+      "total_net": "Neto",
+      "total_taxes": "Impuestos"
     },
     "form": {
       "order-lines-table": {

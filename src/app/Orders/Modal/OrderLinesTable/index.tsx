@@ -41,6 +41,7 @@ const OrderLinesTable = ({ products, fare, onConfirmOrderLineModal, values, dele
           onCancel={() => setOrderLineToEdit(null)}
           onConfirm={(values: IOrderLine, isDefaultPrice: boolean) => {
             setOrderLineToEdit(null);
+            setTimeout(() => setOrderLineToEdit(defaultOrderLineValues), 300);
             onConfirmOrderLineModal(values, isDefaultPrice);
           }}
           size="md"

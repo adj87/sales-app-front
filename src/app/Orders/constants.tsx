@@ -41,9 +41,9 @@ export const columns = [
       },
       { Header: i18n.t('orders.table.zip_code'), accessor: 'zip_code', alignment: 'right' },
       { Header: i18n.t('orders.table.customer_route_id'), accessor: 'route_id', alignment: 'right' },
-      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right', rounded: true },
       { Header: i18n.t('orders.table.total_net'), accessor: 'total_net', alignment: 'right', rounded: true },
       { Header: i18n.t('orders.table.total_taxes'), accessor: 'total_taxes', alignment: 'right', rounded: true },
+      { Header: i18n.t('orders.table.total'), accessor: 'total', alignment: 'right', rounded: true },
     ],
   },
 ];
