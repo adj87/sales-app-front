@@ -55,24 +55,10 @@ const FareLineModal = ({ onCancel, onConfirm, products, fareLine, isProductAlrea
         />
       </div>
       <div className="pt-5">
-        <InputWithFV
-          name="price_1"
-          label="fares.form-fare-line.label-price-1"
-          onChange={setFieldValue}
-          formikObject={formik}
-          type="number"
-          step="0.01"
-        />
+        <InputWithFV name="price_1" label="fares.form-fare-line.label-price-1" onChange={setFieldValue} formikObject={formik} />
       </div>
       <div className="pt-5">
-        <InputWithFV
-          name="price_2"
-          label="fares.form-fare-line.label-price-2"
-          onChange={setFieldValue}
-          formikObject={formik}
-          type="number"
-          step="0.01"
-        />
+        <InputWithFV name="price_2" label="fares.form-fare-line.label-price-2" onChange={setFieldValue} formikObject={formik} />
       </div>
     </Modal>
   );
