@@ -120,9 +120,9 @@ const OrdersModal = ({
             labelText="orders.form.label-customer"
             onChange={(input_name: string, customer: ICustomer) => {
               // prettier-ignore
-              const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id, province, town } = customer;
+              const { address, fiscal_id, zip_code, id: customer_id, name: customer_name, is_surcharge, is_green_point, route_id, province, town, method_of_payment }:ICustomer = customer;
               // prettier-ignore
-              setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id, province, town });
+              setValues({ ...values, address, fiscal_id, shipping_place: address, customer_id, customer_name, zip_code, is_surcharge, is_green_point, route_id, province, town, method_of_payment });
               fetchFare(customer_id);
               fetchCustomer(customer_id);
             }}

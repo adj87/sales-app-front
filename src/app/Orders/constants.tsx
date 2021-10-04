@@ -96,7 +96,7 @@ export const columnsOrderLineTable = [
   },
 ];
 
-export const defaultValues = {
+export const defaultValues: IOrder = {
   id: null,
   address: null,
   fiscal_id: null,
@@ -119,6 +119,7 @@ export const defaultValues = {
   order_lines: [],
   province: null,
   town: null,
+  method_of_payment: null,
 };
 
 export const defaultOrderLineValues = {

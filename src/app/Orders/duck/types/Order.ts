@@ -20,6 +20,7 @@ export interface IOrder {
   order_lines: IOrderLine[];
   town: string | null;
   province: string | null;
+  method_of_payment: string | null;
 }
 
 export interface IOrderLine {
