@@ -13,6 +13,8 @@ export interface IFareLine {
   price_2: number | null;
   price_3: number | null;
   price_4: number | null;
+  price_5: number | null;
+  price_6: number | null;
   to_sell: number | null;
   to_charge: number | null;
 }

@@ -16,6 +16,8 @@ export const columns = [
       { Header: i18n.t('fares.table.price_2'), accessor: 'price_2', alignment: 'right' },
       { Header: i18n.t('fares.table.price_3'), accessor: 'price_3', alignment: 'right' },
       { Header: i18n.t('fares.table.price_4'), accessor: 'price_4', alignment: 'right' },
+      { Header: i18n.t('fares.table.price_5'), accessor: 'price_5', alignment: 'right' },
+      { Header: i18n.t('fares.table.price_6'), accessor: 'price_6', alignment: 'right' },
       { Header: i18n.t('fares.table.to_charge'), accessor: 'to_charge', alignment: 'right' },
       { Header: i18n.t('fares.table.to_sell'), accessor: 'to_sell', alignment: 'right' },
     ],
@@ -37,6 +39,8 @@ export const defaultValuesFareLine = {
   price_2: 0,
   price_3: 0,
   price_4: 0,
+  price_5: 0,
+  price_6: 0,
   to_sell: 1,
   to_charge: 1,
 };

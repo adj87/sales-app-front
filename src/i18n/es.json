@@ -26,6 +26,8 @@
     "price-2": "Precio 2",
     "price-3": "Precio 3",
     "price-4": "Precio 4",
+    "price-5": "Precio 5",
+    "price-6": "Precio 6",
     "promo": "Promoción",
     "errors": {
       "field_required": "Campo requerido",
@@ -120,6 +122,8 @@
       "price_2": "Precio 2",
       "price_3": "Precio 3",
       "price_4": "Precio 4",
+      "price_5": "Precio 5",
+      "price_6": "Precio 6",
       "product_id": "Código producto",
       "to_charge": "A cobrar",
       "to_sell": "A vender"
@@ -140,7 +144,8 @@
       "label-price-2": "Precio 2",
       "label-price-3": "Precio 3",
       "label-price-4": "Precio 4",
-      "label-price-5": "Precio 5"
+      "label-price-5": "Precio 5",
+      "label-price-6": "Precio 6"
     }
   },
   "config": {

@@ -22,6 +22,8 @@ const InheritFromModal = ({ onCancel, onConfirm, fares, fetchFareWithCb, fetchFa
     price_2: false,
     price_3: false,
     price_4: false,
+    price_5: false,
+    price_6: false,
   });
   const { submitForm, setValues, values, errors } = useFormik<IFare>({
     onSubmit: (values: IFare) => {
@@ -34,6 +36,8 @@ const InheritFromModal = ({ onCancel, onConfirm, fares, fetchFareWithCb, fetchFa
           price_2: inheritPrices.price_2 ? el.price_2 : 0,
           price_3: inheritPrices.price_3 ? el.price_3 : 0,
           price_4: inheritPrices.price_4 ? el.price_4 : 0,
+          price_5: inheritPrices.price_5 ? el.price_5 : 0,
+          price_6: inheritPrices.price_6 ? el.price_6 : 0,
           to_sell: 1, // reset to_sell and to_charge to 1
           to_charge: 1,
         };
@@ -79,6 +83,8 @@ const InheritFromModal = ({ onCancel, onConfirm, fares, fetchFareWithCb, fetchFa
               <InputCheckBox value={inheritPrices.price_2} label={'commons.price-2'} onChange={onChangeInheritPrice} name={'price_2'} />
               <InputCheckBox value={inheritPrices.price_3} label={'commons.price-3'} onChange={onChangeInheritPrice} name={'price_3'} />
               <InputCheckBox value={inheritPrices.price_4} label={'commons.price-4'} onChange={onChangeInheritPrice} name={'price_4'} />
+              <InputCheckBox value={inheritPrices.price_5} label={'commons.price-5'} onChange={onChangeInheritPrice} name={'price_5'} />
+              <InputCheckBox value={inheritPrices.price_6} label={'commons.price-6'} onChange={onChangeInheritPrice} name={'price_6'} />
             </div>
           </div>
         )}

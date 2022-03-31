@@ -46,6 +46,7 @@ const InputWithCarrousel = ({ data, onChange, value }: InputWithCarrouselProps) 
                       onClick={() => setShowInMiddle(el)}
                     />
                     <img
+                      loading="lazy"
                       src={`${imgUrl(el.id)}`}
                       className="rounded-lg shadow-lg"
                       width="auto"
